@@ -51,3 +51,14 @@ cd src
 cd src
 ./manage migrate
 ```
+
+
+## Apps
+
+In the src/ directory are the following apps:
+
+    * publish_data - The main app repo containing settings and base templates/resources
+    * userauth - Handle user authentication with pre-set users (and admin)
+
+
+
