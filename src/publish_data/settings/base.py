@@ -40,9 +40,13 @@ REQUIRED_APPS = [
 ]
 
 PROJECT_APPS = [
+    'publish_data',
+    'userauth',
 ]
 
 INSTALLED_APPS = REQUIRED_APPS + PROJECT_APPS
+
+AUTH_USER_MODEL = 'userauth.PublishingUser'
 
 
 MIDDLEWARE = [
@@ -82,7 +86,7 @@ WSGI_APPLICATION = 'publish_data.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, '../db.sqlite3'),
     }
 }
 
