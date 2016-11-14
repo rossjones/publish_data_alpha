@@ -1,0 +1,11 @@
+
+{% if login_failed %}
+    Login failed!
+{% endif %}
+
+
+<form action="{% url 'signin' %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_table }}
+    <input type="submit" value="Sign in">
+</form>
