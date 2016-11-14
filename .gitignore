@@ -5,6 +5,7 @@ __pycache__/
 
 .vagrant
 
+db.sqlite3
 # C extensions
 *.so
 
