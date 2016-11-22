@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/datagovuk/publish_data_alpha.svg)](https://travis-ci.org/datagovuk/publish_data_alpha)
+
 
 # Publish Data
 
