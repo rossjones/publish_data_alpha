@@ -15,16 +15,9 @@ cd publish_data_alpha
 vagrant up
 vagrant ssh
 cd /vagrant/tools
-sudo bash dev_setup.sh
-# Make a cup of tea
-
-# Edit your bashrc or bash_profile to have
-export DJANGO_SETTINGS_MODULE="publish_data.settings.dev”
-
-cd src
-./manage migrate
-./manage runserver
+sudo bash dev_run.sh
 ```
+After a few minutes you should see the site at http://192.168.99.99:8000
 
 Alternatively to just run on your machine with Sqlite3
 
@@ -61,6 +54,3 @@ In the src/ directory are the following apps:
 
     * publish_data - The main app repo containing settings and base templates/resources
     * userauth - Handle user authentication with pre-set users (and admin)
-
-
-
