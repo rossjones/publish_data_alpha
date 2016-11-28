@@ -1,3 +1,4 @@
+from ckanapi import NotFound
 
 from .util import ckan_connection_for_admin, ckan_connection_for_user
 
@@ -28,4 +29,11 @@ def datasets_for_user(user, search_term="*:*", limit=10, offset=0):
         start=offset
     )
 
-
+def show_dataset(name):
+    # TODO: Use user not admin
+    conn = ckan_connection_for_admin()
+    try:
+        return conn.action.package_show(id=name)
+    except NotFound:
+        pass
+    return None
