@@ -7,9 +7,7 @@
 
 {% block content %}
   <main id="content" role="main" tabindex="-1">
-
     <h1 class="heading-small">Enter the title of your dataset</h1>
-
     <form action="{% url 'new_dataset' %}" method="POST">
       {% csrf_token %}
       {{ form.as_p }}
