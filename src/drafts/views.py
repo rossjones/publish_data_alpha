@@ -3,6 +3,7 @@ from django.utils.text import slugify
 from django.urls import reverse
 
 import drafts.forms as f
+from drafts.util import convert_to_slug
 
 FORMS = {
     'title': f.NewDatasetForm,
@@ -26,7 +27,7 @@ def new_dataset(request):
     if request.method == "POST":
         if form.is_valid():
             # We must check whether it is in use ....
-            name = slugify(form.cleaned_data['title'])
+            name = convert_to_slug(form.cleaned_data['title'])
             return redirect(reverse('edit_licence', args=[name]))
 
     return render(request, "drafts/edit_title.html", {
