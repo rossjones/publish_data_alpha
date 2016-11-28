@@ -136,3 +136,10 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, "assets/govuk_template/static")
 ]
+
+
+try:
+    from .local_settings import *
+except ImportError:
+    print("Import error")
+    pass
