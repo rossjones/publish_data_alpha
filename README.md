@@ -31,6 +31,23 @@ cd src
 ./manage.py runserver
 ```
 
+### Configuration
+
+To successfully run the server, you will require a local_settings.py file that is stored in ```src/publish_data/settings/local_settings.py```.  The file should have the following contents:
+
+```python
+
+
+# CKAN specific settings.
+CKAN_HOST = "URL of a CKAN Server"
+CKAN_ADMIN = "An administrators API Key"
+
+# Username - test-co
+CKAN_TEST_USER = "The API key of a test user"
+
+```
+
+
 ### To create a migration
 
 Create your model and then
