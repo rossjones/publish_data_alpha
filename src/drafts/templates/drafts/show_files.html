@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %}
+Add dataset theme
+{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'check_dataset' dataset_name %}">Continue</a>
+<a href="{% url 'edit_addfile' dataset_name%}">Add another file</a>
+
+{% endblock content %}

@@ -26,3 +26,23 @@ class ThemeForm(forms.Form):
         widget=forms.CheckboxSelectMultiple,
         choices=choices.THEME_CHOICES,
     )
+
+class CountryForm(forms.Form):
+    countries = forms.MultipleChoiceField(
+        required=False,
+        widget=forms.CheckboxSelectMultiple,
+        choices=choices.COUNTRY_CHOICES,
+    )
+    country_other = forms.CharField(
+        label=_('Other'),
+        max_length=1024,
+        required=False
+    )
+
+class FrequencyForm(forms.Form):
+    frequency = forms.ChoiceField(widget=forms.RadioSelect, choices=choices.FREQUENCY_CHOICES)
+
+class AddFileForm(forms.Form):
+    title = forms.CharField(label=_('Title'), max_length=100, required=True)
+    url = forms.URLField(label=_('URL'), max_length=100, required=True)
+

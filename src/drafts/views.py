@@ -8,11 +8,15 @@ FORMS = {
     'title': f.NewDatasetForm,
     'licence': f.LicenceForm,
     'theme':   f.ThemeForm,
+    'country': f.CountryForm,
+    'frequency': f.FrequencyForm,
 }
 
 NEXT_STEP = {
     'licence': 'edit_theme',
-    'theme': ''
+    'theme': 'edit_country',
+    'country': 'edit_frequency',
+    'frequency': 'edit_addfile',
 }
 
 def new_dataset(request):
@@ -44,3 +48,30 @@ def edit_dataset(request, dataset_name, form_name):
         "form": form,
     })
 
+def add_file(request, dataset_name):
+
+    form = f.AddFileForm(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+
+            return redirect(
+                reverse('show_files',
+                        args=[dataset_name])
+            )
+
+    return render(request, "drafts/edit_addfile.html", {
+        "dataset_name": dataset_name,
+        "form": form,
+    })
+
+def show_files(request, dataset_name):
+
+    return render(request, "drafts/show_files.html", {
+        "dataset_name": dataset_name,
+    })
+
+def check_dataset(request, dataset_name):
+
+    return render(request, "drafts/check_dataset.html", {
+        "dataset_name": dataset_name,
+    })
