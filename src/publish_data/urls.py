@@ -7,4 +7,5 @@ urlpatterns = [
 
     #url(r’^$’, HomePageView.as_view(), name=‘home’),
     url(r'^accounts/', include('userauth.urls')),
+    url(r'^dataset/',  include('drafts.urls')),
 ]
