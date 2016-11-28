@@ -1,11 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
 
-{% if login_failed %}
-    Login failed!
-{% endif %}
+{% block page_title %}
+  Sign in
+{% endblock %}
 
+{% block content %}
+  <main id="content" role="main" tabindex="-1">
+    {% if login_failed %}
+      Login failed!
+    {% endif %}
 
-<form action="{% url 'signin' %}" method="POST">
-    {% csrf_token %}
-    {{ form.as_table }}
-    <input type="submit" value="Sign in">
-</form>
+    <form action="{% url 'signin' %}" method="POST">
+      {% csrf_token %}
+      {{ form.as_table }}
+      <input type="submit" value="Sign in"/>
+    </form>
+  </main>
+{% endblock %}
