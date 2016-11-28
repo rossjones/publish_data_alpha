@@ -6,8 +6,8 @@ Add dataset theme
 {% endblock %}
 
 {% block content %}
-
-<a href="{% url 'check_dataset' dataset_name %}">Continue</a>
-<a href="{% url 'edit_addfile' dataset_name%}">Add another file</a>
-
+  <main id="content" role="main" tabindex="-1">
+    <a href="{% url 'check_dataset' dataset_name %}">Continue</a>
+    <a href="{% url 'edit_addfile' dataset_name%}">Add another file</a>
+  </main>
 {% endblock content %}
