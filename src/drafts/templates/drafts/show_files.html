@@ -2,12 +2,49 @@
 {% load static %}
 
 {% block page_title %}
-  Add dataset theme
+  Add dataset file
 {% endblock %}
 
 {% block content %}
   <main id="content" role="main" tabindex="-1">
-    <a href="{% url 'check_dataset' dataset_name %}">Continue</a>
-    <a href="{% url 'edit_addfile' dataset_name%}">Add another file</a>
+    <h1 class="heading-large">
+      Add a file
+    </h1>
+
+    <table>
+      <thead>
+        <tr>
+          <td>Title</td>
+          <td>Url</td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        {% for file in dataset.files.all %}
+          <tr>
+            <td>{{ file.title }} </td>
+            <td>{{ file.url }} </td>
+            <td>
+              <a href="">Edit</a>
+              <a href="">Delete</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <br>
+
+    <form method="POST" action="{% url 'edit_notifications' dataset.name %}" class="form">
+      <div class="form-group">
+        {% csrf_token %}
+        <input type="submit" class="button" value="Continue">
+      </div>
+    </form>
+
+    <div class="form-group">
+      <a href="{% url 'edit_addfile' dataset.name %}">Add another file</a>
+    </div>
+
   </main>
 {% endblock content %}
