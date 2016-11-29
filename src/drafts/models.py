@@ -10,13 +10,13 @@ class Dataset(models.Model):
 
     # ogl, inspire, other
     licence = models.CharField(max_length=64, default="")
-    licence_other = models.TextField(default="")
+    licence_other = models.TextField(default="", blank=True)
 
     themes = models.TextField(default="[]")
     countries = models.TextField(default="[]")
-    countries_other = models.TextField(default="")
-    frequency = models.TextField(default="")
-    notifications = models.TextField(default="")
+    countries_other = models.TextField(default="", blank=True)
+    frequency = models.TextField(default="", blank=True)
+    notifications = models.TextField(default="", blank=True)
 
     def as_dict(self):
         current = model_to_dict(self)
