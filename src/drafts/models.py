@@ -12,16 +12,16 @@ class Dataset(models.Model):
     licence = models.CharField(max_length=64, default="")
     licence_other = models.TextField(default="")
 
-    themes = models.TextField(default="")
-    countries = models.TextField(default="")
+    themes = models.TextField(default="[]")
+    countries = models.TextField(default="[]")
     countries_other = models.TextField(default="")
     frequency = models.TextField(default="")
     notifications = models.TextField(default="")
 
     def as_dict(self):
         current = model_to_dict(self)
-        current['themes'] = ast.literal_eval(current['themes'])
-        current['countries'] = ast.literal_eval(current['countries'])
+        current['themes'] = ast.literal_eval(current.get('themes', '[]'))
+        current['countries'] = ast.literal_eval(current.get('countries', '[]'))
         return current
 
 
