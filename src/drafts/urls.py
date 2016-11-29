@@ -35,4 +35,9 @@ urlpatterns = [
     url(r'(?P<dataset_name>[\w-]+)/check$',
         v.check_dataset,
         name='check_dataset'),
+    url(r'(?P<dataset_name>[\w-]+)/notifications$',
+        v.edit_dataset,
+        {'form_name': 'notifications'},
+        name='edit_notifications'),
+
 ]
