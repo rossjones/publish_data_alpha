@@ -143,5 +143,5 @@ STATICFILES_DIRS = [
 try:
     from .local_settings import *
 except ImportError:
-    print("Import error")
+    print("Import error - will check Env Vars")
     pass
