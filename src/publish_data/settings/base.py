@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -145,5 +146,10 @@ STATICFILES_DIRS = [
 try:
     from .local_settings import *
 except ImportError:
-    print("Import error - will check Env Vars")
-    pass
+    error = False
+    required_env = ['CKAN_HOST', 'CKAN_ADMIN', 'CKAN_TEST_USER']
+    for k in required_env:
+        if not os.environ.get(k):
+            print("{} must be set if you are not using a local_settings file".format(k))
+            error = True
+    if error: sys.exit(1)
