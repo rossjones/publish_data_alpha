@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.text import slugify
 from django.urls import reverse
@@ -25,6 +26,7 @@ NEXT_STEP = {
     'notifications': 'check_dataset'
 }
 
+@login_required()
 def new_dataset(request):
 
     form = f.NewDatasetForm(request.POST or None)
@@ -43,6 +45,7 @@ def new_dataset(request):
         "form": form,
     })
 
+@login_required()
 def edit_dataset(request, dataset_name, form_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
@@ -64,6 +67,7 @@ def edit_dataset(request, dataset_name, form_name):
         "form": form,
     })
 
+@login_required()
 def add_file(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
@@ -88,6 +92,7 @@ def add_file(request, dataset_name):
         "form": form,
     })
 
+@login_required()
 def show_files(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
@@ -95,6 +100,7 @@ def show_files(request, dataset_name):
         "dataset": dataset,
     })
 
+@login_required()
 def check_dataset(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
