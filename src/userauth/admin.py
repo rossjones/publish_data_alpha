@@ -23,7 +23,4 @@ class UserAdmin(BaseUserAdmin):
          ),
     )
 
-
-print("Registering user admin")
-
 admin.site.register(PublishingUser, UserAdmin)
