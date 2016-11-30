@@ -27,7 +27,3 @@ curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 npm install govuk-elements-sass gulp gulp-sass
 gulp styles
 
-# Run everything
-cd /vagrant/src
-./manage.py migrate
-./manage.py runserver 0.0.0.0:8000

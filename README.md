@@ -7,7 +7,7 @@ This repository contains the alpha-stage data publishing component of data.gov.u
 
 ## Development
 
-To use this repository for development you should run the following tasks:
+To use this repository for development you should run the following tasks to setup the environment:
 
 ```bash
 git clone <REPO>
@@ -15,8 +15,10 @@ cd publish_data_alpha
 vagrant up
 vagrant ssh
 cd /vagrant/tools
-sudo bash dev_run.sh
+sudo bash dev_setup.sh
+. dev_run.sh
 ```
+
 After a few minutes you should see the site at http://192.168.99.99:8000
 
 Alternatively to just run on your machine with Sqlite3
