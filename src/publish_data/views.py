@@ -1,7 +1,10 @@
-from django.http import HttpResponse
-from django.template import loader
+from django.shortcuts import render
 
 
 def home(request):
-    template = loader.get_template('main.html')
-    return HttpResponse(template.render({}, request))
+    if request.user.is_authenticated():
+        return dashboard(request)
+    return render(request, "main.html", {})
+
+def dashboard(request):
+    return render(request, "dashboard.html", {})
