@@ -1,0 +1,8 @@
+[
+    {
+      "username": "user",
+      "email" : "foo@bar.com",
+      "password": "foobar",
+      "apikey": "apikey"
+    }
+]
