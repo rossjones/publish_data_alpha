@@ -7,6 +7,18 @@
 
 {% block content %}
   <main id="content" role="main" tabindex="-1">
-    <h1 class="heading-large">Dashboard</h1>
+    <div class="grid-row">
+      <div class="column-one-quarter">
+        <p class="heading-small">[department]</p>
+        <ul>
+          <li>Dashboard</li>
+          <li><a href="{% url 'new_dataset' %}">Create a dataset</a></li>
+          <li><a href="#">Manage your data</a></li>
+        </ul>
+      </div>
+      <div class="column-three-quarters">
+        <h1 class="heading-large">Dashboard</h1>
+      </div>
+    </div>
   </main>
 {% endblock %}
