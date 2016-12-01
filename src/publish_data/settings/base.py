@@ -139,7 +139,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, "assets/govuk_template/static"),
-    os.path.join(PROJECT_DIR, "assets")
+    os.path.join(PROJECT_DIR, "assets"),
 ]
 
 
