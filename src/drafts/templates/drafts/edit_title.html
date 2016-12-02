@@ -1,17 +1,59 @@
-{% extends 'main.html' %}
+{% extends 'main_with_navbar.html' %}
 {% load static %}
 
 {% block page_title %}
   Add dataset title
 {% endblock %}
 
-{% block content %}
-  <main id="content" role="main" tabindex="-1">
-    <h1 class="heading-small">Enter the title of your dataset</h1>
-    <form action="{% url 'new_dataset' %}" method="POST">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <input type="submit"/>
-    </form>
-  </main>
+{% block inner_content %}
+
+<form method="post" action="licence" class="form">
+
+  <h1 class="heading-large">
+    Create a dataset
+  </h1>
+
+  <p>You must give the dataset a title and a description.</p>
+
+  <br>
+
+  <fieldset>
+    <legend class="visuallyhidden">
+      Upload a new dataset
+    </legend>
+
+    <div class="form-group">
+      <label class="form-label bold" for="title-dataset">Title</label>
+      <span class="form-hint">
+        Titles should be 65 characters or less, including spaces.<br>
+        Most search engines will shorten titles if they’re longer than
+        this.
+      </span>
+      <input class="form-control form-control-2-3" id="title-dataset" name="title-dataset" type="text" value="">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label bold" for="summary-dataset">
+        Description
+      </label>
+      <span class="form-hint">
+        Write a description of the dataset. Along with the title,
+        the first sentence of the description will appear in search
+        results.
+        <br>
+        <br>
+        Include any relevant words and phrases that you didn’t use in
+        the title to help users find your dataset.
+
+      </span>
+      <textarea rows="10" class="form-control form-control-2-3" id="summary-dataset" name="summary-dataset"></textarea>
+    </div>
+
+  </fieldset>
+
+  <div class="form-group">
+    <input type="submit" class="button" value="Continue">
+  </div>
+</form>
+
 {% endblock %}

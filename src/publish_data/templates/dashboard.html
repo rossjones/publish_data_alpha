@@ -1,12 +1,10 @@
-{% extends 'main.html' %}
+{% extends 'main_with_navbar.html' %}
 {% load static %}
 
 {% block page_title %}
   Dashboard
 {% endblock %}
 
-{% block content %}
-  <main id="content" role="main" tabindex="-1">
-    <h1 class="heading-large">Dashboard</h1>
-  </main>
+{% block inner_content %}
+  <h1 class="heading-large">Dashboard</h1>
 {% endblock %}

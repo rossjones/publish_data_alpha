@@ -29,6 +29,7 @@ git clone <REPO>
 cd publish_data_alpha
 pip install -r requirements.txt
 cd src
+export DJANGO_SETTINGS_MODULE="publish_data.settings.dev"
 ./manage.py migrate
 ./manage.py runserver
 ```
@@ -49,6 +50,24 @@ CKAN_TEST_USER = "The API key of a test user"
 
 ```
 
+## Importing test users
+
+In order to put test users to use the service, you can run
+```
+./manage.py import_test_users -f users.json
+```
+
+The file should be structured as:
+```
+[
+    {
+      "username": "username",
+      "email" : "email_address",
+      "password": "password",
+      "apikey": "apikey"
+    }
+]
+```
 
 ### To create a migration
 

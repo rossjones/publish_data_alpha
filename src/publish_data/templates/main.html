@@ -8,3 +8,14 @@
 {% block page_title %}
   Publish Data
 {% endblock %}
+
+{% block header_class %}with-proposition{% endblock %}
+
+{% include 'includes/proposition_header.html' %}
+
+{% block content %}
+  <main id="content" role="main" tabindex="-1">
+    {% include 'includes/phase_banner.html' %}
+    {% block inner_content %}{% endblock %}
+  </main>
+{% endblock %}
