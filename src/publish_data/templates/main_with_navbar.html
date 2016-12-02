@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/main.css' %}"/>
+{% endblock %}
+
+{% block page_title %}
+  Publish Data
+{% endblock %}
+
+{% block header_class %}with-proposition{% endblock %}
+
+{% include 'includes/proposition_header.html' %}
+
+{% block content %}
+  <main id="content" role="main" tabindex="-1">
+    {% include 'includes/phase_banner.html' %}
+    <div class="grid-row">
+      <div class="column-one-quarter">
+        <div id="side-navigation">
+          <p class="bold">Land Registry</p>
+          <nav>
+            <ul>
+              <li><a href="/">Dashboard</a></li>
+              <li>
+                <a href="/dataset/new">Create a dataset</a>
+              </li>
+              <li><a href="/manage">Manage your data</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+      <div class="column-two-thirds">
+        {% block inner_content %}{% endblock %}
+      </div>
+    </div>
+  </main>
+{% endblock %}

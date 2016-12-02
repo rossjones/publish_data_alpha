@@ -1,24 +1,10 @@
-{% extends 'main.html' %}
+{% extends 'main_with_navbar.html' %}
 {% load static %}
 
 {% block page_title %}
   Dashboard
 {% endblock %}
 
-{% block content %}
-  <main id="content" role="main" tabindex="-1">
-    <div class="grid-row">
-      <div class="column-one-quarter">
-        <p class="heading-small">[department]</p>
-        <ul>
-          <li>Dashboard</li>
-          <li><a href="{% url 'new_dataset' %}">Create a dataset</a></li>
-          <li><a href="#">Manage your data</a></li>
-        </ul>
-      </div>
-      <div class="column-three-quarters">
-        <h1 class="heading-large">Dashboard</h1>
-      </div>
-    </div>
-  </main>
+{% block inner_content %}
+  <h1 class="heading-large">Dashboard</h1>
 {% endblock %}

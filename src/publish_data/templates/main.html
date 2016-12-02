@@ -11,10 +11,11 @@
 
 {% block header_class %}with-proposition{% endblock %}
 
-{% block proposition_header %}
-  <div class="header-proposition">
-    <div class="content">
-      <a href="{% url 'home' %}" id="proposition-name">Publish data</a>
-    </div>
-  </div>
+{% include 'includes/proposition_header.html' %}
+
+{% block content %}
+  <main id="content" role="main" tabindex="-1">
+    {% include 'includes/phase_banner.html' %}
+    {% block inner_content %}{% endblock %}
+  </main>
 {% endblock %}
