@@ -1,11 +1,11 @@
-{% extends 'main.html' %}
+{% extends 'main_with_navbar.html' %}
 {% load static %}
 
 {% block page_title %}
   Add dataset licence
 {% endblock %}
 
-{% block content %}
+{% block inner_content %}
   <main id="content" role="main" tabindex="-1">
     <form action="{% url 'edit_licence' dataset.name %}" method="POST">
       {% csrf_token %}
