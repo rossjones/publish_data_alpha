@@ -92,3 +92,33 @@ In the src/ directory are the following apps:
 
     * publish_data - The main app repo containing settings and base templates/resources
     * userauth - Handle user authentication with pre-set users (and admin)
+
+
+## Static assets (CSS, JS, images)
+
+This application is built using
+on [govuk_elements](https://github.com/alphagov/govuk_elements)
+and [govuk_template](https://github.com/alphagov/govuk_template/).
+
+Assets from those packages are already included in this repository.
+Additionally the SCSS in `govuk_elements` is precompiled and the
+resulting CSS is also included in the repository.
+
+The reason assets are copied and pre-compiled here is to simplify
+deployments.  That way, we're avoiding retrieving the `govuk_`
+repositories, compiling the SASS (which would require installing
+nodejs and npm), concatenating and minifying.
+
+As a consequence, if changes are made to the javascript or SCSS files,
+the developer will have to recompile locally. This will require
+installing nodejs and npm, and running the following steps:
+
+```
+> npm install
+> gulp styles
+> gulp javascripts
+```
+
+If a new version of the `govuk` packages is needed, you will have to
+copy and compile them again, and add the resulting files in this
+repository.

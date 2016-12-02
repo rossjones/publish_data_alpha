@@ -1,2 +1,7 @@
 $path: "/static/images/";
-@import 'govuk-elements'
+@import 'govuk-elements';
+
+nav ul {
+  list-style-type: none;
+  margin-bottom: 1em;
+}
