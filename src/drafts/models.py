@@ -18,6 +18,8 @@ class Dataset(models.Model):
     frequency = models.TextField(default="", blank=True)
     notifications = models.TextField(default="", blank=True)
 
+    last_edit_date = models.DateTimeField(auto_now=True)
+
     def as_dict(self):
         current = model_to_dict(self)
         current['themes'] = ast.literal_eval(current.get('themes', '[]'))

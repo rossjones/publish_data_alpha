@@ -7,8 +7,26 @@
 
 {% block content %}
   <main id="content" role="main" tabindex="-1">
-    <h1 class="heading-large">
-      Manage data
-    </h1>
+    <h1 class="heading-large">Manage data</h1>
+    <h2 class="heading-small">Find existing datasets</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for dataset in datasets %}
+          <tr>
+            <td>{{ dataset.title }}</td>
+            <td>{{ dataset.status }}</td>
+            <td></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </main>
 {% endblock content %}
