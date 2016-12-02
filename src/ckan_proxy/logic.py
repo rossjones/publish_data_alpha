@@ -16,6 +16,8 @@ def organization_list_for_user(user):
 
 def datasets_for_user(user, search_term="*:*", limit=10, offset=0):
     orgs = organization_list_for_user(user)
+    if orgs == []:
+        return None
 
     fq_string = " OR ".join(
         ["organization:" + org.get('name') for org in orgs]
@@ -26,7 +28,8 @@ def datasets_for_user(user, search_term="*:*", limit=10, offset=0):
         fq="({})".format(fq_string),
         facet="false",
         rows=limit,
-        start=offset
+        start=offset,
+        sort="metadata_modified desc"
     )
 
 def show_dataset(name):
