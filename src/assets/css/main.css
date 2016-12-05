@@ -1576,3 +1576,7 @@ input[type=number] {
   details summary:not([tabindex]) {
     display: list-item;
     display: revert; } }
+
+nav ul {
+  list-style-type: none;
+  margin-bottom: 1em; }
