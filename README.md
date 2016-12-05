@@ -96,8 +96,7 @@ In the src/ directory are the following apps:
 
 ## Static assets (CSS, JS, images)
 
-This application is built using
-on [govuk_elements](https://github.com/alphagov/govuk_elements)
+This application is built using [govuk_elements](https://github.com/alphagov/govuk_elements)
 and [govuk_template](https://github.com/alphagov/govuk_template/).
 
 Assets from those packages are already included in this repository.
