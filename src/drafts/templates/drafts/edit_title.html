@@ -13,7 +13,7 @@
 
   <p>You must give the dataset a title and a description.</p>
 
-  <form method="post" action="" class="form">
+  <form method="post" action="{% url 'new_dataset' %}" class="form">
     {% csrf_token %}
 
     <fieldset>

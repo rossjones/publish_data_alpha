@@ -13,7 +13,6 @@ class Dataset(models.Model):
     licence_other = models.TextField(default="", blank=True)
 
     countries = models.TextField(default="[]")
-    countries_other = models.TextField(default="", blank=True)
     frequency = models.TextField(default="", blank=True)
     notifications = models.TextField(default="", blank=True)
 

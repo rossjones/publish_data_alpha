@@ -10,7 +10,7 @@ COUNTRY_CHOICES = (
     ('wales', 'Wales',),
     ('scotland', 'Scotland',),
     ('northern-ireland', 'Northern Ireland',),
-    ('other', 'Other',),
+    ('overseas', 'Overseas',),
 )
 
 FREQUENCY_CHOICES = (

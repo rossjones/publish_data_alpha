@@ -18,10 +18,11 @@
     which means the data within them can be copied and used by anyone.
   </p>
 
-  <form method="POST">
+  <form action="{% url 'edit_licence' dataset.name %}" method="POST">
     {% csrf_token %}
     <ul class="errorlist"><li>This field is required.</li></ul>
     <div class="form-group">
+      <fieldset>
         <legend class="visually-hidden">Choose a licence</legend>
         <label class="block-label selection-button-radio" for="id_licence_0">
           <input
@@ -37,7 +38,7 @@
               id="id_licence_1"
               name="licence"
               type="radio"
-              value="inpire"
+              value="inspire"
               required=""/>
           INSPIRE
         </label>

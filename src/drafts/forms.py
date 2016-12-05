@@ -37,15 +37,9 @@ class CountryForm(forms.Form):
         widget=forms.CheckboxSelectMultiple,
         choices=choices.COUNTRY_CHOICES,
     )
-    country_other = forms.CharField(
-        label=_('Other'),
-        max_length=1024,
-        required=False
-    )
 
     def update_model(self, dataset):
         dataset.countries = self.cleaned_data['countries']
-        dataset.countries_other = self.cleaned_data['country_other']
 
 
 class FrequencyForm(forms.Form):
