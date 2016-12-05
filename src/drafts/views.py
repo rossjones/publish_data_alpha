@@ -11,7 +11,6 @@ FORMS = {
     # Maps from the form name to the actual form
     'title': f.NewDatasetForm,
     'licence': f.LicenceForm,
-    'theme':   f.ThemeForm,
     'country': f.CountryForm,
     'frequency': f.FrequencyForm,
     'notifications': f.NotificationsForm
@@ -19,8 +18,7 @@ FORMS = {
 
 NEXT_STEP = {
     # Maps from form name, to the name of the next url to redirect to
-    'licence': 'edit_theme',
-    'theme': 'edit_country',
+    'licence': 'edit_country',
     'country': 'edit_frequency',
     'frequency': 'edit_addfile',
     'notifications': 'check_dataset'

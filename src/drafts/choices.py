@@ -5,27 +5,12 @@ LICENCE_CHOICES = (
     ('other', 'Other',),
 )
 
-THEME_CHOICES = (
-    ('business', 'Business and Economy'),
-    ('crime', 'Crime and Justice'),
-    ('defence', 'Defence'),
-    ('education', 'Education'),
-    ('environment', 'Environment'),
-    ('government', 'Government'),
-    ('spending', 'Government Spending'),
-    ('health', 'Health'),
-    ('mapping', 'Mapping'),
-    ('society', 'Society'),
-    ('towns', 'Towns and Cities'),
-    ('transport', 'Transport'),
-)
-
 COUNTRY_CHOICES = (
     ('england', 'England',),
     ('wales', 'Wales',),
     ('scotland', 'Scotland',),
     ('northern-ireland', 'Northern Ireland',),
-    ('other', 'Other',),
+    ('overseas', 'Overseas',),
 )
 
 FREQUENCY_CHOICES = (

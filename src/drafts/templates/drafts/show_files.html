@@ -2,13 +2,13 @@
 {% load static %}
 
 {% block page_title %}
-  Add dataset file
+  Dataset links
 {% endblock %}
 
 {% block inner_content %}
   <main id="content" role="main" tabindex="-1">
     <h1 class="heading-large">
-      Add a file
+      Dataset links
     </h1>
 
     <table>
@@ -16,7 +16,8 @@
         <tr>
           <td>Title</td>
           <td>Url</td>
-          <td></td>
+          <td>Valid</td>
+          <td><span class="visuallyhidden">Actions</span></td>
         </tr>
       </thead>
       <tbody>
@@ -24,6 +25,7 @@
           <tr>
             <td>{{ file.title }} </td>
             <td>{{ file.url }} </td>
+            <td>✔</td>
             <td>
               <a href="">Edit</a>
               <a href="">Delete</a>
@@ -35,7 +37,10 @@
 
     <br>
 
-    <form method="POST" action="{% url 'edit_notifications' dataset.name %}" class="form">
+    <form
+        method="POST"
+        action="{% url 'edit_notifications' dataset.name %}"
+        class="form">
       <div class="form-group">
         {% csrf_token %}
         <input type="submit" class="button" value="Continue">

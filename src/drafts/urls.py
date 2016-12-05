@@ -14,10 +14,6 @@ urlpatterns = [
         {'form_name': 'licence'},
         name='edit_licence'
     ),
-    url(r'(?P<dataset_name>[\w-]+)/theme$',
-        v.edit_dataset,
-        {'form_name': 'theme'},
-        name='edit_theme'),
     url(r'(?P<dataset_name>[\w-]+)/country$',
         v.edit_dataset,
         {'form_name': 'country'},

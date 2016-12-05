@@ -2,15 +2,78 @@
 {% load static %}
 
 {% block page_title %}
-  Add dataset country
+  Add dataset area
 {% endblock %}
 
 {% block inner_content %}
-  <main id="content" role="main" tabindex="-1">
-    <form action="{% url 'edit_country' dataset.name %}" method="POST">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <input type="submit"/>
-    </form>
-  </main>
+
+  <h1 class="heading-large">
+    Choose an area
+  </h1>
+
+  <p>
+    Which area does your dataset cover? You must choose at least one
+    of the following.
+  </p>
+
+  <form action="{% url 'edit_country' dataset.name %}" method="POST">
+    {% csrf_token %}
+    <ul class="errorlist"><li>This field is required.</li></ul>
+
+    <div class="form-group">
+      <fieldset>
+        <legend class="visually-hidden">Choose an area</legend>
+        <label class="block-label selection-button-radio" for="id_countries_0">
+          <input
+              id="id_countries_0"
+              name="countries"
+              type="radio"
+              value="england"
+              required=""/>
+          England
+        </label>
+        <label class="block-label selection-button-radio" for="id_countries_1">
+          <input
+              id="id_countries_1"
+              name="countries"
+              type="radio"
+              value="wales"
+              required=""/>
+          Wales
+        </label>
+        <label class="block-label selection-button-radio" for="id_countries_2">
+          <input
+              id="id_countries_2"
+              name="countries"
+              type="radio"
+              value="scotland"
+              required=""/>
+          Scotland
+        </label>
+        <label class="block-label selection-button-radio" for="id_countries_3">
+          <input
+              id="id_countries_3"
+              name="countries"
+              type="radio"
+              value="northern-ireland"
+              required=""/>
+          Northern Ireland
+        </label>
+        <label class="block-label selection-button-radio" for="id_countries_4">
+          <input
+              id="id_countries_4"
+              name="countries"
+              type="radio"
+              value="overseas"
+              required=""/>
+          Overseas
+        </label>
+      </fieldset>
+    </div>
+
+    <div class="form-group">
+      <input type="submit" class="button" value="Continue">
+    </div>
+
+</form>
 {% endblock %}

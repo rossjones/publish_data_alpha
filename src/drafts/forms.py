@@ -31,32 +31,15 @@ class LicenceForm(forms.Form):
         dataset.licence_other = self.cleaned_data['licence_other']
 
 
-class ThemeForm(forms.Form):
-    themes = forms.MultipleChoiceField(
-        required=False,
-        widget=forms.CheckboxSelectMultiple,
-        choices=choices.THEME_CHOICES,
-    )
-
-    def update_model(self, dataset):
-        dataset.themes = self.cleaned_data['themes']
-
-
 class CountryForm(forms.Form):
     countries = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
         choices=choices.COUNTRY_CHOICES,
     )
-    country_other = forms.CharField(
-        label=_('Other'),
-        max_length=1024,
-        required=False
-    )
 
     def update_model(self, dataset):
         dataset.countries = self.cleaned_data['countries']
-        dataset.countries_other = self.cleaned_data['country_other']
 
 
 class FrequencyForm(forms.Form):
