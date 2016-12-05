@@ -2,10 +2,15 @@
 {% load static %}
 
 {% block page_title %}
-  Add dataset frequency
+  How often is this dataset updated?
 {% endblock %}
 
 {% block inner_content %}
+
+  <h1 class="heading-large">
+    How often is this dataset updated?
+  </h1>
+
   <form action="{% url 'edit_frequency' dataset.name %}" method="POST">
     {% csrf_token %}
 
@@ -59,21 +64,21 @@
               required=""/>
           Every year (January to December)
         </label>
-        <label class="block-label selection-button-radio" for="id_frequency_4">
+        <label class="block-label selection-button-radio" for="id_frequency_5">
           <input
-              id="id_frequency_4"
+              id="id_frequency_5"
               name="frequency"
               type="radio"
               value="financial-year"
               required=""/>
           Every year (April to March)
         </label>
-        <label class="block-label selection-button-radio" for="id_frequency_4">
+        <label class="block-label selection-button-radio" for="id_frequency_6">
           <input
-              id="id_frequency_4"
+              id="id_frequency_6"
               name="frequency"
               type="radio"
-              value="none"
+              value="never"
               required=""/>
           Never
         </label>

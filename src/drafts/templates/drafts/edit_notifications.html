@@ -2,15 +2,56 @@
 {% load static %}
 
 {% block page_title %}
-  Add dataset notifications
+Get notifications
 {% endblock %}
 
 {% block inner_content %}
-  <main id="content" role="main" tabindex="-1">
-    <form action="{% url 'edit_notifications' dataset.name %}" method="POST">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <input type="submit"/>
-    </form>
-  </main>
+
+  <h1 class="heading-large">
+    Get notifications
+  </h1>
+
+  <form action="{% url 'edit_notifications' dataset.name %}" method="POST">
+    {% csrf_token %}
+
+    <ul class="errorlist"><li>This field is required.</li></ul>
+
+    <div class="form-group">
+      <fieldset>
+        <legend class="visuallyhidden">Get notifications?</legend>
+
+        <p>
+          Would you like us to send you an email when your dataset needs to
+          be updated?
+        </p>
+
+        <label
+            class="block-label selection-button-radio"
+            for="id_notifications_0">
+          <input
+              id="id_notifications_0"
+              name="notifications"
+              type="radio"
+              value="yes"
+              required="">
+          Yes
+        </label>
+
+        <label
+            class="block-label selection-button-radio"
+            for="id_notifications_1">
+          <input
+              id="id_notifications_1"
+              name="notifications"
+              type="radio"
+              value="no"
+              required="">
+          No
+        </label>
+      </fieldset>
+    </div>
+    <div class="form-group">
+      <input type="submit" class="button" value="Continue">
+    </div>
+  </form>
 {% endblock %}

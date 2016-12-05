@@ -2,10 +2,14 @@
 {% load static %}
 
 {% block page_title %}
-  Check dataset
+  Check your dataset
 {% endblock %}
 
 {% block inner_content %}
+  <h1 class="heading-large">
+    Check your dataset
+  </h1>
+
   <table class="check-your-answers">
     <tbody>
       <tr>
@@ -87,4 +91,13 @@
       </tr>
     </tbody>
   </table>
+
+  <form action="{% url 'check_dataset' dataset.name %}" method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+      <input type="submit" class="button" value="Accept">
+    </div>
+  </form>
+
+
 {% endblock %}
