@@ -18,23 +18,36 @@
     which means the data within them can be copied and used by anyone.
   </p>
 
-
-  <form action="{% url 'edit_licence' dataset.name %}" method="POST">
+  <form method="POST">
     {% csrf_token %}
-
+    <ul class="errorlist"><li>This field is required.</li></ul>
     <div class="form-group">
-      <fieldset>
         <legend class="visually-hidden">Choose a licence</legend>
-        <label class="block-label selection-button-radio selected" for="id_licence_1">
-          <input id="id_licence_1" name="licence" type="radio" value="ogl"/>
+        <label class="block-label selection-button-radio" for="id_licence_0">
+          <input
+              id="id_licence_0"
+              name="licence"
+              type="radio"
+              value="ogl"
+              required=""/>
           Open Government Licence
         </label>
-        <label class="block-label selection-button-radio" for="id_licence_2">
-          <input id="id_licence_2" name="licence" type="radio" value="inpire"/>
+        <label class="block-label selection-button-radio" for="id_licence_1">
+          <input
+              id="id_licence_1"
+              name="licence"
+              type="radio"
+              value="inpire"
+              required=""/>
           INSPIRE
         </label>
-        <label class="block-label selection-button-radio" for="id_licence_3">
-          <input id="id_licence_3" name="licence" type="radio" value="other"/>
+        <label class="block-label selection-button-radio" for="id_licence_2">
+          <input
+              id="id_licence_2"
+              name="licence"
+              type="radio"
+              value="other"
+              required=""/>
           Other:
         </label>
       </fieldset>
