@@ -12,7 +12,6 @@ class Dataset(models.Model):
     licence = models.CharField(max_length=64, default="")
     licence_other = models.TextField(default="", blank=True)
 
-    themes = models.TextField(default="[]")
     countries = models.TextField(default="[]")
     countries_other = models.TextField(default="", blank=True)
     frequency = models.TextField(default="", blank=True)

@@ -31,17 +31,6 @@ class LicenceForm(forms.Form):
         dataset.licence_other = self.cleaned_data['licence_other']
 
 
-class ThemeForm(forms.Form):
-    themes = forms.MultipleChoiceField(
-        required=False,
-        widget=forms.CheckboxSelectMultiple,
-        choices=choices.THEME_CHOICES,
-    )
-
-    def update_model(self, dataset):
-        dataset.themes = self.cleaned_data['themes']
-
-
 class CountryForm(forms.Form):
     countries = forms.MultipleChoiceField(
         required=False,
