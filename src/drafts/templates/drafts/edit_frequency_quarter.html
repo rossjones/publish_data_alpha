@@ -1,0 +1,76 @@
+{% extends 'main_with_navbar.html' %}
+{% load static %}
+
+{% block page_title %}
+  Time period
+{% endblock %}
+
+{% block inner_content %}
+
+  <h1 class="heading-large">
+    What time period does this link cover?
+  </h1>
+
+  <form
+      method="post"
+      action="{% url 'edit_frequency_quarter' dataset.name %}"
+      class="form">
+
+    <fieldset>
+      <legend class="visuallyhidden">
+        Time period
+      </legend>
+
+      <div class="form-group">
+        <label for="q1" class="block-label">
+          <input
+              type="radio"
+              id="q1"
+              name="period_quarter"
+              value="q1"
+              required=""
+          />
+          <span>Q1 (April to June)</span>
+        </label>
+        <label for="q2" class="block-label">
+          <input
+              type="radio"
+              id="q2"
+              name="period_quarter"
+              value="q2"
+              required=""
+          />
+          <span>Q2 (July to September)</span>
+        </label>
+        <label for="q3" class="block-label">
+          <input
+              type="radio"
+              id="q3"
+              name="period_quarter"
+              value="q3"
+              required=""
+          />
+          <span>Q3 (October to December)</span>
+        </label>
+        <label for="q4" class="block-label">
+          <input
+              type="radio"
+              id="q4"
+              name="period_quarter"
+              value="q4"
+              required=""
+          />
+          <span>Q4 (January to March)</span>
+        </label>
+
+      </div>
+
+    </fieldset>
+
+    <div class="form-group">
+      <input type="submit" class="button" value="Continue" />
+    </div>
+
+  </form>
+
+{% endblock %}

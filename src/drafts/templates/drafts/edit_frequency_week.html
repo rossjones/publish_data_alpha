@@ -1,0 +1,119 @@
+{% extends 'main_with_navbar.html' %}
+{% load static %}
+
+{% block page_title %}
+  Time period
+{% endblock %}
+
+{% block inner_content %}
+
+  <h1 class="heading-large">
+    What time period does this link cover?
+  </h1>
+
+  <form
+      method="post"
+      action="{% url 'edit_frequency_week' dataset.name %}"
+      class="form">
+
+    <fieldset>
+      <legend>
+        <span class="form-label-bold">
+          Start date
+          <span class="form-hint">For example, 31 3 2016</span>
+        </span>
+      </legend>
+      <div class="form-date">
+        <div class="form-group form-group-day">
+          <label class="form-label" for="start_day">Day</label>
+          <input
+              class="form-control"
+              id="start_day"
+              name="start_day"
+              type="number"
+              pattern="[0-9]*"
+              min="0"
+              max="31"
+              value=""
+              aria-describedby="start_hint">
+        </div>
+        <div class="form-group form-group-month">
+          <label class="form-label" for="start_month">Month</label>
+          <input
+              class="form-control"
+              id="start_month"
+              name="start_month"
+              type="number"
+              pattern="[0-9]*"
+              min="0"
+              max="12"
+              value="">
+        </div>
+        <div class="form-group form-group-year">
+          <label class="form-label" for="start_year">Year</label>
+          <input
+              class="form-control"
+              id="start_year"
+              name="start_year"
+              type="number"
+              pattern="[0-9]*"
+              min="0"
+              value="">
+        </div>
+      </div>
+    </fieldset>
+    <br/>
+    <fieldset>
+      <legend>
+        <span class="form-label-bold">
+          End date
+          <span class="form-hint">For example, 31 5 2016</span>
+        </span>
+      </legend>
+      <div class="form-date">
+        <div class="form-group form-group-day">
+          <label class="form-label" for="end_day">Day</label>
+          <input
+              class="form-control"
+              id="end_day"
+              name="end_day"
+              type="number"
+              pattern="[0-9]*"
+              min="0"
+              max="31"
+              value=""
+              aria-describedby="end_hint">
+        </div>
+        <div class="form-group form-group-month">
+          <label class="form-label" for="end_month">Month</label>
+          <input
+              class="form-control"
+              id="end_month"
+              name="end_month"
+              type="number"
+              pattern="[0-9]*"
+              min="0"
+              max="12"
+              value="">
+        </div>
+        <div class="form-group form-group-year">
+          <label class="form-label" for="end_year">Year</label>
+          <input
+              class="form-control"
+              id="end_year"
+              name="end_year"
+              type="number"
+              pattern="[0-9]*"
+              min="0"
+              value="">
+        </div>
+      </div>
+    </fieldset>
+    <br/>
+    <div class="form-group">
+      <input type="submit" class="button" value="Continue" />
+    </div>
+
+  </form>
+
+{% endblock %}
