@@ -6,8 +6,22 @@
 {% endblock %}
 
 {% block inner_content %}
+
   {% if login_failed %}
-    Login failed!
+    <div
+        class="error-summary"
+        role="group"
+        aria-labelledby="error-summary-heading-example-1"
+        tabindex="-1">
+      <h1
+          class="heading-medium error-summary-heading"
+          id="error-summary-heading-example-1">
+        There was a problem signing you in
+      </h1>
+      <p>
+        Email and password combination not recognised.
+      </p>
+    </div>
   {% endif %}
 
   <h1 class="heading-large">Sign in</h1>
