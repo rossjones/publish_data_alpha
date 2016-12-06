@@ -1,7 +1,7 @@
 module.exports = {
   'Create a dataset' : function (browser) {
     browser
-      .url('http://localhost:8000')
+      .url(process.env.APP_SERVER_URL)
       .waitForElementVisible('h1', 1000)
       .assert.containsText(
         'h1',
@@ -10,8 +10,8 @@ module.exports = {
       .click('a.button-get-started')
       .waitForElementVisible('main', 1000)
       .assert.containsText('h1', 'Sign in')
-      .setValue('input[name=email]', 'a@b.c')
-      .setValue('input[name=password]', 'foobar')
+      .setValue('input[name=email]', process.env.USER_EMAIL)
+      .setValue('input[name=password]', process.env.USER_PASSWORD)
       .submitForm('form')
       .end();
   }
