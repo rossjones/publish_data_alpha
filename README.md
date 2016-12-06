@@ -125,18 +125,11 @@ repository.
 
 ## Acceptance testing
 
-End-to-end tests can be found in the `tests` directory. They are run using [nightwatch](http://nightwatchjs.com). To install nightwatch, use: `npm install -g nightwatch`.
+End-to-end tests can be found in the `tests` directory. They are run using
+[nightwatch](http://nightwatchjs.com). To install nightwatch, use:
+`npm install -g nightwatch`.
 
-Some variables need to be set first:
+The variables at the top of the `Makefile` should be set to suit your
+local environment.
 
-In `nightwatch.json`:
-
-- replace `[SELENIUM]` with the path to the selenium.jar file on your system. E.g `/Users/joe/bin/selenium-server-standalone-3.0.1.jar`
-
-- replace `[GECKODRIVER]` with the path to the gecko driver. E.g `/Users/joe/bin/geckodriver`
-
--replace `[PHANTOMJS]` similarly
-
-In `tests/tests.js`, put the credentials of the user you created in the lines where it says `.setValue('input[name=email]', 'a@b.c')` and  `.setValue('input[name=password]', 'foobar')`
-
-You should then be able to run `nightwatch` on the command line.
+Then you can just run `make test` to run the test suite.

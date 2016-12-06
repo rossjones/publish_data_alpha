@@ -8,14 +8,11 @@
 
   "selenium" : {
     "start_process" : true,
-    "server_path" : "[SELENIUM]",
     "log_path" : "",
     "port" : 4444,
     "cli_args" : {
       "webdriver.chrome.driver" : "",
-      "webdriver.gecko.driver" : "[GECKODRIVER]",
-      "webdriver.edge.driver" : "",
-      "webdriver.phantomjs" : "/home/mf/bin/phantomjs"
+      "webdriver.edge.driver" : ""
     }
   },
 
@@ -33,7 +30,6 @@
         "browserName" : "phantomjs",
         "javascriptEnabled" : true,
         "acceptSslCerts" : true,
-        "phantomjs.binary.path" : "[PHANTOMJS]",
         "phantomjs.cli.args" : []
       }
     },
