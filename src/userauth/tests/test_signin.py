@@ -30,7 +30,7 @@ class SigninTestCase(TestCase):
             "password": "nope"
         })
         assert response.status_code == 200
-        assert 'Login failed' in str(response.content)
+        assert 'There was a problem signing you in' in str(response.content)
 
     def test_signin_empty(self):
         response = self.client.post(reverse('signin'), {
@@ -39,4 +39,3 @@ class SigninTestCase(TestCase):
         })
         assert response.status_code == 200
         # Assert error message on page
-
