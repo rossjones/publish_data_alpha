@@ -10,6 +10,19 @@ from drafts.util import convert_to_slug
 from django.views.generic.edit import FormView, UpdateView
 
 
+class DatasetFullEditView(FormView):
+    model = Dataset
+    form_class = f.DatasetForm
+    template_name = 'drafts/edit_full.html'
+    success_url = '/manage'
+
+    def get_initial(self):
+        return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
+
+    def get_context_data(self, form=None):
+        return {'dataset': self.get_initial() }
+
+
 class DatasetCreate(FormView):
     model = Dataset
     form_class = f.DatasetForm

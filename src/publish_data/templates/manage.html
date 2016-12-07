@@ -1,32 +1,43 @@
-{% extends 'main.html' %}
+{% extends 'main_with_navbar.html' %}
 {% load static %}
 
 {% block page_title %}
   Manage data
 {% endblock %}
 
-{% block content %}
+{% block inner_content %}
   <main id="content" role="main" tabindex="-1">
     <h1 class="heading-large">Manage data</h1>
     <h2 class="heading-small">Find existing datasets</h2>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for dataset in datasets %}
+    <div class="filtered-table">
+      <div class="filter-panel">
+        <label for="name">Filter by name: </label>
+        <input class="form-control" id="name" type="text">
+      </div>
+
+      <table>
+        <thead>
           <tr>
-            <td>{{ dataset.title }}</td>
-            <td>{{ dataset.status }}</td>
-            <td></td>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Actions</th>
           </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {% for dataset in datasets %}
+            <tr>
+              <td>{{ dataset.title }}</td>
+              <td>{{ dataset.status }}</td>
+              <td>
+                <a href="">Add Data</a> <br/>
+                <a href="{% url 'edit_dataset_full' dataset.name %}">Edit</a> <br/>
+                <a href="">Delete</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </main>
-{% endblock content %}
+{% endblock %}
