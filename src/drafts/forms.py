@@ -44,3 +44,7 @@ class NotificationsForm(forms.Form):
     notifications = forms.ChoiceField(
         widget=forms.RadioSelect,
         choices=(('yes', 'Yes'),('no', 'No')))
+
+class DateForm(forms.Form):
+    start_date = forms.CharField(required=False)
+    end_date = forms.CharField(required=False)

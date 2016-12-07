@@ -28,5 +28,22 @@ urlpatterns = [
     url(r'(?P<dataset_name>[\w-]+)/check$',
         v.check_dataset,
         name='check_dataset'),
+
+    # Frequency details
+    url(r'(?P<dataset_name>[\w-]+)/frequency/weekly$',
+        v.FrequencyWeeklyView.as_view(),
+        name='edit_frequency_weekly'),
+    url(r'(?P<dataset_name>[\w-]+)/frequency/monthly$',
+        v.FrequencyMonthlyView.as_view(),
+        name='edit_frequency_monthly'),
+    url(r'(?P<dataset_name>[\w-]+)/frequency/quarterly$',
+        v.FrequencyQuarterlyView.as_view(),
+        name='edit_frequency_quarterly'),
+    url(r'(?P<dataset_name>[\w-]+)/frequency/annually$',
+        v.FrequencyAnnuallyView.as_view(),
+        name='edit_frequency_annually'),
+    url(r'(?P<dataset_name>[\w-]+)/frequency/financial-year$',
+        v.FrequencyFinancialYearView.as_view(),
+        name='edit_frequency_financial-year'),
 ]
 
