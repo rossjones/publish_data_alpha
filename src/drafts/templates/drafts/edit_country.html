@@ -27,45 +27,45 @@
           <input
               id="id_countries_0"
               name="countries"
-              type="radio"
+              type="checkbox"
               value="england"
-              required=""/>
+              {% if 'england' in dataset.countries %}checked{% endif %} />
           <span>England</span>
         </label>
         <label class="block-label selection-button-radio" for="id_countries_1">
           <input
               id="id_countries_1"
               name="countries"
-              type="radio"
+              type="checkbox"
               value="wales"
-              required=""/>
+              {% if 'wales' in dataset.countries %}checked{% endif %} />
           <span>Wales</span>
         </label>
         <label class="block-label selection-button-radio" for="id_countries_2">
           <input
               id="id_countries_2"
               name="countries"
-              type="radio"
+              type="checkbox"
               value="scotland"
-              required=""/>
+              {% if 'scotland' in dataset.countries %}checked{% endif %} />
           <span>Scotland</span>
         </label>
         <label class="block-label selection-button-radio" for="id_countries_3">
           <input
               id="id_countries_3"
               name="countries"
-              type="radio"
+              type="checkbox"
               value="northern-ireland"
-              required=""/>
+              {% if 'northern-ireland' in dataset.countries %}checked{% endif %}  />
           <span>Northern Ireland</span>
         </label>
         <label class="block-label selection-button-radio" for="id_countries_4">
           <input
               id="id_countries_4"
               name="countries"
-              type="radio"
+              type="checkbox"
               value="overseas"
-              required=""/>
+              {% if 'overseas' in dataset.countries %}checked{% endif %}  />
           <span>Overseas</span>
         </label>
       </fieldset>

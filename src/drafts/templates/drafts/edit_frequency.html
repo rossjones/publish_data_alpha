@@ -25,7 +25,7 @@
               name="frequency"
               type="radio"
               value="daily"
-              required=""/>
+              {% if dataset.frequency == 'daily' %}checked{% endif %}/>
           <span>Every day</span>
         </label>
         <label class="block-label selection-button-radio" for="id_frequency_1">
@@ -34,7 +34,7 @@
               name="frequency"
               type="radio"
               value="weekly"
-              required=""/>
+              {% if dataset.frequency == 'weekly' %}checked{% endif %}/>
           <span>Every week</span>
         </label>
         <label class="block-label selection-button-radio" for="id_frequency_2">
@@ -43,7 +43,7 @@
               name="frequency"
               type="radio"
               value="monthly"
-              required=""/>
+              {% if dataset.frequency == 'monthly' %}checked{% endif %}/>
           <span>Every month</span>
         </label>
         <label class="block-label selection-button-radio" for="id_frequency_3">
@@ -52,7 +52,7 @@
               name="frequency"
               type="radio"
               value="quarterly"
-              required=""/>
+              {% if dataset.frequency == 'quarterly' %}checked{% endif %} />
           <span>Every quarter</span>
         </label>
         <label class="block-label selection-button-radio" for="id_frequency_4">
@@ -61,7 +61,7 @@
               name="frequency"
               type="radio"
               value="annually"
-              required=""/>
+              {% if dataset.frequency == 'annually' %}checked{% endif %} />
           <span>Every year (January to December)</span>
         </label>
         <label class="block-label selection-button-radio" for="id_frequency_5">
@@ -70,7 +70,7 @@
               name="frequency"
               type="radio"
               value="financial-year"
-              required=""/>
+              {% if dataset.frequency == 'financial-year' %}checked{% endif %} />
           <span>Every year (April to March)</span>
         </label>
         <label class="block-label selection-button-radio" for="id_frequency_6">
@@ -79,7 +79,7 @@
               name="frequency"
               type="radio"
               value="never"
-              required=""/>
+              {% if dataset.frequency == 'never' %}checked{% endif %} />
           Never
         </label>
       </fieldset>

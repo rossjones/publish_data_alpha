@@ -17,6 +17,7 @@
           Name
         </td>
         <td>
+          {{ dataset.title }}
         </td>
         <td class="change-answer">
           <a href="edit?change=1">
@@ -29,6 +30,7 @@
           Description
         </td>
         <td>
+          {{ dataset.description }}
         </td>
         <td class="change-answer">
           <a href="edit?change=1">
@@ -54,8 +56,11 @@
         </td>
         <td>
           <ul>
-            <li>
-            </li>
+            {% for country in dataset.countries %}
+              <li>
+                {{ country|title }}
+              </li>
+            {% endfor %}
           </ul>
         </td>
         <td class="change-answer">
@@ -69,10 +74,11 @@
           Licence
         </td>
         <td>
+          {{ dataset.licence|title }}
         </td>
         <td class="change-answer">
           <a href="licence?change=1">
-            Change <span class="visuallyhidden">license</span>
+            Change <span class="visuallyhidden">licence</span>
           </a>
         </td>
       </tr>
@@ -81,7 +87,7 @@
           Frequency Update
         </td>
         <td>
-          <br/>
+          {{ dataset.frequency|title }}
         </td>
         <td class="change-answer">
           <a href="frequency?change=1">

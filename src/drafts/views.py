@@ -7,88 +7,181 @@ import drafts.forms as f
 from drafts.models import Dataset, Datafile
 from drafts.util import convert_to_slug
 
-FORMS = {
-    # Maps from the form name to the actual form
-    'title': f.NewDatasetForm,
-    'licence': f.LicenceForm,
-    'country': f.CountryForm,
-    'frequency': f.FrequencyForm,
-    'notifications': f.NotificationsForm
-}
+from django.views.generic.edit import FormView, UpdateView
 
-NEXT_STEP = {
-    # Maps from form name, to the name of the next url to redirect to
-    'licence': 'edit_country',
-    'country': 'edit_frequency',
-    'frequency': 'edit_addfile',
-    'notifications': 'check_dataset'
-}
 
-@login_required()
-def new_dataset(request):
+class DatasetCreate(FormView):
+    model = Dataset
+    form_class = f.DatasetForm
+    template_name = 'drafts/edit_title.html'
 
-    form = f.NewDatasetForm(request.POST or None)
+    def form_valid(self, form):
+        name = convert_to_slug(form.cleaned_data['title'])
 
-    if request.method == "POST":
-        if form.is_valid():
-            name = convert_to_slug(form.cleaned_data['title'])
-
-            Dataset.objects.create(name=name,
+        dataset = Dataset.objects.create(
                 title=form.cleaned_data['title'],
-                description=form.cleaned_data['description'])
+                description=form.cleaned_data['description'],
+                name=name
+        )
+        self.object = dataset
+        return super(DatasetCreate, self).form_valid(form)
 
-            return redirect(reverse('edit_licence', args=[name]))
+    def get_initial(self):
+        return {'new': True}
 
-    return render(request, "drafts/edit_title.html", {
-        "form": form,
-    })
-
-@login_required()
-def edit_dataset(request, dataset_name, form_name):
-    dataset = get_object_or_404(Dataset, name=dataset_name)
-
-    form = FORMS.get(form_name)(request.POST or dataset.as_dict())
-
-    if request.method == "POST":
-        if form.is_valid():
-
-            form.update_model(dataset)
-            dataset.save()
-
-            return redirect(
-                reverse('{}'.format(NEXT_STEP.get(form_name)),
-                        args=[dataset_name])
-            )
-
-    return render(request, "drafts/edit_{}.html".format(form_name), {
-        "dataset": dataset,
-        "form": form,
-    })
-
-@login_required()
-def add_file(request, dataset_name):
-    dataset = get_object_or_404(Dataset, name=dataset_name)
-
-    form = f.AddFileForm(request.POST or None)
-    if request.method == "POST":
-        if form.is_valid():
-
-            Datafile.objects.create(
-                title=form.cleaned_data['title'],
-                url=form.cleaned_data['url'],
-                dataset=dataset
-            )
+    def get_success_url(self):
+        return reverse('edit_licence', args=[self.object.name])
 
 
-            return redirect(
-                reverse('show_files',
-                        args=[dataset_name])
-            )
+class DatasetEditView(FormView):
+    model = Dataset
+    form_class = f.DatasetForm
+    template_name = 'drafts/edit_title.html'
+    slug_url_kwarg = 'dataset_name'
+    slug_field = 'name'
 
-    return render(request, "drafts/edit_addfile.html", {
-        "dataset": dataset,
-        "form": form,
-    })
+    def form_valid(self, form):
+        self.object = get_object_or_404(Dataset, name=self.get_initial()['name'])
+        self.object.title = form.cleaned_data['title']
+        self.object.description = form.cleaned_data['description']
+        self.object.save()
+
+        return super(DatasetEditView, self).form_valid(form)
+
+    def get_initial(self):
+        return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
+
+    def get_context_data(self):
+        return {'dataset': self.get_initial(), 'new': False }
+
+    def get_success_url(self):
+        return reverse('edit_licence', args=[self.object.name])
+
+
+class EditLicenceView(FormView):
+    model = Dataset
+    form_class = f.LicenceForm
+    template_name = 'drafts/edit_licence.html'
+    slug_url_kwarg = 'dataset_name'
+    slug_field = 'name'
+
+    def form_valid(self, form):
+        self.object = get_object_or_404(Dataset, name=self.get_initial()['name'])
+        self.object.licence = form.cleaned_data['licence']
+        self.object.licence_other = form.cleaned_data['licence_other']
+        self.object.save()
+
+        return super(EditLicenceView, self).form_valid(form)
+
+    def get_initial(self):
+        return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
+
+    def get_context_data(self):
+        return {'dataset': self.get_initial() }
+
+    def get_success_url(self):
+        return reverse('edit_country', args=[self.object.name])
+
+
+class EditCountryView(FormView):
+    model = Dataset
+    form_class = f.CountryForm
+    template_name = 'drafts/edit_country.html'
+    slug_url_kwarg = 'dataset_name'
+    slug_field = 'name'
+
+    def form_valid(self, form):
+        self.object = get_object_or_404(Dataset, name=self.get_initial()['name'])
+        self.object.countries = form.cleaned_data['countries']
+        self.object.save()
+
+        return super(EditCountryView, self).form_valid(form)
+
+    def get_initial(self):
+        return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
+
+    def get_context_data(self):
+        return {'dataset': self.get_initial() }
+
+    def get_success_url(self):
+        return reverse('edit_frequency', args=[self.object.name])
+
+
+class EditFrequencyView(FormView):
+    model = Dataset
+    form_class = f.FrequencyForm
+    template_name = 'drafts/edit_frequency.html'
+    slug_url_kwarg = 'dataset_name'
+    slug_field = 'name'
+
+    def form_valid(self, form):
+        self.object = get_object_or_404(Dataset, name=self.get_initial()['name'])
+        self.object.frequency = form.cleaned_data['frequency']
+        self.object.save()
+
+        return super(EditFrequencyView, self).form_valid(form)
+
+    def get_initial(self):
+        return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
+
+    def get_context_data(self):
+        return {'dataset': self.get_initial() }
+
+    def get_success_url(self):
+        return reverse('edit_addfile', args=[self.object.name])
+
+
+class AddFileView(FormView):
+    model = Datafile
+    form_class = f.AddFileForm
+    template_name = 'drafts/edit_addfile.html'
+    slug_url_kwarg = 'dataset_name'
+    slug_field = 'name'
+
+    def form_valid(self, form):
+        self.dataset = get_object_or_404(Dataset, name=self.get_initial()['name'])
+
+        self.datafile = Datafile.objects.create(
+            title=form.cleaned_data['title'],
+            url=form.cleaned_data['url'],
+            dataset=self.dataset
+        )
+
+        return super(AddFileView, self).form_valid(form)
+
+    def get_initial(self):
+        return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
+
+    def get_context_data(self):
+        return {'dataset': self.get_initial() }
+
+    def get_success_url(self):
+        return reverse('show_files', args=[self.dataset.name])
+
+
+class EditNotificationView(FormView):
+    model = Dataset
+    form_class = f.NotificationsForm
+    template_name = 'drafts/edit_notifications.html'
+    slug_url_kwarg = 'dataset_name'
+    slug_field = 'name'
+
+    def form_valid(self, form):
+        self.object = get_object_or_404(Dataset, name=self.get_initial()['name'])
+        self.object.notifications = form.cleaned_data['notifications']
+        self.object.save()
+
+        return super(EditNotificationView, self).form_valid(form)
+
+    def get_initial(self):
+        return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
+
+    def get_context_data(self):
+        return {'dataset': self.get_initial() }
+
+    def get_success_url(self):
+        return reverse('check_dataset', args=[self.object.name])
+
 
 @login_required()
 def show_files(request, dataset_name):
@@ -103,5 +196,5 @@ def check_dataset(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
     return render(request, "drafts/check_dataset.html", {
-        "dataset": dataset,
+        "dataset": dataset.as_dict(),
     })
