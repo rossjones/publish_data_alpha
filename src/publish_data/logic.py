@@ -16,6 +16,7 @@ def dataset_list(user):
     for d in drafts:
         d.status = _("draft")
 
+
     results = datasets_for_user(user, offset=0, limit=20)
     datasets = []
     for dataset in results['results']:

@@ -1,0 +1,28 @@
+{% extends 'main_with_navbar.html' %}
+{% load static %}
+
+{% block page_title %}
+  How often is this dataset updated?
+{% endblock %}
+
+{% block inner_content %}
+
+<main id="content" role="main">
+
+  <div class="grid-row">
+
+    <div class="column-two-thirds">
+
+      <h1 class="heading-large">
+        Edit {{ dataset.title }}
+      </h1>
+
+      <form action="{% url 'edit_dataset_full' dataset.name %}" method="post" class="form compact">
+        {% csrf_token %}
+      </form>
+
+    </div>
+  </div>
+</main>
+
+{% endblock %}

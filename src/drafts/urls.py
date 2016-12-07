@@ -4,6 +4,10 @@ import drafts.views as v
 
 urlpatterns = [
     url(r'new$', v.DatasetCreate.as_view(), name='new_dataset'),
+    url(r'edit/(?P<dataset_name>[\w-]+)$',
+        v.DatasetFullEditView.as_view(),
+        name='edit_dataset_full'),
+
     url(r'(?P<dataset_name>[\w-]+)/edit$',
         v.DatasetEditView.as_view(),
         name='edit_dataset'),
