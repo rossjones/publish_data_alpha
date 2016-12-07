@@ -90,9 +90,32 @@ class DraftsTestCase(TestCase):
             self._get_dataset().frequency
 
     def test_frequency_details(self):
-        # TODO: Test that the frequency post redirect to the
-        # correct place.
-        pass
+        u = reverse('edit_frequency', args=[self.dataset_name])
+        response = self.client.post(u, {'frequency': 'weekly'})
+        assert response.status_code == 302
+        assert response.url == reverse('edit_frequency_weekly',
+            args=[self.dataset_name])
+
+        response = self.client.post(u, {'frequency': 'monthly'})
+        assert response.status_code == 302
+        assert response.url == reverse('edit_frequency_monthly',
+            args=[self.dataset_name])
+
+        response = self.client.post(u, {'frequency': 'quarterly'})
+        assert response.status_code == 302
+        assert response.url == reverse('edit_frequency_quarterly',
+            args=[self.dataset_name])
+
+        response = self.client.post(u, {'frequency': 'annually'})
+        assert response.status_code == 302
+        assert response.url == reverse('edit_frequency_annually',
+            args=[self.dataset_name])
+
+        response = self.client.post(u, {'frequency': 'financial-year'})
+        assert response.status_code == 302
+        assert response.url == reverse('edit_frequency_financial-year',
+            args=[self.dataset_name])
+
 
     def test_notifications(self):
         u = reverse('edit_notifications', args=[self.dataset_name])

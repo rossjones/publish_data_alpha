@@ -129,7 +129,10 @@ class EditFrequencyView(FormView):
         return {'dataset': self.get_initial() }
 
     def get_success_url(self):
-        return reverse('edit_addfile', args=[self.object.name])
+        if self.object.frequency in ['daily', 'never']:
+            return reverse('edit_addfile', args=[self.object.name])
+
+        return reverse('edit_frequency_{}'.format(self.object.frequency), args=[self.object.name])
 
 
 class AddFileView(FormView):
@@ -182,6 +185,42 @@ class EditNotificationView(FormView):
 
     def get_success_url(self):
         return reverse('check_dataset', args=[self.object.name])
+
+class FrequencyDetailView(FormView):
+    model = Dataset
+    form_class = f.DateForm
+    slug_url_kwarg = 'dataset_name'
+    slug_field = 'name'
+
+    def form_valid(self, form):
+        self.dataset = get_object_or_404(Dataset, name=self.get_initial()['name'])
+
+        return super(FrequencyDetailView, self).form_valid(form)
+
+    def get_initial(self):
+        return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
+
+    def get_context_data(self, form=None):
+        return {'dataset': self.get_initial() }
+
+    def get_success_url(self):
+        return reverse('edit_addfile', args=[self.dataset.name])
+
+
+class FrequencyWeeklyView(FrequencyDetailView):
+    template_name = 'drafts/edit_frequency_week.html'
+
+class FrequencyMonthlyView(FrequencyDetailView):
+    template_name = 'drafts/edit_frequency_month.html'
+
+class FrequencyQuarterlyView(FrequencyDetailView):
+    template_name = 'drafts/edit_frequency_quarter.html'
+
+class FrequencyFinancialYearView(FrequencyDetailView):
+    template_name = 'drafts/edit_frequency_year.html'
+
+class FrequencyAnnuallyView(FrequencyDetailView):
+    template_name = 'drafts/edit_frequency_year.html'
 
 
 @login_required()
