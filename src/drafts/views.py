@@ -27,7 +27,7 @@ class DatasetCreate(FormView):
         return super(DatasetCreate, self).form_valid(form)
 
     def get_initial(self):
-        return {'new': True}
+        return {}
 
     def get_success_url(self):
         return reverse('edit_licence', args=[self.object.name])
@@ -51,8 +51,9 @@ class DatasetEditView(FormView):
     def get_initial(self):
         return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
 
-    def get_context_data(self):
-        return {'dataset': self.get_initial(), 'new': False }
+    def get_context_data(self, form=None):
+        target = reverse('edit_dataset', args=self.get_initial()['name'])
+        return {'dataset': self.get_initial() }
 
     def get_success_url(self):
         return reverse('edit_licence', args=[self.object.name])
@@ -76,7 +77,7 @@ class EditLicenceView(FormView):
     def get_initial(self):
         return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
 
-    def get_context_data(self):
+    def get_context_data(self, form=None):
         return {'dataset': self.get_initial() }
 
     def get_success_url(self):
@@ -100,7 +101,7 @@ class EditCountryView(FormView):
     def get_initial(self):
         return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
 
-    def get_context_data(self):
+    def get_context_data(self, form=None):
         return {'dataset': self.get_initial() }
 
     def get_success_url(self):
@@ -124,7 +125,7 @@ class EditFrequencyView(FormView):
     def get_initial(self):
         return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
 
-    def get_context_data(self):
+    def get_context_data(self, form=None):
         return {'dataset': self.get_initial() }
 
     def get_success_url(self):
@@ -152,7 +153,7 @@ class AddFileView(FormView):
     def get_initial(self):
         return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
 
-    def get_context_data(self):
+    def get_context_data(self, form=None):
         return {'dataset': self.get_initial() }
 
     def get_success_url(self):
@@ -176,7 +177,7 @@ class EditNotificationView(FormView):
     def get_initial(self):
         return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
 
-    def get_context_data(self):
+    def get_context_data(self, form=None):
         return {'dataset': self.get_initial() }
 
     def get_success_url(self):
