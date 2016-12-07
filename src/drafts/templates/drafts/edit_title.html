@@ -13,7 +13,7 @@
 
   <p>You must give the dataset a title and a description.</p>
 
-  <form method="post" action="{% if new %}{% url 'new_dataset' %}{% else %}{% url 'edit_dataset' dataset.name %}{% endif%}" class="form">
+  <form method="post" class="form">
     {% csrf_token %}
 
     <fieldset>
