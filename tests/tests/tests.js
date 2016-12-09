@@ -1,3 +1,5 @@
+var waitTimeout = 1000; // mmilliseconds
+
 var extended = function(browser) {
   browser.clickOn = function(text) {
     return this
@@ -14,19 +16,18 @@ var extended = function(browser) {
   return browser;
 }
 
-
 var login = function(browser, email, password) {
   extended(browser)
     .url(process.env.APP_SERVER_URL)
-    .waitForElementVisible('body', 1000)
+    .waitForElementVisible('body', waitTimeout)
     .assert.containsText('h1', 'Publish and update data')
     .clickOn('Sign in')
-    .waitForElementVisible('main', 1000)
+    .waitForElementVisible('main', waitTimeout)
     .assert.containsText('h1', 'Sign in')
     .setValue('input[name=email]', email)
     .setValue('input[name=password]', password)
     .submitForm('form')
-    .waitForElementVisible('main', 1000);
+    .waitForElementVisible('main', waitTimeout);
   return browser;
 }
 
@@ -47,15 +48,15 @@ module.exports = {
     .setValue('input[name=title]', 'Title of my dataset')
     .setValue('textarea[name=description]', 'Description of my dataset')
     .submitForm('form')
-    .waitForElementVisible('main', 1000)
+    .waitForElementVisible('main', waitTimeout)
     .assert.containsText('h1', 'Choose a licence')
     .selectRadioButton('Open Government Licence')
     .submitForm('form')
-    .waitForElementVisible('main', 1000)
+    .waitForElementVisible('main', waitTimeout)
     .assert.containsText('h1', 'Choose an area')
     .selectRadioButton('England')
     .submitForm('form')
-    .waitForElementVisible('main', 1000)
+    .waitForElementVisible('main', waitTimeout)
     .assert.containsText('h1', 'How often is this dataset updated?')
     .end();
   }
