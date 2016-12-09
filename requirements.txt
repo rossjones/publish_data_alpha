@@ -1,3 +1,5 @@
 Django==1.10.2
 ckanapi==3.6
 django-memoize==2.0.0
+pytz
+python-dateutil==2.6.0

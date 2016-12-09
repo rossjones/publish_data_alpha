@@ -1,28 +1,48 @@
+import math
+import datetime
+import pytz
+
+from dateutil.parser import parse as parse_date
 from django.utils.translation import ugettext as _
+
 from drafts.models import Dataset
-
-
 from ckan_proxy.logic import datasets_for_user
 
-def dataset_list(user):
+utc=pytz.UTC
+
+
+def dataset_list(user, page=1):
     """
     For the given user returns a tuple containing total number of datasets
     both draft and published, and the 20 most recent.
     """
+    per_page = 20
+    max_fetch = per_page * page
 
     # TODO: This should be organisation specific
-    drafts = Dataset.objects.all().order_by("-last_edit_date")[0:20]
+    drafts = Dataset.objects.all().order_by("-last_edit_date")[0:max_fetch]
     count = Dataset.objects.count()
     for d in drafts:
+        d.last_edit_date = d.last_edit_date.replace(tzinfo=utc)
         d.status = _("draft")
 
-
-    results = datasets_for_user(user, offset=0, limit=20)
+    results = datasets_for_user(user, offset=0, limit=max_fetch)
     datasets = []
     for dataset in results['results']:
+        dataset['metadata_modified'] = \
+            parse_date(dataset['metadata_modified']).replace(tzinfo=utc)
         dataset['status'] = _('published')
         datasets.append(dataset)
 
-    total = results['count'] + count
+    def get_key(obj):
+        if isinstance(obj, dict):
+            return obj['metadata_modified']
+        return obj.last_edit_date
 
-    return (total, (list(drafts) + datasets)[0:20],)
+    resultset = sorted(list(drafts) + datasets, key=get_key, reverse=True)
+
+    total = results['count'] + count
+    page_count = math.ceil(float(total) / per_page)
+
+    offset = (page * per_page) - per_page
+    return (total, page_count, resultset[offset:offset+per_page],)
