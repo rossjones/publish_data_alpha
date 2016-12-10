@@ -7,6 +7,10 @@ export USER_PASSWORD=foobar
 export SELENIUM=$(HOME)/bin/selenium-server-standalone-3.0.1.jar
 export GECKO_DRIVER=$(HOME)/bin/geckodriver
 export PHANTOM_JS=$(HOME)/bin/phantomjs
+export CHROME_DRIVER=$(HOME)/bin/chromedriver
+
+# Which browser to use for tests (phantomjs, geckodriver or chrome)
+export BROWSER_NAME=phantomjs
 
 
 all:
