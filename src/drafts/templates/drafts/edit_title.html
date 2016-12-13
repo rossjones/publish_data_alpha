@@ -7,6 +7,43 @@
 
 {% block inner_content %}
 
+  {% if form.errors %}
+    <div
+        class="error-summary"
+        role="group"
+        aria-labelledby="error-summary-heading-example-1"
+        tabindex="-1">
+      <h1
+          class="heading-medium error-summary-heading"
+          id="error-summary-heading-example-1">
+        There was a problem
+      </h1>
+
+      <ul class="error-summary-list">
+        {% for error in form.non_field_errors %}
+          <li>
+            {{ error }}
+            <span class="visuallyhidden">.</span>
+          </li>
+        {% endfor %}
+
+        {% for error in form.title.errors %}
+          <li>
+            <a href="#id_title_label">Please provide a title</a>
+            <span class="visuallyhidden">.</span>
+          </li>
+        {% endfor %}
+
+        {% for error in form.description.errors %}
+          <li>
+            <a href="#id_description_label">Please provide a description</a>
+            <span class="visuallyhidden">.</span>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
   <h1 class="heading-large">
     Create a dataset
   </h1>
@@ -18,13 +55,21 @@
 
     <fieldset>
       <legend class="visuallyhidden">
-        Upload a new dataset
+        Provide a title and a description
       </legend>
 
-      <div class="form-group">
-        <label class="form-label" for="id_title">Title</label>
+      <div class="form-group {% if form.title.errors %}error{% endif %}">
+        <label
+            class="form-label"
+            for="id_title"
+            id="id_title_label">
+          Title
+        </label>
+        {% if form.title.errors %}
+          <span class="error-message">{{ form.title.errors }}</span>
+        {% endif %}
         <span class="form-hint">
-          Titles should be 65 characters or less, including spaces.<br>
+          Titles should be 65 characters or less, including spaces.<br/>
           Most search engines will shorten titles if they’re longer than
           this.
         </span>
@@ -36,19 +81,24 @@
             value="{{ dataset.title }}"/>
       </div>
 
-      <div class="form-group">
-        <label class="form-label bold" for="id_description">
+      <div class="form-group {% if form.description.errors %}error{% endif %}">
+        <label
+            class="form-label bold"
+            for="id_description"
+            id="id_description_label">
           Description
         </label>
+        {% if form.description.errors %}
+          <span class="error-message">{{ form.description.errors }}</span>
+        {% endif %}
         <span class="form-hint">
           Write a description of the dataset. Along with the title,
           the first sentence of the description will appear in search
           results.
-          <br>
-          <br>
+          <br/>
+          <br/>
           Include any relevant words and phrases that you didn’t use in
           the title to help users find your dataset.
-
         </span>
         <textarea
             rows="10"
