@@ -1,0 +1,87 @@
+[
+  {
+    "model": "stats.organisationstatistic",
+    "pk": 1,
+    "fields": {
+        "organisation_name": "cabinet-office",
+        "subject_title": "Downloads",
+        "dataset_title": "Hate Crimes, England and Wales",
+        "value": 125,
+        "direction": "up",
+        "since": "+1% since last week",
+        "timestamp": "2016-01-01T17:41:28+00:00"
+    }
+  },
+  {
+    "model": "stats.organisationstatistic",
+    "pk": 2,
+    "fields": {
+        "organisation_name": "cabinet-office",
+        "subject_title": "Downloads",
+        "dataset_title": "Immigration Statistics: citizenship",
+        "value": 23,
+        "direction": "up",
+        "since": "+1% since last week",
+        "timestamp": "2016-01-01T17:41:28+00:00"
+    }
+  },
+  {
+    "model": "stats.organisationstatistic",
+    "pk": 3,
+    "fields": {
+        "organisation_name": "cabinet-office",
+        "subject_title": "Downloads",
+        "dataset_title": "Police workforce, England and Wales",
+        "value": 10,
+        "direction": "down",
+        "since": "-1% since last week",
+        "timestamp": "2016-01-01T17:41:28+00:00"
+    }
+  },
+  {
+    "model": "stats.organisationstatistic",
+    "pk": 4,
+    "fields": {
+        "organisation_name": "department-for-environment-food-and-rural-affairs",
+        "subject_title": "Downloads",
+        "dataset_title": "Hate Crimes, England and Wales",
+        "value": 125,
+        "direction": "up",
+        "since": "+1% since last week",
+        "timestamp": "2016-01-01T17:41:28+00:00"
+    }
+  },
+  {
+    "model": "stats.organisationstatistic",
+    "pk": 5,
+    "fields": {
+        "organisation_name": "department-for-environment-food-and-rural-affairs",
+        "subject_title": "Downloads",
+        "dataset_title": "Immigration Statistics: citizenship",
+        "value": 23,
+        "direction": "up",
+        "since": "+1% since last week",
+        "timestamp": "2016-01-01T17:41:28+00:00"
+    }
+  },
+  {
+    "model": "stats.organisationstatistic",
+    "pk": 6,
+    "fields": {
+        "organisation_name": "department-for-environment-food-and-rural-affairs",
+        "subject_title": "Downloads",
+        "dataset_title": "Police workforce, England and Wales",
+        "value": 10,
+        "direction": "up",
+        "since": "+1% since last week",
+        "timestamp": "2016-01-01T17:41:28+00:00"
+    }
+  }
+
+]
+
+
+
+
+
+
