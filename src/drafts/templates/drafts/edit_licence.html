@@ -76,7 +76,7 @@
               name="licence"
               type="radio"
               value="ogl"
-              {% if dataset.licence == 'ogl' %}checked{% endif %} />
+              {% if form.licence.value == 'ogl' %}checked{% endif %} />
           <span>Open Government Licence</span>
         </label>
         <label class="block-label selection-button-radio" for="id_licence_1">
@@ -85,7 +85,7 @@
               name="licence"
               type="radio"
               value="inspire"
-              {% if dataset.licence == 'inspire' %}checked{% endif %} />
+              {% if form.licence.value == 'inspire' %}checked{% endif %} />
           <span>INSPIRE</span>
         </label>
         <label class="block-label selection-button-radio" for="id_licence_2">
@@ -94,7 +94,7 @@
               name="licence"
               type="radio"
               value="other"
-              {% if dataset.licence == 'other' %}checked{% endif %}  />
+              {% if form.licence.value == 'other' %}checked{% endif %}  />
           <span>Other:</span>
         </label>
       </fieldset>
@@ -111,7 +111,9 @@
           id="id_licence_other"
           name="licence_other"
           type="text"
-          {% if dataset.licence_other %}value="{{dataset.licence_other}}"{% endif %}
+          {% if form.licence_other.value %}
+            value="{{ form.licence_other.value }}"
+          {% endif %}
           />
     </div>
 
