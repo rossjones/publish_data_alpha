@@ -90,8 +90,10 @@ class EditLicenceView(FormView):
     def get_initial(self):
         return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
 
-    def get_context_data(self, form=None):
-        return {'dataset': self.get_initial() }
+    def get_context_data(self, **kwargs):
+        context = super(EditLicenceView, self).get_context_data(**kwargs)
+        context['dataset'] = self.get_initial()
+        return context
 
     def get_success_url(self):
         return reverse('edit_country', args=[self.object.name])
@@ -114,8 +116,10 @@ class EditCountryView(FormView):
     def get_initial(self):
         return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
 
-    def get_context_data(self, form=None):
-        return {'dataset': self.get_initial() }
+    def get_context_data(self, **kwargs):
+        context = super(EditCountryView, self).get_context_data(**kwargs)
+        context['dataset'] = self.get_initial()
+        return context
 
     def get_success_url(self):
         return reverse('edit_frequency', args=[self.object.name])
@@ -138,8 +142,10 @@ class EditFrequencyView(FormView):
     def get_initial(self):
         return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
 
-    def get_context_data(self, form=None):
-        return {'dataset': self.get_initial() }
+    def get_context_data(self, **kwargs):
+        context = super(EditFrequencyView, self).get_context_data(**kwargs)
+        context['dataset'] = self.get_initial()
+        return context
 
     def get_success_url(self):
         if self.object.frequency in ['daily', 'never']:
@@ -169,8 +175,11 @@ class AddFileView(FormView):
     def get_initial(self):
         return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
 
-    def get_context_data(self, form=None):
-        return {'dataset': self.get_initial() }
+    def get_context_data(self, **kwargs):
+        context = super(AddFileView, self).get_context_data(**kwargs)
+        context['dataset'] = self.get_initial()
+        return context
+
 
     def get_success_url(self):
         return reverse('show_files', args=[self.dataset.name])
@@ -193,8 +202,10 @@ class EditNotificationView(FormView):
     def get_initial(self):
         return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
 
-    def get_context_data(self, form=None):
-        return {'dataset': self.get_initial() }
+    def get_context_data(self, **kwargs):
+        context = super(EditNotificationView, self).get_context_data(**kwargs)
+        context['dataset'] = self.get_initial()
+        return context
 
     def get_success_url(self):
         return reverse('check_dataset', args=[self.object.name])
@@ -213,8 +224,11 @@ class FrequencyDetailView(FormView):
     def get_initial(self):
         return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
 
-    def get_context_data(self, form=None):
-        return {'dataset': self.get_initial() }
+    def get_context_data(self, **kwargs):
+        context = super(FrequencyDetailView, self).get_context_data(**kwargs)
+        context['dataset'] = self.get_initial()
+        return context
+
 
     def get_success_url(self):
         return reverse('edit_addfile', args=[self.dataset.name])
