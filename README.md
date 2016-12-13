@@ -31,6 +31,7 @@ pip install -r requirements.txt
 cd src
 export DJANGO_SETTINGS_MODULE="publish_data.settings.dev"
 ./manage.py migrate
+./manage.py loaddata tasks
 ./manage.py runserver
 ```
 
