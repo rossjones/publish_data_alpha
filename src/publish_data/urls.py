@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'manage$', views.manage_data, name='manage_data'),
     url(r'^accounts/', include('userauth.urls')),
     url(r'^dataset/',  include('drafts.urls')),
+    url(r'^task/',  include('tasks.urls')),
 ]
