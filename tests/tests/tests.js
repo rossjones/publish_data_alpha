@@ -1,4 +1,4 @@
-var waitTimeout = 1000; // mmilliseconds
+var waitTimeout = 1000; // milliseconds
 
 var extended = function(browser) {
   browser.clickOn = function(text) {
@@ -40,7 +40,7 @@ module.exports = {
     .end()
   },
 
-  'Create a dataset' : function (browser) {
+  'Create a dataset happy path' : function (browser) {
     login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
     .assert.containsText('h1', 'Dashboard')
     .clickOn('Create a dataset')
@@ -58,6 +58,32 @@ module.exports = {
     .submitForm('form')
     .waitForElementVisible('main', waitTimeout)
     .assert.containsText('h1', 'How often is this dataset updated?')
+    .end();
+  },
+
+  'Create a dataset missing title' : function (browser) {
+    login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
+    .assert.containsText('h1', 'Dashboard')
+    .clickOn('Create a dataset')
+    .assert.containsText('h1', 'Create a dataset')
+    .setValue('textarea[name=description]', 'Description of my dataset')
+    .submitForm('form')
+    .waitForElementVisible('main', 1000)
+    .assert.containsText('h1.error-summary-heading', 'There was a problem')
+    .assert.containsText('ul.error-summary-list', 'Please provide a title')
+    .end();
+  },
+
+  'Create a dataset missing description' : function (browser) {
+    login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
+    .assert.containsText('h1', 'Dashboard')
+    .clickOn('Create a dataset')
+    .assert.containsText('h1', 'Create a dataset')
+    .setValue('input[name=title]', 'Title of my dataset')
+    .submitForm('form')
+    .waitForElementVisible('main', 1000)
+    .assert.containsText('h1.error-summary-heading', 'There was a problem')
+    .assert.containsText('ul.error-summary-list', 'Please provide a description')
     .end();
   }
 };
