@@ -27,7 +27,7 @@
             <td><span class="overdue">{{ task.label_text }}</span></td>
             <td class="actions">
               <a class="update" href="#">Update</a>
-              <a href="#">Skip</a>
+              <a href="{% url 'skip_task' task.id %}">Skip</a>
             </td>
           </tr>
         {% endfor %}
@@ -53,7 +53,7 @@
             <td><span class="overdue">{{ task.label_text }}</span></td>
             <td class="actions">
               <a class="update" href="#">Update</a>
-              <a href="#">Skip</a>
+              <a href="{% url 'skip_task' task.id %}">Skip</a>
             </td>
           </tr>
         {% endfor %}
@@ -78,7 +78,7 @@
             <td><span class="overdue">{{ task.label_text }}</span></td>
             <td class="actions">
               <a class="update" href="#">Update</a>
-              <a href="#">Skip</a>
+              <a href="{% url 'skip_task' task.id %}">Skip</a>
             </td>
           </tr>
         {% endfor %}
@@ -103,7 +103,7 @@
             <td><span class="overdue">{{ task.label_text }}</span></td>
             <td class="actions">
               <a class="update" href="#">Update</a>
-              <a href="#">Skip</a>
+              <a href="{% url 'skip_task' task.id %}">Skip</a>
             </td>
           </tr>
         {% endfor %}
