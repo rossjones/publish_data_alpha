@@ -34,7 +34,8 @@ class DatasetCreate(FormView):
         dataset = Dataset.objects.create(
                 title=form.cleaned_data['title'],
                 description=form.cleaned_data['description'],
-                name=name
+                name=name,
+                creator=self.request.user
         )
         self.object = dataset
         return super(DatasetCreate, self).form_valid(form)
