@@ -3,6 +3,7 @@ from django import forms
 
 import drafts.choices as choices
 from drafts.models import Dataset
+from drafts.util import convert_to_slug
 
 class DatasetForm(forms.Form):
     title = forms.CharField(label=_('Title'), max_length=100, required=True)
@@ -12,6 +13,14 @@ class DatasetForm(forms.Form):
         widget=forms.Textarea,
         required=True
     )
+
+    def clean(self):
+        name = convert_to_slug(self.cleaned_data['title'])
+        if not name:
+            self._errors["password"] = [_("Title is not valid")]
+        self.cleaned_data["name"] = name
+        return self.cleaned_data
+
 
 
 class CountryForm(forms.Form):
