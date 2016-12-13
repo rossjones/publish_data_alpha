@@ -235,8 +235,6 @@ class FrequencyFinancialYearView(FrequencyDetailView):
 class FrequencyAnnuallyView(FrequencyDetailView):
     template_name = 'drafts/edit_frequency_year.html'
 
-
-@login_required()
 def show_files(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
@@ -244,7 +242,6 @@ def show_files(request, dataset_name):
         "dataset": dataset,
     })
 
-@login_required()
 def check_dataset(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
