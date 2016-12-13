@@ -11,7 +11,7 @@ from ckan_proxy.logic import datasets_for_user
 utc=pytz.UTC
 
 
-def dataset_list(user, page=1):
+def dataset_list(user, page=1, filter_query=None,):
     """
     For the given user returns a tuple containing total number of datasets
     both draft and published, and the 20 most recent.
@@ -20,13 +20,21 @@ def dataset_list(user, page=1):
     max_fetch = per_page * page
 
     # TODO: This should be organisation specific
-    drafts = Dataset.objects.all().order_by("-last_edit_date")[0:max_fetch]
+
+    # Find relevant datasets from the drafts database
     count = Dataset.objects.count()
+
+    drafts = Dataset.objects
+    if filter_query:
+        drafts = drafts.filter(title__icontains=filter_query)
+    drafts = drafts.all().order_by("-last_edit_date")[0:max_fetch]
+
     for d in drafts:
         d.last_edit_date = d.last_edit_date.replace(tzinfo=utc)
         d.status = _("draft")
 
-    results = datasets_for_user(user, offset=0, limit=max_fetch)
+    # Find relevant datasets from CKAN
+    results = datasets_for_user(user, search_term=filter_query or "*:*", offset=0, limit=max_fetch)
     datasets = []
     for dataset in results['results']:
         dataset['metadata_modified'] = \
