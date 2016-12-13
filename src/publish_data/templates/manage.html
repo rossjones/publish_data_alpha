@@ -12,39 +12,62 @@
 
     <div class="filtered-table">
       <div class="filter-panel">
-        <label for="name">Filter by name: </label>
-        <input class="form-control" id="name" type="text">
+
+         <form
+              method="GET"
+              action="{% url 'manage_data' %}"
+              class="form">
+
+            <fieldset>
+              <legend class="visuallyhidden">
+                Filter by name
+              </legend>
+
+              <div class="form-group">
+                <label for="name">Filter by name: </label>
+                <input class="form-control" id="q" name="q" type="text" value="{{ q }}">
+                <input class="button" type="submit" value="Filter" >
+                {% if q %}
+                  <a class="font-xsmall" href="{% url 'manage_data' %}">Reset</a>
+                {% endif %}
+              </div>
+            </fieldset>
+          </form>
       </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for dataset in datasets %}
+      {% if datasets %}
+        <table>
+          <thead>
             <tr>
-              <td>{{ dataset.title }}</td>
-              <td>{{ dataset.status }}</td>
-              <td>
-                <a href="">Add Data</a> <br/>
-                <a href="{% url 'edit_dataset_full' dataset.name %}">Edit</a> <br/>
-                <a href="">Delete</a>
-              </td>
+              <th>Name</th>
+              <th>Status</th>
+              <th>Actions</th>
             </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {% for dataset in datasets %}
+              <tr>
+                <td>{{ dataset.title }}</td>
+                <td>{{ dataset.status }}</td>
+                <td>
+                  <a href="">Add Data</a> <br/>
+                  <a href="{% url 'edit_dataset_full' dataset.name %}">Edit</a> <br/>
+                  <a href="">Delete</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p>No results found</p>
+      {% endif %}
 
       <div class="pagination">
         {% for page in page_range %}
           {% if page == current_page %}
             <span>{{ current_page }}</span>
           {% else %}
-            <span><a href="?page={{ page }}">{{ page }}</a><span>
+            <span><a href="?page={{ page }}{% if q %}&q={{ q }}{% endif %}">{{ page }}</a><span>
           {% endif %}
         {% endfor %}
       </div>

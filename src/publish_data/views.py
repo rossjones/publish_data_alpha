@@ -15,20 +15,21 @@ def dashboard(request):
 
 @login_required()
 def manage_data(request):
-    # TODO: Determine default sort order, most recent first with drafts
-    # and published interspersed? Paging the remote datasets will be a
-    # pain
+
+    q = request.GET.get('q')
+
     page = 1
     try:
         page = int(request.GET.get('page'))
     except:
         page = 1
 
-    total, page_count, datasets = dataset_list(request.user, page)
+    total, page_count, datasets = dataset_list(request.user, page, filter_query=q)
 
     return render(request, "manage.html", {
         "datasets": datasets,
         "total": total,
         "page_range": range(1, page_count),
-        "current_page": page
+        "current_page": page,
+        "q": q or ""
     })
