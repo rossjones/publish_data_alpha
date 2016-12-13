@@ -5,7 +5,6 @@ from django.urls import reverse
 
 import drafts.forms as f
 from drafts.models import Dataset, Datafile
-from drafts.util import convert_to_slug
 
 from django.views.generic.edit import FormView, UpdateView
 
@@ -29,12 +28,10 @@ class DatasetCreate(FormView):
     template_name = 'drafts/edit_title.html'
 
     def form_valid(self, form):
-        name = convert_to_slug(form.cleaned_data['title'])
-
         dataset = Dataset.objects.create(
                 title=form.cleaned_data['title'],
                 description=form.cleaned_data['description'],
-                name=name
+                name=form.cleaned_data['name']
         )
         self.object = dataset
         return super(DatasetCreate, self).form_valid(form)
