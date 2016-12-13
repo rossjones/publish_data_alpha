@@ -5,7 +5,6 @@ from django.urls import reverse
 
 import drafts.forms as f
 from drafts.models import Dataset, Datafile
-from drafts.util import convert_to_slug
 
 from django.views.generic.edit import FormView, UpdateView
 
@@ -29,13 +28,11 @@ class DatasetCreate(FormView):
     template_name = 'drafts/edit_title.html'
 
     def form_valid(self, form):
-        name = convert_to_slug(form.cleaned_data['title'])
-
         dataset = Dataset.objects.create(
                 title=form.cleaned_data['title'],
                 description=form.cleaned_data['description'],
-                name=name,
-                creator=self.request.user
+                creator=self.request.user,
+                name=form.cleaned_data['name']
         )
         self.object = dataset
         return super(DatasetCreate, self).form_valid(form)
@@ -91,8 +88,10 @@ class EditLicenceView(FormView):
     def get_initial(self):
         return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
 
-    def get_context_data(self, form=None):
-        return {'dataset': self.get_initial() }
+    def get_context_data(self, **kwargs):
+        context = super(EditLicenceView, self).get_context_data(**kwargs)
+        context['dataset'] = self.get_initial()
+        return context
 
     def get_success_url(self):
         return reverse('edit_country', args=[self.object.name])
@@ -115,8 +114,10 @@ class EditCountryView(FormView):
     def get_initial(self):
         return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
 
-    def get_context_data(self, form=None):
-        return {'dataset': self.get_initial() }
+    def get_context_data(self, **kwargs):
+        context = super(EditCountryView, self).get_context_data(**kwargs)
+        context['dataset'] = self.get_initial()
+        return context
 
     def get_success_url(self):
         return reverse('edit_frequency', args=[self.object.name])
@@ -139,8 +140,10 @@ class EditFrequencyView(FormView):
     def get_initial(self):
         return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
 
-    def get_context_data(self, form=None):
-        return {'dataset': self.get_initial() }
+    def get_context_data(self, **kwargs):
+        context = super(EditFrequencyView, self).get_context_data(**kwargs)
+        context['dataset'] = self.get_initial()
+        return context
 
     def get_success_url(self):
         if self.object.frequency in ['daily', 'never']:
@@ -170,8 +173,11 @@ class AddFileView(FormView):
     def get_initial(self):
         return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
 
-    def get_context_data(self, form=None):
-        return {'dataset': self.get_initial() }
+    def get_context_data(self, **kwargs):
+        context = super(AddFileView, self).get_context_data(**kwargs)
+        context['dataset'] = self.get_initial()
+        return context
+
 
     def get_success_url(self):
         return reverse('show_files', args=[self.dataset.name])
@@ -194,8 +200,10 @@ class EditNotificationView(FormView):
     def get_initial(self):
         return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
 
-    def get_context_data(self, form=None):
-        return {'dataset': self.get_initial() }
+    def get_context_data(self, **kwargs):
+        context = super(EditNotificationView, self).get_context_data(**kwargs)
+        context['dataset'] = self.get_initial()
+        return context
 
     def get_success_url(self):
         return reverse('check_dataset', args=[self.object.name])
@@ -214,8 +222,11 @@ class FrequencyDetailView(FormView):
     def get_initial(self):
         return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
 
-    def get_context_data(self, form=None):
-        return {'dataset': self.get_initial() }
+    def get_context_data(self, **kwargs):
+        context = super(FrequencyDetailView, self).get_context_data(**kwargs)
+        context['dataset'] = self.get_initial()
+        return context
+
 
     def get_success_url(self):
         return reverse('edit_addfile', args=[self.dataset.name])
@@ -236,8 +247,6 @@ class FrequencyFinancialYearView(FrequencyDetailView):
 class FrequencyAnnuallyView(FrequencyDetailView):
     template_name = 'drafts/edit_frequency_year.html'
 
-
-@login_required()
 def show_files(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
@@ -245,7 +254,6 @@ def show_files(request, dataset_name):
         "dataset": dataset,
     })
 
-@login_required()
 def check_dataset(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 

@@ -39,7 +39,7 @@ def convert_to_slug(title):
     while True:
         slug = slugify(t)
         if not slug:
-            raise Exception("Failed to convert {} to a slug".format(t))
+            return None
 
         draft, dataset = None, None
 

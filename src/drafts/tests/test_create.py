@@ -40,6 +40,15 @@ class DraftsTestCase(TestCase):
     def _get_dataset(self):
         return Dataset.objects.get(name=self.dataset_name)
 
+    def test_bad_slug(self):
+        response = self.client.post(reverse('new_dataset', args=[]),
+            {
+                'title': '[]',
+                'description': 'A test description'
+            })
+        assert response.status_code == 200
+
+
     def test_country(self):
         u = reverse('edit_country', args=[self.dataset_name])
         response = self.client.get(u)

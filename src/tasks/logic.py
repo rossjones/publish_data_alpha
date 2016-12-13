@@ -24,4 +24,9 @@ def get_tasks_for_user(user):
     return tasks
 
 def user_ignore_task(user, task):
+    """
+    Set the user to ignore the task. We *could* check whether they've
+    actually got permission to view the task, but if they chose to ignore
+    a task they can't actually see then it doesn't make much difference.
+    """
     UserHiddenTask.objects.create(user=user, task=task)
