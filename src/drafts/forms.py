@@ -15,10 +15,12 @@ class DatasetForm(forms.Form):
     )
 
     def clean(self):
-        name = convert_to_slug(self.cleaned_data['title'])
-        if not name:
-            self._errors["password"] = [_("Title is not valid")]
-        self.cleaned_data["name"] = name
+        if 'title' in self.cleaned_data:
+            name = convert_to_slug(self.cleaned_data['title'])
+            if not name:
+                self._errors['title'] = [_('This title is not valid')]
+
+            self.cleaned_data['name'] = name
         return self.cleaned_data
 
 
@@ -32,12 +34,18 @@ class CountryForm(forms.Form):
 
 
 class LicenceForm(forms.Form):
-    licence = forms.ChoiceField(widget=forms.RadioSelect, choices=choices.LICENCE_CHOICES)
+    licence = forms.ChoiceField(widget=forms.RadioSelect, choices=choices.LICENCE_CHOICES, required=True)
     licence_other = forms.CharField(
         label=_('Other'),
         max_length=1024,
         required=False
     )
+
+    def clean(self):
+        if 'licence' in self.cleaned_data:
+            if self.cleaned_data['licence'] == 'other' and not self.cleaned_data['licence_other']:
+                self._errors['licence_other'] = [_('Please type the name of your licence')]
+        return self.cleaned_data
 
 
 class FrequencyForm(forms.Form):
