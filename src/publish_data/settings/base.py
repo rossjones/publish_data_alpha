@@ -46,7 +46,8 @@ PROJECT_APPS = [
     'publish_data',
     'userauth',
     'drafts',
-    'tasks'
+    'tasks',
+    'stats'
 ]
 
 INSTALLED_APPS = REQUIRED_APPS + PROJECT_APPS

@@ -111,4 +111,32 @@
     </table>
   </section>
 
+  <h2 class="heading-medium">Most popular</h2>
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Downloads</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for stat in stats %}
+        <tr class="clickable-row">
+          <td>{{ stat.dataset_title }}</td>
+          <td>
+            <span class="nb-downloads">{{ stat.value }}</span>
+            <span class="text-supporting">
+              <span class="data-neutral-arrow">
+                {% if stat.direction == "up"%}&#9650;{%endif%}
+                {% if stat.direction == "down"%}&#9660;{%endif%}
+              </span>
+                {{ stat.since }}
+            </span>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 {% endblock %}
