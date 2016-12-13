@@ -29,7 +29,7 @@
 
         {% for error in form.title.errors %}
           <li>
-            <a href="#id_title_label">Please provide a title</a>
+            <a href="#id_title_label">Please provide a valid title</a>
             <span class="visuallyhidden">.</span>
           </li>
         {% endfor %}
@@ -50,7 +50,7 @@
 
   <p>You must give the dataset a title and a description.</p>
 
-  <form method="post" class="form">
+  <form method="post" class="form" action="{{ target_url }}">
     {% csrf_token %}
 
     <fieldset>
@@ -65,9 +65,9 @@
             id="id_title_label">
           Title
         </label>
-        {% if form.title.errors %}
-          <span class="error-message">{{ form.title.errors }}</span>
-        {% endif %}
+        {% for error in form.title.errors %}
+          <span class="error-message">{{ error }}</span>
+        {% endfor %}
         <span class="form-hint">
           Titles should be 65 characters or less, including spaces.<br/>
           Most search engines will shorten titles if they’re longer than
@@ -88,9 +88,9 @@
             id="id_description_label">
           Description
         </label>
-        {% if form.description.errors %}
-          <span class="error-message">{{ form.description.errors }}</span>
-        {% endif %}
+        {% for error in form.description.errors %}
+          <span class="error-message">{{ error }}</span>
+        {% endfor %}
         <span class="form-hint">
           Write a description of the dataset. Along with the title,
           the first sentence of the description will appear in search

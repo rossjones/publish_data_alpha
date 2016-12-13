@@ -7,6 +7,47 @@
 
 {% block inner_content %}
 
+  {% if form.errors %}
+    <div
+        class="error-summary"
+        role="group"
+        aria-labelledby="error-summary-heading-example-1"
+        tabindex="-1">
+      <h1
+          class="heading-medium error-summary-heading"
+          id="error-summary-heading-example-1">
+        There was a problem
+      </h1>
+
+      <ul class="error-summary-list">
+        {% for error in form.non_field_errors %}
+          <li>
+            {{ error }}
+            <span class="visuallyhidden">.</span>
+          </li>
+        {% endfor %}
+
+          {% for error in form.licence.errors %}
+          <li>
+            <a href="#licence_form_group">
+              Please select a licence for your dataset
+            </a>
+            <span class="visuallyhidden">.</span>
+          </li>
+          {% endfor %}
+
+          {% for error in form.licence_other.errors %}
+          <li>
+            <a href="#licence_other_label">
+              Please type the name of your licence
+            </a>
+            <span class="visuallyhidden">.</span>
+          </li>
+          {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
   <h1 class="heading-large">
     Choose a licence
   </h1>
@@ -20,10 +61,15 @@
 
   <form action="{% url 'edit_licence' dataset.name %}" method="POST">
     {% csrf_token %}
-    <ul class="errorlist"><li>This field is required.</li></ul>
-    <div class="form-group">
+    <div
+        class="form-group {% if form.licence.errors %}error{% endif %}"
+        id="licence_form_group">
       <fieldset>
         <legend class="visually-hidden">Choose a licence</legend>
+        {% for error in form.licence.errors %}
+          <span class="error-message">{{ error }}</span>
+        {% endfor %}
+
         <label class="block-label selection-button-radio" for="id_licence_0">
           <input
               id="id_licence_0"
@@ -53,10 +99,13 @@
         </label>
       </fieldset>
     </div>
-    <div class="form-group">
-      <label class="form-label" for="id_licence_other">
+    <div class="form-group {% if form.licence_other.errors %}error{% endif %}">
+      <label class="form-label" for="id_licence_other" id="licence_other_label">
         Name of your licence:
       </label>
+      {% for error in form.licence_other.errors %}
+        <span class="error-message">{{ error }}</span>
+      {% endfor %}
       <input
           class="form-control"
           id="id_licence_other"

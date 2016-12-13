@@ -42,7 +42,7 @@ class DatasetCreate(FormView):
 
     def get_context_data(self, **kwargs):
         context = super(DatasetCreate, self).get_context_data(**kwargs)
-        context["target_url"] = reverse('new_dataset')
+        context['target_url'] = reverse('new_dataset')
         return context
 
     def get_success_url(self):
@@ -70,7 +70,7 @@ class DatasetEditView(FormView):
     def get_context_data(self, **kwargs):
         context = super(DatasetEditView, self).get_context_data(**kwargs)
         context['dataset'] = self.get_initial()
-        context["target_url"] = reverse('edit_dataset', args=[context['dataset']['name']])
+        context['target_url'] = reverse('edit_dataset', args=[context['dataset']['name']])
         return context
 
     def get_success_url(self):
@@ -91,6 +91,7 @@ class EditLicenceView(FormView):
         self.object.save()
 
         return super(EditLicenceView, self).form_valid(form)
+
 
     def get_initial(self):
         return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()

@@ -68,9 +68,23 @@ module.exports = {
     .assert.containsText('h1', 'Create a dataset')
     .setValue('textarea[name=description]', 'Description of my dataset')
     .submitForm('form')
-    .waitForElementVisible('main', 1000)
+    .waitForElementVisible('main', waitTimeout)
     .assert.containsText('h1.error-summary-heading', 'There was a problem')
-    .assert.containsText('ul.error-summary-list', 'Please provide a title')
+    .assert.containsText('ul.error-summary-list', 'Please provide a valid title')
+    .end();
+  },
+
+  'Create a dataset, invalid title' : function (browser) {
+    login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
+    .assert.containsText('h1', 'Dashboard')
+    .clickOn('Create a dataset')
+    .assert.containsText('h1', 'Create a dataset')
+    .setValue('input[name=title]', '][;')
+    .setValue('textarea[name=description]', 'Description of my dataset')
+    .submitForm('form')
+    .waitForElementVisible('main', waitTimeout)
+    .assert.containsText('h1.error-summary-heading', 'There was a problem')
+    .assert.containsText('ul.error-summary-list', 'Please provide a valid title')
     .end();
   },
 
@@ -81,9 +95,46 @@ module.exports = {
     .assert.containsText('h1', 'Create a dataset')
     .setValue('input[name=title]', 'Title of my dataset')
     .submitForm('form')
-    .waitForElementVisible('main', 1000)
+    .waitForElementVisible('main', waitTimeout)
     .assert.containsText('h1.error-summary-heading', 'There was a problem')
     .assert.containsText('ul.error-summary-list', 'Please provide a description')
+    .end();
+  },
+
+  'Create a dataset, omit the licence' : function (browser) {
+    login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
+    .clickOn('Create a dataset')
+    .waitForElementVisible('main', waitTimeout)
+    .setValue('input[name=title]', 'Title of my dataset')
+    .setValue('textarea[name=description]', 'Description of my dataset')
+    .submitForm('form')
+    .waitForElementVisible('main', waitTimeout)
+    .submitForm('form')
+    .waitForElementVisible('main', waitTimeout)
+    .assert.containsText('h1.error-summary-heading', 'There was a problem')
+    .assert.containsText(
+      'ul.error-summary-list',
+      'Please select a licence for your dataset'
+    )
+    .end();
+  },
+
+  'Create a dataset, other licence, leave input empty' : function (browser) {
+    login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
+    .clickOn('Create a dataset')
+    .waitForElementVisible('main', waitTimeout)
+    .setValue('input[name=title]', 'Title of my dataset')
+    .setValue('textarea[name=description]', 'Description of my dataset')
+    .submitForm('form')
+    .waitForElementVisible('main', waitTimeout)
+    .clickOn('Other:')
+    .submitForm('form')
+    .waitForElementVisible('main', waitTimeout)
+    .assert.containsText('h1.error-summary-heading', 'There was a problem')
+    .assert.containsText(
+      'ul.error-summary-list',
+      'Please type the name of your licence'
+    )
     .end();
   }
 };
