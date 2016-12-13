@@ -4,14 +4,18 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 from publish_data.logic import dataset_list
+from tasks.logic import get_tasks_for_user, user_ignore_task
 
 def home(request):
     if request.user.is_authenticated():
         return dashboard(request)
     return render(request, "home.html", {})
 
+@login_required()
 def dashboard(request):
-    return render(request, "dashboard.html", {})
+    tasks = get_tasks_for_user(request.user)
+
+    return render(request, "dashboard.html", {"tasks": tasks})
 
 @login_required()
 def manage_data(request):

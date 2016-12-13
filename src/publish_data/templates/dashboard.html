@@ -7,4 +7,108 @@
 
 {% block inner_content %}
   <h1 class="heading-large">Dashboard</h1>
+
+
+
+  <section class="dashboard">
+    <div class="table-title">
+      <h2 class="heading-medium">
+        <span class="bignum">{{tasks.update|length}}</span> Update datasets
+      </h2>
+      <div><a href="#" class="font-xsmall">Show all</a></div>
+    </div>
+    <table class="todos">
+      <tbody>
+        {% for task in tasks.update %}
+          <tr>
+            <td>
+              {{ task.description }}
+            </td>
+            <td><span class="overdue">{{ task.label_text }}</span></td>
+            <td class="actions">
+              <a class="update" href="#">Update</a>
+              <a href="#">Skip</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+
+<section class="dashboard">
+    <div class="table-title">
+      <h2 class="heading-medium">
+        <span class="bignum">{{tasks.fix|length}}</span> Fix datasets
+      </h2>
+      <div><a href="#" class="font-xsmall">Show all</a></div>
+    </div>
+    <table class="todos">
+      <tbody>
+        {% for task in tasks.fix %}
+          <tr>
+            <td>
+              {{ task.description }}
+            </td>
+            <td><span class="overdue">{{ task.label_text }}</span></td>
+            <td class="actions">
+              <a class="update" href="#">Update</a>
+              <a href="#">Skip</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="dashboard">
+    <div class="table-title">
+      <h2 class="heading-medium">
+        <span class="bignum">{{tasks.improve|length}}</span> Improve datasets
+      </h2>
+      <div><a href="#" class="font-xsmall">Show all</a></div>
+    </div>
+    <table class="todos">
+      <tbody>
+        {% for task in tasks.improve %}
+          <tr>
+            <td>
+              {{ task.description }}
+            </td>
+            <td><span class="overdue">{{ task.label_text }}</span></td>
+            <td class="actions">
+              <a class="update" href="#">Update</a>
+              <a href="#">Skip</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="dashboard">
+    <div class="table-title">
+      <h2 class="heading-medium">
+        <span class="bignum">{{tasks.accounts|length}}</span> Manage accounts
+      </h2>
+      <div><a href="#" class="font-xsmall">Show all</a></div>
+    </div>
+    <table class="todos">
+      <tbody>
+        {% for task in tasks.accounts %}
+          <tr>
+            <td>
+              {{ task.description }}
+            </td>
+            <td><span class="overdue">{{ task.label_text }}</span></td>
+            <td class="actions">
+              <a class="update" href="#">Update</a>
+              <a href="#">Skip</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
 {% endblock %}
