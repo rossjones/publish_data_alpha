@@ -23,10 +23,13 @@ class Dataset(models.Model):
 
     def as_dict(self):
         current = model_to_dict(self)
-        current['themes'] = ast.literal_eval(current.get('themes', '[]'))
-        current['countries'] = ast.literal_eval(current.get('countries', '[]'))
+        if not isinstance(current.get('countries'), list):
+            current['countries'] = ast.literal_eval(current.get('countries', '[]'))
         return current
 
+    def countries_as_list(self):
+        current = model_to_dict(self)
+        return ast.literal_eval(current.get('countries', '[]'))
 
 class Datafile(models.Model):
     title = models.CharField(max_length=128)

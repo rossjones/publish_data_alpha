@@ -2,7 +2,7 @@ from django.utils.translation import ugettext as _
 from django import forms
 
 import drafts.choices as choices
-from drafts.models import Dataset
+from drafts.models import Dataset, Datafile
 from drafts.util import convert_to_slug
 
 class DatasetForm(forms.Form):
@@ -19,27 +19,14 @@ class DatasetForm(forms.Form):
             name = convert_to_slug(self.cleaned_data['title'])
             if not name:
                 self._errors['title'] = [_('This title is not valid')]
-
             self.cleaned_data['name'] = name
         return self.cleaned_data
 
+class LicenceForm(forms.ModelForm):
 
-
-class CountryForm(forms.Form):
-    countries = forms.MultipleChoiceField(
-        required=False,
-        widget=forms.CheckboxSelectMultiple,
-        choices=choices.COUNTRY_CHOICES,
-    )
-
-
-class LicenceForm(forms.Form):
-    licence = forms.ChoiceField(widget=forms.RadioSelect, choices=choices.LICENCE_CHOICES, required=True)
-    licence_other = forms.CharField(
-        label=_('Other'),
-        max_length=1024,
-        required=False
-    )
+    class Meta:
+        model = Dataset
+        fields = ['licence', 'licence_other']
 
     def clean(self):
         if 'licence' in self.cleaned_data:
@@ -48,19 +35,73 @@ class LicenceForm(forms.Form):
         return self.cleaned_data
 
 
-class FrequencyForm(forms.Form):
-    frequency = forms.ChoiceField(widget=forms.RadioSelect, choices=choices.FREQUENCY_CHOICES)
+
+class CountryForm(forms.ModelForm):
+
+    countries = forms.MultipleChoiceField(
+        required=False,
+        widget=forms.CheckboxSelectMultiple,
+        choices=choices.COUNTRY_CHOICES,
+    )
+
+    class Meta:
+        model = Dataset
+        fields = ['countries']
 
 
-class AddFileForm(forms.Form):
-    title = forms.CharField(label=_('Title'), max_length=100, required=True)
-    url = forms.URLField(label=_('URL'), max_length=100, required=True)
+class FrequencyForm(forms.ModelForm):
+
+    frequency = forms.CharField(required=True)
+
+    class Meta:
+        model = Dataset
+        fields = ['frequency']
 
 
-class NotificationsForm(forms.Form):
-    notifications = forms.ChoiceField(
-        widget=forms.RadioSelect,
-        choices=(('yes', 'Yes'),('no', 'No')))
+class FrequencyWeeklyForm(forms.ModelForm):
+    class Meta:
+        model = Dataset
+        fields = []
+
+
+class FrequencyMonthlyForm(forms.ModelForm):
+    class Meta:
+        model = Dataset
+        fields = []
+
+
+class FrequencyQuarterlyForm(forms.ModelForm):
+    class Meta:
+        model = Dataset
+        fields = []
+
+class FrequencyAnnuallyForm(forms.ModelForm):
+    class Meta:
+        model = Dataset
+        fields = []
+
+
+class AddFileForm(forms.ModelForm):
+    class Meta:
+        model = Datafile
+        fields = ['title', 'url']
+
+class StubForm(forms.ModelForm):
+    """ This is a do-nothing form for handling a page
+        that has no form """
+    class Meta:
+        model = Dataset
+        fields = []
+
+
+class NotificationsForm(forms.ModelForm):
+
+    notifications = forms.CharField(required=True)
+
+    class Meta:
+        model = Dataset
+        fields = ['notifications']
+
 
 class DateForm(forms.Form):
     start_date = forms.CharField(required=False)

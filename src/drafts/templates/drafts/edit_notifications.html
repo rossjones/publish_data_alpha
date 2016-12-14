@@ -11,7 +11,8 @@ Get notifications
     Get notifications
   </h1>
 
-  <form action="{% url 'edit_notifications' dataset.name %}" method="POST">
+  <form action="{% url 'edit_dataset_step' dataset.name 'notifications' %}" method="POST">
+    {{ wizard.management_form }}
     {% csrf_token %}
 
     <ul class="errorlist"><li>This field is required.</li></ul>
@@ -30,7 +31,7 @@ Get notifications
             for="id_notifications_0">
           <input
               id="id_notifications_0"
-              name="notifications"
+              name="{{ wizard.form.notifications.html_name }}"
               type="radio"
               value="yes"
               required="">
@@ -42,7 +43,7 @@ Get notifications
             for="id_notifications_1">
           <input
               id="id_notifications_1"
-              name="notifications"
+              name="{{ wizard.form.notifications.html_name }}"
               type="radio"
               value="no"
               required="">

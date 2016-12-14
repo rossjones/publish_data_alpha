@@ -13,8 +13,9 @@
 
   <form
       method="post"
-      action="{% url 'edit_frequency_quarterly' dataset.name %}"
+      action="{% url 'edit_dataset_step' dataset.name 'frequency_quarterly' %}"
       class="form">
+    {{ wizard.management_form }}
     {% csrf_token %}
 
     <fieldset>

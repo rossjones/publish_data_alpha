@@ -11,7 +11,8 @@
     Add a link
   </h1>
 
-  <form action="{% url 'edit_addfile' dataset.name %}" method="POST">
+  <form action="{% url 'edit_dataset_step' dataset.name 'add_file' %}" method="POST">
+    {{ wizard.management_form }}
     {% csrf_token %}
 
     <ul class="errorlist"><li>This field is required.</li></ul>
@@ -34,7 +35,7 @@
         <input
             class="form-control form-control-2-3"
             id="id_url"
-            name="url"
+            name="{{ wizard.form.url.html_name }}"
             type="url"
             required=""
             value=""/>
@@ -51,7 +52,7 @@
         <input
             class="form-control form-control-2-3"
             id="id_title"
-            name="title"
+            name="{{ wizard.form.title.html_name }}"
             type="text"
             required=""
             value=""/>

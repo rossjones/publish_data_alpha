@@ -16,7 +16,8 @@
     of the following.
   </p>
 
-  <form action="{% url 'edit_country' dataset.name %}" method="POST">
+  <form action="{% url 'edit_dataset_step' dataset.name 'country' %}" method="POST">
+    {{ wizard.management_form }}
     {% csrf_token %}
     <ul class="errorlist"><li>This field is required.</li></ul>
 
@@ -26,46 +27,46 @@
         <label class="block-label form-checkbox" for="id_countries_0">
           <input
               id="id_countries_0"
-              name="countries"
+              name="{{ wizard.form.countries.html_name }}"
               type="checkbox"
               value="england"
-              {% if 'england' in dataset.countries %}checked{% endif %} />
+              {% if 'england' in wizard.form.countries.value %}checked{% endif %} />
           <span>England</span>
         </label>
         <label class="block-label form-checkbox" for="id_countries_1">
           <input
               id="id_countries_1"
-              name="countries"
+              name="{{ wizard.form.countries.html_name }}"
               type="checkbox"
               value="wales"
-              {% if 'wales' in dataset.countries %}checked{% endif %} />
+              {% if 'wales' in wizard.form.countries.value %}checked{% endif %} />
           <span>Wales</span>
         </label>
         <label class="block-label form-checkbox" for="id_countries_2">
           <input
               id="id_countries_2"
-              name="countries"
+              name="{{ wizard.form.countries.html_name }}"
               type="checkbox"
               value="scotland"
-              {% if 'scotland' in dataset.countries %}checked{% endif %} />
+              {% if 'scotland' in wizard.form.countries.value %}checked{% endif %} />
           <span>Scotland</span>
         </label>
         <label class="block-label form-checkbox" for="id_countries_3">
           <input
               id="id_countries_3"
-              name="countries"
+              name="{{ wizard.form.countries.html_name }}"
               type="checkbox"
               value="northern-ireland"
-              {% if 'northern-ireland' in dataset.countries %}checked{% endif %}  />
+              {% if 'northern-ireland' in wizard.form.countries.value %}checked{% endif %}  />
           <span>Northern Ireland</span>
         </label>
         <label class="block-label form-checkbox" for="id_countries_4">
           <input
               id="id_countries_4"
-              name="countries"
+              name="{{ wizard.form.countries.html_name }}"
               type="checkbox"
               value="overseas"
-              {% if 'overseas' in dataset.countries %}checked{% endif %}  />
+              {% if 'overseas' in wizard.form.countries.value %}checked{% endif %}  />
           <span>Overseas</span>
         </label>
       </fieldset>

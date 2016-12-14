@@ -1,26 +1,49 @@
+from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from django.utils.text import slugify
 from django.urls import reverse
 
 import drafts.forms as f
 from drafts.models import Dataset, Datafile
+from django.views.generic.edit import FormView
+from formtools.wizard.views import NamedUrlSessionWizardView
 
-from django.views.generic.edit import FormView, UpdateView
+FORMS = (
+    ('licence', f.LicenceForm),
+    ('country', f.CountryForm),
+    ('frequency', f.FrequencyForm),
+
+    # These are used conditionally
+    ('frequency_weekly', f.FrequencyWeeklyForm),
+    ('frequency_monthly', f.FrequencyMonthlyForm),
+    ('frequency_quarterly', f.FrequencyQuarterlyForm),
+    ('frequency_annually', f.FrequencyAnnuallyForm),
+
+    ('add_file', f.AddFileForm),
+    ('files', f.StubForm),
+    ('notifications', f.NotificationsForm),
+    ('check_dataset', f.StubForm),
+)
+
+TEMPLATES = {
+    'licence': 'drafts/edit_licence.html',
+    'country': 'drafts/edit_country.html',
+    'frequency': 'drafts/edit_frequency.html',
+    'frequency_weekly': 'drafts/edit_frequency_week.html',
+    'frequency_monthly': 'drafts/edit_frequency_month.html',
+    'frequency_quarterly': 'drafts/edit_frequency_quarter.html',
+    'frequency_annually': 'drafts/edit_frequency_year.html',
+    'add_file': 'drafts/edit_addfile.html',
+    'files': 'drafts/show_files.html',
+    'notifications': 'drafts/edit_notifications.html',
+    'check_dataset': 'drafts/check_dataset.html'
+}
 
 
-class DatasetFullEditView(FormView):
+class DatasetEdit(FormView):
     model = Dataset
     form_class = f.DatasetForm
-    template_name = 'drafts/edit_full.html'
-    success_url = '/manage'
-
-    def get_initial(self):
-        return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
-
-    def get_context_data(self, form=None):
-        return {'dataset': self.get_initial() }
-
+    template_name = 'drafts/edit_title.html'
 
 class DatasetCreate(FormView):
     model = Dataset
@@ -46,225 +69,77 @@ class DatasetCreate(FormView):
         return context
 
     def get_success_url(self):
-        return reverse('edit_licence', args=[self.object.name])
+        return reverse('edit_dataset_step', kwargs={
+            'dataset_name': self.object.name,
+            'step': 'licence'
+        })
 
+class DatasetWizard(NamedUrlSessionWizardView):
 
-class DatasetEditView(FormView):
-    model = Dataset
-    form_class = f.DatasetForm
-    template_name = 'drafts/edit_title.html'
-    slug_url_kwarg = 'dataset_name'
-    slug_field = 'name'
+    instance = None
 
-    def form_valid(self, form):
-        self.object = get_object_or_404(Dataset, name=self.get_initial()['name'])
-        self.object.title = form.cleaned_data['title']
-        self.object.description = form.cleaned_data['description']
-        self.object.save()
+    def dispatch(self, request, *args, **kwargs):
+        if 'dataset_name' in kwargs:
+            self.instance = get_object_or_404(Dataset, name=kwargs['dataset_name'])
 
-        return super(DatasetEditView, self).form_valid(form)
+        return super(DatasetWizard, self).dispatch(request, *args, **kwargs)
 
-    def get_initial(self):
-        return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
+    def get_step_url(self, step):
+        if step == "0":
+            return reverse("new_dataset")
 
-    def get_context_data(self, **kwargs):
-        context = super(DatasetEditView, self).get_context_data(**kwargs)
-        context['dataset'] = self.get_initial()
-        context['target_url'] = reverse('edit_dataset', args=[context['dataset']['name']])
+        return reverse(self.url_name, kwargs={
+            'step': step,
+            'dataset_name': self.instance.name
+        })
+
+    def get_template_names(self):
+        return [TEMPLATES[self.steps.current]]
+
+    def get_context_data(self, form, **kwargs):
+        context = super(DatasetWizard, self).get_context_data(form=form, **kwargs)
+        if self.instance:
+            context['dataset'] = self.instance
         return context
 
-    def get_success_url(self):
-        return reverse('edit_licence', args=[self.object.name])
+    def get_form_initial(self, step):
+        initial = self.initial_dict.get(step, {})
+        if self.instance:
+            initial.update(self.instance.as_dict())
+        return initial
+
+    def get_form_kwargs(self, step):
+        if step == 'add_file':
+            return {'instance': Datafile()}
+        return {'instance': self.instance}
+
+    def process_step(self, form):
+        if self.steps.current == 'add_file':
+            model = form.save(commit=False)
+            model.dataset = self.instance
+            model.save()
+        else:
+            form.save()
+
+        return self.get_form_step_data(form)
+
+    def done(self, form_list, **kwargs):
+        return HttpResponseRedirect('/manage?newset=1')
 
 
-class EditLicenceView(FormView):
-    model = Dataset
-    form_class = f.LicenceForm
-    template_name = 'drafts/edit_licence.html'
-    slug_url_kwarg = 'dataset_name'
-    slug_field = 'name'
+# Conditional processing of sub-forms for detail of frequency
+def should_show_frequency_detail(wiz, expected):
+    cleaned_data = wiz.get_cleaned_data_for_step('frequency') or {}
+    return cleaned_data.get('frequency', '') == expected
 
-    def form_valid(self, form):
-        self.object = get_object_or_404(Dataset, name=self.get_initial()['name'])
-        self.object.licence = form.cleaned_data['licence']
-        self.object.licence_other = form.cleaned_data['licence_other']
-        self.object.save()
+def show_weekly_frequency(wizard):
+    return should_show_frequency_detail(wizard, 'weekly')
 
-        return super(EditLicenceView, self).form_valid(form)
+def show_monthly_frequency(wizard):
+    return should_show_frequency_detail(wizard, 'monthly')
 
+def show_quarterly_frequency(wizard):
+    return should_show_frequency_detail(wizard, 'quarterly')
 
-    def get_initial(self):
-        return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
-
-    def get_context_data(self, **kwargs):
-        context = super(EditLicenceView, self).get_context_data(**kwargs)
-        context['dataset'] = self.get_initial()
-        return context
-
-    def get_success_url(self):
-        return reverse('edit_country', args=[self.object.name])
-
-
-class EditCountryView(FormView):
-    model = Dataset
-    form_class = f.CountryForm
-    template_name = 'drafts/edit_country.html'
-    slug_url_kwarg = 'dataset_name'
-    slug_field = 'name'
-
-    def form_valid(self, form):
-        self.object = get_object_or_404(Dataset, name=self.get_initial()['name'])
-        self.object.countries = form.cleaned_data['countries']
-        self.object.save()
-
-        return super(EditCountryView, self).form_valid(form)
-
-    def get_initial(self):
-        return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
-
-    def get_context_data(self, **kwargs):
-        context = super(EditCountryView, self).get_context_data(**kwargs)
-        context['dataset'] = self.get_initial()
-        return context
-
-    def get_success_url(self):
-        return reverse('edit_frequency', args=[self.object.name])
-
-
-class EditFrequencyView(FormView):
-    model = Dataset
-    form_class = f.FrequencyForm
-    template_name = 'drafts/edit_frequency.html'
-    slug_url_kwarg = 'dataset_name'
-    slug_field = 'name'
-
-    def form_valid(self, form):
-        self.object = get_object_or_404(Dataset, name=self.get_initial()['name'])
-        self.object.frequency = form.cleaned_data['frequency']
-        self.object.save()
-
-        return super(EditFrequencyView, self).form_valid(form)
-
-    def get_initial(self):
-        return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
-
-    def get_context_data(self, **kwargs):
-        context = super(EditFrequencyView, self).get_context_data(**kwargs)
-        context['dataset'] = self.get_initial()
-        return context
-
-    def get_success_url(self):
-        if self.object.frequency in ['daily', 'never']:
-            return reverse('edit_addfile', args=[self.object.name])
-
-        return reverse('edit_frequency_{}'.format(self.object.frequency), args=[self.object.name])
-
-
-class AddFileView(FormView):
-    model = Datafile
-    form_class = f.AddFileForm
-    template_name = 'drafts/edit_addfile.html'
-    slug_url_kwarg = 'dataset_name'
-    slug_field = 'name'
-
-    def form_valid(self, form):
-        self.dataset = get_object_or_404(Dataset, name=self.get_initial()['name'])
-
-        self.datafile = Datafile.objects.create(
-            title=form.cleaned_data['title'],
-            url=form.cleaned_data['url'],
-            dataset=self.dataset
-        )
-
-        return super(AddFileView, self).form_valid(form)
-
-    def get_initial(self):
-        return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
-
-    def get_context_data(self, **kwargs):
-        context = super(AddFileView, self).get_context_data(**kwargs)
-        context['dataset'] = self.get_initial()
-        return context
-
-
-    def get_success_url(self):
-        return reverse('show_files', args=[self.dataset.name])
-
-
-class EditNotificationView(FormView):
-    model = Dataset
-    form_class = f.NotificationsForm
-    template_name = 'drafts/edit_notifications.html'
-    slug_url_kwarg = 'dataset_name'
-    slug_field = 'name'
-
-    def form_valid(self, form):
-        self.object = get_object_or_404(Dataset, name=self.get_initial()['name'])
-        self.object.notifications = form.cleaned_data['notifications']
-        self.object.save()
-
-        return super(EditNotificationView, self).form_valid(form)
-
-    def get_initial(self):
-        return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
-
-    def get_context_data(self, **kwargs):
-        context = super(EditNotificationView, self).get_context_data(**kwargs)
-        context['dataset'] = self.get_initial()
-        return context
-
-    def get_success_url(self):
-        return reverse('check_dataset', args=[self.object.name])
-
-class FrequencyDetailView(FormView):
-    model = Dataset
-    form_class = f.DateForm
-    slug_url_kwarg = 'dataset_name'
-    slug_field = 'name'
-
-    def form_valid(self, form):
-        self.dataset = get_object_or_404(Dataset, name=self.get_initial()['name'])
-
-        return super(FrequencyDetailView, self).form_valid(form)
-
-    def get_initial(self):
-        return get_object_or_404(Dataset, name=self.kwargs['dataset_name']).as_dict()
-
-    def get_context_data(self, **kwargs):
-        context = super(FrequencyDetailView, self).get_context_data(**kwargs)
-        context['dataset'] = self.get_initial()
-        return context
-
-
-    def get_success_url(self):
-        return reverse('edit_addfile', args=[self.dataset.name])
-
-
-class FrequencyWeeklyView(FrequencyDetailView):
-    template_name = 'drafts/edit_frequency_week.html'
-
-class FrequencyMonthlyView(FrequencyDetailView):
-    template_name = 'drafts/edit_frequency_month.html'
-
-class FrequencyQuarterlyView(FrequencyDetailView):
-    template_name = 'drafts/edit_frequency_quarter.html'
-
-class FrequencyFinancialYearView(FrequencyDetailView):
-    template_name = 'drafts/edit_frequency_year.html'
-
-class FrequencyAnnuallyView(FrequencyDetailView):
-    template_name = 'drafts/edit_frequency_year.html'
-
-def show_files(request, dataset_name):
-    dataset = get_object_or_404(Dataset, name=dataset_name)
-
-    return render(request, "drafts/show_files.html", {
-        "dataset": dataset,
-    })
-
-def check_dataset(request, dataset_name):
-    dataset = get_object_or_404(Dataset, name=dataset_name)
-
-    return render(request, "drafts/check_dataset.html", {
-        "dataset": dataset.as_dict(),
-    })
+def show_annually_frequency(wizard):
+    return should_show_frequency_detail(wizard, 'annually')
