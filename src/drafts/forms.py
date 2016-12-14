@@ -39,7 +39,7 @@ class LicenceForm(forms.ModelForm):
 class CountryForm(forms.ModelForm):
 
     countries = forms.MultipleChoiceField(
-        required=False,
+        required=True,
         widget=forms.CheckboxSelectMultiple,
         choices=choices.COUNTRY_CHOICES,
     )
