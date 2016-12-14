@@ -1580,3 +1580,49 @@ input[type=number] {
 nav ul {
   list-style-type: none;
   margin-bottom: 1em; }
+
+.dashboard a:visited {
+  color: #005ea5; }
+
+.dashboard .bignum {
+  font-size: 200%;
+  padding-right: .5em; }
+
+.dashboard .table-title > h2 {
+  display: table-cell;
+  width: 100%;
+  vertical-align: baseline; }
+
+.dashboard .table-title > div {
+  display: table-cell;
+  min-width: 10em;
+  vertical-align: baseline;
+  text-align: right; }
+
+.dashboard .actions {
+  text-align: right;
+  padding-right: 0; }
+  .dashboard .actions a {
+    padding-left: .2em;
+    padding-right: .2em; }
+
+.dashboard .overdue {
+  color: #b10e1e;
+  border-left: 4px solid #b10e1e;
+  padding-left: 4px; }
+
+.dashboard .passed {
+  color: #6f777b; }
+
+.dashboard h2 {
+  margin-bottom: 0; }
+
+.dashboard table {
+  margin-bottom: 2em; }
+  .dashboard table.todos {
+    border-top: 1px solid #bfc1c3; }
+  .dashboard table td .nb-downloads {
+    display: inline-block;
+    min-width: 3em; }
+  .dashboard table td .text-supporting {
+    color: #6f777b; }

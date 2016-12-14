@@ -6,137 +6,133 @@
 {% endblock %}
 
 {% block inner_content %}
-  <h1 class="heading-large">Dashboard</h1>
+  <div class="dashboard">
+    <h1 class="heading-medium">Dashboard</h1>
+
+    <section>
+      <div class="table-title">
+        <h2 class="heading-medium">
+          <span class="bignum">{{tasks.update|length}}</span> Update datasets
+        </h2>
+      </div>
+      <table class="todos">
+        <tbody>
+          {% for task in tasks.update %}
+            <tr>
+              <td>
+                {{ task.description }}
+              </td>
+              <td><div class="overdue">{{ task.label_text }}</div></td>
+              <td class="actions">
+                <a href="#">Update</a>
+                <a href="{% url 'skip_task' task.id %}">Skip</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <div class="table-title">
+        <h2 class="heading-medium">
+          <span class="bignum">{{tasks.fix|length}}</span> Fix datasets
+        </h2>
+      </div>
+      <table class="todos">
+        <tbody>
+          {% for task in tasks.fix %}
+            <tr>
+              <td>
+                {{ task.description }}
+              </td>
+              <td><div class="overdue">{{ task.label_text }}</div></td>
+              <td class="actions">
+                <a class="update" href="#">Update</a>
+                <a href="{% url 'skip_task' task.id %}">Skip</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <div class="table-title">
+        <h2 class="heading-medium">
+          <span class="bignum">{{tasks.improve|length}}</span> Improve datasets
+        </h2>
+      </div>
+      <table class="todos">
+        <tbody>
+          {% for task in tasks.improve %}
+            <tr>
+              <td>
+                {{ task.description }}
+              </td>
+              <td><div class="overdue">{{ task.label_text }}</div></td>
+              <td class="actions">
+                <a class="update" href="#">Update</a>
+                <a href="{% url 'skip_task' task.id %}">Skip</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <div class="table-title">
+        <h2 class="heading-medium">
+          <span class="bignum">{{tasks.accounts|length}}</span> Manage accounts
+        </h2>
+      </div>
+      <table class="todos">
+        <tbody>
+          {% for task in tasks.accounts %}
+            <tr>
+              <td>
+                {{ task.description }}
+              </td>
+              <td><div class="overdue">{{ task.label_text }}</div></td>
+              <td class="actions">
+                <a class="update" href="#">Update</a>
+                <a href="{% url 'skip_task' task.id %}">Skip</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
 
 
-
-  <section class="dashboard">
-    <div class="table-title">
-      <h2 class="heading-medium">
-        <span class="bignum">{{tasks.update|length}}</span> Update datasets
-      </h2>
-      <div><a href="#" class="font-xsmall">Show all</a></div>
-    </div>
-    <table class="todos">
-      <tbody>
-        {% for task in tasks.update %}
+    <h2 class="heading-medium">Most popular</h2>
+    <div>
+      <table>
+        <thead>
           <tr>
-            <td>
-              {{ task.description }}
-            </td>
-            <td><span class="overdue">{{ task.label_text }}</span></td>
-            <td class="actions">
-              <a class="update" href="#">Update</a>
-              <a href="{% url 'skip_task' task.id %}">Skip</a>
-            </td>
+            <th scope="col">Name</th>
+            <th scope="col">Downloads</th>
           </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </section>
-
-
-<section class="dashboard">
-    <div class="table-title">
-      <h2 class="heading-medium">
-        <span class="bignum">{{tasks.fix|length}}</span> Fix datasets
-      </h2>
-      <div><a href="#" class="font-xsmall">Show all</a></div>
+        </thead>
+        <tbody>
+          {% for stat in stats %}
+            <tr class="clickable-row">
+              <td>{{ stat.dataset_title}}</td>
+              <td>
+                <span class="nb-downloads">{{ stat.value }}</span>
+                <div class="text-supporting">
+                  <span class="data-neutral-arrow">
+                    {% if stat.direction == "up"%}&#9650;{%endif%}
+                    {% if stat.direction == "down"%}&#9660;{%endif%}
+                  </span>
+                  {{ stat.since }}
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
-    <table class="todos">
-      <tbody>
-        {% for task in tasks.fix %}
-          <tr>
-            <td>
-              {{ task.description }}
-            </td>
-            <td><span class="overdue">{{ task.label_text }}</span></td>
-            <td class="actions">
-              <a class="update" href="#">Update</a>
-              <a href="{% url 'skip_task' task.id %}">Skip</a>
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </section>
-
-  <section class="dashboard">
-    <div class="table-title">
-      <h2 class="heading-medium">
-        <span class="bignum">{{tasks.improve|length}}</span> Improve datasets
-      </h2>
-      <div><a href="#" class="font-xsmall">Show all</a></div>
-    </div>
-    <table class="todos">
-      <tbody>
-        {% for task in tasks.improve %}
-          <tr>
-            <td>
-              {{ task.description }}
-            </td>
-            <td><span class="overdue">{{ task.label_text }}</span></td>
-            <td class="actions">
-              <a class="update" href="#">Update</a>
-              <a href="{% url 'skip_task' task.id %}">Skip</a>
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </section>
-
-  <section class="dashboard">
-    <div class="table-title">
-      <h2 class="heading-medium">
-        <span class="bignum">{{tasks.accounts|length}}</span> Manage accounts
-      </h2>
-      <div><a href="#" class="font-xsmall">Show all</a></div>
-    </div>
-    <table class="todos">
-      <tbody>
-        {% for task in tasks.accounts %}
-          <tr>
-            <td>
-              {{ task.description }}
-            </td>
-            <td><span class="overdue">{{ task.label_text }}</span></td>
-            <td class="actions">
-              <a class="update" href="#">Update</a>
-              <a href="{% url 'skip_task' task.id %}">Skip</a>
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </section>
-
-  <h2 class="heading-medium">Most popular</h2>
-  <div>
-    <table>
-      <thead>
-        <tr>
-          <th scope="col">Name</th>
-          <th scope="col">Downloads</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for stat in stats %}
-        <tr class="clickable-row">
-          <td>{{ stat.dataset_title }}</td>
-          <td>
-            <span class="nb-downloads">{{ stat.value }}</span>
-            <span class="text-supporting">
-              <span class="data-neutral-arrow">
-                {% if stat.direction == "up"%}&#9650;{%endif%}
-                {% if stat.direction == "down"%}&#9660;{%endif%}
-              </span>
-                {{ stat.since }}
-            </span>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
   </div>
 {% endblock %}

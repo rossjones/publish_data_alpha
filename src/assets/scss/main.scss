@@ -1,7 +1,70 @@
 $path: "/static/images/";
 @import 'govuk-elements';
 
+// navigation bar
+
 nav ul {
   list-style-type: none;
   margin-bottom: 1em;
+}
+
+// dashboard
+
+.dashboard {
+  a:visited {
+    color: $link-colour;
+  }
+  .bignum {
+    font-size: 200%;
+    padding-right: .5em;
+  }
+  .table-title {
+    > h2 {
+      display: table-cell;
+      width: 100%;
+      vertical-align: baseline;
+    }
+    > div {
+      display: table-cell;
+      min-width: 10em;
+      vertical-align: baseline;
+      text-align: right;
+    }
+  }
+  .actions {
+    text-align: right;
+    padding-right: 0;
+    a {
+      padding-left: .2em;
+      padding-right: .2em;
+    }
+  }
+  .overdue {
+    color: $error-colour;
+    border-left: 4px solid $error-colour;
+    padding-left: 4px;
+  }
+  .passed {
+    color: $grey-1;
+  }
+  h2 {
+    margin-bottom: 0;
+  }
+  table {
+    margin-bottom: 2em;
+    &.todos {
+      border-top: 1px solid $grey-2;
+    }
+    td {
+      .nb-downloads {
+        display: inline-block;
+        min-width: 3em;
+      }
+    }
+    td {
+      .text-supporting {
+        color: $grey-1;
+      }
+    }
+  }
 }
