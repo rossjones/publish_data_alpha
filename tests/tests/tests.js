@@ -136,5 +136,19 @@ module.exports = {
       'Please type the name of your licence'
     )
     .end();
+  },
+
+  'Dashboard' : function (browser) {
+    login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
+    .waitForElementVisible('main', waitTimeout)
+    .assert.containsText('h1', 'Dashboard')
+    .assert.containsText(
+      'td',
+      'Update \'Anti-social behaviour order statistics, England and Wales\''
+    )
+    .assert.containsText('div.overdue', 'Overdue')
+    .end()
   }
+
+
 };
