@@ -40,9 +40,17 @@
       </tr>
       <tr>
         <td>
-          Files
+          Links
         </td>
         <td>
+          <ul>
+          {% for link in dataset.files.all %}
+            <li>
+              {{ link.title }}<br/>
+              {{ link.url }}
+            </li>
+          {% endfor %}
+          </ul>
         </td>
         <td class="change-answer">
           <a href="files?change=1">
@@ -56,7 +64,7 @@
         </td>
         <td>
           <ul>
-            {% for country in dataset.countries %}
+            {% for country in dataset.countries_as_list %}
               <li>
                 {{ country|title }}
               </li>
@@ -98,7 +106,8 @@
     </tbody>
   </table>
 
-  <form action="{% url 'check_dataset' dataset.name %}" method="POST">
+  <form action="{% url 'edit_dataset_step' dataset.name 'check_dataset' %}" method="POST">
+    {{ wizard.management_form }}
     {% csrf_token %}
     <div class="form-group">
       <input type="submit" class="button" value="Accept">

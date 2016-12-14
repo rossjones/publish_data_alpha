@@ -21,6 +21,7 @@
         </tr>
       </thead>
       <tbody>
+      {{dataset}}
         {% for file in dataset.files.all %}
           <tr>
             <td>{{ file.title }} </td>
@@ -39,16 +40,17 @@
 
     <form
         method="POST"
-        action="{% url 'edit_notifications' dataset.name %}"
+        action="{% url 'edit_dataset_step' dataset.name 'notifications' %}"
         class="form">
       <div class="form-group">
+        {{ wizard.management_form }}
         {% csrf_token %}
         <input type="submit" class="button" value="Continue">
       </div>
     </form>
 
     <div class="form-group">
-      <a href="{% url 'edit_addfile' dataset.name %}">Add another file</a>
+      <a href="{% url 'edit_dataset_step' dataset.name 'add_file' %}">Add another file</a>
     </div>
 
   </main>

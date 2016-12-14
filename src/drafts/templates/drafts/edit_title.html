@@ -76,7 +76,7 @@
         <input
             class="form-control form-control-2-3"
             id="id_title"
-            name="title"
+            name="{{ form.title.html_name }}"
             type="text"
             value="{{ form.title.value|default:"" }}"/>
       </div>
@@ -104,7 +104,7 @@
             rows="10"
             class="form-control form-control-2-3"
             id="id_description"
-            name="description">{{ form.description.value|default:""}}</textarea>
+            name="{{ form.description.html_name }}">{{ form.description.value|default:""}}</textarea>
       </div>
     </fieldset>
 
