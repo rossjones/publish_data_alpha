@@ -6,9 +6,6 @@
 {% endblock %}
 
 {% block inner_content %}
-
-
-
   {% if wizard.form.errors %}
     <div
         class="error-summary"
@@ -61,7 +58,9 @@
     which means the data within them can be copied and used by anyone.
   </p>
 
-  <form action="{% url 'edit_dataset_step' dataset.name 'licence' %}" method="POST">
+  <form
+      action="{% url 'edit_dataset_step' dataset.name 'licence' %}"
+      method="POST">
 
     {{ wizard.management_form }}
     {% csrf_token %}
@@ -80,7 +79,9 @@
               name="{{ wizard.form.licence.html_name }}"
               type="radio"
               value="ogl"
-              {% if wizard.form.licence.value == 'ogl' %}checked{% endif %} />
+              {% if wizard.form.licence.value == 'ogl' %}
+                checked
+              {% endif %} />
           <span>Open Government Licence</span>
         </label>
         <label class="block-label selection-button-radio" for="id_licence_1">
@@ -89,7 +90,9 @@
               name="{{ wizard.form.licence.html_name }}"
               type="radio"
               value="inspire"
-              {% if wizard.form.licence.value == 'inspire' %}checked{% endif %} />
+              {% if wizard.form.licence.value == 'inspire' %}
+                checked
+              {% endif %} />
           <span>INSPIRE</span>
         </label>
         <label class="block-label selection-button-radio" for="id_licence_2">
@@ -98,12 +101,15 @@
               name="{{ wizard.form.licence.html_name }}"
               type="radio"
               value="other"
-              {% if wizard.form.licence.value == 'other' %}checked{% endif %}  />
+              {% if wizard.form.licence.value == 'other' %}
+                checked
+              {% endif %}  />
           <span>Other:</span>
         </label>
       </fieldset>
     </div>
-    <div class="form-group {% if wizard.form.licence_other.errors %}error{% endif %}">
+    <div
+        class="form-group {% if wizard.form.licence_other.errors %}error{% endif %}">
       <label class="form-label" for="id_licence_other" id="licence_other_label">
         Name of your licence:
       </label>
