@@ -7,26 +7,69 @@
 
 {% block inner_content %}
 
+  {% if wizard.form.errors %}
+    <div
+        class="error-summary"
+        role="group"
+        aria-labelledby="error-summary-heading-example-1"
+        tabindex="-1">
+      <h1
+          class="heading-medium error-summary-heading"
+          id="error-summary-heading-example-1">
+        There was a problem
+      </h1>
+
+      <ul class="error-summary-list">
+        {% for error in wizard.form.non_field_errors %}
+          <li>
+            {{ error }}
+            <span class="visuallyhidden">.</span>
+          </li>
+        {% endfor %}
+
+        {% for error in wizard.form.frequency.errors %}
+          <li>
+            <a href="#frequency_form_group">
+              Please indicate how often this dataset is updated
+            </a>
+            <span class="visuallyhidden">.</span>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+
+
   <h1 class="heading-large">
     How often is this dataset updated?
   </h1>
 
-  <form action="{% url 'edit_dataset_step' dataset.name 'frequency' %}" method="POST">
+  <form
+      action="{% url 'edit_dataset_step' dataset.name 'frequency' %}"
+      method="POST">
     {{ wizard.management_form }}
     {% csrf_token %}
 
-    <ul class="errorlist"><li>This field is required.</li></ul>
-
-    <div class="form-group">
+    <div
+        class="form-group {% if form.frequency.errors %}error{% endif %}"
+        id="#frequency_form_group">
       <fieldset>
         <legend class="visually-hidden">Choose a frequency</legend>
+        {% if wizard.form.frequency.errors %}
+          <span class="error-message">
+            Please indicate how often this dataset is updated
+          </span>
+        {% endif %}
         <label class="block-label selection-button-radio" for="id_frequency_0">
           <input
               id="id_frequency_0"
               name="{{ wizard.form.frequency.html_name }}"
               type="radio"
               value="daily"
-              {% if wizard.form.frequency.value == 'daily' %}checked{% endif %}/>
+              {% if wizard.form.frequency.value == 'daily' %}
+                checked
+              {% endif %}/>
           <span>Every day</span>
         </label>
         <label class="block-label selection-button-radio" for="id_frequency_1">
@@ -35,7 +78,9 @@
               name="{{ wizard.form.frequency.html_name }}"
               type="radio"
               value="weekly"
-              {% if wizard.form.frequency.value == 'weekly' %}checked{% endif %}/>
+              {% if wizard.form.frequency.value == 'weekly' %}
+                checked
+              {% endif %}/>
           <span>Every week</span>
         </label>
         <label class="block-label selection-button-radio" for="id_frequency_2">
@@ -44,7 +89,9 @@
               name="{{ wizard.form.frequency.html_name }}"
               type="radio"
               value="monthly"
-              {% if wizard.form.frequency.value == 'monthly' %}checked{% endif %}/>
+              {% if wizard.form.frequency.value == 'monthly' %}
+                checked
+              {% endif %}/>
           <span>Every month</span>
         </label>
         <label class="block-label selection-button-radio" for="id_frequency_3">
@@ -53,7 +100,9 @@
               name="{{ wizard.form.frequency.html_name }}"
               type="radio"
               value="quarterly"
-              {% if wizard.form.frequency.value == 'quarterly' %}checked{% endif %} />
+              {% if wizard.form.frequency.value == 'quarterly' %}
+                checked
+              {% endif %} />
           <span>Every quarter</span>
         </label>
         <label class="block-label selection-button-radio" for="id_frequency_4">
@@ -62,7 +111,9 @@
               name="{{ wizard.form.frequency.html_name }}"
               type="radio"
               value="annually"
-              {% if wizard.form.frequency.value == 'annually' %}checked{% endif %} />
+              {% if wizard.form.frequency.value == 'annually' %}
+                checked
+              {% endif %} />
           <span>Every year (January to December)</span>
         </label>
         <label class="block-label selection-button-radio" for="id_frequency_5">
@@ -71,7 +122,9 @@
               name="{{ wizard.form.frequency.html_name }}"
               type="radio"
               value="financial-year"
-              {% if wizard.form.frequency.value == 'financial-year' %}checked{% endif %} />
+              {% if wizard.form.frequency.value == 'financial-year' %}
+                checked
+              {% endif %} />
           <span>Every year (April to March)</span>
         </label>
         <label class="block-label selection-button-radio" for="id_frequency_6">
@@ -80,7 +133,9 @@
               name="{{ wizard.form.frequency.html_name }}"
               type="radio"
               value="never"
-              {% if wizard.form.frequency.value == 'never' %}checked{% endif %} />
+              {% if wizard.form.frequency.value == 'never' %}
+                checked
+              {% endif %} />
           Never
         </label>
       </fieldset>

@@ -40,7 +40,7 @@ module.exports = {
     .end()
   },
 
-  'Create a dataset happy path' : function (browser) {
+  'Create a dataset, happy path' : function (browser) {
     login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
     .assert.containsText('h1', 'Dashboard')
     .clickOn('Create a dataset')
@@ -61,7 +61,7 @@ module.exports = {
     .end();
   },
 
-  'Create a dataset missing title' : function (browser) {
+  'Create a dataset, missing title' : function (browser) {
     login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
     .assert.containsText('h1', 'Dashboard')
     .clickOn('Create a dataset')
@@ -71,6 +71,10 @@ module.exports = {
     .waitForElementVisible('main', waitTimeout)
     .assert.containsText('h1.error-summary-heading', 'There was a problem')
     .assert.containsText('ul.error-summary-list', 'Please provide a valid title')
+    .setValue('input[name=title]', 'Title of my dataset')
+    .submitForm('form')
+    .waitForElementVisible('main', waitTimeout)
+    .assert.containsText('h1', 'Choose a licence')
     .end();
   },
 
@@ -85,6 +89,10 @@ module.exports = {
     .waitForElementVisible('main', waitTimeout)
     .assert.containsText('h1.error-summary-heading', 'There was a problem')
     .assert.containsText('ul.error-summary-list', 'Please provide a valid title')
+    .setValue('input[name=title]', 'Title of my dataset')
+    .submitForm('form')
+    .waitForElementVisible('main', waitTimeout)
+    .assert.containsText('h1', 'Choose a licence')
     .end();
   },
 
@@ -98,6 +106,10 @@ module.exports = {
     .waitForElementVisible('main', waitTimeout)
     .assert.containsText('h1.error-summary-heading', 'There was a problem')
     .assert.containsText('ul.error-summary-list', 'Please provide a description')
+    .setValue('textarea[name=description]', 'Description of my dataset')
+    .submitForm('form')
+    .waitForElementVisible('main', waitTimeout)
+    .assert.containsText('h1', 'Choose a licence')
     .end();
   },
 
@@ -116,6 +128,10 @@ module.exports = {
       'ul.error-summary-list',
       'Please select a licence for your dataset'
     )
+    .selectRadioButton('Open Government Licence')
+    .submitForm('form')
+    .waitForElementVisible('main', waitTimeout)
+    .assert.containsText('h1', 'Choose an area')
     .end();
   },
 
@@ -135,6 +151,10 @@ module.exports = {
       'ul.error-summary-list',
       'Please type the name of your licence'
     )
+    .setValue('input[name=licence-licence_other]', 'other licence')
+    .submitForm('form')
+    .waitForElementVisible('main', waitTimeout)
+    .assert.containsText('h1', 'Choose an area')
     .end();
   },
 
@@ -162,6 +182,38 @@ module.exports = {
     .assert.containsText('h1', 'How often is this dataset updated?')
     .end();
   },
+
+  'Create a dataset, no frequency chosen' : function (browser) {
+    login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
+    .assert.containsText('h1', 'Dashboard')
+    .clickOn('Create a dataset')
+    .assert.containsText('h1', 'Create a dataset')
+    .setValue('input[name=title]', 'Title of my dataset')
+    .setValue('textarea[name=description]', 'Description of my dataset')
+    .submitForm('form')
+    .waitForElementVisible('main', waitTimeout)
+    .assert.containsText('h1', 'Choose a licence')
+    .selectRadioButton('Open Government Licence')
+    .submitForm('form')
+    .waitForElementVisible('main', waitTimeout)
+    .assert.containsText('h1', 'Choose an area')
+    .selectRadioButton('England')
+    .submitForm('form')
+    .waitForElementVisible('main', waitTimeout)
+    .assert.containsText('h1', 'How often is this dataset updated?')
+    .submitForm('form')
+    .assert.containsText('h1.error-summary-heading', 'There was a problem')
+    .assert.containsText(
+      'ul.error-summary-list',
+      'Please indicate how often this dataset is updated'
+    )
+    .selectRadioButton('Every day')
+    .submitForm('form')
+    .waitForElementVisible('main', waitTimeout)
+    .assert.containsText('h1', 'Add a link')
+    .end();
+  },
+
 
   'Dashboard' : function (browser) {
     login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)

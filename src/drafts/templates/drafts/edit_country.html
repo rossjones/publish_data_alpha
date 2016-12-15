@@ -59,6 +59,12 @@
         id="countries_form_group">
       <fieldset>
         <legend class="visually-hidden">Choose an area</legend>
+        {% if wizard.form.coutries.errors %}
+          <span class="error-message">
+            Please indicate how often this dataset is updated
+          </span>
+        {% endif %}
+
         <label class="block-label form-checkbox" for="id_countries_0">
           <input
               id="id_countries_0"
