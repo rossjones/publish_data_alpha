@@ -62,7 +62,7 @@ class DraftsTestCase(TestCase):
 
         # No selected countries
         response = self.client.post(u, get_wizard_data({}, 'country'))
-        assert response.status_code == 302
+        assert response.status_code == 200
         assert self._get_dataset().countries == '[]'
 
         response = self.client.post(u, get_wizard_data({'country-countries': 'england'}, 'country'))
@@ -176,4 +176,3 @@ class DraftsTestCase(TestCase):
         u = reverse('edit_dataset_step', args=[self.dataset_name, 'files'])
         response = self.client.get(u)
         assert response.status_code == 200
-
