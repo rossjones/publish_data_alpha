@@ -138,6 +138,31 @@ module.exports = {
     .end();
   },
 
+  'Create a dataset, no region chosen' : function (browser) {
+    login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
+    .clickOn('Create a dataset')
+    .waitForElementVisible('main', waitTimeout)
+    .setValue('input[name=title]', 'Title of my dataset')
+    .setValue('textarea[name=description]', 'Description of my dataset')
+    .submitForm('form')
+    .waitForElementVisible('main', waitTimeout)
+    .selectRadioButton('Open Government Licence')
+    .submitForm('form')
+    .waitForElementVisible('main', waitTimeout)
+    .assert.containsText('h1', 'Choose an area')
+    .submitForm('form')
+    .assert.containsText('h1.error-summary-heading', 'There was a problem')
+    .assert.containsText(
+      'ul.error-summary-list',
+      'Please select the area that your dataset covers'
+    )
+    .selectRadioButton('England')
+    .submitForm('form')
+    .waitForElementVisible('main', waitTimeout)
+    .assert.containsText('h1', 'How often is this dataset updated?')
+    .end();
+  },
+
   'Dashboard' : function (browser) {
     login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
     .waitForElementVisible('main', waitTimeout)
