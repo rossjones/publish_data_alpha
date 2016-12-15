@@ -6,6 +6,8 @@
 {% endblock %}
 
 {% block inner_content %}
+{% with countries=wizard.form.countries %}
+
   {% if wizard.form.errors %}
     <div
         class="error-summary"
@@ -26,7 +28,7 @@
         </li>
         {% endfor %}
 
-        {% for error in wizard.form.countries.errors %}
+        {% for error in countries.errors %}
         <li>
           <a href="#countries_form_group">
             Please select the area that your dataset covers
@@ -55,23 +57,23 @@
     {% csrf_token %}
 
     <div
-        class="form-group {% if form.countries.errors %}error{% endif %}"
+        class="form-group {% if countries.errors %}error{% endif %}"
         id="countries_form_group">
       <fieldset>
         <legend class="visually-hidden">Choose an area</legend>
-        {% if wizard.form.coutries.errors %}
+        {% if countries.errors %}
           <span class="error-message">
-            Please indicate how often this dataset is updated
+            Please select the area that your dataset covers
           </span>
         {% endif %}
 
         <label class="block-label form-checkbox" for="id_countries_0">
           <input
               id="id_countries_0"
-              name="{{ wizard.form.countries.html_name }}"
+              name="{{ countries.html_name }}"
               type="checkbox"
               value="england"
-              {% if 'england' in wizard.form.countries.value %}
+              {% if 'england' in countries.value %}
                 checked
               {% endif %} />
           <span>England</span>
@@ -79,10 +81,10 @@
         <label class="block-label form-checkbox" for="id_countries_1">
           <input
               id="id_countries_1"
-              name="{{ wizard.form.countries.html_name }}"
+              name="{{ countries.html_name }}"
               type="checkbox"
               value="wales"
-              {% if 'wales' in wizard.form.countries.value %}
+              {% if 'wales' in countries.value %}
                 checked
               {% endif %} />
           <span>Wales</span>
@@ -90,10 +92,10 @@
         <label class="block-label form-checkbox" for="id_countries_2">
           <input
               id="id_countries_2"
-              name="{{ wizard.form.countries.html_name }}"
+              name="{{ countries.html_name }}"
               type="checkbox"
               value="scotland"
-              {% if 'scotland' in wizard.form.countries.value %}
+              {% if 'scotland' in countries.value %}
                 checked
               {% endif %} />
           <span>Scotland</span>
@@ -101,10 +103,10 @@
         <label class="block-label form-checkbox" for="id_countries_3">
           <input
               id="id_countries_3"
-              name="{{ wizard.form.countries.html_name }}"
+              name="{{ countries.html_name }}"
               type="checkbox"
               value="northern-ireland"
-              {% if 'northern-ireland' in wizard.form.countries.value %}
+              {% if 'northern-ireland' in countries.value %}
                 checked
               {% endif %}  />
           <span>Northern Ireland</span>
@@ -112,10 +114,10 @@
         <label class="block-label form-checkbox" for="id_countries_4">
           <input
               id="id_countries_4"
-              name="{{ wizard.form.countries.html_name }}"
+              name="{{ countries.html_name }}"
               type="checkbox"
               value="overseas"
-              {% if 'overseas' in wizard.form.countries.value %}
+              {% if 'overseas' in countries.value %}
                 checked
               {% endif %}  />
           <span>Overseas</span>
@@ -127,5 +129,7 @@
       <input type="submit" class="button" value="Continue">
     </div>
 
-</form>
+  </form>
+
+{% endwith %}
 {% endblock %}

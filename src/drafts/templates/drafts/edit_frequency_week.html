@@ -6,6 +6,39 @@
 {% endblock %}
 
 {% block inner_content %}
+{% with w=wizard.form.frequency_weekly %}
+
+  {% if wizard.form.errors %}
+    <div
+        class="error-summary"
+        role="group"
+        aria-labelledby="error-summary-heading-example-1"
+        tabindex="-1">
+      <h1
+          class="heading-medium error-summary-heading"
+          id="error-summary-heading-example-1">
+        There was a problem
+      </h1>
+
+      <ul class="error-summary-list">
+        {% for error in w.non_field_errors %}
+          <li>
+            {{ error }}
+            <span class="visuallyhidden">.</span>
+          </li>
+        {% endfor %}
+
+        {% for error in w.errors %}
+          <li>
+            <a href="#countries_form_group">
+              Please select the area that your dataset covers
+            </a>
+            <span class="visuallyhidden">.</span>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
 
   <h1 class="heading-large">
     What time period does this link cover?
@@ -18,104 +51,106 @@
     {{ wizard.management_form }}
     {% csrf_token %}
 
-    <fieldset>
-      <legend>
-        <span class="form-label-bold">
-          Start date
-          <span class="form-hint">For example, 31 3 2016</span>
-        </span>
-      </legend>
-      <div class="form-date">
-        <div class="form-group form-group-day">
-          <label class="form-label" for="start_day">Day</label>
-          <input
-              class="form-control"
-              id="start_day"
-              name="start_day"
-              type="number"
-              pattern="[0-9]*"
-              min="0"
-              max="31"
-              value=""
-              aria-describedby="start_hint">
+    <div class="form-group">
+      <fieldset>
+        <legend>
+          <span class="form-label-bold">
+            Start date
+            <span class="form-hint">For example, 31 3 2016</span>
+          </span>
+        </legend>
+        <div class="form-date">
+          <div class="form-group form-group-day {% if w.errors %}error{% endif %}">
+            <label class="form-label" for="start_day">Day</label>
+            <input
+                class="form-control"
+                id="start_day"
+                name="start_day"
+                type="number"
+                pattern="[0-9]*"
+                min="0"
+                max="31"
+                value=""
+                aria-describedby="start_hint">
+          </div>
+          <div class="form-group form-group-month {% if w.errors %}error{% endif %}">
+            <label class="form-label" for="start_month">Month</label>
+            <input
+                class="form-control"
+                id="start_month"
+                name="start_month"
+                type="number"
+                pattern="[0-9]*"
+                min="0"
+                max="12"
+                value="">
+          </div>
+          <div class="form-group form-group-year {% if w.errors %}error{% endif %}">
+            <label class="form-label" for="start_year">Year</label>
+            <input
+                class="form-control"
+                id="start_year"
+                name="start_year"
+                type="number"
+                pattern="[0-9]*"
+                min="0"
+                value="">
+          </div>
         </div>
-        <div class="form-group form-group-month">
-          <label class="form-label" for="start_month">Month</label>
-          <input
-              class="form-control"
-              id="start_month"
-              name="start_month"
-              type="number"
-              pattern="[0-9]*"
-              min="0"
-              max="12"
-              value="">
+      </fieldset>
+      <br/>
+      <fieldset>
+        <legend>
+          <span class="form-label-bold">
+            End date
+            <span class="form-hint">For example, 31 5 2016</span>
+          </span>
+        </legend>
+        <div class="form-date">
+          <div class="form-group form-group-day {% if w.errors %}error{% endif %}">
+            <label class="form-label" for="end_day">Day</label>
+            <input
+                class="form-control"
+                id="end_day"
+                name="end_day"
+                type="number"
+                pattern="[0-9]*"
+                min="0"
+                max="31"
+                value=""
+                aria-describedby="end_hint">
+          </div>
+          <div class="form-group form-group-month {% if w.errors %}error{% endif %}">
+            <label class="form-label" for="end_month">Month</label>
+            <input
+                class="form-control"
+                id="end_month"
+                name="end_month"
+                type="number"
+                pattern="[0-9]*"
+                min="0"
+                max="12"
+                value="">
+          </div>
+          <div class="form-group form-group-year {% if w.errors %}error{% endif %}">
+            <label class="form-label" for="end_year">Year</label>
+            <input
+                class="form-control"
+                id="end_year"
+                name="end_year"
+                type="number"
+                pattern="[0-9]*"
+                min="0"
+                value="">
+          </div>
         </div>
-        <div class="form-group form-group-year">
-          <label class="form-label" for="start_year">Year</label>
-          <input
-              class="form-control"
-              id="start_year"
-              name="start_year"
-              type="number"
-              pattern="[0-9]*"
-              min="0"
-              value="">
-        </div>
-      </div>
-    </fieldset>
-    <br/>
-    <fieldset>
-      <legend>
-        <span class="form-label-bold">
-          End date
-          <span class="form-hint">For example, 31 5 2016</span>
-        </span>
-      </legend>
-      <div class="form-date">
-        <div class="form-group form-group-day">
-          <label class="form-label" for="end_day">Day</label>
-          <input
-              class="form-control"
-              id="end_day"
-              name="end_day"
-              type="number"
-              pattern="[0-9]*"
-              min="0"
-              max="31"
-              value=""
-              aria-describedby="end_hint">
-        </div>
-        <div class="form-group form-group-month">
-          <label class="form-label" for="end_month">Month</label>
-          <input
-              class="form-control"
-              id="end_month"
-              name="end_month"
-              type="number"
-              pattern="[0-9]*"
-              min="0"
-              max="12"
-              value="">
-        </div>
-        <div class="form-group form-group-year">
-          <label class="form-label" for="end_year">Year</label>
-          <input
-              class="form-control"
-              id="end_year"
-              name="end_year"
-              type="number"
-              pattern="[0-9]*"
-              min="0"
-              value="">
-        </div>
-      </div>
-    </fieldset>
-    <br/>
+      </fieldset>
+    </div>
+
     <div class="form-group">
       <input type="submit" class="button" value="Continue" />
     </div>
-
   </form>
 
+{% endwith %}
 {% endblock %}
