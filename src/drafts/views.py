@@ -7,6 +7,7 @@ import drafts.forms as f
 from drafts.models import Dataset, Datafile
 from django.views.generic.edit import FormView
 from formtools.wizard.views import NamedUrlSessionWizardView
+from ckan_proxy.logic import organization_show
 
 from userauth.logic import get_orgs_for_user
 
@@ -112,6 +113,10 @@ class DatasetWizard(NamedUrlSessionWizardView):
         context = super(DatasetWizard, self).get_context_data(form=form, **kwargs)
         if self.instance:
             context['dataset'] = self.instance
+
+        if kwargs.get('step') == 'check_dataset':
+            org = organization_show(self.instance.organisation)
+            context['organisation_title'] = org['title']
 
         context['organisations'] = get_orgs_for_user(self.request)
         return context

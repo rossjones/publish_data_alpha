@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block page_title %}
-  Which organisation should the dataset belong to?
+  Choose an organisation
 {% endblock %}
 
 {% block inner_content %}
@@ -41,7 +41,7 @@
   {% endif %}
 
   <h1 class="heading-large">
-    Which organisation should the dataset belong to?
+    Which organisation are you publishing this dataset for?
   </h1>
 
   <form
@@ -69,6 +69,7 @@
                 id="id_organisation_{{ forloop.counter }}"
                 name="{{ org.html_name }}"
                 type="radio"
+                value="{{ organisation_name }}"
                 {% if org.value == organisation_name %}
                   checked
                 {% endif %}/>
