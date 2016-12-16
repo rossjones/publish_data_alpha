@@ -8,8 +8,12 @@ import drafts.forms as f
 from drafts.models import Dataset, Datafile
 from django.views.generic.edit import FormView
 from formtools.wizard.views import NamedUrlSessionWizardView
+from ckan_proxy.logic import organization_show
+
+from userauth.logic import get_orgs_for_user
 
 FORMS = (
+    ('organisation', f.OrganisationForm),
     ('licence', f.LicenceForm),
     ('country', f.CountryForm),
     ('frequency', f.FrequencyForm),
@@ -27,6 +31,7 @@ FORMS = (
 )
 
 TEMPLATES = {
+    'organisation': 'drafts/edit_organisation.html',
     'licence': 'drafts/edit_licence.html',
     'country': 'drafts/edit_country.html',
     'frequency': 'drafts/edit_frequency.html',
@@ -70,10 +75,18 @@ class DatasetCreate(FormView):
         return context
 
     def get_success_url(self):
+
+
         return reverse('edit_dataset_step', kwargs={
             'dataset_name': self.object.name,
-            'step': 'licence'
+            'step': 'organisation'
         })
+
+        # Only one organisation
+        #return reverse('edit_dataset_step', kwargs={
+        #    'dataset_name': self.object.name,
+        #    'step': 'licence'
+        #})
 
 class DatasetWizard(NamedUrlSessionWizardView):
 
@@ -101,6 +114,12 @@ class DatasetWizard(NamedUrlSessionWizardView):
         context = super(DatasetWizard, self).get_context_data(form=form, **kwargs)
         if self.instance:
             context['dataset'] = self.instance
+
+        if kwargs.get('step') == 'check_dataset':
+            org = organization_show(self.instance.organisation) or {}
+            context['organisation_title'] = org.get('title')
+
+        context['organisations'] = get_orgs_for_user(self.request)
         return context
 
     def get_form_initial(self, step):

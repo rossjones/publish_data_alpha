@@ -9,6 +9,15 @@ def organization_list():
     conn = ckan_connection_for_admin()
     return conn.action.organization_list()
 
+def organization_show(name):
+    conn = ckan_connection_for_admin()
+    try:
+        return conn.action.organization_show(id=name)
+    except NotFound:
+        pass
+    return None
+
+
 @memoize(timeout=60)
 def organization_list_for_user(user):
     """ Returns a list of organization objects where this user

@@ -74,6 +74,8 @@ module.exports = {
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
     .setValue('input[name=title]', 'Title of my dataset')
     .setValue('textarea[name=description]', 'Description of my dataset')
+    .submitFormAndCheckNextTitle('Which organisation should the dataset belong to?')
+    .selectRadioButton('Cabinet Office')
     .submitFormAndCheckNextTitle('Choose a licence')
     .selectRadioButton('Open Government Licence')
     .submitFormAndCheckNextTitle('Choose an area')
@@ -101,7 +103,7 @@ module.exports = {
     .submitFormAndCheckNextTitle('There was a problem')
     .checkError('Please provide a valid title')
     .setValue('input[name=title]', 'Title of my dataset')
-    .submitFormAndCheckNextTitle('Choose a licence')
+    .submitFormAndCheckNextTitle('Which organisation should the dataset belong to?')
     .end();
   },
 
@@ -113,7 +115,7 @@ module.exports = {
     .submitFormAndCheckNextTitle('There was a problem')
     .checkError('Please provide a valid title')
     .setValue('input[name=title]', 'Title of my dataset')
-    .submitFormAndCheckNextTitle('Choose a licence')
+    .submitFormAndCheckNextTitle('Which organisation should the dataset belong to?')
     .end();
   },
 
@@ -124,6 +126,19 @@ module.exports = {
     .submitFormAndCheckNextTitle('There was a problem')
     .checkError('Please provide a description')
     .setValue('textarea[name=description]', 'Description of my dataset')
+    .submitFormAndCheckNextTitle('Which organisation should the dataset belong to?')
+    .end();
+  },
+
+  'Create a dataset, omit the organisation' : function (browser) {
+    login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
+    .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
+    .setValue('input[name=title]', 'Title of my dataset')
+    .setValue('textarea[name=description]', 'Description of my dataset')
+    .submitFormAndCheckNextTitle('Which organisation should the dataset belong to?')
+    .submitFormAndCheckNextTitle('There was a problem')
+    .checkError('Please choose which organisation will own this dataset')
+    .selectRadioButton('Cabinet Office')
     .submitFormAndCheckNextTitle('Choose a licence')
     .end();
   },
@@ -133,6 +148,8 @@ module.exports = {
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
     .setValue('input[name=title]', 'Title of my dataset')
     .setValue('textarea[name=description]', 'Description of my dataset')
+    .submitFormAndCheckNextTitle('Which organisation should the dataset belong to?')
+    .selectRadioButton('Cabinet Office')
     .submitFormAndCheckNextTitle('Choose a licence')
     .submitFormAndCheckNextTitle('There was a problem')
     .checkError('Please select a licence for your dataset')
@@ -146,6 +163,8 @@ module.exports = {
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
     .setValue('input[name=title]', 'Title of my dataset')
     .setValue('textarea[name=description]', 'Description of my dataset')
+    .submitFormAndCheckNextTitle('Which organisation should the dataset belong to?')
+    .selectRadioButton('Cabinet Office')
     .submitFormAndCheckNextTitle('Choose a licence')
     .selectRadioButton('Other:')
     .submitFormAndCheckNextTitle('There was a problem')
@@ -160,6 +179,8 @@ module.exports = {
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
     .setValue('input[name=title]', 'Title of my dataset')
     .setValue('textarea[name=description]', 'Description of my dataset')
+    .submitFormAndCheckNextTitle('Which organisation should the dataset belong to?')
+    .selectRadioButton('Cabinet Office')
     .submitFormAndCheckNextTitle('Choose a licence')
     .selectRadioButton('Open Government Licence')
     .submitFormAndCheckNextTitle('Choose an area')
@@ -175,6 +196,8 @@ module.exports = {
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
     .setValue('input[name=title]', 'Title of my dataset')
     .setValue('textarea[name=description]', 'Description of my dataset')
+    .submitFormAndCheckNextTitle('Which organisation should the dataset belong to?')
+    .selectRadioButton('Cabinet Office')
     .submitFormAndCheckNextTitle('Choose a licence')
     .selectRadioButton('Open Government Licence')
     .submitFormAndCheckNextTitle('Choose an area')
@@ -192,6 +215,8 @@ module.exports = {
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
     .setValue('input[name=title]', 'Title of my dataset')
     .setValue('textarea[name=description]', 'Description of my dataset')
+    .submitFormAndCheckNextTitle('Which organisation should the dataset belong to?')
+    .selectRadioButton('Cabinet Office')
     .submitFormAndCheckNextTitle('Choose a licence')
     .selectRadioButton('Open Government Licence')
     .submitFormAndCheckNextTitle('Choose an area')
@@ -207,6 +232,8 @@ module.exports = {
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
     .setValue('input[name=title]', 'Title of my dataset')
     .setValue('textarea[name=description]', 'Description of my dataset')
+    .submitFormAndCheckNextTitle('Which organisation should the dataset belong to?')
+    .selectRadioButton('Cabinet Office')
     .submitFormAndCheckNextTitle('Choose a licence')
     .selectRadioButton('Open Government Licence')
     .submitFormAndCheckNextTitle('Choose an area')
