@@ -4,3 +4,5 @@ django-memoize==2.0.0
 pytz
 python-dateutil==2.6.0
 django-formtools==1.0
+aloe_django==0.1.3
+
