@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block page_title %}
-  Which organisation should the dataset belong to
+  Which organisation should the dataset belong to?
 {% endblock %}
 
 {% block inner_content %}
@@ -53,7 +53,7 @@
 
     <div
         class="form-group {% if org.errors %}error{% endif %}"
-        id="#organisation_form_group">
+        id="organisation_form_group">
       <fieldset>
         <legend class="visually-hidden">Choose an organisation</legend>
         {% if org.errors %}
@@ -66,14 +66,13 @@
               class="block-label selection-button-radio"
               for="id_organisation_{{ forloop.counter }}">
             <input
-                id="organisation_{{ forloop.counter }}"
+                id="id_organisation_{{ forloop.counter }}"
                 name="{{ org.html_name }}"
                 type="radio"
-                value="{{ organisation_name }}"
                 {% if org.value == organisation_name %}
                   checked
                 {% endif %}/>
-            <span>{{ organisation_title }} </span>
+            <span>{{ organisation_title }}</span>
           </label>
         {% endfor %}
       </fieldset>
