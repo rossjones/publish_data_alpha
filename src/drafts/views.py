@@ -2,6 +2,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+from django.template import RequestContext
 
 import drafts.forms as f
 from drafts.models import Dataset, Datafile
@@ -39,7 +40,6 @@ TEMPLATES = {
     'check_dataset': 'drafts/check_dataset.html'
 }
 
-
 class DatasetEdit(FormView):
     model = Dataset
     form_class = f.DatasetForm
@@ -66,6 +66,7 @@ class DatasetCreate(FormView):
     def get_context_data(self, **kwargs):
         context = super(DatasetCreate, self).get_context_data(**kwargs)
         context['target_url'] = reverse('new_dataset')
+
         return context
 
     def get_success_url(self):

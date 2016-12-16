@@ -76,6 +76,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'drafts.context_processors.govuk_overrides',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -133,6 +134,10 @@ USE_TZ = True
 
 LOGIN_URL = '/accounts/signin'
 
+
+HOMEPAGE_URL = 'https://data.gov.uk'
+LOGO_LINK_TITLE = 'Go to the data.gov.uk homepage'
+GLOBAL_HEADER_TEXT = 'data.gov.uk'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/

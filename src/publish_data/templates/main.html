@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
+
 {% block head %}
   <link rel="stylesheet" href="{% static 'css/main.css' %}"/>
 {% endblock %}
@@ -11,7 +12,9 @@
 
 {% block header_class %}with-proposition{% endblock %}
 
-{% include 'includes/proposition_header.html' %}
+{% block proposition_header %}
+  {% include 'includes/proposition_header.html' %}
+{% endblock %}
 
 {% block content %}
   <main id="content" role="main" tabindex="-1">

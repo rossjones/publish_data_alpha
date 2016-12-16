@@ -1,5 +1,35 @@
 $path: "/static/images/";
+
+$helvetica-regular: "HelveticaNeue", "Helvetica Neue", "Arial", "Helvetica", sans-serif;
+$nta-light-tabular: $helvetica-regular;
+$toolkit-font-stack: $helvetica-regular;
+$toolkit-font-stack-tabular: $helvetica-regular;
+$NTA-Light: $helvetica-regular;
+$NTA-Light-Tabular: $helvetica-regular;
+$Helvetica-Regular: $helvetica-regular;
+
 @import 'govuk-elements';
+
+// govuk-* overrides
+
+#global-header #logo {
+  font-weight: normal;
+  background: none;
+  img {
+    display: none;
+  }
+}
+
+#global-header-bar {
+  display: none;
+}
+
+// start page
+
+.product-header {
+  background-color: #8bc658;
+  padding: 0 30px 90px 30px;
+}
 
 // navigation bar
 

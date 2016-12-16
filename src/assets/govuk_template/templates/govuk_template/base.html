@@ -13,7 +13,6 @@
     <link href="{% static 'stylesheets/govuk-template-print.css' %}" media="print" rel="stylesheet" />
 
     <!--[if IE 8]><link href="{% static 'stylesheets/fonts-ie8.css' %}" media="all" rel="stylesheet" /><![endif]-->
-    <!--[if gte IE 9]><!--><link href="{% static 'stylesheets/fonts.css' %}" media="all" rel="stylesheet" /><!--<![endif]-->
     <!--[if lt IE 9]><script src="{% static 'javascripts/ie.js' %}"></script><![endif]-->
 
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon" />
@@ -41,12 +40,12 @@
     </div>
 
     <div id="global-cookie-message">
-      
+
         {% block cookie_message %}{% endblock %}
-      
+
     </div>
 
-    
+
     <header role="banner" id="global-header" class="{% block header_class %}{% endblock %}">
       <div class="header-wrapper">
         <div class="header-global">
@@ -60,7 +59,7 @@
         {% block proposition_header %}{% endblock %}
       </div>
     </header>
-    
+
 
     {% block after_header %}{% endblock %}
 
@@ -79,9 +78,9 @@
 
             <div class="open-government-licence">
               <p class="logo"><a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="license">Open Government Licence</a></p>
-              
+
                 {% block licence_message %}<p>All content is available under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="license">Open Government Licence v3.0</a>, except where otherwise stated</p>{% endblock %}
-              
+
             </div>
           </div>
 
@@ -98,7 +97,7 @@
 
     {% block body_end %}{% endblock %}
 
-    
+
     <script>if (typeof window.GOVUK === 'undefined') document.body.className = document.body.className.replace('js-enabled', '');</script>
   </body>
 </html>
