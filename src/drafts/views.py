@@ -115,8 +115,8 @@ class DatasetWizard(NamedUrlSessionWizardView):
             context['dataset'] = self.instance
 
         if kwargs.get('step') == 'check_dataset':
-            org = organization_show(self.instance.organisation)
-            context['organisation_title'] = org['title']
+            org = organization_show(self.instance.organisation) or {}
+            context['organisation_title'] = org.get('title')
 
         context['organisations'] = get_orgs_for_user(self.request)
         return context
