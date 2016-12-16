@@ -48,6 +48,13 @@ class CountryForm(forms.ModelForm):
         model = Dataset
         fields = ['countries']
 
+class OrganisationForm(forms.ModelForm):
+
+    organisation = forms.CharField(required=True)
+
+    class Meta:
+        model = Dataset
+        fields = ['organisation']
 
 class FrequencyForm(forms.ModelForm):
 

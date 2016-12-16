@@ -1,0 +1,89 @@
+{% extends 'main_with_navbar.html' %}
+{% load static %}
+
+{% block page_title %}
+  Which organisation should the dataset belong to
+{% endblock %}
+
+{% block inner_content %}
+{% with org=wizard.form.organisation %}
+
+  {{wizard.form.errors}}
+
+  {% if wizard.form.errors %}
+    <div
+        class="error-summary"
+        role="group"
+        aria-labelledby="error-summary-heading-example-1"
+        tabindex="-1">
+      <h1
+          class="heading-medium error-summary-heading"
+          id="error-summary-heading-example-1">
+        There was a problem
+      </h1>
+
+      <ul class="error-summary-list">
+        {% for error in wizard.form.non_field_errors %}
+          <li>
+            {{ error }}
+            <span class="visuallyhidden">.</span>
+          </li>
+        {% endfor %}
+
+        {% for error in org.errors %}
+          <li>
+            <a href="#organisation_form_group">
+              Please indicate how often this dataset is updated
+            </a>
+            <span class="visuallyhidden">.</span>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+
+
+  <h1 class="heading-large">
+    Which organisation should the dataset belong to?
+  </h1>
+
+  <form
+      action="{% url 'edit_dataset_step' dataset.name 'organisation' %}"
+      method="POST">
+    {{ wizard.management_form }}
+    {% csrf_token %}
+
+    <div
+        class="form-group {% if form.organisation.errors %}error{% endif %}"
+        id="#organisation_form_group">
+      <fieldset>
+        <legend class="visually-hidden">Choose an organisation</legend>
+        {% if org.errors %}
+          <span class="error-message">
+            Please choose which organisation will own this dataset
+          </span>
+        {% endif %}
+        {% for organisation_name, organisation_title in organisations %}
+          <label class="block-label selection-button-radio" for="id_organisation_0">
+            <input
+                id="organisation_{{ loop.counter }}"
+                name="{{ org.html_name }}"
+                type="radio"
+                value="{{ organisation_name }}"
+                {% if org.value == organisation_name %}
+                  checked
+                {% endif %}/>
+            <span>{{ organisation_title }} </span>
+          </label>
+        {% endfor %}
+      </fieldset>
+    </div>
+
+    <div class="form-group">
+      <input type="submit" class="button" value="Continue">
+    </div>
+  </form>
+
+{% endwith %}
+{% endblock %}

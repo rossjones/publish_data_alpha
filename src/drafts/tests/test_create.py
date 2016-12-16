@@ -104,6 +104,20 @@ class DraftsTestCase(TestCase):
         assert self._get_dataset().frequency == "never", \
             self._get_dataset().frequency
 
+    def test_organisation(self):
+        u = reverse('edit_dataset_step', args=[self.dataset_name, 'organisation'])
+        response = self.client.get(u)
+        assert response.status_code == 200
+
+        response = self.client.post(u, get_wizard_data({}, 'organisation'))
+        assert response.status_code == 200
+
+        response = self.client.post(u, get_wizard_data({'organisation-organisation': 'cabinet-office'}, 'organisation'))
+        assert response.status_code == 302
+        assert self._get_dataset().organisation == "cabinet-office", \
+            self._get_dataset().organisation
+
+
     """
     def test_frequency_details(self):
         u = reverse('edit_dataset_step', args=[self.dataset_name, 'frequency'])

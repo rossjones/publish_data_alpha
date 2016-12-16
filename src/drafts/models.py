@@ -9,6 +9,8 @@ class Dataset(models.Model):
     title = models.CharField(max_length=64)
     description = models.TextField()
 
+    organisation = models.CharField(max_length=128, default="")
+
     # ogl, inspire, other
     licence = models.CharField(max_length=64, default="")
     licence_other = models.TextField(default="", blank=True)

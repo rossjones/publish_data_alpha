@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 
+from ckan_proxy.logic import organization_list_for_user
+from userauth.logic import set_orgs_for_user
 from .forms import SigninForm
 
 def login_view(request):
@@ -14,6 +16,11 @@ def login_view(request):
             user = authenticate(username=email, password=password)
             if user is not None:
                 login(request, user)
+
+                refined_orgs = [(org['name'],org['title'],)
+                    for org in organization_list_for_user(user)]
+                set_orgs_for_user(request, refined_orgs)
+
                 return redirect("/")
             else:
                 login_failed = True
@@ -24,5 +31,6 @@ def login_view(request):
     })
 
 def logout_view(request):
+    """ Logs out the user and clears the session """
     logout(request)
     return redirect("/")
