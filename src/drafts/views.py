@@ -113,9 +113,7 @@ class DatasetWizard(NamedUrlSessionWizardView):
         if self.instance:
             context['dataset'] = self.instance
 
-        if kwargs.get('step') == 'organisation':
-            context['organisations'] = get_orgs_for_user(self.request)
-
+        context['organisations'] = get_orgs_for_user(self.request)
         return context
 
     def get_form_initial(self, step):
