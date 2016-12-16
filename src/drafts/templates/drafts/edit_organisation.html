@@ -8,8 +8,6 @@
 {% block inner_content %}
 {% with org=wizard.form.organisation %}
 
-  {{wizard.form.errors}}
-
   {% if wizard.form.errors %}
     <div
         class="error-summary"
@@ -33,7 +31,7 @@
         {% for error in org.errors %}
           <li>
             <a href="#organisation_form_group">
-              Please indicate how often this dataset is updated
+              Please choose which organisation will own this dataset
             </a>
             <span class="visuallyhidden">.</span>
           </li>
@@ -42,8 +40,6 @@
     </div>
   {% endif %}
 
-
-
   <h1 class="heading-large">
     Which organisation should the dataset belong to?
   </h1>
@@ -51,11 +47,12 @@
   <form
       action="{% url 'edit_dataset_step' dataset.name 'organisation' %}"
       method="POST">
+
     {{ wizard.management_form }}
     {% csrf_token %}
 
     <div
-        class="form-group {% if form.organisation.errors %}error{% endif %}"
+        class="form-group {% if org.errors %}error{% endif %}"
         id="#organisation_form_group">
       <fieldset>
         <legend class="visually-hidden">Choose an organisation</legend>
@@ -65,9 +62,11 @@
           </span>
         {% endif %}
         {% for organisation_name, organisation_title in organisations %}
-          <label class="block-label selection-button-radio" for="id_organisation_0">
+          <label
+              class="block-label selection-button-radio"
+              for="id_organisation_{{ forloop.counter }}">
             <input
-                id="organisation_{{ loop.counter }}"
+                id="organisation_{{ forloop.counter }}"
                 name="{{ org.html_name }}"
                 type="radio"
                 value="{{ organisation_name }}"
