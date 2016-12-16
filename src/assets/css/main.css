@@ -1597,8 +1597,13 @@ input[type=number] {
   display: none; }
 
 .product-header {
-  background-color: #8bc658;
+  background-color: #64aa28;
+  color: #fff;
   padding: 0 30px 90px 30px; }
+  .product-header .login-white {
+    line-height: 42px; }
+  .product-header a {
+    color: #fff; }
 
 nav ul {
   list-style-type: none;

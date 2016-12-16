@@ -27,8 +27,15 @@ $Helvetica-Regular: $helvetica-regular;
 // start page
 
 .product-header {
-  background-color: #8bc658;
+  background-color: #64aa28;
+  color: $page-colour;
   padding: 0 30px 90px 30px;
+  .login-white {
+    line-height: 42px;
+  }
+  a {
+    color: $page-colour;
+  }
 }
 
 // navigation bar
