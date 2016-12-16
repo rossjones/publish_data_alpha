@@ -33,7 +33,13 @@ class Dataset(models.Model):
         current = model_to_dict(self)
         return ast.literal_eval(current.get('countries', '[]'))
 
+    def __str__(self):
+        return u"{}:{}".format(self.name, self.title)
+
 class Datafile(models.Model):
     title = models.CharField(max_length=128)
     url = models.URLField()
     dataset = models.ForeignKey(Dataset, related_name="files")
+
+    def __str__(self):
+        return u"{}/{}".format(self.title, self.url)

@@ -119,8 +119,7 @@
     </tbody>
   </table>
 
-  <form action="{% url 'edit_dataset_step' dataset.name 'check_dataset' %}" method="POST">
-    {{ wizard.management_form }}
+  <form action="{% url 'publish_dataset' dataset.name %}" method="POST">
     {% csrf_token %}
     <div class="form-group">
       <input type="submit" class="button" value="Accept">
