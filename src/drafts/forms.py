@@ -5,6 +5,7 @@ import drafts.choices as choices
 from drafts.models import Dataset, Datafile
 from drafts.util import convert_to_slug
 
+
 class DatasetForm(forms.Form):
     title = forms.CharField(label=_('Title'), max_length=100, required=True)
     description = forms.CharField(
@@ -22,6 +23,7 @@ class DatasetForm(forms.Form):
             self.cleaned_data['name'] = name
         return self.cleaned_data
 
+
 class LicenceForm(forms.ModelForm):
 
     class Meta:
@@ -30,10 +32,11 @@ class LicenceForm(forms.ModelForm):
 
     def clean(self):
         if 'licence' in self.cleaned_data:
-            if self.cleaned_data['licence'] == 'other' and not self.cleaned_data['licence_other']:
-                self._errors['licence_other'] = [_('Please type the name of your licence')]
+            if self.cleaned_data['licence'] == 'other' \
+                    and not self.cleaned_data['licence_other']:
+                self._errors['licence_other'] = \
+                    [_('Please type the name of your licence')]
         return self.cleaned_data
-
 
 
 class CountryForm(forms.ModelForm):
@@ -48,6 +51,7 @@ class CountryForm(forms.ModelForm):
         model = Dataset
         fields = ['countries']
 
+
 class OrganisationForm(forms.ModelForm):
 
     organisation = forms.CharField(required=True)
@@ -55,6 +59,7 @@ class OrganisationForm(forms.ModelForm):
     class Meta:
         model = Dataset
         fields = ['organisation']
+
 
 class FrequencyForm(forms.ModelForm):
 
@@ -82,6 +87,7 @@ class FrequencyQuarterlyForm(forms.ModelForm):
         model = Dataset
         fields = []
 
+
 class FrequencyAnnuallyForm(forms.ModelForm):
     class Meta:
         model = Dataset
@@ -92,6 +98,7 @@ class AddFileForm(forms.ModelForm):
     class Meta:
         model = Datafile
         fields = ['title', 'url']
+
 
 class StubForm(forms.ModelForm):
     """ This is a do-nothing form for handling a page
