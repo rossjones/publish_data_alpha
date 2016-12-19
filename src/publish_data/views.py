@@ -1,16 +1,16 @@
-import math
-
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 from publish_data.logic import dataset_list
-from tasks.logic import get_tasks_for_user, user_ignore_task
+from tasks.logic import get_tasks_for_user
 from stats.logic import get_stats
+
 
 def home(request):
     if request.user.is_authenticated():
         return dashboard(request)
     return render(request, "home.html", {})
+
 
 @login_required()
 def dashboard(request):
@@ -23,6 +23,7 @@ def dashboard(request):
         "stats": stats
     })
 
+
 @login_required()
 def manage_data(request):
 
@@ -34,7 +35,9 @@ def manage_data(request):
     except:
         page = 1
 
-    total, page_count, datasets = dataset_list(request.user, page, filter_query=q)
+    total, page_count, datasets = dataset_list(
+        request.user, page, filter_query=q
+    )
 
     return render(request, "manage.html", {
         "datasets": datasets,

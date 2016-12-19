@@ -1,5 +1,4 @@
 import math
-import datetime
 import pytz
 
 from dateutil.parser import parse as parse_date
@@ -8,10 +7,10 @@ from django.utils.translation import ugettext as _
 from drafts.models import Dataset
 from ckan_proxy.logic import datasets_for_user
 
-utc=pytz.UTC
+utc = pytz.UTC
 
 
-def dataset_list(user, page=1, filter_query=None,):
+def dataset_list(user, page=1, filter_query=None):
     """
     For the given user returns a tuple containing total number of datasets
     both draft and published, and the 20 most recent.
@@ -34,7 +33,13 @@ def dataset_list(user, page=1, filter_query=None,):
         d.status = _("draft")
 
     # Find relevant datasets from CKAN
-    results = datasets_for_user(user, search_term=filter_query or "*:*", offset=0, limit=max_fetch)
+    results = datasets_for_user(
+        user,
+        search_term=filter_query or "*:*",
+        offset=0,
+        limit=max_fetch
+    )
+
     datasets = []
     for dataset in results['results']:
         dataset['metadata_modified'] = \
