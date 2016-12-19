@@ -14,12 +14,14 @@ def calculate_dates_for_month(month, year):
         datetime(year=year, month=month, day=e)
     )
 
+
 def calculate_dates_for_quarter(q, year):
     first_month_of_quarter = 3 * q - 2
     last_month_of_quarter = 3 * q
     sd, _ = calculate_dates_for_month(first_month_of_quarter, year)
     _, ed = calculate_dates_for_month(last_month_of_quarter, year)
     return (sd, ed,)
+
 
 def calculate_dates_for_year(year):
     return (
@@ -53,6 +55,5 @@ def convert_to_slug(title):
 
         t = "{}{}".format(title, counter)
         counter += 1
-
 
     return slug

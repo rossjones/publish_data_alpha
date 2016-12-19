@@ -9,6 +9,7 @@ def organization_list():
     conn = ckan_connection_for_admin()
     return conn.action.organization_list()
 
+
 def organization_show(name):
     conn = ckan_connection_for_admin()
     try:
@@ -24,6 +25,7 @@ def organization_list_for_user(user):
         has permissions """
     conn = ckan_connection_for_user(user.apikey)
     return conn.action.organization_list_for_user()
+
 
 @memoize(timeout=60)
 def datasets_for_user(user, search_term="*:*", limit=10, offset=0):
@@ -61,8 +63,10 @@ def dataset_show(name, user=None):
 def dataset_create(data, user):
     pass
 
+
 def dataset_update(data, user):
     pass
+
 
 def clear_cache():
     """ Removes all memoization, we don't necessarily want to clear

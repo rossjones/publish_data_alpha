@@ -26,16 +26,41 @@ $Helvetica-Regular: $helvetica-regular;
 
 // start page
 
+$alpine-fresh: #128400;
+
 .product-header {
-  background-color: #64aa28;
+  background-color: $alpine-fresh;
   color: $page-colour;
   padding: 0 30px 90px 30px;
+  .button-get-started {
+    color: $alpine-fresh;
+    background-color: $page-colour;
+  }
   .login-white {
     line-height: 42px;
   }
   a {
     color: $page-colour;
   }
+// Start now buttons
+.button-start,
+.button-get-started {
+  @include bold-24;
+  background-image: file-url("icon-pointer-green.png");
+  background-repeat: no-repeat;
+  background-position: 95% 50%;
+  padding: em(5) em(41) em(6) em(16);
+
+  @include device-pixel-ratio {
+    background-image: file-url("icon-pointer-green-2x.png");
+    background-size: 30px 19px;
+  }
+
+  @include ie(6) {
+    background-image: file-url("icon-pointer-green-2x.png");
+  }
+}
+
 }
 
 // navigation bar

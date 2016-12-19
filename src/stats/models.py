@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class OrganisationStatistic(models.Model):
     organisation_name = models.CharField(max_length=64)
     dataset_title = models.CharField(max_length=256)

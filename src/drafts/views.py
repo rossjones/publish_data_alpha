@@ -1,9 +1,12 @@
+
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.template import RequestContext
 from django.views.generic.edit import FormView
+from django.http import HttpResponseRedirect
+
 
 import drafts.forms as f
 from userauth.logic import get_orgs_for_user
@@ -49,10 +52,12 @@ TEMPLATES = {
     'check_dataset': 'drafts/check_dataset.html'
 }
 
+
 class DatasetEdit(FormView):
     model = Dataset
     form_class = f.DatasetForm
     template_name = 'drafts/edit_title.html'
+
 
 class DatasetCreate(FormView):
     model = Dataset
@@ -84,6 +89,11 @@ class DatasetCreate(FormView):
             'step': 'organisation'
         })
 
+        # Only one organisation
+        # return reverse('edit_dataset_step', kwargs={
+        #    'dataset_name': self.object.name,
+        #    'step': 'licence'
+        # })
 
 class DatasetWizard(NamedUrlSessionWizardView):
 
@@ -91,7 +101,10 @@ class DatasetWizard(NamedUrlSessionWizardView):
 
     def dispatch(self, request, *args, **kwargs):
         if 'dataset_name' in kwargs:
-            self.instance = get_object_or_404(Dataset, name=kwargs['dataset_name'])
+            self.instance = get_object_or_404(
+                Dataset,
+                name=kwargs['dataset_name']
+            )
 
         return super(DatasetWizard, self).dispatch(request, *args, **kwargs)
 
@@ -108,7 +121,9 @@ class DatasetWizard(NamedUrlSessionWizardView):
         return [TEMPLATES[self.steps.current]]
 
     def get_context_data(self, form, **kwargs):
-        context = super(DatasetWizard, self).get_context_data(form=form, **kwargs)
+        context = super(DatasetWizard, self).get_context_data(
+            form=form, **kwargs
+        )
         if self.instance:
             context['dataset'] = self.instance
 
@@ -151,14 +166,18 @@ def should_show_frequency_detail(wiz, expected):
     cleaned_data = wiz.get_cleaned_data_for_step('frequency') or {}
     return cleaned_data.get('frequency', '') == expected
 
+
 def show_weekly_frequency(wizard):
     return should_show_frequency_detail(wizard, 'weekly')
+
 
 def show_monthly_frequency(wizard):
     return should_show_frequency_detail(wizard, 'monthly')
 
+
 def show_quarterly_frequency(wizard):
     return should_show_frequency_detail(wizard, 'quarterly')
+
 
 def show_annually_frequency(wizard):
     return should_show_frequency_detail(wizard, 'annually')

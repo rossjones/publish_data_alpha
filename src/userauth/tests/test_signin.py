@@ -4,6 +4,7 @@ from django.urls import reverse
 
 from ckan_proxy.util import test_user_key
 
+
 class SigninTestCase(TestCase):
 
     def setUp(self):
@@ -22,7 +23,6 @@ class SigninTestCase(TestCase):
         })
         assert response.status_code == 302
         assert response.url == '/'
-
 
     def test_signin_fail(self):
         response = self.client.post(reverse('signin'), {

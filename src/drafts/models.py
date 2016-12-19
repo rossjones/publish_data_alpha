@@ -4,6 +4,7 @@ from django.db import models
 from django.forms.models import model_to_dict
 from django.conf import settings
 
+
 class Dataset(models.Model):
     name = models.CharField(max_length=64, default="")
     title = models.CharField(max_length=64)
@@ -21,12 +22,15 @@ class Dataset(models.Model):
 
     last_edit_date = models.DateTimeField(auto_now=True)
 
-    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                on_delete=models.SET_NULL,
+                                null=True)
 
     def as_dict(self):
         current = model_to_dict(self)
         if not isinstance(current.get('countries'), list):
-            current['countries'] = ast.literal_eval(current.get('countries', '[]'))
+            current['countries'] = \
+                ast.literal_eval(current.get('countries', '[]'))
         return current
 
     def countries_as_list(self):
@@ -35,6 +39,7 @@ class Dataset(models.Model):
 
     def __str__(self):
         return u"{}:{}".format(self.name, self.title)
+
 
 class Datafile(models.Model):
     title = models.CharField(max_length=128)

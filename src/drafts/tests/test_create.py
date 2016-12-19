@@ -5,6 +5,7 @@ from drafts.models import Dataset
 
 from ckan_proxy.util import test_user_key
 
+
 def get_wizard_data(data, name):
     tmp = data
     tmp.update({"dataset_wizard-current_step": name})
@@ -23,7 +24,7 @@ class DraftsTestCase(TestCase):
         self.test_user.save()
 
         # Log the user in
-        response = self.client.post(reverse('signin'), {
+        self.client.post(reverse('signin'), {
             "email": "test-signin@localhost",
             "password": "password"
         })
@@ -32,13 +33,11 @@ class DraftsTestCase(TestCase):
         # use for the remaining tests.
         self.dataset_name = self._create_new_dataset()
 
-
     def _create_new_dataset(self):
-        response = self.client.post(reverse('new_dataset', args=[]),
-            {
+        response = self.client.post(reverse('new_dataset', args=[]), {
                 'title': 'A test dataset for create',
                 'description': 'A test description'
-            })
+        })
         assert response.status_code == 302
         parts = response.url.split('/')
         return parts[2]
@@ -47,13 +46,11 @@ class DraftsTestCase(TestCase):
         return Dataset.objects.get(name=self.dataset_name)
 
     def test_bad_slug(self):
-        response = self.client.post(reverse('new_dataset', args=[]),
-            {
+        response = self.client.post(reverse('new_dataset', args=[]), {
                 'title': '[]',
                 'description': 'A test description'
-            })
+        })
         assert response.status_code == 200
-
 
     def test_country(self):
         u = reverse('edit_dataset_step', args=[self.dataset_name, 'country'])
@@ -65,7 +62,10 @@ class DraftsTestCase(TestCase):
         assert response.status_code == 200
         assert self._get_dataset().countries == '[]'
 
-        response = self.client.post(u, get_wizard_data({'country-countries': 'england'}, 'country'))
+        response = self.client.post(
+            u,
+            get_wizard_data({'country-countries': 'england'}, 'country')
+        )
         assert response.status_code == 302
         assert self._get_dataset().countries == "['england']", \
             self._get_dataset().countries
@@ -79,13 +79,21 @@ class DraftsTestCase(TestCase):
         response = self.client.post(u, get_wizard_data({}, "licence"))
         assert response.status_code == 200
 
-        response = self.client.post(u, get_wizard_data({'licence-licence': 'ogl'}, 'licence'))
+        response = self.client.post(
+            u,
+            get_wizard_data({'licence-licence': 'ogl'}, 'licence')
+        )
         assert response.status_code == 302
         assert self._get_dataset().licence == "ogl", \
             self._get_dataset().licence
 
-        response = self.client.post(u, get_wizard_data({'licence-licence': 'other',
-            'licence-licence_other': 'pretend licence'}, 'licence'))
+        response = self.client.post(
+            u,
+            get_wizard_data({
+                'licence-licence': 'other',
+                'licence-licence_other': 'pretend licence'
+            }, 'licence')
+        )
         assert response.status_code == 302
         obj = self._get_dataset()
         assert obj.licence == "other", obj.licence
@@ -99,69 +107,107 @@ class DraftsTestCase(TestCase):
         response = self.client.post(u, get_wizard_data({}, 'frequency'))
         assert response.status_code == 200
 
-        response = self.client.post(u, get_wizard_data({'frequency-frequency': 'never'}, 'frequency'))
+        response = self.client.post(
+            u,
+            get_wizard_data({'frequency-frequency': 'never'}, 'frequency')
+        )
         assert response.status_code == 302
         assert self._get_dataset().frequency == "never", \
             self._get_dataset().frequency
 
     def test_organisation(self):
-        u = reverse('edit_dataset_step', args=[self.dataset_name, 'organisation'])
+        u = reverse(
+            'edit_dataset_step',
+            args=[self.dataset_name, 'organisation']
+        )
         response = self.client.get(u)
         assert response.status_code == 200
 
         response = self.client.post(u, get_wizard_data({}, 'organisation'))
         assert response.status_code == 200
 
-        response = self.client.post(u, get_wizard_data({'organisation-organisation': 'cabinet-office'}, 'organisation'))
+        response = self.client.post(
+            u,
+            get_wizard_data({
+                'organisation-organisation': 'cabinet-office'
+            }, 'organisation')
+        )
         assert response.status_code == 302
         assert self._get_dataset().organisation == "cabinet-office", \
             self._get_dataset().organisation
 
-
     """
     def test_frequency_details(self):
         u = reverse('edit_dataset_step', args=[self.dataset_name, 'frequency'])
-        response = self.client.post(u, get_wizard_data({'frequency-frequency': 'weekly'}, 'frequency'))
+        response = self.client.post(
+            u,
+            get_wizard_data({'frequency-frequency': 'weekly'}, 'frequency')
+        )
         assert response.status_code == 302
         assert response.url == reverse('edit_frequency_weekly',
             args=[self.dataset_name, 'frequency_weekly'])
 
-        response = self.client.post(u, get_wizard_data({'frequency-frequency': 'monthly'}, 'frequency'))
+        response = self.client.post(
+            u,
+            get_wizard_data({'frequency-frequency': 'monthly'}, 'frequency')
+        )
         assert response.status_code == 302
         assert response.url == reverse('edit_dataset_step',
             args=[self.dataset_name, 'frequency_monthly'])
 
-        response = self.client.post(u, get_wizard_data({'frequency-frequency': 'quarterly'}, 'frequency'))
+        response = self.client.post(
+            u,
+            get_wizard_data({'frequency-frequency': 'quarterly'}, 'frequency')
+        )
         assert response.status_code == 302
         assert response.url == reverse('edit_dataset_step',
             args=[self.dataset_name, 'frequency_quarterly'])
 
-        response = self.client.post(u, get_wizard_data({'frequency-frequency': 'annually'}, 'frequency'))
+        response = self.client.post(
+            u,
+            get_wizard_data({'frequency-frequency': 'annually'}, 'frequency')
+        )
         assert response.status_code == 302
         assert response.url == reverse('edit_dataset_step',
             args=[self.dataset_name, 'frequency_annually'])
 
-        response = self.client.post(u, get_wizard_data({'frequency-frequency': 'financial-year'}, 'frequency'))
+        response = self.client.post(
+            u,
+            get_wizard_data({
+                'frequency-frequency': 'financial-year'
+            }, 'frequency')
+        )
         assert response.status_code == 302
         assert response.url == reverse('edit_dataset_step-year',
             args=[self.dataset_name, 'frequency_financial_year'])
     """
 
     def test_notifications(self):
-        u = reverse('edit_dataset_step', args=[self.dataset_name,'notifications'])
+        u = reverse(
+            'edit_dataset_step',
+            args=[self.dataset_name, 'notifications']
+        )
         response = self.client.get(u)
         assert response.status_code == 200
 
         response = self.client.post(u, get_wizard_data({}, 'notifications'))
         assert response.status_code == 200
 
-        response = self.client.post(u, get_wizard_data({'notifications-notifications': 'yes'}, 'notifications'))
+        response = self.client.post(
+            u,
+            get_wizard_data({
+                'notifications-notifications': 'yes'
+            }, 'notifications')
+        )
         assert response.status_code == 302
         assert self._get_dataset().notifications == "yes", \
             self._get_dataset().notifications
 
     def test_check(self):
-        u = reverse('edit_dataset_step', args=[self.dataset_name, 'check_dataset'])
+        u = reverse(
+            'edit_dataset_step',
+            args=[self.dataset_name, 'check_dataset']
+        )
         response = self.client.get(u)
         assert response.status_code == 200
 
@@ -174,10 +220,18 @@ class DraftsTestCase(TestCase):
         response = self.client.post(u, get_wizard_data({}, 'add_file'))
         assert response.status_code == 200
 
-        response = self.client.post(u, get_wizard_data({'add_file-url': 'http://data.gov.uk'}, 'add_file'))
+        response = self.client.post(
+            u,
+            get_wizard_data({'add_file-url': 'http://data.gov.uk'}, 'add_file')
+        )
         assert response.status_code == 200
 
-        response = self.client.post(u, get_wizard_data({'add_file-title': 'Not really a file'}, 'add_file'))
+        response = self.client.post(
+            u,
+            get_wizard_data({
+                'add_file-title': 'Not really a file'
+            }, 'add_file')
+        )
         assert response.status_code == 200
 
         response = self.client.post(u, get_wizard_data({
