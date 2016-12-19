@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from ckan_proxy.logic import datasets_for_user
 from ckan_proxy.util import test_user_key
 
+
 class DatasetsTestCase(TestCase):
 
     def setUp(self):
@@ -14,8 +15,12 @@ class DatasetsTestCase(TestCase):
 
     def test_datasets_for_user(self):
         def get_datasets(offset=0, limit=10):
-            datasets = datasets_for_user(self.test_user, offset=offset,
-                limit=limit)
+            datasets = datasets_for_user(
+                self.test_user,
+                offset=offset,
+                limit=limit
+            )
+
             assert datasets['count'] > 0
             assert len(datasets['results']) == 10
             return datasets
@@ -25,5 +30,3 @@ class DatasetsTestCase(TestCase):
             second_page = get_datasets(10, 10)
             assert datasets['results'][0].get('id') != \
                 second_page['results'][0].get('id')
-
-
