@@ -4,6 +4,7 @@ from django.urls import reverse
 
 from ckan_proxy.util import test_user_key
 
+
 class TopLevelViewsCase(TestCase):
 
     def setUp(self):
