@@ -1,5 +1,8 @@
 [flake8]
 exclude =
+    setup.py,
+    manage.py,
+    publish_data/settings,
     userauth/migrations,
     draft/migrations,
     userauth/migrations
