@@ -84,6 +84,8 @@ class DatasetCreate(FormView):
         return context
 
     def get_success_url(self):
+        del self.request.session['wizard_dataset_wizard']
+
         return reverse('edit_dataset_step', kwargs={
             'dataset_name': self.object.name,
             'step': 'organisation'
@@ -156,9 +158,22 @@ class DatasetWizard(NamedUrlSessionWizardView):
         return self.get_form_step_data(form)
 
     def done(self, form_list, **kwargs):
-        return HttpResponseRedirect(
-            reverse('publish_dataset', args=[self.instance.name])
-        )
+
+        print("DONE!!!!")
+        f = dataset_update \
+            if dataset_show(self.instance.name, self.request.user) \
+            else dataset_create
+
+        try:
+            f(draft_to_ckan(self.instance), self.request.user)
+        except Exception as e:
+            # TODO: Handle the error correctly
+            print(e)
+        else:
+            # Success! We can safely delete the draft now
+            pass
+
+        return HttpResponseRedirect('/manage?newset=1')
 
 
 # Conditional processing of sub-forms for detail of frequency
@@ -182,24 +197,3 @@ def show_quarterly_frequency(wizard):
 def show_annually_frequency(wizard):
     return should_show_frequency_detail(wizard, 'annually')
 
-def publish_dataset(request, dataset_name):
-    """
-    Publish the newly created dataset into CKAN
-    """
-    dataset = get_object_or_404(Dataset, name=dataset_name)
-
-    f = dataset_update \
-        if dataset_show(dataset.name, request.user) \
-        else dataset_create
-
-    try:
-        f(draft_to_ckan(dataset), request.user)
-    except Exception as e:
-        # Handle the error correctly
-        pass
-    else:
-        # Success! We can safely delete the draft now
-        pass
-
-
-    return HttpResponse("Reload me!")

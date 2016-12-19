@@ -22,10 +22,6 @@ urlpatterns = [
         login_required(v.DatasetCreate.as_view()),
         name='new_dataset'),
 
-    url(r'^(?P<dataset_name>[\w-]+)/publish$',
-        login_required(v.publish_dataset),
-        name='publish_dataset'),
-
     url(r'edit/^(?P<dataset_name>[\w-]+)$',
         login_required(v.DatasetEdit.as_view()),
         name='edit_dataset_full'),
