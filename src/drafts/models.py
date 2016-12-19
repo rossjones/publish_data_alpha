@@ -19,6 +19,9 @@ class Dataset(models.Model):
 
     countries = models.TextField(default="[]")
     frequency = models.TextField(default="", blank=True)
+    frequency_weekly_start = models.DateField(blank=True, null=True)
+    frequency_weekly_end = models.DateField(blank=True, null=True)
+
     notifications = models.TextField(default="", blank=True)
 
     last_edit_date = models.DateTimeField(auto_now=True)

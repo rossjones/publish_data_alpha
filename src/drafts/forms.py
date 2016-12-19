@@ -1,5 +1,6 @@
 from django.utils.translation import ugettext as _
 from django import forms
+import datetime
 
 import drafts.choices as choices
 from drafts.models import Dataset, Datafile
@@ -72,9 +73,44 @@ class FrequencyForm(forms.ModelForm):
 
 
 class FrequencyWeeklyForm(forms.ModelForm):
+    start_day = forms.IntegerField(required=True)
+    start_month = forms.IntegerField(required=True)
+    start_year = forms.IntegerField(required=True)
+    end_day = forms.IntegerField(required=True)
+    end_month = forms.IntegerField(required=True)
+    end_year = forms.IntegerField(required=True)
+
     class Meta:
         model = Dataset
-        fields = []
+        fields = [
+            'start_day', 'start_month', 'start_year',
+            'end_day', 'end_month', 'end_year'
+        ]
+
+
+    def clean(self):
+        try:
+            self.cleaned_data['frequency_weekly_start'] = datetime.date(
+                self.cleaned_data['start_year'],
+                self.cleaned_data['start_month'],
+                self.cleaned_data['start_day']
+            )
+        except (KeyError, ValueError):
+            self._errors['start_date'] = \
+                [_('Please enter a correct start date')]
+
+        try:
+            self.cleaned_data['frequency_weekly_end'] = datetime.date(
+                self.cleaned_data['end_year'],
+                self.cleaned_data['end_month'],
+                self.cleaned_data['end_day']
+            )
+        except (KeyError, ValueError):
+            self._errors['end_date'] = \
+                [_('Please enter a correct end date')]
+
+        return self.cleaned_data
+
 
 
 class FrequencyMonthlyForm(forms.ModelForm):

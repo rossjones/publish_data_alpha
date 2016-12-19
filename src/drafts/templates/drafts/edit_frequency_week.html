@@ -6,9 +6,9 @@
 {% endblock %}
 
 {% block inner_content %}
-{% with w=wizard.form.frequency_weekly %}
+{% with w=wizard.form %}
 
-  {% if wizard.form.errors %}
+  {% if w.errors or w.non_field_errors %}
     <div
         class="error-summary"
         role="group"
@@ -28,10 +28,19 @@
           </li>
         {% endfor %}
 
-        {% for error in w.errors %}
+        {% for error in w.errors.start_date %}
           <li>
-            <a href="#countries_form_group">
-              Please select the area that your dataset covers
+            <a href="#start_date_form_group">
+              Please enter a correct start date
+            </a>
+            <span class="visuallyhidden">.</span>
+          </li>
+        {% endfor %}
+
+        {% for error in w.errors.end_date %}
+          <li>
+            <a href="#end_date_form_group">
+              Please enter a correct end date
             </a>
             <span class="visuallyhidden">.</span>
           </li>
@@ -51,7 +60,7 @@
     {{ wizard.management_form }}
     {% csrf_token %}
 
-    <div class="form-group">
+    <div class="form-group" id="start_date_form_group">
       <fieldset>
         <legend>
           <span class="form-label-bold">
@@ -59,42 +68,45 @@
             <span class="form-hint">For example, 31 3 2016</span>
           </span>
         </legend>
+        {% for error in w.errors.start_date %}
+          <span class="error-message">{{ error }}</span>
+        {% endfor %}
         <div class="form-date">
-          <div class="form-group form-group-day {% if w.errors %}error{% endif %}">
-            <label class="form-label" for="start_day">Day</label>
+          <div class="form-group form-group-day {% if w.errors.start_day %}error{% endif %}"
+            <label class="form-label" for="frequency_weekly-start_day">Day</label>
             <input
                 class="form-control"
                 id="start_day"
-                name="start_day"
+                name="{{ form.start_day.html_name }}"
                 type="number"
                 pattern="[0-9]*"
-                min="0"
+                min="1"
                 max="31"
-                value=""
+                value="{{ w.start_day.value|default:'' }}"
                 aria-describedby="start_hint">
           </div>
-          <div class="form-group form-group-month {% if w.errors %}error{% endif %}">
+          <div class="form-group form-group-month {% if w.errors.start_month %}error{% endif %}">
             <label class="form-label" for="start_month">Month</label>
             <input
                 class="form-control"
                 id="start_month"
-                name="start_month"
+                name="{{ form.start_month.html_name }}"
                 type="number"
                 pattern="[0-9]*"
-                min="0"
+                min="1"
                 max="12"
-                value="">
+                value="{{ w.start_month.value|default:'' }}">
           </div>
-          <div class="form-group form-group-year {% if w.errors %}error{% endif %}">
+          <div class="form-group form-group-year {% if w.errors.start_year %}error{% endif %}">
             <label class="form-label" for="start_year">Year</label>
             <input
                 class="form-control"
                 id="start_year"
-                name="start_year"
+                name="{{ form.start_year.html_name }}"
                 type="number"
                 pattern="[0-9]*"
-                min="0"
-                value="">
+                min="1"
+                value="{{ w.start_year.value|default:'' }}">
           </div>
         </div>
       </fieldset>
@@ -106,42 +118,45 @@
             <span class="form-hint">For example, 31 5 2016</span>
           </span>
         </legend>
+        {% for error in w.errors.end_date %}
+          <span class="error-message">{{ error }}</span>
+        {% endfor %}
         <div class="form-date">
-          <div class="form-group form-group-day {% if w.errors %}error{% endif %}">
+          <div class="form-group form-group-day {% if w.errors.end_day %}error{% endif %}">
             <label class="form-label" for="end_day">Day</label>
             <input
                 class="form-control"
                 id="end_day"
-                name="end_day"
+                name="{{ form.end_day.html_name }}"
                 type="number"
                 pattern="[0-9]*"
                 min="0"
                 max="31"
-                value=""
+                value="{{ w.end_day.value|default:'' }}"
                 aria-describedby="end_hint">
           </div>
-          <div class="form-group form-group-month {% if w.errors %}error{% endif %}">
+          <div class="form-group form-group-month {% if w.errors.end_month %}error{% endif %}">
             <label class="form-label" for="end_month">Month</label>
             <input
                 class="form-control"
                 id="end_month"
-                name="end_month"
+                name="{{ form.end_month.html_name }}"
                 type="number"
                 pattern="[0-9]*"
                 min="0"
                 max="12"
-                value="">
+                value="{{ w.end_month.value|default:'' }}">
           </div>
-          <div class="form-group form-group-year {% if w.errors %}error{% endif %}">
+          <div class="form-group form-group-year {% if w.errors.end_year %}error{% endif %}">
             <label class="form-label" for="end_year">Year</label>
             <input
                 class="form-control"
                 id="end_year"
-                name="end_year"
+                name="{{ form.end_year.html_name }}"
                 type="number"
                 pattern="[0-9]*"
                 min="0"
-                value="">
+                value="{{ w.end_year.value|default:'' }}">
           </div>
         </div>
       </fieldset>
