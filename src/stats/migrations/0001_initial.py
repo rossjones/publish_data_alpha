@@ -16,7 +16,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='OrganisationStatistic',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(
+                    auto_created=True,
+                    primary_key=True,
+                    serialize=False,
+                    verbose_name='ID'
+                )),
                 ('organisation_name', models.CharField(max_length=64)),
                 ('dataset_title', models.CharField(max_length=256)),
                 ('value', models.IntegerField(default=0)),

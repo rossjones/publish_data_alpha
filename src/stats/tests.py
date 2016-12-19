@@ -5,6 +5,7 @@ from django.test import TestCase
 from stats.models import OrganisationStatistic
 from stats.logic import get_stats
 
+
 class StatsTestCase(TestCase):
 
     def setUp(self):
@@ -17,7 +18,6 @@ class StatsTestCase(TestCase):
             since="+1% since yesterday",
             timestamp=datetime.now()
         )
-
 
     def test_get_stats(self):
         stats = get_stats("cabinet-office", "Downloads")
