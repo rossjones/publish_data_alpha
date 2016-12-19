@@ -19,19 +19,45 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Task',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(
+                    auto_created=True,
+                    primary_key=True,
+                    serialize=False,
+                    verbose_name='ID'
+                )),
                 ('owning_organisation', models.CharField(max_length=128)),
-                ('required_permission_name', models.CharField(blank=True, default='', max_length=128)),
+                ('required_permission_name', models.CharField(
+                    blank=True, default='', max_length=128
+                )),
                 ('description', models.CharField(max_length=64)),
-                ('category', models.CharField(choices=[('update', 'Update datasets'), ('fix', 'Fix datasets'), ('improve', 'Improve datasets'), ('accounts', 'Manage accounts')], max_length=20)),
+                ('category', models.CharField(
+                    choices=[
+                        ('update', 'Update datasets'),
+                        ('fix', 'Fix datasets'),
+                        ('improve', 'Improve datasets'),
+                        ('accounts', 'Manage accounts')
+                    ],
+                    max_length=20
+                )),
             ],
         ),
         migrations.CreateModel(
             name='UserHiddenTask',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('task', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='tasks.Task')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('id', models.AutoField(
+                    auto_created=True,
+                    primary_key=True,
+                    serialize=False,
+                    verbose_name='ID'
+                )),
+                ('task', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to='tasks.Task'
+                )),
+                ('user', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to=settings.AUTH_USER_MODEL
+                )),
             ],
         ),
     ]

@@ -8,6 +8,7 @@ from ckan_proxy.util import test_user_key
 from tasks.models import Task
 from tasks.logic import get_tasks_for_user, user_ignore_task
 
+
 class TasksTestCase(TestCase):
 
     def setUp(self):
@@ -19,28 +20,27 @@ class TasksTestCase(TestCase):
         self.test_user.set_password("password")
         self.test_user.save()
 
-        self.org_names = [o['name']
-            for o in organization_list_for_user(self.test_user)]
+        self.org_names = [o['name'] for o in
+                          organization_list_for_user(self.test_user)]
 
         self.simple_task_update = Task.objects.create(
-            owning_organisation = self.org_names[0],
-            required_permission_name = "",
-            description = "Task description",
-            category = "update"
+            owning_organisation=self.org_names[0],
+            required_permission_name="",
+            description="Task description",
+            category="update"
         )
         self.simple_task_fix = Task.objects.create(
-            owning_organisation = self.org_names[0],
-            required_permission_name = "",
-            description = "Task description",
-            category = "fix"
+            owning_organisation=self.org_names[0],
+            required_permission_name="",
+            description="Task description",
+            category="fix"
         )
         self.simple_task_improve = Task.objects.create(
-            owning_organisation = self.org_names[0],
-            required_permission_name = "",
-            description = "Task description",
-            category = "improve"
+            owning_organisation=self.org_names[0],
+            required_permission_name="",
+            description="Task description",
+            category="improve"
         )
-
 
     def test_ok(self):
         tasks = get_tasks_for_user(self.test_user)
@@ -65,6 +65,7 @@ class TasksTestCase(TestCase):
         tasks = get_tasks_for_user(self.test_user)
         assert len(tasks['improve']) == 1
 
-        resp = self.client.get(reverse('skip_task', args=[tasks['improve'][0].id]))
+        resp = self.client.get(reverse('skip_task',
+                               args=[tasks['improve'][0].id]))
         assert resp.status_code == 302
         assert resp.url == "/", resp.url
