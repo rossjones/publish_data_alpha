@@ -1,13 +1,12 @@
 from django.utils.translation import ugettext as _
-from django.contrib.auth import get_user_model
 from django.conf import settings
 
 from django.db import models
 
 TASK_CATEGORIES = (
     ("update",   _("Update datasets"), ),
-    ("fix",      _("Fix datasets"),    ),
-    ("improve",  _("Improve datasets"),),
+    ("fix",      _("Fix datasets"), ),
+    ("improve",  _("Improve datasets"), ),
     ("accounts", _("Manage accounts"), ),
 )
 
@@ -42,4 +41,3 @@ class Task(models.Model):
 class UserHiddenTask(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     task = models.ForeignKey(Task)
-
