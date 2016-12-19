@@ -1,8 +1,9 @@
 import json
 import os
 
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
+
 
 class Command(BaseCommand):
     help = 'Imports test users from a json file'
@@ -20,7 +21,9 @@ class Command(BaseCommand):
         for user_details in data:
 
             try:
-                user = get_user_model().objects.get(email=user_details['email'])
+                user = get_user_model().objects.get(
+                    email=user_details['email']
+                )
                 print("Not updating existing user")
             except:
                 password = user_details.pop('password')

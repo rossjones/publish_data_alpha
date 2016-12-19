@@ -5,6 +5,7 @@ from ckan_proxy.logic import organization_list_for_user
 from userauth.logic import set_orgs_for_user
 from .forms import SigninForm
 
+
 def login_view(request):
     login_failed = False
 
@@ -17,8 +18,8 @@ def login_view(request):
             if user is not None:
                 login(request, user)
 
-                refined_orgs = [(org['name'],org['title'],)
-                    for org in organization_list_for_user(user)]
+                refined_orgs = [(org['name'], org['title'],)
+                                for org in organization_list_for_user(user)]
                 set_orgs_for_user(request, refined_orgs)
 
                 return redirect("/")
@@ -29,6 +30,7 @@ def login_view(request):
         "form": form,
         "login_failed": login_failed
     })
+
 
 def logout_view(request):
     """ Logs out the user and clears the session """
