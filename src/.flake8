@@ -1,0 +1,6 @@
+[flake8]
+exclude =
+    userauth/migrations,
+    draft/migrations,
+    userauth/migrations
+max-complexity = 10
