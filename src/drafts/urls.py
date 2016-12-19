@@ -22,9 +22,9 @@ urlpatterns = [
         login_required(v.DatasetCreate.as_view()),
         name='new_dataset'),
 
-    url(r'edit/^(?P<dataset_name>[\w-]+)$',
+    url(r'^(?P<dataset_name>[\w-]+)/edit$',
         login_required(v.DatasetEdit.as_view()),
-        name='edit_dataset_full'),
+        name='edit_dataset'),
 
     url(r'^(?P<dataset_name>[\w-]+)/(?P<step>.+)$',
         dataset_wizard,

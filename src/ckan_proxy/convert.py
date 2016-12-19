@@ -19,7 +19,7 @@ def draft_to_ckan(draft):
         "notes": draft.description,
         "owner_org": draft.organisation,
         "resources": [datafile_to_resource(r) for r in draft.files.all()],
-        "licence": draft.licence,
+        "license_id": draft.licence,
         "update_frequency": draft.frequency,
         "geographic_coverage": draft.countries_as_list(),
         "extras": [

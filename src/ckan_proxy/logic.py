@@ -61,12 +61,15 @@ def dataset_show(name, user=None):
 
 
 def dataset_create(data, user):
-    pass
+    conn = ckan_connection_for_user(user.apikey)
+    res = conn.action.package_create(**data)
+    print(res)
 
 
 def dataset_update(data, user):
-    pass
-
+    conn = ckan_connection_for_user(user.apikey)
+    res = conn.action.package_update(**data)
+    print(res)
 
 def clear_cache():
     """ Removes all memoization, we don't necessarily want to clear

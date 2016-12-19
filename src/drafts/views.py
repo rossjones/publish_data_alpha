@@ -58,6 +58,30 @@ class DatasetEdit(FormView):
     form_class = f.DatasetForm
     template_name = 'drafts/edit_title.html'
 
+    def get_initial(self):
+        if 'dataset_name' in self.kwargs:
+            self.instance = get_object_or_404(
+                Dataset,
+                name=self.kwargs['dataset_name']
+            )
+            return self.instance.as_dict()
+        return {}
+
+    def get_context_data(self, **kwargs):
+        context = super(DatasetEdit, self).get_context_data(**kwargs)
+        context['target_url'] = reverse('edit_dataset', args=[self.instance.name])
+        return context
+
+    def form_valid(self, form):
+        self.instance.title=form.cleaned_data['title']
+        self.instance.description=form.cleaned_data['description']
+        self.instance.save()
+        return super(DatasetEdit, self).form_valid(form)
+
+
+    def get_success_url(self):
+        return reverse('edit_dataset_step', args=[self.instance.name, 'check_dataset'])
+
 
 class DatasetCreate(FormView):
     model = Dataset
@@ -80,7 +104,6 @@ class DatasetCreate(FormView):
     def get_context_data(self, **kwargs):
         context = super(DatasetCreate, self).get_context_data(**kwargs)
         context['target_url'] = reverse('new_dataset')
-
         return context
 
     def get_success_url(self):
