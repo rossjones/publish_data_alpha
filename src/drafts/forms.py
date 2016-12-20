@@ -8,8 +8,9 @@ from drafts.util import convert_to_slug
 
 class DatasetForm(forms.Form):
     title = forms.CharField(label=_('Title'), max_length=100, required=True)
+    summary = forms.CharField(label=_('Summary'), max_length=200, required=True)
     description = forms.CharField(
-        label=_('Description'),
+        label=_('Additional Information'),
         max_length=1024,
         widget=forms.Textarea,
         required=True

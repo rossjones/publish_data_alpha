@@ -75,6 +75,7 @@ class DatasetEdit(FormView):
     def form_valid(self, form):
         self.instance.title=form.cleaned_data['title']
         self.instance.description=form.cleaned_data['description']
+        self.instance.summary=form.cleaned_data['summary']
         self.instance.save()
         return super(DatasetEdit, self).form_valid(form)
 
@@ -92,6 +93,7 @@ class DatasetCreate(FormView):
         dataset = Dataset.objects.create(
                 title=form.cleaned_data['title'],
                 description=form.cleaned_data['description'],
+                summary=form.cleaned_data['summary'],
                 creator=self.request.user,
                 name=form.cleaned_data['name']
         )

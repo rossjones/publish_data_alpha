@@ -81,24 +81,48 @@
             value="{{ form.title.value|default:"" }}"/>
       </div>
 
+      <div class="form-group {% if form.summary.errors %}error{% endif %}">
+        <label
+            class="form-label bold"
+            for="id_summary"
+            id="id_summary_label">
+          Summary
+        </label>
+        {% for error in form.summary.errors %}
+          <span class="error-message">{{ error }}</span>
+        {% endfor %}
+        <span class="form-hint">
+          Write a short description of the dataset. Along with the title,
+          the summary will appear in search results.
+          <br/>
+          <br/>
+          Include any relevant words and phrases that you didn't use in the title.
+          This will helps users find your dataset.
+        </span>
+        <textarea
+            rows="4"
+            class="form-control form-control-2-3"
+            id="id_summary"
+            name="{{ form.summary.html_name }}">{{ form.summary.value|default:""}}</textarea>
+      </div>
+
       <div class="form-group {% if form.description.errors %}error{% endif %}">
         <label
             class="form-label bold"
             for="id_description"
             id="id_description_label">
-          Description
+          Additional information
         </label>
         {% for error in form.description.errors %}
           <span class="error-message">{{ error }}</span>
         {% endfor %}
         <span class="form-hint">
-          Write a description of the dataset. Along with the title,
-          the first sentence of the description will appear in search
-          results.
+          You might want to include more information about your dataset,
+          such as how it was collected or if there's anything missing from it.
           <br/>
           <br/>
-          Include any relevant words and phrases that you didn’t use in
-          the title to help users find your dataset.
+          Make sure you write in plain English, use short sentences and paragraphs.
+          Explain any technical terms of acronyms the first time you use them.
         </span>
         <textarea
             rows="10"

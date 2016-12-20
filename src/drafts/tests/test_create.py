@@ -36,7 +36,8 @@ class DraftsTestCase(TestCase):
     def _create_new_dataset(self):
         response = self.client.post(reverse('new_dataset', args=[]), {
                 'title': 'A test dataset for create',
-                'description': 'A test description'
+                'description': 'A test description',
+                'summary': 'A test summary'
         })
         assert response.status_code == 302
         parts = response.url.split('/')
@@ -46,6 +47,14 @@ class DraftsTestCase(TestCase):
         return Dataset.objects.get(name=self.dataset_name)
 
     def test_bad_slug(self):
+        response = self.client.post(reverse('new_dataset', args=[]), {
+                'title': '[]',
+                'description': 'A test description',
+                'summary': 'A test summary'
+        })
+        assert response.status_code == 200
+
+    def test_missing_summary(self):
         response = self.client.post(reverse('new_dataset', args=[]), {
                 'title': '[]',
                 'description': 'A test description'
