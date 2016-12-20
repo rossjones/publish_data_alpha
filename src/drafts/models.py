@@ -8,6 +8,7 @@ from django.conf import settings
 class Dataset(models.Model):
     name = models.CharField(max_length=64, default="")
     title = models.CharField(max_length=64)
+    summary = models.CharField(max_length=200, default="")
     description = models.TextField()
 
     organisation = models.CharField(max_length=128, default="")
