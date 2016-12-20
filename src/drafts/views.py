@@ -161,7 +161,7 @@ class DatasetWizard(NamedUrlSessionWizardView):
         if self.request.method == "GET" and self.request.GET.get('change'):
             context['editing'] = True
 
-        if kwargs.get('step') == 'check_dataset':
+        if self.request.path.split('/')[-1] == 'check_dataset':
             org = organization_show(self.instance.organisation) or {}
             context['organisation_title'] = org.get('title')
 
@@ -196,7 +196,10 @@ class DatasetWizard(NamedUrlSessionWizardView):
     def post(self, *args, **kwargs):
         editing = self.request.POST.get('editing', "False")
         if editing == "True":
-            print(kwargs)
+            # Save the current form if it is valid.
+            form = self.get_form(data=self.request.POST, files=self.request.FILES)
+            if form.is_valid():
+                form.save()
             return self.render_goto_step("check_dataset")
         return super(DatasetWizard, self).post(*args, **kwargs)
 

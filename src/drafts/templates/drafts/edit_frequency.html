@@ -51,6 +51,7 @@
       method="POST">
     {{ wizard.management_form }}
     {% csrf_token %}
+    <input type="hidden" name="editing" value="{{ editing }}">
 
     <div
         class="form-group {% if form.frequency.errors %}error{% endif %}"

@@ -45,6 +45,8 @@
       <div class="form-group">
         {{ wizard.management_form }}
         {% csrf_token %}
+        <input type="hidden" name="editing" value="{{ editing }}">
+
         <input type="submit" class="button" value="Continue">
       </div>
     </form>
