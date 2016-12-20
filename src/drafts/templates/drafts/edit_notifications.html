@@ -14,6 +14,7 @@ Get notifications
   <form action="{% url 'edit_dataset_step' dataset.name 'notifications' %}" method="POST">
     {{ wizard.management_form }}
     {% csrf_token %}
+    <input type="hidden" name="editing" value="{{ editing }}">
 
     <ul class="errorlist"><li>This field is required.</li></ul>
 

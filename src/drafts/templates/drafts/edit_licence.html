@@ -64,6 +64,8 @@
 
     {{ wizard.management_form }}
     {% csrf_token %}
+    <input type="hidden" name="editing" value="{{ editing }}">
+
     <div
         class="form-group {% if form.licence.errors %}error{% endif %}"
         id="licence_form_group">

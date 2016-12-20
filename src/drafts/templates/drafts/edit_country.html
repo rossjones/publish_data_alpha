@@ -55,6 +55,7 @@
 
     {{ wizard.management_form }}
     {% csrf_token %}
+    <input type="hidden" name="editing" value="{{ editing }}">
 
     <div
         class="form-group {% if countries.errors %}error{% endif %}"

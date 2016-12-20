@@ -11,6 +11,7 @@ dataset_wizard = login_required(
         done_step_name='done',
         condition_dict={
             'addfile_daily': v.show_daily_frequency,
+            'addfile_never': v.show_never_frequency,
             'addfile_weekly': v.show_weekly_frequency,
             'addfile_monthly': v.show_monthly_frequency,
             'addfile_quarterly': v.show_quarterly_frequency,

@@ -226,16 +226,16 @@ class DraftsTestCase(TestCase):
             args=[self.dataset_name, 'addfile_daily']
         )
         response = self.client.get(u)
-        assert response.status_code == 302
+        assert response.status_code == 200
 
-        # Must add a file
+        # Must add a file, and this fails
         response = self.client.post(u, get_wizard_data({}, 'addfile_daily'))
         assert response.status_code == 200
 
         response = self.client.post(
             u,
             get_wizard_data(
-                {'add_file-url': 'http://data.gov.uk'},
+                {'addfile-url': 'http://data.gov.uk'},
                 'addfile_daily'
             )
         )
@@ -244,14 +244,14 @@ class DraftsTestCase(TestCase):
         response = self.client.post(
             u,
             get_wizard_data({
-                'add_file-title': 'Not really a file'
+                'addfile-title': 'Not really a file'
             }, 'addfile_daily')
         )
         assert response.status_code == 200
 
         response = self.client.post(u, get_wizard_data({
-            'add_file-url': 'http://data.gov.uk',
-            'add_file-title': 'Not really a file'
+            'addfile-url': 'http://data.gov.uk',
+            'addfile-title': 'Not really a file'
         }, 'addfile_daily'))
         assert response.status_code == 200
 
