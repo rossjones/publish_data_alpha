@@ -4,7 +4,7 @@ from datetime import datetime
 from django.utils.text import slugify
 
 from drafts.models import Dataset
-from ckan_proxy.logic import show_dataset
+from ckan_proxy.logic import dataset_show
 
 
 def calculate_dates_for_month(month, year):
@@ -48,7 +48,7 @@ def convert_to_slug(title):
         try:
             draft = Dataset.objects.get(name=slug)
         except Dataset.DoesNotExist:
-            dataset = show_dataset(slug)
+            dataset = dataset_show(slug)
 
         if not draft and not dataset:
             break

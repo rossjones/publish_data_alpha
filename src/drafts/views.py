@@ -1,14 +1,23 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
+
+from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+from django.template import RequestContext
+from django.views.generic.edit import FormView
+from django.http import HttpResponseRedirect
+
 
 import drafts.forms as f
-from drafts.models import Dataset, Datafile
-from django.views.generic.edit import FormView
-from formtools.wizard.views import NamedUrlSessionWizardView
-from ckan_proxy.logic import organization_show
-
 from userauth.logic import get_orgs_for_user
+from drafts.models import Dataset, Datafile
+from ckan_proxy.convert import draft_to_ckan
+from ckan_proxy.logic import (organization_show,
+                              dataset_show,
+                              dataset_create,
+                              dataset_update)
+
+from formtools.wizard.views import NamedUrlSessionWizardView
 
 FORMS = (
     ('organisation', f.OrganisationForm),
@@ -49,6 +58,30 @@ class DatasetEdit(FormView):
     form_class = f.DatasetForm
     template_name = 'drafts/edit_title.html'
 
+    def get_initial(self):
+        if 'dataset_name' in self.kwargs:
+            self.instance = get_object_or_404(
+                Dataset,
+                name=self.kwargs['dataset_name']
+            )
+            return self.instance.as_dict()
+        return {}
+
+    def get_context_data(self, **kwargs):
+        context = super(DatasetEdit, self).get_context_data(**kwargs)
+        context['target_url'] = reverse('edit_dataset', args=[self.instance.name])
+        return context
+
+    def form_valid(self, form):
+        self.instance.title=form.cleaned_data['title']
+        self.instance.description=form.cleaned_data['description']
+        self.instance.save()
+        return super(DatasetEdit, self).form_valid(form)
+
+
+    def get_success_url(self):
+        return reverse('edit_dataset_step', args=[self.instance.name, 'check_dataset'])
+
 
 class DatasetCreate(FormView):
     model = Dataset
@@ -71,10 +104,11 @@ class DatasetCreate(FormView):
     def get_context_data(self, **kwargs):
         context = super(DatasetCreate, self).get_context_data(**kwargs)
         context['target_url'] = reverse('new_dataset')
-
         return context
 
     def get_success_url(self):
+        if 'wizard_dataset_wizard' in self.request.session:
+            del self.request.session['wizard_dataset_wizard']
 
         return reverse('edit_dataset_step', kwargs={
             'dataset_name': self.object.name,
@@ -86,7 +120,6 @@ class DatasetCreate(FormView):
         #    'dataset_name': self.object.name,
         #    'step': 'licence'
         # })
-
 
 class DatasetWizard(NamedUrlSessionWizardView):
 
@@ -149,6 +182,19 @@ class DatasetWizard(NamedUrlSessionWizardView):
         return self.get_form_step_data(form)
 
     def done(self, form_list, **kwargs):
+        f = dataset_update \
+            if dataset_show(self.instance.name, self.request.user) \
+            else dataset_create
+
+        try:
+            f(draft_to_ckan(self.instance), self.request.user)
+        except Exception as e:
+            # TODO: Handle the error correctly
+            print(e)
+        else:
+            # Success! We can safely delete the draft now
+            pass
+
         return HttpResponseRedirect('/manage?newset=1')
 
 
@@ -172,3 +218,4 @@ def show_quarterly_frequency(wizard):
 
 def show_annually_frequency(wizard):
     return should_show_frequency_detail(wizard, 'annually')
+
