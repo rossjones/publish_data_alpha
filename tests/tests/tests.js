@@ -35,6 +35,12 @@ var extended = function(browser) {
     return this
       .assert.containsText('ul.error-summary-list', text);
   };
+
+  browser.checkFormInput = function(name) {
+    return this
+      .assert.elementPresent('input[name=' + name + ']');
+  };
+
   return browser;
 }
 
@@ -73,6 +79,7 @@ module.exports = {
     login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
     .setValue('input[name=title]', 'Title of my dataset')
+    .setValue('textarea[name=summary]', 'Summary of my dataset')
     .setValue('textarea[name=description]', 'Description of my dataset')
     .submitFormAndCheckNextTitle(
       'Which organisation are you publishing this dataset for?'
@@ -84,23 +91,23 @@ module.exports = {
     .selectRadioButton('England')
     .submitFormAndCheckNextTitle('How often is this dataset updated?')
     .selectRadioButton('Every month')
-    .submitFormAndCheckNextTitle('What time period does this link cover?')
+    .submitFormAndCheckNextTitle('Add a link')
+    .setValue('input[name=addfile_monthly-url]', 'http://example.com/data.csv')
+    .setValue('input[name=addfile_monthly-title]', 'Title of this link')
     .setValue('input[name=period_month]', '12')
     .setValue('input[name=period_year]', '2016')
-    .submitFormAndCheckNextTitle('Add a link')
-//    .setValue('input[name=add_file-url]', 'http://example.com/set.csv')
-//    .setValue('input[name=add_file-title]', 'Link title')
-//    .submitFormAndCheckNextTitle('Dataset links')
-//    .clickAndCheckNextTitle('Continue', 'Get notifications')
-//    .selectRadioButton('Yes')
-//    .submitFormAndCheckNextTitle('Check your dataset')
-//    .clickAndCheckNextTitle('Your dataset has been published')
+    .submitFormAndCheckNextTitle('Dataset links')
+    .submitFormAndCheckNextTitle('Get notifications')
+    .selectRadioButton('Yes')
+    .submitFormAndCheckNextTitle('Check your dataset')
+//    .submitFormAndCheckNextTitle('Your dataset has been published')
     .end();
   },
 
   'Create a dataset, missing title' : function (browser) {
     login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
+    .setValue('textarea[name=summary]', 'Summary of my dataset')
     .setValue('textarea[name=description]', 'Description of my dataset')
     .submitFormAndCheckNextTitle('There was a problem')
     .checkError('Please provide a valid title')
@@ -115,6 +122,7 @@ module.exports = {
     login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
     .setValue('input[name=title]', '][;')
+    .setValue('textarea[name=summary]', 'Summary of my dataset')
     .setValue('textarea[name=description]', 'Description of my dataset')
     .submitFormAndCheckNextTitle('There was a problem')
     .checkError('Please provide a valid title')
@@ -128,6 +136,7 @@ module.exports = {
   'Create a dataset missing description' : function (browser) {
     login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
+    .setValue('textarea[name=summary]', 'Summary of my dataset')
     .setValue('input[name=title]', 'Title of my dataset')
     .submitFormAndCheckNextTitle('There was a problem')
     .checkError('Please provide a description')
@@ -138,10 +147,25 @@ module.exports = {
     .end();
   },
 
+  'Create a dataset missing summary' : function (browser) {
+    login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
+    .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
+    .setValue('textarea[name=description]', 'Description of my dataset')
+    .setValue('input[name=title]', 'Title of my dataset')
+    .submitFormAndCheckNextTitle('There was a problem')
+    .checkError('Please provide a summary')
+    .setValue('textarea[name=summary]', 'Summary of my dataset')
+    .submitFormAndCheckNextTitle(
+      'Which organisation are you publishing this dataset for?'
+    )
+    .end();
+  },
+
   'Create a dataset, omit the organisation' : function (browser) {
     login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
     .setValue('input[name=title]', 'Title of my dataset')
+    .setValue('textarea[name=summary]', 'Summary of my dataset')
     .setValue('textarea[name=description]', 'Description of my dataset')
     .submitFormAndCheckNextTitle(
       'Which organisation are you publishing this dataset for?'
@@ -157,6 +181,7 @@ module.exports = {
     login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
     .setValue('input[name=title]', 'Title of my dataset')
+    .setValue('textarea[name=summary]', 'Summary of my dataset')
     .setValue('textarea[name=description]', 'Description of my dataset')
     .submitFormAndCheckNextTitle(
       'Which organisation are you publishing this dataset for?'
@@ -174,6 +199,7 @@ module.exports = {
     login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
     .setValue('input[name=title]', 'Title of my dataset')
+    .setValue('textarea[name=summary]', 'Summary of my dataset')
     .setValue('textarea[name=description]', 'Description of my dataset')
     .submitFormAndCheckNextTitle(
       'Which organisation are you publishing this dataset for?'
@@ -192,6 +218,7 @@ module.exports = {
     login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
     .setValue('input[name=title]', 'Title of my dataset')
+    .setValue('textarea[name=summary]', 'Summary of my dataset')
     .setValue('textarea[name=description]', 'Description of my dataset')
     .submitFormAndCheckNextTitle(
       'Which organisation are you publishing this dataset for?'
@@ -211,6 +238,7 @@ module.exports = {
     login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
     .setValue('input[name=title]', 'Title of my dataset')
+    .setValue('textarea[name=summary]', 'Summary of my dataset')
     .setValue('textarea[name=description]', 'Description of my dataset')
     .submitFormAndCheckNextTitle(
       'Which organisation are you publishing this dataset for?'
@@ -232,6 +260,7 @@ module.exports = {
     login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
     .setValue('input[name=title]', 'Title of my dataset')
+    .setValue('textarea[name=summary]', 'Summary of my dataset')
     .setValue('textarea[name=description]', 'Description of my dataset')
     .submitFormAndCheckNextTitle(
       'Which organisation are you publishing this dataset for?'
@@ -251,6 +280,7 @@ module.exports = {
     login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
     .setValue('input[name=title]', 'Title of my dataset')
+    .setValue('textarea[name=summary]', 'Summary of my dataset')
     .setValue('textarea[name=description]', 'Description of my dataset')
     .submitFormAndCheckNextTitle(
       'Which organisation are you publishing this dataset for?'
@@ -262,19 +292,80 @@ module.exports = {
     .selectRadioButton('England')
     .submitFormAndCheckNextTitle('How often is this dataset updated?')
     .selectRadioButton('Every week')
-    .submitFormAndCheckNextTitle('What time period does this link cover?')
-    .assert.containsText('span.form-label-bold', 'Start date')
-//    .submitFormAndCheckNextTitle('There was a problem')
+    .submitFormAndCheckNextTitle('Add a link')
+    .checkFormInput('addfile_weekly-start_day')
+    .checkFormInput('addfile_weekly-end_day')
+    .end();
+  },
+
+  'Create a dataset, frequency monthly' : function (browser) {
+    login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
+    .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
+    .setValue('input[name=title]', 'Title of my dataset')
+    .setValue('textarea[name=summary]', 'Summary of my dataset')
+    .setValue('textarea[name=description]', 'Description of my dataset')
+    .submitFormAndCheckNextTitle(
+      'Which organisation are you publishing this dataset for?'
+    )
+    .selectRadioButton('Cabinet Office')
+    .submitFormAndCheckNextTitle('Choose a licence')
+    .selectRadioButton('Open Government Licence')
+    .submitFormAndCheckNextTitle('Choose an area')
+    .selectRadioButton('England')
+    .submitFormAndCheckNextTitle('How often is this dataset updated?')
+    .selectRadioButton('Every month')
+    .submitFormAndCheckNextTitle('Add a link')
+    .checkFormInput('period_month')
+    .checkFormInput('period_year')
+    .end();
+  },
+
+  'Create a dataset, frequency quarterly' : function (browser) {
+    login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
+    .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
+    .setValue('input[name=title]', 'Title of my dataset')
+    .setValue('textarea[name=summary]', 'Summary of my dataset')
+    .setValue('textarea[name=description]', 'Description of my dataset')
+    .submitFormAndCheckNextTitle(
+      'Which organisation are you publishing this dataset for?'
+    )
+    .selectRadioButton('Cabinet Office')
+    .submitFormAndCheckNextTitle('Choose a licence')
+    .selectRadioButton('Open Government Licence')
+    .submitFormAndCheckNextTitle('Choose an area')
+    .selectRadioButton('England')
+    .submitFormAndCheckNextTitle('How often is this dataset updated?')
+    .selectRadioButton('Every quarter')
+    .submitFormAndCheckNextTitle('Add a link')
+    .checkFormInput('period_quarter')
+    .end();
+  },
+
+  'Create a dataset, frequency yearly' : function (browser) {
+    login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
+    .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
+    .setValue('input[name=title]', 'Title of my dataset')
+    .setValue('textarea[name=summary]', 'Summary of my dataset')
+    .setValue('textarea[name=description]', 'Description of my dataset')
+    .submitFormAndCheckNextTitle(
+      'Which organisation are you publishing this dataset for?'
+    )
+    .selectRadioButton('Cabinet Office')
+    .submitFormAndCheckNextTitle('Choose a licence')
+    .selectRadioButton('Open Government Licence')
+    .submitFormAndCheckNextTitle('Choose an area')
+    .selectRadioButton('England')
+    .submitFormAndCheckNextTitle('How often is this dataset updated?')
+    .selectRadioButton('Every year (January to December)')
+    .submitFormAndCheckNextTitle('Add a link')
+    .checkFormInput('period_year')
     .end();
   },
 
   'Dashboard' : function (browser) {
     login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
-    .assert.containsText(
-      'td',
-      'Update \'Anti-social behaviour order statistics, England and Wales\''
-    )
-    .assert.containsText('div.overdue', 'Overdue')
+    .assert.containsText('main', 'Update datasets')
+    .assert.containsText('main', 'Fix datasets')
     .end()
   }
 
