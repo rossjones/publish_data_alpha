@@ -10,10 +10,12 @@ dataset_wizard = login_required(
         url_name='edit_dataset_step',
         done_step_name='done',
         condition_dict={
-            'frequency_weekly': v.show_weekly_frequency,
-            'frequency_monthly': v.show_monthly_frequency,
-            'frequency_quarterly': v.show_quarterly_frequency,
-            'frequency_annually': v.show_annually_frequency,
+            'addfile_daily': v.show_daily_frequency,
+            'addfile_never': v.show_never_frequency,
+            'addfile_weekly': v.show_weekly_frequency,
+            'addfile_monthly': v.show_monthly_frequency,
+            'addfile_quarterly': v.show_quarterly_frequency,
+            'addfile_annually': v.show_annually_frequency,
         })
 )
 

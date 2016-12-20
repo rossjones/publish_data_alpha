@@ -1,0 +1,94 @@
+{% extends 'main_with_navbar.html' %}
+{% load static %}
+
+{% block page_title %}
+  Time period
+{% endblock %}
+
+{% block inner_content %}
+
+  <h1 class="heading-large">
+    What time period does this link cover?
+  </h1>
+
+  <form
+      method="post"
+      action="{% url 'edit_dataset_step' dataset.name 'frequency_annually' %}"
+      class="form">
+    {{ wizard.management_form }}
+    {% csrf_token %}
+
+    <fieldset>
+      <legend class="visuallyhidden">
+        Add a link
+      </legend>
+
+      <div class="form-group">
+        <label class="form-label" for="id_url">URL</label>
+        <span class="form-hint">
+          Enter a link (beginning with http:// or https://) to the page where
+          your data file has been uploaded.
+          <br/>
+          <br/>
+          This might be your organisation’s website or another website, such
+          as GOV.UK or Amazon Web Services (AWS).
+        </span>
+        <input
+            class="form-control form-control-2-3"
+            id="id_url"
+            name="{{ wizard.form.url.html_name }}"
+            type="url"
+            required=""
+            value=""/>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label bold" for="id_title">
+          Title
+        </label>
+        <span class="form-hint">
+          Give your link a descriptive title to help users understand what
+          data it contains. The title shouldn’t be the same as the URL.
+        </span>
+        <input
+            class="form-control form-control-2-3"
+            id="id_title"
+            name="{{ wizard.form.title.html_name }}"
+            type="text"
+            required=""
+            value=""/>
+      </div>
+    </fieldset>
+
+
+    <fieldset>
+      <legend>
+        <span class="form-label-bold visuallyhidden">
+          Time period
+        </span>
+      </legend>
+      <div class="form-group">
+        <label class="form-label" for="period_year">Year</label>
+        <span class="form-hint">For example, 2016</span>
+        <input
+            class="form-control"
+            id="period_year"
+            name="period_year"
+            type="number"
+            pattern="[0-9]*"
+            min="0"
+            value="">
+      </div>
+    </fieldset>
+
+    <br/>
+
+    <div class="form-group">
+      <input type="submit" class="button" value="Continue" />
+    </div>
+
+  </form>
+
+  </form>
+
+{% endblock %}

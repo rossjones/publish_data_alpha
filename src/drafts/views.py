@@ -26,12 +26,13 @@ FORMS = (
     ('frequency', f.FrequencyForm),
 
     # These are used conditionally
-    ('frequency_weekly', f.FrequencyWeeklyForm),
-    ('frequency_monthly', f.FrequencyMonthlyForm),
-    ('frequency_quarterly', f.FrequencyQuarterlyForm),
-    ('frequency_annually', f.FrequencyAnnuallyForm),
+    ('addfile_weekly', f.WeeklyFileForm),
+    ('addfile_monthly', f.MonthlyFileForm),
+    ('addfile_quarterly', f.QuarterlyFileForm),
+    ('addfile_annually', f.AnnuallyFileForm),
+    ('addfile_daily', f.FileForm),
+    ('addfile_never', f.FileForm),
 
-    ('add_file', f.AddFileForm),
     ('files', f.StubForm),
     ('notifications', f.NotificationsForm),
     ('check_dataset', f.StubForm),
@@ -42,11 +43,12 @@ TEMPLATES = {
     'licence': 'drafts/edit_licence.html',
     'country': 'drafts/edit_country.html',
     'frequency': 'drafts/edit_frequency.html',
-    'frequency_weekly': 'drafts/edit_frequency_week.html',
-    'frequency_monthly': 'drafts/edit_frequency_month.html',
-    'frequency_quarterly': 'drafts/edit_frequency_quarter.html',
-    'frequency_annually': 'drafts/edit_frequency_year.html',
-    'add_file': 'drafts/edit_addfile.html',
+    'addfile_daily': 'drafts/edit_addfile.html',
+    'addfile_never': 'drafts/edit_addfile.html',
+    'addfile_weekly': 'drafts/edit_addfile_week.html',
+    'addfile_monthly': 'drafts/edit_addfile_month.html',
+    'addfile_quarterly': 'drafts/edit_addfile_quarter.html',
+    'addfile_annually': 'drafts/edit_addfile_year.html',
     'files': 'drafts/show_files.html',
     'notifications': 'drafts/edit_notifications.html',
     'check_dataset': 'drafts/check_dataset.html'
@@ -175,12 +177,12 @@ class DatasetWizard(NamedUrlSessionWizardView):
         return initial
 
     def get_form_kwargs(self, step):
-        if step == 'add_file':
+        if step.startswith('addfile'):
             return {'instance': Datafile()}
         return {'instance': self.instance}
 
     def process_step(self, form):
-        if self.steps.current == 'add_file':
+        if self.steps.current.startswith('addfile'):
             model = form.save(commit=False)
             model.dataset = self.instance
             model.save()
@@ -240,3 +242,11 @@ def show_quarterly_frequency(wizard):
 
 def show_annually_frequency(wizard):
     return should_show_frequency_detail(wizard, 'annually')
+
+
+def show_daily_frequency(wizard):
+    return should_show_frequency_detail(wizard, 'daily')
+
+
+def show_never_frequency(wizard):
+    return should_show_frequency_detail(wizard, 'never')
