@@ -107,7 +107,8 @@ class DatasetCreate(FormView):
         return context
 
     def get_success_url(self):
-        del self.request.session['wizard_dataset_wizard']
+        if 'wizard_dataset_wizard' in self.request.session:
+            del self.request.session['wizard_dataset_wizard']
 
         return reverse('edit_dataset_step', kwargs={
             'dataset_name': self.object.name,
