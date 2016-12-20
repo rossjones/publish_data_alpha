@@ -182,8 +182,6 @@ class DatasetWizard(NamedUrlSessionWizardView):
         return self.get_form_step_data(form)
 
     def done(self, form_list, **kwargs):
-
-        print("DONE!!!!")
         f = dataset_update \
             if dataset_show(self.instance.name, self.request.user) \
             else dataset_create

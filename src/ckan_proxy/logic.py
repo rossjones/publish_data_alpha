@@ -46,6 +46,7 @@ def datasets_for_user(user, search_term="*:*", limit=10, offset=0):
         sort="metadata_modified desc"
     )
 
+
 def dataset_show(name, user=None):
     # TODO: Use user not admin
     if not user:
@@ -63,13 +64,14 @@ def dataset_show(name, user=None):
 def dataset_create(data, user):
     conn = ckan_connection_for_user(user.apikey)
     res = conn.action.package_create(**data)
-    print(res)
+    return res
 
 
 def dataset_update(data, user):
     conn = ckan_connection_for_user(user.apikey)
     res = conn.action.package_update(**data)
-    print(res)
+    return res
+
 
 def clear_cache():
     """ Removes all memoization, we don't necessarily want to clear
