@@ -72,7 +72,15 @@ class FrequencyForm(forms.ModelForm):
         fields = ['frequency']
 
 
-class FrequencyWeeklyForm(forms.ModelForm):
+class FileForm(forms.ModelForm):
+
+    class Meta:
+        model = Datafile
+        fields = [ 'title', 'url' ]
+
+
+class WeeklyFileForm(forms.ModelForm):
+
     start_day = forms.IntegerField(required=True)
     start_month = forms.IntegerField(required=True)
     start_year = forms.IntegerField(required=True)
@@ -81,12 +89,12 @@ class FrequencyWeeklyForm(forms.ModelForm):
     end_year = forms.IntegerField(required=True)
 
     class Meta:
-        model = Dataset
+        model = Datafile
         fields = [
+            'title', 'url',
             'start_day', 'start_month', 'start_year',
             'end_day', 'end_month', 'end_year'
         ]
-
 
     def clean(self):
         try:
@@ -112,36 +120,33 @@ class FrequencyWeeklyForm(forms.ModelForm):
         return self.cleaned_data
 
 
+class MonthlyFileForm(forms.ModelForm):
 
-class FrequencyMonthlyForm(forms.ModelForm):
-    class Meta:
-        model = Dataset
-        fields = []
-
-
-class FrequencyQuarterlyForm(forms.ModelForm):
-    class Meta:
-        model = Dataset
-        fields = []
-
-
-class FrequencyAnnuallyForm(forms.ModelForm):
-    class Meta:
-        model = Dataset
-        fields = []
-
-
-class AddFileForm(forms.ModelForm):
     class Meta:
         model = Datafile
-        fields = ['title', 'url']
+        fields = [ 'title', 'url', 'month', 'year' ]
+
+
+class QuarterlyFileForm(forms.ModelForm):
+
+    class Meta:
+        model = Datafile
+        fields = [ 'title', 'url', 'quarter' ]
+
+
+class AnnuallyFileForm(forms.ModelForm):
+
+    class Meta:
+        model = Datafile
+        fields = [ 'title', 'url', 'year' ]
 
 
 class StubForm(forms.ModelForm):
     """ This is a do-nothing form for handling a page
         that has no form """
+
     class Meta:
-        model = Dataset
+        model = Datafile
         fields = []
 
 

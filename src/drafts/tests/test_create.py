@@ -221,17 +221,23 @@ class DraftsTestCase(TestCase):
         assert response.status_code == 200
 
     def test_addfile(self):
-        u = reverse('edit_dataset_step', args=[self.dataset_name, 'add_file'])
+        u = reverse(
+            'edit_dataset_step',
+            args=[self.dataset_name, 'addfile_daily']
+        )
         response = self.client.get(u)
-        assert response.status_code == 200
+        assert response.status_code == 302
 
         # Must add a file
-        response = self.client.post(u, get_wizard_data({}, 'add_file'))
+        response = self.client.post(u, get_wizard_data({}, 'addfile_daily'))
         assert response.status_code == 200
 
         response = self.client.post(
             u,
-            get_wizard_data({'add_file-url': 'http://data.gov.uk'}, 'add_file')
+            get_wizard_data(
+                {'add_file-url': 'http://data.gov.uk'},
+                'addfile_daily'
+            )
         )
         assert response.status_code == 200
 
@@ -239,15 +245,15 @@ class DraftsTestCase(TestCase):
             u,
             get_wizard_data({
                 'add_file-title': 'Not really a file'
-            }, 'add_file')
+            }, 'addfile_daily')
         )
         assert response.status_code == 200
 
         response = self.client.post(u, get_wizard_data({
             'add_file-url': 'http://data.gov.uk',
             'add_file-title': 'Not really a file'
-        }, 'add_file'))
-        assert response.status_code == 302
+        }, 'addfile_daily'))
+        assert response.status_code == 200
 
     def test_showfiles(self):
         u = reverse('edit_dataset_step', args=[self.dataset_name, 'files'])

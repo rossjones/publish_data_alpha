@@ -19,8 +19,6 @@ class Dataset(models.Model):
 
     countries = models.TextField(default="[]")
     frequency = models.TextField(default="", blank=True)
-    frequency_weekly_start = models.DateField(blank=True, null=True)
-    frequency_weekly_end = models.DateField(blank=True, null=True)
 
     notifications = models.TextField(default="", blank=True)
 
@@ -49,6 +47,11 @@ class Datafile(models.Model):
     title = models.CharField(max_length=128)
     url = models.URLField()
     dataset = models.ForeignKey(Dataset, related_name="files")
+    start_date = models.DateField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True)
+    month = models.IntegerField(blank=True, null=True)
+    year = models.IntegerField(blank=True, null=True)
+    quarter = models.TextField(blank=True, default="")
 
     def __str__(self):
         return u"{}/{}".format(self.title, self.url)
