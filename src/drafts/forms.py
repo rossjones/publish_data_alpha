@@ -1,5 +1,6 @@
 from django.utils.translation import ugettext as _
 from django import forms
+import datetime
 
 import drafts.choices as choices
 from drafts.models import Dataset, Datafile
@@ -71,41 +72,81 @@ class FrequencyForm(forms.ModelForm):
         fields = ['frequency']
 
 
-class FrequencyWeeklyForm(forms.ModelForm):
-    class Meta:
-        model = Dataset
-        fields = []
+class FileForm(forms.ModelForm):
 
-
-class FrequencyMonthlyForm(forms.ModelForm):
-    class Meta:
-        model = Dataset
-        fields = []
-
-
-class FrequencyQuarterlyForm(forms.ModelForm):
-    class Meta:
-        model = Dataset
-        fields = []
-
-
-class FrequencyAnnuallyForm(forms.ModelForm):
-    class Meta:
-        model = Dataset
-        fields = []
-
-
-class AddFileForm(forms.ModelForm):
     class Meta:
         model = Datafile
-        fields = ['title', 'url']
+        fields = [ 'title', 'url' ]
+
+
+class WeeklyFileForm(forms.ModelForm):
+
+    start_day = forms.IntegerField(required=True)
+    start_month = forms.IntegerField(required=True)
+    start_year = forms.IntegerField(required=True)
+    end_day = forms.IntegerField(required=True)
+    end_month = forms.IntegerField(required=True)
+    end_year = forms.IntegerField(required=True)
+
+    class Meta:
+        model = Datafile
+        fields = [
+            'title', 'url',
+            'start_day', 'start_month', 'start_year',
+            'end_day', 'end_month', 'end_year'
+        ]
+
+    def clean(self):
+        try:
+            self.cleaned_data['frequency_weekly_start'] = datetime.date(
+                self.cleaned_data['start_year'],
+                self.cleaned_data['start_month'],
+                self.cleaned_data['start_day']
+            )
+        except (KeyError, ValueError):
+            self._errors['start_date'] = \
+                [_('Please enter a correct start date')]
+
+        try:
+            self.cleaned_data['frequency_weekly_end'] = datetime.date(
+                self.cleaned_data['end_year'],
+                self.cleaned_data['end_month'],
+                self.cleaned_data['end_day']
+            )
+        except (KeyError, ValueError):
+            self._errors['end_date'] = \
+                [_('Please enter a correct end date')]
+
+        return self.cleaned_data
+
+
+class MonthlyFileForm(forms.ModelForm):
+
+    class Meta:
+        model = Datafile
+        fields = [ 'title', 'url', 'month', 'year' ]
+
+
+class QuarterlyFileForm(forms.ModelForm):
+
+    class Meta:
+        model = Datafile
+        fields = [ 'title', 'url', 'quarter' ]
+
+
+class AnnuallyFileForm(forms.ModelForm):
+
+    class Meta:
+        model = Datafile
+        fields = [ 'title', 'url', 'year' ]
 
 
 class StubForm(forms.ModelForm):
     """ This is a do-nothing form for handling a page
         that has no form """
+
     class Meta:
-        model = Dataset
+        model = Datafile
         fields = []
 
 

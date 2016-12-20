@@ -1,0 +1,214 @@
+{% extends 'main_with_navbar.html' %}
+{% load static %}
+
+{% block page_title %}
+  Time period
+{% endblock %}
+
+{% block inner_content %}
+{% with w=wizard.form %}
+
+  {% if w.errors or w.non_field_errors %}
+    <div
+        class="error-summary"
+        role="group"
+        aria-labelledby="error-summary-heading-example-1"
+        tabindex="-1">
+      <h1
+          class="heading-medium error-summary-heading"
+          id="error-summary-heading-example-1">
+        There was a problem
+      </h1>
+
+      <ul class="error-summary-list">
+        {% for error in w.non_field_errors %}
+          <li>
+            {{ error }}
+            <span class="visuallyhidden">.</span>
+          </li>
+        {% endfor %}
+
+        {% for error in w.errors.start_date %}
+          <li>
+            <a href="#start_date_form_group">
+              Please enter a correct start date
+            </a>
+            <span class="visuallyhidden">.</span>
+          </li>
+        {% endfor %}
+
+        {% for error in w.errors.end_date %}
+          <li>
+            <a href="#end_date_form_group">
+              Please enter a correct end date
+            </a>
+            <span class="visuallyhidden">.</span>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+  <h1 class="heading-large">
+    Add a link
+  </h1>
+
+  <form
+      method="post"
+      action="{% url 'edit_dataset_step' dataset.name 'frequency_weekly' %}"
+      class="form">
+    {{ wizard.management_form }}
+    {% csrf_token %}
+
+    <fieldset>
+      <legend class="visuallyhidden">
+        Add a link
+      </legend>
+
+      <div class="form-group">
+        <label class="form-label" for="id_url">URL</label>
+        <span class="form-hint">
+          Enter a link (beginning with http:// or https://) to the page where
+          your data file has been uploaded.
+          <br/>
+          <br/>
+          This might be your organisation’s website or another website, such
+          as GOV.UK or Amazon Web Services (AWS).
+        </span>
+        <input
+            class="form-control form-control-2-3"
+            id="id_url"
+            name="{{ wizard.form.url.html_name }}"
+            type="url"
+            required=""
+            value=""/>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label bold" for="id_title">
+          Title
+        </label>
+        <span class="form-hint">
+          Give your link a descriptive title to help users understand what
+          data it contains. The title shouldn’t be the same as the URL.
+        </span>
+        <input
+            class="form-control form-control-2-3"
+            id="id_title"
+            name="{{ wizard.form.title.html_name }}"
+            type="text"
+            required=""
+            value=""/>
+      </div>
+    </fieldset>
+
+
+    <div class="form-group" id="start_date_form_group">
+      <fieldset>
+        <legend>
+          <span class="form-label-bold">
+            Start date
+            <span class="form-hint">For example, 31 3 2016</span>
+          </span>
+        </legend>
+        {% for error in w.errors.start_date %}
+          <span class="error-message">{{ error }}</span>
+        {% endfor %}
+        <div class="form-date">
+          <div class="form-group form-group-day {% if w.errors.start_day %}error{% endif %}"
+            <label class="form-label" for="frequency_weekly-start_day">Day</label>
+            <input
+                class="form-control"
+                id="start_day"
+                name="{{ form.start_day.html_name }}"
+                type="number"
+                pattern="[0-9]*"
+                min="1"
+                max="31"
+                value="{{ w.start_day.value|default:'' }}"
+                aria-describedby="start_hint">
+          </div>
+          <div class="form-group form-group-month {% if w.errors.start_month %}error{% endif %}">
+            <label class="form-label" for="start_month">Month</label>
+            <input
+                class="form-control"
+                id="start_month"
+                name="{{ form.start_month.html_name }}"
+                type="number"
+                pattern="[0-9]*"
+                min="1"
+                max="12"
+                value="{{ w.start_month.value|default:'' }}">
+          </div>
+          <div class="form-group form-group-year {% if w.errors.start_year %}error{% endif %}">
+            <label class="form-label" for="start_year">Year</label>
+            <input
+                class="form-control"
+                id="start_year"
+                name="{{ form.start_year.html_name }}"
+                type="number"
+                pattern="[0-9]*"
+                min="1"
+                value="{{ w.start_year.value|default:'' }}">
+          </div>
+        </div>
+      </fieldset>
+      <br/>
+      <fieldset>
+        <legend>
+          <span class="form-label-bold">
+            End date
+            <span class="form-hint">For example, 31 5 2016</span>
+          </span>
+        </legend>
+        {% for error in w.errors.end_date %}
+          <span class="error-message">{{ error }}</span>
+        {% endfor %}
+        <div class="form-date">
+          <div class="form-group form-group-day {% if w.errors.end_day %}error{% endif %}">
+            <label class="form-label" for="end_day">Day</label>
+            <input
+                class="form-control"
+                id="end_day"
+                name="{{ form.end_day.html_name }}"
+                type="number"
+                pattern="[0-9]*"
+                min="0"
+                max="31"
+                value="{{ w.end_day.value|default:'' }}"
+                aria-describedby="end_hint">
+          </div>
+          <div class="form-group form-group-month {% if w.errors.end_month %}error{% endif %}">
+            <label class="form-label" for="end_month">Month</label>
+            <input
+                class="form-control"
+                id="end_month"
+                name="{{ form.end_month.html_name }}"
+                type="number"
+                pattern="[0-9]*"
+                min="0"
+                max="12"
+                value="{{ w.end_month.value|default:'' }}">
+          </div>
+          <div class="form-group form-group-year {% if w.errors.end_year %}error{% endif %}">
+            <label class="form-label" for="end_year">Year</label>
+            <input
+                class="form-control"
+                id="end_year"
+                name="{{ form.end_year.html_name }}"
+                type="number"
+                pattern="[0-9]*"
+                min="0"
+                value="{{ w.end_year.value|default:'' }}">
+          </div>
+        </div>
+      </fieldset>
+    </div>
+
+    <div class="form-group">
+      <input type="submit" class="button" value="Continue" />
+    </div>
+  </form>
+
+{% endwith %}
+{% endblock %}
