@@ -153,6 +153,12 @@ class DatasetWizard(NamedUrlSessionWizardView):
         if self.instance:
             context['dataset'] = self.instance
 
+        # Are we accessing this form because we got here from
+        # the check_dataset page?
+        context['editing'] = False
+        if self.request.method == "GET" and self.request.GET.get('change'):
+            context['editing'] = True
+
         if kwargs.get('step') == 'check_dataset':
             org = organization_show(self.instance.organisation) or {}
             context['organisation_title'] = org.get('title')
@@ -180,6 +186,17 @@ class DatasetWizard(NamedUrlSessionWizardView):
             form.save()
 
         return self.get_form_step_data(form)
+
+    def get(self, request, *args, **kwargs):
+        self.storage.current_step = kwargs.get('step')
+        return self.render(self.get_form())
+
+    def post(self, *args, **kwargs):
+        editing = self.request.POST.get('editing', "False")
+        if editing == "True":
+            print(kwargs)
+            return self.render_goto_step("check_dataset")
+        return super(DatasetWizard, self).post(*args, **kwargs)
 
     def done(self, form_list, **kwargs):
         f = dataset_update \
@@ -218,4 +235,3 @@ def show_quarterly_frequency(wizard):
 
 def show_annually_frequency(wizard):
     return should_show_frequency_detail(wizard, 'annually')
-
