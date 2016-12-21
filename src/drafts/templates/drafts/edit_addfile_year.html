@@ -32,11 +32,11 @@
         <input
             class="form-control"
             id="period_year"
-            name="period_year"
+            name="{{ form.year.html_name }}"
             type="number"
             pattern="[0-9]*"
             min="0"
-            value="">
+            value="{{ w.year.value|default:'' }}">
       </div>
     </fieldset>
 

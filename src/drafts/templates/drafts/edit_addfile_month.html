@@ -33,23 +33,23 @@
           <input
               class="form-control"
               id="period_month"
-              name="period_month"
+              name="{{ form.month.html_name }}"
               type="number"
               pattern="[0-9]*"
               min="0"
               max="12"
-              value=""/>
+              value="{{ w.month.value|default:'' }}"/>
         </div>
         <div class="form-group form-group-year">
           <label class="form-label" for="period_year">Year</label>
           <input
               class="form-control"
               id="period_year"
-              name="period_year"
+              name="{{ form.year.html_name }}"
               type="number"
               pattern="[0-9]*"
               min="0"
-              value="">
+              value="{{ w.year.value|default:'' }}"/>
         </div>
       </div>
     </fieldset>
