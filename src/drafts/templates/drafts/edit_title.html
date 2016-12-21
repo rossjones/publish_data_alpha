@@ -62,12 +62,12 @@
 
     <fieldset>
       <legend class="visuallyhidden">
-        Provide a title and a description
+        Provide a title, summary, and description.
       </legend>
 
       <div class="form-group {% if form.title.errors %}error{% endif %}">
         <label
-            class="form-label"
+            class="form-label-bold"
             for="id_title"
             id="id_title_label">
           Title
@@ -90,7 +90,7 @@
 
       <div class="form-group {% if form.summary.errors %}error{% endif %}">
         <label
-            class="form-label bold"
+            class="form-label-bold"
             for="id_summary"
             id="id_summary_label">
           Summary
@@ -115,7 +115,7 @@
 
       <div class="form-group {% if form.description.errors %}error{% endif %}">
         <label
-            class="form-label bold"
+            class="form-label-bold"
             for="id_description"
             id="id_description_label">
           Additional information
