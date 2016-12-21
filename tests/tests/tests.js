@@ -293,8 +293,27 @@ module.exports = {
     .submitFormAndCheckNextTitle('How often is this dataset updated?')
     .selectRadioButton('Every week')
     .submitFormAndCheckNextTitle('Add a link')
-    .checkFormInput('addfile_weekly-start_day')
-    .checkFormInput('addfile_weekly-end_day')
+    .setValue('input[name=addfile_weekly-url]', 'http://example.com/file.csv')
+    .setValue('input[name=addfile_weekly-title]', 'First link')
+    .setValue('input[name=addfile_weekly-start_day]', '30')
+    .setValue('input[name=addfile_weekly-start_month]', '01')
+    .setValue('input[name=addfile_weekly-start_year]', '2012')
+    .setValue('input[name=addfile_weekly-end_day]', '30')
+    .setValue('input[name=addfile_weekly-end_month]', '01')
+    .setValue('input[name=addfile_weekly-end_year]', '2013')
+    .submitFormAndCheckNextTitle('Dataset links')
+    .clickOnLink('Add another file')
+    .setValue('input[name=addfile_weekly-url]', 'http://example.com/file2.csv')
+    .setValue('input[name=addfile_weekly-title]', 'Second link')
+    .setValue('input[name=addfile_weekly-start_day]', '30')
+    .setValue('input[name=addfile_weekly-start_month]', '01')
+    .setValue('input[name=addfile_weekly-start_year]', '2013')
+    .setValue('input[name=addfile_weekly-end_day]', '30')
+    .setValue('input[name=addfile_weekly-end_month]', '01')
+    .setValue('input[name=addfile_weekly-end_year]', '2014')
+    .submitFormAndCheckNextTitle('Dataset links')
+    .assert.containsText('table', 'First link')
+    .assert.containsText('table', 'Second link')
     .end();
   },
 
@@ -315,8 +334,19 @@ module.exports = {
     .submitFormAndCheckNextTitle('How often is this dataset updated?')
     .selectRadioButton('Every month')
     .submitFormAndCheckNextTitle('Add a link')
-    .checkFormInput('period_month')
-    .checkFormInput('period_year')
+    .setValue('input[name=addfile_monthly-url]', 'http://example.com/file.csv')
+    .setValue('input[name=addfile_monthly-title]', 'First link')
+    .setValue('input[name=addfile_monthly-month]', '12')
+    .setValue('input[name=addfile_monthly-year]', '2012')
+    .submitFormAndCheckNextTitle('Dataset links')
+    .clickOnLink('Add another file')
+    .setValue('input[name=addfile_monthly-url]', 'http://example.com/file2.csv')
+    .setValue('input[name=addfile_monthly-title]', 'Second link')
+    .setValue('input[name=addfile_monthly-month]', '12')
+    .setValue('input[name=addfile_monthly-year]', '2013')
+    .submitFormAndCheckNextTitle('Dataset links')
+    .assert.containsText('table', 'First link')
+    .assert.containsText('table', 'Second link')
     .end();
   },
 
@@ -337,7 +367,37 @@ module.exports = {
     .submitFormAndCheckNextTitle('How often is this dataset updated?')
     .selectRadioButton('Every quarter')
     .submitFormAndCheckNextTitle('Add a link')
-    .checkFormInput('period_quarter')
+    .setValue('input[name=addfile_quarterly-url]', 'http://example.com/file.csv')
+    .setValue('input[name=addfile_quarterly-title]', 'First link')
+    .selectRadioButton('Q2 (July to September)')
+    .submitFormAndCheckNextTitle('Dataset links')
+    .clickOnLink('Add another file')
+    .setValue('input[name=addfile_quarterly-url]', 'http://example.com/file2.csv')
+    .setValue('input[name=addfile_quarterly-title]', 'Second link')
+    .selectRadioButton('Q3 (October to December)')
+    .submitFormAndCheckNextTitle('Dataset links')
+    .assert.containsText('table', 'First link')
+    .assert.containsText('table', 'Second link')
+    .end();
+  },
+
+  'Create a dataset, frequency never' : function (browser) {
+    login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
+    .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
+    .setValue('input[name=title]', 'Title of my dataset')
+    .setValue('textarea[name=summary]', 'Summary of my dataset')
+    .setValue('textarea[name=description]', 'Description of my dataset')
+    .submitFormAndCheckNextTitle(
+      'Which organisation are you publishing this dataset for?'
+    )
+    .selectRadioButton('Cabinet Office')
+    .submitFormAndCheckNextTitle('Choose a licence')
+    .selectRadioButton('Open Government Licence')
+    .submitFormAndCheckNextTitle('Choose an area')
+    .selectRadioButton('England')
+    .submitFormAndCheckNextTitle('How often is this dataset updated?')
+    .selectRadioButton('Every quarter')
+    .submitFormAndCheckNextTitle('Add a link')
     .end();
   },
 
@@ -358,7 +418,17 @@ module.exports = {
     .submitFormAndCheckNextTitle('How often is this dataset updated?')
     .selectRadioButton('Every year (January to December)')
     .submitFormAndCheckNextTitle('Add a link')
-    .checkFormInput('period_year')
+    .setValue('input[name=addfile_annually-url]', 'http://example.com/file.csv')
+    .setValue('input[name=addfile_annually-title]', 'First link')
+    .setValue('input[name=addfile_annually-year]', '2012')
+    .submitFormAndCheckNextTitle('Dataset links')
+    .clickOnLink('Add another file')
+    .setValue('input[name=addfile_annually-url]', 'http://example.com/file2.csv')
+    .setValue('input[name=addfile_annually-title]', 'Second link')
+    .setValue('input[name=addfile_annually-year]', '2013')
+    .submitFormAndCheckNextTitle('Dataset links')
+    .assert.containsText('table', 'First link')
+    .assert.containsText('table', 'Second link')
     .end();
   },
 
