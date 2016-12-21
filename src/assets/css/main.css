@@ -1633,6 +1633,9 @@ nav ul {
   list-style-type: none;
   margin-bottom: 1em; }
 
+table {
+  margin-bottom: 1em; }
+
 .dashboard a:visited {
   color: #005ea5; }
 

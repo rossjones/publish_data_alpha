@@ -10,68 +10,62 @@
     <h1 class="heading-large">Manage data</h1>
     <h2 class="heading-small">Find existing datasets</h2>
 
-    <div class="filtered-table">
-      <div class="filter-panel">
+    <form
+        method="GET"
+        action="{% url 'manage_data' %}"
+        class="form">
 
-         <form
-              method="GET"
-              action="{% url 'manage_data' %}"
-              class="form">
+      <fieldset>
+        <legend class="visuallyhidden">
+          Filter by name
+        </legend>
 
-            <fieldset>
-              <legend class="visuallyhidden">
-                Filter by name
-              </legend>
-
-              <div class="form-group">
-                <label for="name">Filter by name: </label>
-                <input class="form-control" id="q" name="q" type="text" value="{{ q }}">
-                <input class="button" type="submit" value="Filter" >
-                {% if q %}
-                  <a class="font-xsmall" href="{% url 'manage_data' %}">Reset</a>
-                {% endif %}
-              </div>
-            </fieldset>
-          </form>
-      </div>
-
-      {% if datasets %}
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for dataset in datasets %}
-              <tr>
-                <td>{{ dataset.title }}</td>
-                <td>{{ dataset.status }}</td>
-                <td>
-                  <a href="">Add Data</a> <br/>
-                  <a href="">Edit</a> <br/>
-                  <a href="">Delete</a>
-                </td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      {% else %}
-        <p>No results found</p>
-      {% endif %}
-
-      <div class="pagination">
-        {% for page in page_range %}
-          {% if page == current_page %}
-            <span>{{ current_page }}</span>
-          {% else %}
-            <span><a href="?page={{ page }}{% if q %}&q={{ q }}{% endif %}">{{ page }}</a><span>
+        <div class="form-group">
+          <label for="name">Filter by name: </label>
+          <input class="form-control" id="q" name="q" type="text" value="{{ q }}">
+          <input class="button" type="submit" value="Filter" >
+          {% if q %}
+            <a class="font-xsmall" href="{% url 'manage_data' %}">Reset</a>
           {% endif %}
-        {% endfor %}
-      </div>
+        </div>
+      </fieldset>
+    </form>
 
+    {% if datasets %}
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for dataset in datasets %}
+            <tr>
+              <td>{{ dataset.title }}</td>
+              <td>{{ dataset.status }}</td>
+              <td>
+                <a href="">Add Data</a> <br/>
+                <a href="">Edit</a> <br/>
+                <a href="">Delete</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No results found</p>
+    {% endif %}
+
+    <div class="pagination">
+      {% for page in page_range %}
+        {% if page == current_page %}
+          <span>{{ current_page }}</span>
+        {% else %}
+          <span><a href="?page={{ page }}{% if q %}&q={{ q }}{% endif %}">{{ page }}</a><span>
+        {% endif %}
+      {% endfor %}
     </div>
   </main>
 {% endblock %}
