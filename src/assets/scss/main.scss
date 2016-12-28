@@ -36,37 +36,43 @@ $alpine-fresh: #128400;
     color: $alpine-fresh;
     background-color: $page-colour;
   }
+
   .login-white {
     line-height: 42px;
   }
+
   a {
     color: $page-colour;
   }
-// Start now buttons
-.button-start,
-.button-get-started {
-  @include bold-24;
-  background-image: file-url("icon-pointer-green.png");
-  background-repeat: no-repeat;
-  background-position: 95% 50%;
-  padding: em(5) em(41) em(6) em(16);
 
-  @include device-pixel-ratio {
-    background-image: file-url("icon-pointer-green-2x.png");
-    background-size: 30px 19px;
+  // Start now buttons
+  .button-start,
+  .button-get-started {
+    @include bold-24;
+    background-image: file-url("icon-pointer-green.png");
+    background-repeat: no-repeat;
+    background-position: 95% 50%;
+    padding: em(5) em(41) em(6) em(16);
+
+    @include device-pixel-ratio {
+      background-image: file-url("icon-pointer-green-2x.png");
+      background-size: 30px 19px;
+    }
+
+    @include ie(6) {
+      background-image: file-url("icon-pointer-green-2x.png");
+    }
   }
-
-  @include ie(6) {
-    background-image: file-url("icon-pointer-green-2x.png");
-  }
-}
-
 }
 
 // navigation bar
 
 nav ul {
   list-style-type: none;
+  margin-bottom: 1em;
+}
+
+table {
   margin-bottom: 1em;
 }
 

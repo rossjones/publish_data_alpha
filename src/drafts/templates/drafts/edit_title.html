@@ -27,19 +27,26 @@
           </li>
         {% endfor %}
 
-        {% for error in form.title.errors %}
+        {% if form.title.errors %}
           <li>
             <a href="#id_title_label">Please provide a valid title</a>
             <span class="visuallyhidden">.</span>
           </li>
-        {% endfor %}
+        {% endif %}
 
-        {% for error in form.description.errors %}
+          {% if form.description.errors %}
           <li>
             <a href="#id_description_label">Please provide a description</a>
             <span class="visuallyhidden">.</span>
           </li>
-        {% endfor %}
+          {% endif %}
+
+          {% if form.summary.errors %}
+          <li>
+            <a href="#id_description_label">Please provide a summary</a>
+            <span class="visuallyhidden">.</span>
+          </li>
+          {% endif %}
       </ul>
     </div>
   {% endif %}
@@ -55,19 +62,19 @@
 
     <fieldset>
       <legend class="visuallyhidden">
-        Provide a title and a description
+        Provide a title, summary, and description.
       </legend>
 
       <div class="form-group {% if form.title.errors %}error{% endif %}">
         <label
-            class="form-label"
+            class="form-label-bold"
             for="id_title"
             id="id_title_label">
           Title
         </label>
-        {% for error in form.title.errors %}
-          <span class="error-message">{{ error }}</span>
-        {% endfor %}
+        {% if form.title.errors %}
+
+        {% endif %}
         <span class="form-hint">
           Titles should be 65 characters or less, including spaces.<br/>
           Most search engines will shorten titles if they’re longer than
@@ -83,7 +90,7 @@
 
       <div class="form-group {% if form.summary.errors %}error{% endif %}">
         <label
-            class="form-label bold"
+            class="form-label-bold"
             for="id_summary"
             id="id_summary_label">
           Summary
@@ -108,7 +115,7 @@
 
       <div class="form-group {% if form.description.errors %}error{% endif %}">
         <label
-            class="form-label bold"
+            class="form-label-bold"
             for="id_description"
             id="id_description_label">
           Additional information

@@ -83,7 +83,10 @@ class DatasetEdit(FormView):
 
 
     def get_success_url(self):
-        return reverse('edit_dataset_step', args=[self.instance.name, 'check_dataset'])
+        return reverse(
+            'edit_dataset_step',
+            args=[self.instance.name, 'check_dataset']
+        )
 
 
 class DatasetCreate(FormView):
@@ -168,6 +171,8 @@ class DatasetWizard(NamedUrlSessionWizardView):
             context['organisation_title'] = org.get('title')
 
         context['organisations'] = get_orgs_for_user(self.request)
+        context['previous_step'] = self.steps.prev
+
         return context
 
     def get_form_initial(self, step):

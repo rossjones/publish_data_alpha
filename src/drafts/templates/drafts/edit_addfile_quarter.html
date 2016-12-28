@@ -8,7 +8,7 @@
 {% block inner_content %}
 
   <h1 class="heading-large">
-    What time period does this link cover?
+    Add a link
   </h1>
 
   <form
@@ -18,52 +18,11 @@
     {{ wizard.management_form }}
     {% csrf_token %}
 
-    <fieldset>
-      <legend class="visuallyhidden">
-        Add a link
-      </legend>
-
-      <div class="form-group">
-        <label class="form-label" for="id_url">URL</label>
-        <span class="form-hint">
-          Enter a link (beginning with http:// or https://) to the page where
-          your data file has been uploaded.
-          <br/>
-          <br/>
-          This might be your organisation’s website or another website, such
-          as GOV.UK or Amazon Web Services (AWS).
-        </span>
-        <input
-            class="form-control form-control-2-3"
-            id="id_url"
-            name="{{ wizard.form.url.html_name }}"
-            type="url"
-            required=""
-            value=""/>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label bold" for="id_title">
-          Title
-        </label>
-        <span class="form-hint">
-          Give your link a descriptive title to help users understand what
-          data it contains. The title shouldn’t be the same as the URL.
-        </span>
-        <input
-            class="form-control form-control-2-3"
-            id="id_title"
-            name="{{ wizard.form.title.html_name }}"
-            type="text"
-            required=""
-            value=""/>
-      </div>
-    </fieldset>
-
+    {% include 'drafts/includes/title_url.html' %}
 
     <fieldset>
-      <legend class="visuallyhidden">
-        Time period
+      <legend class="form-label-bold">
+        Time period of this link
       </legend>
 
       <div class="form-group">
@@ -73,8 +32,7 @@
               id="q1"
               name="period_quarter"
               value="q1"
-              required=""
-          />
+              required=""/>
           <span>Q1 (April to June)</span>
         </label>
         <label for="q2" class="block-label">
@@ -83,8 +41,7 @@
               id="q2"
               name="period_quarter"
               value="q2"
-              required=""
-          />
+              required=""/>
           <span>Q2 (July to September)</span>
         </label>
         <label for="q3" class="block-label">
@@ -93,8 +50,7 @@
               id="q3"
               name="period_quarter"
               value="q3"
-              required=""
-          />
+              required=""/>
           <span>Q3 (October to December)</span>
         </label>
         <label for="q4" class="block-label">
@@ -103,8 +59,7 @@
               id="q4"
               name="period_quarter"
               value="q4"
-              required=""
-          />
+              required=""/>
           <span>Q4 (January to March)</span>
         </label>
 

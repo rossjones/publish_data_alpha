@@ -14,14 +14,13 @@
     <table>
       <thead>
         <tr>
-          <td>Title</td>
-          <td>Url</td>
-          <td>Valid</td>
-          <td><span class="visuallyhidden">Actions</span></td>
+          <th>Title</th>
+          <th>Url</th>
+          <th>Valid</th>
+          <th><span class="visuallyhidden">Actions</span></th>
         </tr>
       </thead>
       <tbody>
-      {{dataset}}
         {% for file in dataset.files.all %}
           <tr>
             <td>{{ file.title }} </td>
@@ -35,8 +34,6 @@
         {% endfor %}
       </tbody>
     </table>
-
-    <br>
 
     <form
         method="POST"
@@ -52,7 +49,9 @@
     </form>
 
     <div class="form-group">
-      <a href="{% url 'edit_dataset_step' dataset.name 'add_file' %}">Add another file</a>
+      <a href="{% url 'edit_dataset_step' dataset.name previous_step  %}">
+        Add another file
+      </a>
     </div>
 
   </main>

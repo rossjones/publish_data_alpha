@@ -89,6 +89,7 @@ class WeeklyFileForm(forms.ModelForm):
     end_year = forms.IntegerField(required=True)
 
     class Meta:
+        frequency = 'weekly'
         model = Datafile
         fields = [
             'title', 'url',
@@ -123,6 +124,7 @@ class WeeklyFileForm(forms.ModelForm):
 class MonthlyFileForm(forms.ModelForm):
 
     class Meta:
+        frequency = 'monthly'
         model = Datafile
         fields = [ 'title', 'url', 'month', 'year' ]
 
@@ -130,6 +132,7 @@ class MonthlyFileForm(forms.ModelForm):
 class QuarterlyFileForm(forms.ModelForm):
 
     class Meta:
+        frequency = 'quarterly'
         model = Datafile
         fields = [ 'title', 'url', 'quarter' ]
 
@@ -137,6 +140,7 @@ class QuarterlyFileForm(forms.ModelForm):
 class AnnuallyFileForm(forms.ModelForm):
 
     class Meta:
+        frequency = 'annually'
         model = Datafile
         fields = [ 'title', 'url', 'year' ]
 
