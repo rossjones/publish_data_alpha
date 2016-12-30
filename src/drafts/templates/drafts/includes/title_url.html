@@ -19,7 +19,7 @@
         name="{{ wizard.form.url.html_name }}"
         type="url"
         required=""
-        value=""/>
+        value="{{ wizard.form.url.value|default:'' }}"/>
   </div>
 
   <div class="form-group">
@@ -36,6 +36,6 @@
         name="{{ wizard.form.title.html_name }}"
         type="text"
         required=""
-        value=""/>
+        value="{{ wizard.form.title.value|default:'' }}"/>
   </div>
 </fieldset>
