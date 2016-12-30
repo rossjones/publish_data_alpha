@@ -81,11 +81,9 @@ class CheckedFileForm(forms.ModelForm):
         # Check the URL is a valid URL and exists
         if not url_exists(cleaned['url']):
             self._errors['url'] = \
-                [_('URL is not accessible')]
-
+                [_("This URL can't be reached")]
 
         return cleaned
-
 
 
 class FileForm(CheckedFileForm):

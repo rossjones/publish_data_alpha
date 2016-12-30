@@ -3,7 +3,7 @@
     Add a link
   </legend>
 
-  <div class="form-group">
+  <div id="url_form_group" class="form-group {% if wizard.form.url.errors %}error{% endif %}">
     <label class="form-label-bold" for="id_url">URL</label>
     <span class="form-hint">
       Enter a link (beginning with http:// or https://) to the page where
@@ -20,9 +20,12 @@
         type="url"
         required=""
         value="{{ wizard.form.url.value|default:'' }}"/>
+    {% for error in wizard.form.url.errors %}
+      <span class="error-message">{{ error }}</span>
+    {% endfor %}
   </div>
 
-  <div class="form-group">
+  <div id="title_form_group" class="form-group {% if wizard.form.title.errors %}error{% endif %}">
     <label class="form-label-bold" for="id_title">
       Title
     </label>
@@ -37,5 +40,8 @@
         type="text"
         required=""
         value="{{ wizard.form.title.value|default:'' }}"/>
+    {% for error in wizard.form.title.errors %}
+      <span class="error-message">{{ error }}</span>
+    {% endfor %}
   </div>
 </fieldset>
