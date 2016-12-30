@@ -1,0 +1,22 @@
+{
+    "success": true,
+    "result": [
+        {
+            "image_display_url": "",
+            "display_name": "Test Organisation",
+            "description": "",
+            "title": "Test Organisation",
+            "package_count": 1,
+            "created": "2012-06-27T14:50:58.676856",
+            "approval_status": "approved",
+            "is_organization": true,
+            "state": "active",
+            "image_url": "",
+            "revision_id": "",
+            "packages": 1,
+            "type": "organization",
+            "id": "test-organisation",
+            "name": "test-organisation"
+        }
+    ]
+}

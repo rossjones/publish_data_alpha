@@ -22,7 +22,7 @@ class DatasetsTestCase(TestCase):
             )
 
             assert datasets['count'] > 0
-            assert len(datasets['results']) == 10
+            assert len(datasets['results']) == 1
             return datasets
 
         datasets = get_datasets(0, 10)

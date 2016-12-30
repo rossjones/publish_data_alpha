@@ -1,0 +1,35 @@
+{
+    "success": true,
+    "result": {
+        "count": 1,
+        "sort": "score desc, popularity desc, name asc",
+        "facets": {},
+        "results": [
+            {
+                "owner_org": "6b1c7cd0-f542-4269-8385-3c4482baaa50",
+                "maintainer": null,
+                "groups": [],
+                "temporal_coverage-from": "",
+                "relationships_as_object": [],
+                "unpublished": "false",
+                "private": false,
+                "maintainer_email": null,
+                "revision_timestamp": "2016-08-03T14:08:10.540076",
+                "foi-email": "",
+                "id": "c3c17d24-1f85-4c08-b7f3-b247c9e1ceda",
+                "metadata_created": "2016-07-25T10:38:20.496282",
+                "metadata_modified": "2016-12-28T12:57:06.696875",
+                "author": null,
+                "author_email": null,
+                "its-dataset": "false",
+                "geographic_coverage": [
+                    "global"
+                ],
+                "state": "active",
+                "version": null,
+                "license_id": "uk-ogl",
+                "resources": []
+            }
+        ]
+    }
+}

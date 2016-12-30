@@ -1,0 +1,22 @@
+{
+    "success": true,
+    "result": {
+        "owner_org": "test-organisation",
+        "maintainer": null,
+        "groups": [],
+        "temporal_coverage-from": "",
+        "relationships_as_object": [],
+        "maintainer_email": null,
+        "revision_timestamp": "2016-08-03T14:08:10.540076",
+        "foi-email": "",
+        "id": "test-dataset",
+        "metadata_created": "2016-07-25T10:38:20.496282",
+        "metadata_modified": "2016-12-28T12:57:06.696875",
+        "author": null,
+        "author_email": null,
+        "state": "active",
+        "license_id": "uk-ogl",
+        "foi-web": "",
+        "resources": []
+    }
+}
