@@ -63,12 +63,18 @@ def dataset_show(name, user=None):
 def dataset_create(data, user):
     conn = ckan_connection_for_user(user.apikey)
     res = conn.action.package_create(**data)
+
+    clear_cache()
+
     return res
 
 
 def dataset_update(data, user):
     conn = ckan_connection_for_user(user.apikey)
     res = conn.action.package_update(**data)
+
+    clear_cache()
+
     return res
 
 

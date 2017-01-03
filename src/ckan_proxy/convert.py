@@ -27,6 +27,14 @@ def draft_to_ckan(draft):
             {
                 "key": "notifications",
                 "value": draft.notifications
+            },
+            {
+                "key": "summary",
+                "value": draft.summary
+            },
+            {
+                "key": "licence_other",
+                "value": draft.licence_other
             }
         ]
     }
