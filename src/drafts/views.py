@@ -196,9 +196,9 @@ class DatasetWizard(NamedUrlSessionWizardView):
 
         return self.get_form_step_data(form)
 
-    def get(self, request, *args, **kwargs):
-        self.storage.current_step = kwargs.get('step')
-        return self.render(self.get_form())
+    #def get(self, request, *args, **kwargs):
+    #    self.storage.current_step = kwargs.get('step')
+    #    return self.render(self.get_form())
 
     def post(self, *args, **kwargs):
         editing = self.request.POST.get('editing', "False")
