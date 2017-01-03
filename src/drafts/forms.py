@@ -4,7 +4,7 @@ import datetime
 
 import drafts.choices as choices
 from drafts.models import Dataset, Datafile
-from drafts.util import convert_to_slug
+from drafts.util import convert_to_slug, url_exists
 
 
 class DatasetForm(forms.Form):
@@ -71,15 +71,29 @@ class FrequencyForm(forms.ModelForm):
         model = Dataset
         fields = ['frequency']
 
+class CheckedFileForm(forms.ModelForm):
 
-class FileForm(forms.ModelForm):
+    def clean(self):
+        cleaned = super(CheckedFileForm, self).clean()
+        if self._errors:
+            return cleaned
+
+        # Check the URL is a valid URL and exists
+        if not url_exists(cleaned['url']):
+            self._errors['url'] = \
+                [_("This URL can't be reached")]
+
+        return cleaned
+
+
+class FileForm(CheckedFileForm):
 
     class Meta:
         model = Datafile
         fields = [ 'title', 'url' ]
 
 
-class WeeklyFileForm(forms.ModelForm):
+class WeeklyFileForm(CheckedFileForm):
 
     start_day = forms.IntegerField(required=True)
     start_month = forms.IntegerField(required=True)
@@ -121,7 +135,7 @@ class WeeklyFileForm(forms.ModelForm):
         return self.cleaned_data
 
 
-class MonthlyFileForm(forms.ModelForm):
+class MonthlyFileForm(CheckedFileForm):
 
     class Meta:
         frequency = 'monthly'
@@ -129,7 +143,7 @@ class MonthlyFileForm(forms.ModelForm):
         fields = [ 'title', 'url', 'month', 'year' ]
 
 
-class QuarterlyFileForm(forms.ModelForm):
+class QuarterlyFileForm(CheckedFileForm):
 
     class Meta:
         frequency = 'quarterly'
@@ -137,7 +151,7 @@ class QuarterlyFileForm(forms.ModelForm):
         fields = [ 'title', 'url', 'quarter' ]
 
 
-class AnnuallyFileForm(forms.ModelForm):
+class AnnuallyFileForm(CheckedFileForm):
 
     class Meta:
         frequency = 'annually'

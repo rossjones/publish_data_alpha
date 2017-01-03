@@ -6,6 +6,17 @@ from django.utils.text import slugify
 from drafts.models import Dataset
 from ckan_proxy.logic import dataset_show
 
+import requests
+
+
+def url_exists(url):
+    try:
+        r = requests.head(url)
+    except requests.ConnectionError as ce:
+        return False
+
+    return True
+
 
 def calculate_dates_for_month(month, year):
     (_, e,) = monthrange(year, month)
