@@ -31,6 +31,10 @@ urlpatterns = [
         login_required(v.DatasetEdit.as_view()),
         name='edit_dataset'),
 
+    #url(r'^edit/(?P<dataset_name>[\w-]+)$',
+    #    login_required(v.edit_dataset),
+    #    name='edit_dataset'),
+
     url(r'^(?P<dataset_name>[\w-]+)/(?P<step>.+)$',
         dataset_wizard,
         name='edit_dataset_step'),
