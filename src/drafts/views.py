@@ -221,7 +221,6 @@ class DatasetWizard(NamedUrlSessionWizardView):
         self.storage.reset()
         return done_response
 
-
     def post(self, *args, **kwargs):
         editing = self.request.POST.get('editing', "False")
         if editing == "True":
