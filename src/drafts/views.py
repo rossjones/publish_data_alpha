@@ -5,13 +5,13 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.template import RequestContext
 from django.views.generic.edit import FormView
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 
 
 import drafts.forms as f
 from userauth.logic import get_orgs_for_user
 from drafts.models import Dataset, Datafile
-from ckan_proxy.convert import draft_to_ckan
+from ckan_proxy.convert import draft_to_ckan, ckan_to_draft
 from ckan_proxy.logic import (organization_show,
                               dataset_show,
                               dataset_create,
@@ -54,6 +54,20 @@ TEMPLATES = {
     'check_dataset': 'drafts/check_dataset.html'
 }
 
+
+def edit_dataset(request, dataset_name):
+
+    try:
+        draft = Dataset.objects.get(name=dataset_name)
+    except Dataset.DoesNotExist:
+        draft = ckan_to_draft(dataset_name)
+
+    if not draft:
+        raise Http404()
+
+    return HttpResponseRedirect(
+        reverse('edit_dataset_step', args=[draft.name, 'check_dataset'])
+    )
 
 class DatasetEdit(FormView):
     model = Dataset
@@ -220,6 +234,7 @@ class DatasetWizard(NamedUrlSessionWizardView):
         done_response = self.done(final_forms.values(), form_dict=final_forms, **kwargs)
         self.storage.reset()
         return done_response
+
 
     def post(self, *args, **kwargs):
         editing = self.request.POST.get('editing', "False")

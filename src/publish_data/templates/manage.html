@@ -46,9 +46,11 @@
               <td>{{ dataset.title }}</td>
               <td>{{ dataset.status }}</td>
               <td>
-                <a href="">Add Data</a> <br/>
-                <a href="">Edit</a> <br/>
-                <a href="">Delete</a>
+                {% if dataset.name %}
+                  <a href="">Add Data</a> <br/>
+                  <a href="{% url 'edit_dataset_step' dataset.name 'check_dataset' %}">Edit</a> <br/>
+                  <a href="">Delete</a>
+                {% endif %}
               </td>
             </tr>
           {% endfor %}
