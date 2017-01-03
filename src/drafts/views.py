@@ -196,9 +196,31 @@ class DatasetWizard(NamedUrlSessionWizardView):
 
         return self.get_form_step_data(form)
 
-    def get(self, request, *args, **kwargs):
-        self.storage.current_step = kwargs.get('step')
-        return self.render(self.get_form())
+    def render_done(self, form, **kwargs):
+        """
+        This method gets called when all forms passed. The method should also
+        re-validate all steps to prevent manipulation. If any form fails to
+        validate, `render_revalidation_failure` should get called.
+        If everything is fine call `done`.
+        """
+        from collections import OrderedDict
+        final_forms = OrderedDict()
+        # walk through the form list and try to validate the data again.
+        for form_key in self.get_form_list():
+            form_obj = self.get_form(
+                step=form_key,
+                data=self.storage.get_step_data(form_key),
+                files=self.storage.get_step_files(form_key)
+            )
+            final_forms[form_key] = form_obj
+
+        # render the done view and reset the wizard before returning the
+        # response. This is needed to prevent from rendering done with the
+        # same data twice.
+        done_response = self.done(final_forms.values(), form_dict=final_forms, **kwargs)
+        self.storage.reset()
+        return done_response
+
 
     def post(self, *args, **kwargs):
         editing = self.request.POST.get('editing', "False")
@@ -222,7 +244,7 @@ class DatasetWizard(NamedUrlSessionWizardView):
             print(e)
         else:
             # Success! We can safely delete the draft now
-            pass
+            self.instance.delete()
 
         return HttpResponseRedirect('/manage?newset=1')
 
