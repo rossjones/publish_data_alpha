@@ -6,46 +6,8 @@
 {% endblock %}
 
 {% block inner_content %}
-  {% if form.errors %}
-    <div
-        class="error-summary"
-        role="group"
-        aria-labelledby="error-summary-heading-example-1"
-        tabindex="-1">
-      <h1
-          class="heading-medium error-summary-heading"
-          id="error-summary-heading-example-1">
-        There was a problem
-      </h1>
 
-      <ul class="error-summary-list">
-        {% for error in form.non_field_errors %}
-          <li>
-            {{ error }}
-            <span class="visuallyhidden">.</span>
-          </li>
-        {% endfor %}
-
-          {% for error in form.licence.errors %}
-          <li>
-            <a href="#licence_form_group">
-              Please select a licence for your dataset
-            </a>
-            <span class="visuallyhidden">.</span>
-          </li>
-          {% endfor %}
-
-          {% for error in form.licence_other.errors %}
-          <li>
-            <a href="#licence_other_label">
-              Please type the name of your licence
-            </a>
-            <span class="visuallyhidden">.</span>
-          </li>
-          {% endfor %}
-      </ul>
-    </div>
-  {% endif %}
+  {% include 'drafts/includes/error_box.html' %}
 
   <h1 class="heading-large">
     Choose a licence
