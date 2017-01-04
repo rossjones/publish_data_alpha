@@ -14,7 +14,7 @@ def url_exists(url):
     fmt = ''
 
     try:
-        r = requests.head(url)
+        r = requests.head(url, allow_redirects=True)
     except requests.ConnectionError as ce:
         return False, ''
 
