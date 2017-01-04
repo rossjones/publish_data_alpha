@@ -140,7 +140,7 @@ module.exports = {
     .submitFormAndCheckNextTitle('Get notifications')
     .selectRadioButton('Yes')
     .submitFormAndCheckNextTitle('Check your dataset')
-//    .submitFormAndCheckNextTitle('Your dataset has been published')
+    .submitFormAndCheckNextTitle('Your dataset has been published')
     .end();
   },
 
