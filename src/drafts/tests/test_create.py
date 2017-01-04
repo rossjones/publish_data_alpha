@@ -31,11 +31,20 @@ class DraftsTestCase(TestCase):
         response = self.client.post(reverse('new_dataset', args=[]), {
                 'title': 'A test dataset for create',
                 'description': 'A test description',
-                'summary': 'A test summary'
+                'summary': 'A test summary',
         })
         assert response.status_code == 302
+
         parts = response.url.split('/')
-        return parts[2]
+        name = parts[2]
+
+        # Set frequency
+        response = self.client.post(reverse('edit_dataset_frequency', args=[name]), {
+                'frequency': 'weekly',
+        })
+        assert response.status_code == 302
+
+        return name
 
     def _get_dataset(self):
         return Dataset.objects.get(name=self.dataset_name)
@@ -139,51 +148,57 @@ class DraftsTestCase(TestCase):
         assert self._get_dataset().organisation == "cabinet-office", \
             self._get_dataset().organisation
 
-    """
+
+    def test_redirect_adding_extra_file(self):
+        u = reverse('edit_dataset_files', args=[self.dataset_name])
+        response = self.client.get(u)
+        assert response.status_code == 200
+        assert '/dataset/{}/addfile_weekly'.format(self.dataset_name) in response.content.decode('utf-8')
+
+
     def test_frequency_details(self):
-        u = reverse('edit_dataset_step', args=[self.dataset_name, 'frequency'])
+        u = reverse('edit_dataset_frequency', args=[self.dataset_name])
         response = self.client.post(
             u,
-            get_wizard_data({'frequency-frequency': 'weekly'}, 'frequency')
+            {'frequency': 'weekly'}
         )
         assert response.status_code == 302
-        assert response.url == reverse('edit_frequency_weekly',
-            args=[self.dataset_name, 'frequency_weekly'])
+        assert response.url == reverse('edit_dataset_addfile_weekly',
+            args=[self.dataset_name])
 
         response = self.client.post(
             u,
-            get_wizard_data({'frequency-frequency': 'monthly'}, 'frequency')
+            {'frequency': 'monthly'}
         )
         assert response.status_code == 302
-        assert response.url == reverse('edit_dataset_step',
-            args=[self.dataset_name, 'frequency_monthly'])
+        assert response.url == reverse('edit_dataset_addfile_monthly',
+            args=[self.dataset_name])
 
         response = self.client.post(
             u,
-            get_wizard_data({'frequency-frequency': 'quarterly'}, 'frequency')
+            {'frequency': 'quarterly'}
         )
         assert response.status_code == 302
-        assert response.url == reverse('edit_dataset_step',
-            args=[self.dataset_name, 'frequency_quarterly'])
+        assert response.url == reverse('edit_dataset_addfile_quarterly',
+            args=[self.dataset_name])
 
         response = self.client.post(
             u,
-            get_wizard_data({'frequency-frequency': 'annually'}, 'frequency')
+            {'frequency': 'annually'}
         )
         assert response.status_code == 302
-        assert response.url == reverse('edit_dataset_step',
-            args=[self.dataset_name, 'frequency_annually'])
+        assert response.url == reverse('edit_dataset_addfile_annually',
+            args=[self.dataset_name])
 
-        response = self.client.post(
-            u,
-            get_wizard_data({
-                'frequency-frequency': 'financial-year'
-            }, 'frequency')
-        )
-        assert response.status_code == 302
-        assert response.url == reverse('edit_dataset_step-year',
-            args=[self.dataset_name, 'frequency_financial_year'])
-    """
+        #response = self.client.post(
+        #    u,
+        #    get_wizard_data({
+        #        'frequency-frequency': 'financial-year'
+        #    }, 'frequency')
+        #)
+        #assert response.status_code == 302
+        #assert response.url == reverse('edit_dataset_step-year',
+        #    args=[self.dataset_name, 'frequency_financial_year'])
 
     def test_notifications(self):
         u = reverse(
