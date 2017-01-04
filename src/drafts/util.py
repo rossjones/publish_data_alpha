@@ -1,6 +1,6 @@
 from calendar import monthrange
 from datetime import datetime
-from mimetypes import guess_all_extensions
+from mimetypes import guess_extension
 
 from django.utils.text import slugify
 
@@ -24,10 +24,9 @@ def url_exists(url):
         # TODO: Let's not through away encoding information
         content_type = content_type[0:content_type.index(';')]
 
-    extensions = guess_all_extensions(content_type)
-    if extensions:
-        fmt = max(extensions, key=len)[1:].upper()
-
+    extension = guess_extension(content_type)
+    if extension:
+        fmt = extension[1:].upper()
         # Mimetypes vary and so there's not an obviously easy way
         # to get the extension we want for some types. Notably
         # HTML/SHTML
