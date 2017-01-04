@@ -17,277 +17,266 @@ from ckan_proxy.logic import (organization_show,
                               dataset_create,
                               dataset_update)
 
-from formtools.wizard.views import NamedUrlSessionWizardView
 
-FORMS = (
-    ('organisation', f.OrganisationForm),
-    ('licence', f.LicenceForm),
-    ('country', f.CountryForm),
-    ('frequency', f.FrequencyForm),
-
-    # These are used conditionally
-    ('addfile_weekly', f.WeeklyFileForm),
-    ('addfile_monthly', f.MonthlyFileForm),
-    ('addfile_quarterly', f.QuarterlyFileForm),
-    ('addfile_annually', f.AnnuallyFileForm),
-    ('addfile_daily', f.FileForm),
-    ('addfile_never', f.FileForm),
-
-    ('files', f.StubForm),
-    ('notifications', f.NotificationsForm),
-    ('check_dataset', f.StubForm),
-)
-
-TEMPLATES = {
-    'organisation': 'drafts/edit_organisation.html',
-    'licence': 'drafts/edit_licence.html',
-    'country': 'drafts/edit_country.html',
-    'frequency': 'drafts/edit_frequency.html',
-    'addfile_daily': 'drafts/edit_addfile.html',
-    'addfile_never': 'drafts/edit_addfile.html',
-    'addfile_weekly': 'drafts/edit_addfile_week.html',
-    'addfile_monthly': 'drafts/edit_addfile_month.html',
-    'addfile_quarterly': 'drafts/edit_addfile_quarter.html',
-    'addfile_annually': 'drafts/edit_addfile_year.html',
-    'files': 'drafts/show_files.html',
-    'notifications': 'drafts/edit_notifications.html',
-    'check_dataset': 'drafts/check_dataset.html'
-}
-
-
-def edit_dataset(request, dataset_name):
-
-    try:
-        draft = Dataset.objects.get(name=dataset_name)
-    except Dataset.DoesNotExist:
-        draft = ckan_to_draft(dataset_name)
-
-    if not draft:
-        raise Http404()
-
-    return HttpResponseRedirect(
-        reverse('edit_dataset_step', args=[draft.name, 'check_dataset'])
-    )
-
-class DatasetEdit(FormView):
-    model = Dataset
-    form_class = f.DatasetForm
-    template_name = 'drafts/edit_title.html'
-
-    def get_initial(self):
-        if 'dataset_name' in self.kwargs:
-            self.instance = get_object_or_404(
-                Dataset,
-                name=self.kwargs['dataset_name']
-            )
-            return self.instance.as_dict()
-        return {}
-
-    def get_context_data(self, **kwargs):
-        context = super(DatasetEdit, self).get_context_data(**kwargs)
-        context['target_url'] = reverse('edit_dataset', args=[self.instance.name])
-        return context
-
-    def form_valid(self, form):
-        self.instance.title=form.cleaned_data['title']
-        self.instance.description=form.cleaned_data['description']
-        self.instance.summary=form.cleaned_data['summary']
-        self.instance.save()
-        return super(DatasetEdit, self).form_valid(form)
-
-
-    def get_success_url(self):
-        return reverse(
-            'edit_dataset_step',
-            args=[self.instance.name, 'check_dataset']
-        )
-
-
-class DatasetCreate(FormView):
-    model = Dataset
-    form_class = f.DatasetForm
-    template_name = 'drafts/edit_title.html'
-
-    def form_valid(self, form):
-        dataset = Dataset.objects.create(
+def new_dataset(request):
+    form = f.DatasetForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            obj = Dataset.objects.create(
                 title=form.cleaned_data['title'],
                 description=form.cleaned_data['description'],
                 summary=form.cleaned_data['summary'],
-                creator=self.request.user,
+                creator=request.user,
                 name=form.cleaned_data['name']
-        )
-        self.object = dataset
-        return super(DatasetCreate, self).form_valid(form)
-
-    def get_initial(self):
-        return {}
-
-    def get_context_data(self, **kwargs):
-        context = super(DatasetCreate, self).get_context_data(**kwargs)
-        context['target_url'] = reverse('new_dataset')
-        return context
-
-    def get_success_url(self):
-        if 'wizard_dataset_wizard' in self.request.session:
-            del self.request.session['wizard_dataset_wizard']
-
-        return reverse('edit_dataset_step', kwargs={
-            'dataset_name': self.object.name,
-            'step': 'organisation'
-        })
-
-        # Only one organisation
-        # return reverse('edit_dataset_step', kwargs={
-        #    'dataset_name': self.object.name,
-        #    'step': 'licence'
-        # })
-
-class DatasetWizard(NamedUrlSessionWizardView):
-
-    instance = None
-
-    def dispatch(self, request, *args, **kwargs):
-        if 'dataset_name' in kwargs:
-            self.instance = get_object_or_404(
-                Dataset,
-                name=kwargs['dataset_name']
             )
 
-        return super(DatasetWizard, self).dispatch(request, *args, **kwargs)
-
-    def get_step_url(self, step):
-        if step == "0":
-            return reverse("new_dataset")
-
-        return reverse(self.url_name, kwargs={
-            'step': step,
-            'dataset_name': self.instance.name
-        })
-
-    def get_template_names(self):
-        return [TEMPLATES[self.steps.current]]
-
-    def get_context_data(self, form, **kwargs):
-        context = super(DatasetWizard, self).get_context_data(
-            form=form, **kwargs
-        )
-        if self.instance:
-            context['dataset'] = self.instance
-
-        # Are we accessing this form because we got here from
-        # the check_dataset page?
-        context['editing'] = False
-        if self.request.method == "GET" and self.request.GET.get('change'):
-            context['editing'] = True
-
-        if self.request.path.split('/')[-1] == 'check_dataset':
-            org = organization_show(self.instance.organisation) or {}
-            context['organisation_title'] = org.get('title')
-
-        context['organisations'] = get_orgs_for_user(self.request)
-        context['previous_step'] = self.steps.prev
-
-        return context
-
-    def get_form_initial(self, step):
-        initial = self.initial_dict.get(step, {})
-        if self.instance:
-            initial.update(self.instance.as_dict())
-        return initial
-
-    def get_form_kwargs(self, step):
-        if step.startswith('addfile'):
-            return {'instance': Datafile()}
-        return {'instance': self.instance}
-
-    def process_step(self, form):
-        if self.steps.current.startswith('addfile'):
-            model = form.save(commit=False)
-            model.dataset = self.instance
-            model.save()
-        else:
-            form.save()
-
-        return self.get_form_step_data(form)
-
-    def render_done(self, form, **kwargs):
-        """
-        This method gets called when all forms passed. The method should also
-        re-validate all steps to prevent manipulation. If any form fails to
-        validate, `render_revalidation_failure` should get called.
-        If everything is fine call `done`.
-        """
-        from collections import OrderedDict
-        final_forms = OrderedDict()
-        # walk through the form list and try to validate the data again.
-        for form_key in self.get_form_list():
-            form_obj = self.get_form(
-                step=form_key,
-                data=self.storage.get_step_data(form_key),
-                files=self.storage.get_step_files(form_key)
+            return HttpResponseRedirect(
+                reverse('edit_dataset_organisation', args=[obj.name])
             )
-            final_forms[form_key] = form_obj
 
-        # render the done view and reset the wizard before returning the
-        # response. This is needed to prevent from rendering done with the
-        # same data twice.
-        done_response = self.done(final_forms.values(), form_dict=final_forms, **kwargs)
-        self.storage.reset()
-        return done_response
+    return render(request, "drafts/edit_title.html", {
+        "form": form,
+        "dataset": {},
+    })
 
 
-    def post(self, *args, **kwargs):
-        editing = self.request.POST.get('editing', "False")
-        if editing == "True":
-            # Save the current form if it is valid.
-            form = self.get_form(data=self.request.POST, files=self.request.FILES)
-            if form.is_valid():
-                form.save()
-            return self.render_goto_step("check_dataset")
-        return super(DatasetWizard, self).post(*args, **kwargs)
+def edit_dataset_details(request, dataset_name):
+    dataset = get_object_or_404(Dataset, name=dataset_name)
+    form = f.EditDatasetForm(request.POST or None, instance=dataset)
+    if request.method == 'POST':
+        if form.is_valid():
+            obj = form.save()
+            return _redirect_to(request, 'edit_dataset_organisation', [obj.name])
 
-    def done(self, form_list, **kwargs):
+    return render(request, "drafts/edit_title.html", {
+        "form": form,
+        "dataset": dataset.as_dict(),
+        'editing': request.GET.get('change', '') == '1',
+    })
+
+
+def edit_organisation(request, dataset_name):
+    dataset = get_object_or_404(Dataset, name=dataset_name)
+
+    form = f.OrganisationForm(request.POST or None, instance=dataset)
+    if request.method == 'POST':
+        if form.is_valid():
+            obj = form.save()
+            return _redirect_to(request, 'edit_dataset_licence',[obj.name])
+
+    return render(request, "drafts/edit_organisation.html", {
+        'form': form,
+        'dataset': dataset.as_dict(),
+        'organisations': get_orgs_for_user(request),
+        'editing': request.GET.get('change', '') == '1',
+    })
+
+
+def edit_licence(request, dataset_name):
+    dataset = get_object_or_404(Dataset, name=dataset_name)
+
+    form = f.LicenceForm(request.POST or None, instance=dataset)
+    if request.method == 'POST':
+        if form.is_valid():
+            obj = form.save()
+            return _redirect_to(request, 'edit_dataset_country', [obj.name])
+
+    return render(request, "drafts/edit_licence.html", {
+        'form': form,
+        'dataset': dataset.as_dict(),
+        'editing': request.GET.get('change', '') == '1',
+    })
+
+
+def edit_country(request, dataset_name):
+    dataset = get_object_or_404(Dataset, name=dataset_name)
+
+    form = f.CountryForm(request.POST or None, instance=dataset)
+    if request.method == 'POST':
+        if form.is_valid():
+            obj = form.save()
+            return _redirect_to(request, 'edit_dataset_frequency', [obj.name])
+
+    return render(request, "drafts/edit_country.html", {
+        'form': form,
+        'dataset': dataset.as_dict(),
+        'editing': request.GET.get('change', '') == '1',
+    })
+
+
+def edit_frequency(request, dataset_name):
+    dataset = get_object_or_404(Dataset, name=dataset_name)
+
+    form = f.FrequencyForm(request.POST or None, instance=dataset)
+    if request.method == 'POST':
+        if form.is_valid():
+            obj = form.save()
+
+            # Determine where to route next based on the frequency value
+            if obj.frequency in ['never', 'daily']:
+                url = 'edit_dataset_addfile'
+            elif obj.frequency in ['weekly']:
+                url = 'edit_dataset_addfile_weekly'
+            elif obj.frequency in ['quarterly']:
+                url = 'edit_dataset_addfile_quarterly'
+            elif obj.frequency in ['monthly']:
+                url = 'edit_dataset_addfile_monthly'
+            elif obj.frequency in ['annually']:
+                url = 'edit_dataset_addfile_annually'
+
+            return _redirect_to(request, url, [obj.name])
+
+
+    return render(request, "drafts/edit_frequency.html", {
+        'form': form,
+        'dataset': dataset.as_dict(),
+        'editing': request.GET.get('change', '') == '1',
+    })
+
+
+def edit_addfile(request, dataset_name):
+    dataset = get_object_or_404(Dataset, name=dataset_name)
+
+    form = f.FileForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            data = dict(**form.cleaned_data)
+            data['dataset'] = dataset
+            obj = Datafile.objects.create(**data)
+            obj.save()
+
+            return HttpResponseRedirect(
+                reverse('edit_dataset_files', args=[dataset_name])
+            )
+
+    return render(request, "drafts/edit_addfile.html", {
+        'form': form,
+        'dataset': dataset.as_dict(),
+    })
+
+
+def edit_addfile_weekly(request, dataset_name):
+    dataset = get_object_or_404(Dataset, name=dataset_name)
+
+    form = f.WeeklyFileForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            pass
+
+    return render(request, "drafts/edit_addfile_week.html", {
+        'form': form,
+        'dataset': dataset.as_dict(),
+    })
+
+
+def edit_addfile_monthly(request, dataset_name):
+    dataset = get_object_or_404(Dataset, name=dataset_name)
+
+    form = f.MonthlyFileForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            pass
+
+    return render(request, "drafts/edit_addfile_month.html", {
+        'form': form,
+        'dataset': dataset.as_dict(),
+    })
+
+
+def edit_addfile_quarterly(request, dataset_name):
+    dataset = get_object_or_404(Dataset, name=dataset_name)
+
+    form = f.QuarterlyFileForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            pass
+
+    return render(request, "drafts/edit_addfile_quarter.html", {
+        'form': form,
+        'dataset': dataset.as_dict(),
+    })
+
+
+def edit_addfile_annually(request, dataset_name):
+    dataset = get_object_or_404(Dataset, name=dataset_name)
+
+    form = f.AnnuallyFileForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            pass
+
+    return render(request, "drafts/edit_addfile_year.html", {
+        'form': form,
+        'dataset': dataset.as_dict(),
+    })
+
+
+def edit_files(request, dataset_name):
+    dataset = get_object_or_404(Dataset, name=dataset_name)
+
+    viewname = 'edit_dataset_addfile'
+
+    return render(request, "drafts/show_files.html", {
+        'addfile_viewname': viewname,
+        'dataset': dataset,
+        'editing': request.GET.get('change', '') == '1',
+    })
+
+
+def edit_notifications(request, dataset_name):
+    dataset = get_object_or_404(Dataset, name=dataset_name)
+
+    form = f.NotificationsForm(request.POST or None, instance=dataset)
+    if request.method == 'POST':
+        if form.is_valid():
+            obj = form.save()
+            return _redirect_to(request, 'edit_dataset_check_dataset',[obj.name])
+
+    return render(request, "drafts/edit_notifications.html", {
+        'form': form,
+        'dataset': dataset.as_dict(),
+        'editing': request.GET.get('change', '') == '1',
+    })
+
+
+def check_dataset(request, dataset_name):
+    try:
+        dataset = Dataset.objects.get(name=dataset_name)
+    except Dataset.DoesNotExist:
+        # Try and load the dataset from the live CKAN
+        dataset = ckan_to_draft(dataset_name)
+
+    organisation = organization_show(dataset.organisation)
+
+    if request.method == 'POST':
         f = dataset_update \
-            if dataset_show(self.instance.name, self.request.user) \
+            if dataset_show(dataset.name, request.user) \
             else dataset_create
 
         try:
-            f(draft_to_ckan(self.instance), self.request.user)
+            f(draft_to_ckan(dataset), request.user)
         except Exception as e:
             # TODO: Handle the error correctly
             print(e)
         else:
             # Success! We can safely delete the draft now
-            self.instance.delete()
+            dataset.delete()
 
         return HttpResponseRedirect('/manage?newset=1')
 
 
-# Conditional processing of sub-forms for detail of frequency
-def should_show_frequency_detail(wiz, expected):
-    cleaned_data = wiz.get_cleaned_data_for_step('frequency') or {}
-    return cleaned_data.get('frequency', '') == expected
+    return render(request, "drafts/check_dataset.html", {
+        'dataset': dataset,
+        'organisation': organisation
+    })
 
 
-def show_weekly_frequency(wizard):
-    return should_show_frequency_detail(wizard, 'weekly')
+def _redirect_to(request, url_name, args):
+    if request.POST.get('editing') == "True":
+        return HttpResponseRedirect(
+            reverse('edit_dataset_check_dataset', args=args)
+        )
 
-
-def show_monthly_frequency(wizard):
-    return should_show_frequency_detail(wizard, 'monthly')
-
-
-def show_quarterly_frequency(wizard):
-    return should_show_frequency_detail(wizard, 'quarterly')
-
-
-def show_annually_frequency(wizard):
-    return should_show_frequency_detail(wizard, 'annually')
-
-
-def show_daily_frequency(wizard):
-    return should_show_frequency_detail(wizard, 'daily')
-
-
-def show_never_frequency(wizard):
-    return should_show_frequency_detail(wizard, 'never')
+    return HttpResponseRedirect(
+        reverse(url_name, args=args)
+    )

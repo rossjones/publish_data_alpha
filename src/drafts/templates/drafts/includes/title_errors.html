@@ -1,4 +1,4 @@
- {% if wizard.form.errors %}
+ {% if form.errors %}
     <div
         class="error-summary"
         role="group"
@@ -11,14 +11,14 @@
       </h1>
 
       <ul class="error-summary-list">
-        {% for error in wizard.form.non_field_errors %}
+        {% for error in form.non_field_errors %}
           <li>
             {{ error }}
             <span class="visuallyhidden">.</span>
           </li>
         {% endfor %}
 
-          {% for error in wizard.form.url.errors %}
+          {% for error in form.url.errors %}
           <li>
             <a href="#url_form_group">
                 {{ error }}

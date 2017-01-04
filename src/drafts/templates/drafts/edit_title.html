@@ -59,6 +59,7 @@
 
   <form method="post" class="form" action="{{ target_url }}">
     {% csrf_token %}
+    <input type="hidden" name="editing" value="{{ editing }}">
 
     <fieldset>
       <legend class="visuallyhidden">

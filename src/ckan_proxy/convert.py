@@ -55,7 +55,6 @@ def ckan_to_draft(name):
     dataset = dataset_show(name)
     if not dataset:
         return None
-    print(dataset)
 
     draft = Dataset.objects.create(name=dataset['name'])
     draft.organisation = dataset['organization']['name']
@@ -74,7 +73,7 @@ def ckan_to_draft(name):
             title=resource.get('description'),
             url=resource.get('url'),
             dataset=draft
-        )
+        ).save()
 
         # TODO: Pull the following info from resource extras if
         # they are there.

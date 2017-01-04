@@ -25,6 +25,21 @@ class DatasetForm(forms.Form):
             self.cleaned_data['name'] = name
         return self.cleaned_data
 
+class EditDatasetForm(forms.ModelForm):
+    title = forms.CharField(label=_('Title'), max_length=100, required=True)
+    summary = forms.CharField(label=_('Summary'), max_length=200, required=True)
+    description = forms.CharField(
+        label=_('Additional Information'),
+        max_length=1024,
+        widget=forms.Textarea,
+        required=True
+    )
+
+    class Meta:
+        model = Dataset
+        fields = ['title', 'summary', 'description']
+
+
 
 class LicenceForm(forms.ModelForm):
 

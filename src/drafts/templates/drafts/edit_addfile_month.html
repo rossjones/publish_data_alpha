@@ -14,10 +14,9 @@
 
   <form
       method="post"
-      action="{% url 'edit_dataset_step' dataset.name 'frequency_monthly' %}"
+      action="{% url 'edit_dataset_addfile_monthly' dataset.name %}"
       class="form">
-    {{ wizard.management_form }}
-    {% csrf_token %}
+       {% csrf_token %}
 
     {% include 'drafts/includes/title_url.html' %}
 
@@ -39,7 +38,7 @@
               pattern="[0-9]*"
               min="0"
               max="12"
-              value="{{ w.month.value|default:'' }}"/>
+              value="{{ month.value|default:'' }}"/>
         </div>
         <div class="form-group form-group-year">
           <label class="form-label" for="period_year">Year</label>
@@ -50,7 +49,7 @@
               type="number"
               pattern="[0-9]*"
               min="0"
-              value="{{ w.year.value|default:'' }}"/>
+              value="{{ year.value|default:'' }}"/>
         </div>
       </div>
     </fieldset>

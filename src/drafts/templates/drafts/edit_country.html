@@ -6,9 +6,9 @@
 {% endblock %}
 
 {% block inner_content %}
-{% with countries=wizard.form.countries %}
+{% with countries=form.countries %}
 
-  {% if wizard.form.errors %}
+  {% if form.errors %}
     <div
         class="error-summary"
         role="group"
@@ -21,7 +21,7 @@
       </h1>
 
       <ul class="error-summary-list">
-        {% for error in wizard.form.non_field_errors %}
+        {% for error in form.non_field_errors %}
         <li>
           {{ error }}
           <span class="visuallyhidden">.</span>
@@ -50,10 +50,9 @@
   </p>
 
   <form
-      action="{% url 'edit_dataset_step' dataset.name 'country' %}"
+      action="{% url 'edit_dataset_country' dataset.name %}"
       method="POST">
 
-    {{ wizard.management_form }}
     {% csrf_token %}
     <input type="hidden" name="editing" value="{{ editing }}">
 

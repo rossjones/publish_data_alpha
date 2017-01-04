@@ -36,11 +36,15 @@
     </table>
 
     <form
-        method="POST"
-        action="{% url 'edit_dataset_step' dataset.name 'notifications' %}"
+        method="GET"
+        {% if editing %}
+          action="{% url 'edit_dataset_check_dataset' dataset.name %}"
+        {% else %}
+          action="{% url 'edit_dataset_notifications' dataset.name %}"
+        {% endif %}
         class="form">
       <div class="form-group">
-        {{ wizard.management_form }}
+
         {% csrf_token %}
         <input type="hidden" name="editing" value="{{ editing }}">
 
@@ -49,7 +53,7 @@
     </form>
 
     <div class="form-group">
-      <a href="{% url 'edit_dataset_step' dataset.name previous_step  %}">
+      <a href="{% url addfile_viewname dataset.name  %}">
         Add another file
       </a>
     </div>

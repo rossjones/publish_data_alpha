@@ -6,12 +6,6 @@ from drafts.models import Dataset
 from ckan_proxy.util import test_user_key
 
 
-def get_wizard_data(data, name):
-    tmp = data
-    tmp.update({"dataset_wizard-current_step": name})
-    return tmp
-
-
 class DraftsTestCase(TestCase):
 
     def setUp(self):
@@ -62,35 +56,35 @@ class DraftsTestCase(TestCase):
         assert response.status_code == 200
 
     def test_country(self):
-        u = reverse('edit_dataset_step', args=[self.dataset_name, 'country'])
+        u = reverse('edit_dataset_country', args=[self.dataset_name])
         response = self.client.get(u)
         assert response.status_code == 200
 
         # No selected countries
-        response = self.client.post(u, get_wizard_data({}, 'country'))
+        response = self.client.post(u, {})
         assert response.status_code == 200
         assert self._get_dataset().countries == '[]'
 
         response = self.client.post(
             u,
-            get_wizard_data({'country-countries': 'england'}, 'country')
+            {'countries': 'england'}
         )
         assert response.status_code == 302
         assert self._get_dataset().countries == "['england']", \
             self._get_dataset().countries
 
     def test_licence(self):
-        u = reverse('edit_dataset_step', args=[self.dataset_name, 'licence'])
+        u = reverse('edit_dataset_licence', args=[self.dataset_name])
         response = self.client.get(u)
         assert response.status_code == 200
 
         # No selected countries, expect a fail
-        response = self.client.post(u, get_wizard_data({}, "licence"))
+        response = self.client.post(u, {})
         assert response.status_code == 200
 
         response = self.client.post(
             u,
-            get_wizard_data({'licence-licence': 'ogl'}, 'licence')
+            {'licence': 'ogl'}
         )
         assert response.status_code == 302
         assert self._get_dataset().licence == "ogl", \
@@ -98,10 +92,10 @@ class DraftsTestCase(TestCase):
 
         response = self.client.post(
             u,
-            get_wizard_data({
-                'licence-licence': 'other',
-                'licence-licence_other': 'pretend licence'
-            }, 'licence')
+            {
+                'licence': 'other',
+                'licence_other': 'pretend licence'
+            }
         )
         assert response.status_code == 302
         obj = self._get_dataset()
@@ -109,16 +103,16 @@ class DraftsTestCase(TestCase):
         assert obj.licence_other == "pretend licence"
 
     def test_frequency(self):
-        u = reverse('edit_dataset_step', args=[self.dataset_name, 'frequency'])
+        u = reverse('edit_dataset_frequency', args=[self.dataset_name])
         response = self.client.get(u)
         assert response.status_code == 200
 
-        response = self.client.post(u, get_wizard_data({}, 'frequency'))
+        response = self.client.post(u, {})
         assert response.status_code == 200
 
         response = self.client.post(
             u,
-            get_wizard_data({'frequency-frequency': 'never'}, 'frequency')
+            {'frequency': 'never'}
         )
         assert response.status_code == 302
         assert self._get_dataset().frequency == "never", \
@@ -126,20 +120,20 @@ class DraftsTestCase(TestCase):
 
     def test_organisation(self):
         u = reverse(
-            'edit_dataset_step',
-            args=[self.dataset_name, 'organisation']
+            'edit_dataset_organisation',
+            args=[self.dataset_name]
         )
         response = self.client.get(u)
         assert response.status_code == 200
 
-        response = self.client.post(u, get_wizard_data({}, 'organisation'))
+        response = self.client.post(u, {})
         assert response.status_code == 200
 
         response = self.client.post(
             u,
-            get_wizard_data({
-                'organisation-organisation': 'cabinet-office'
-            }, 'organisation')
+            {
+                'organisation': 'cabinet-office'
+            }
         )
         assert response.status_code == 302
         assert self._get_dataset().organisation == "cabinet-office", \
@@ -193,20 +187,20 @@ class DraftsTestCase(TestCase):
 
     def test_notifications(self):
         u = reverse(
-            'edit_dataset_step',
-            args=[self.dataset_name, 'notifications']
+            'edit_dataset_notifications',
+            args=[self.dataset_name]
         )
         response = self.client.get(u)
         assert response.status_code == 200
 
-        response = self.client.post(u, get_wizard_data({}, 'notifications'))
+        response = self.client.post(u, {})
         assert response.status_code == 200
 
         response = self.client.post(
             u,
-            get_wizard_data({
-                'notifications-notifications': 'yes'
-            }, 'notifications')
+            {
+                'notifications': 'yes'
+            }
         )
         assert response.status_code == 302
         assert self._get_dataset().notifications == "yes", \
@@ -214,48 +208,45 @@ class DraftsTestCase(TestCase):
 
     def test_check(self):
         u = reverse(
-            'edit_dataset_step',
-            args=[self.dataset_name, 'check_dataset']
+            'edit_dataset_check_dataset',
+            args=[self.dataset_name]
         )
         response = self.client.get(u)
         assert response.status_code == 200
 
     def test_addfile(self):
         u = reverse(
-            'edit_dataset_step',
-            args=[self.dataset_name, 'addfile_weekly']
+            'edit_dataset_addfile_weekly',
+            args=[self.dataset_name]
         )
         response = self.client.get(u)
         assert response.status_code == 200
 
         # Must add a file, and this fails
-        response = self.client.post(u, get_wizard_data({}, 'addfile_weekly'))
+        response = self.client.post(u, {})
         assert response.status_code == 200
 
         response = self.client.post(
             u,
-            get_wizard_data(
-                {'addfile_weekly-url': 'http://data.gov.uk'},
-                'addfile_weekly'
-            )
+            {'url': 'http://data.gov.uk'},
         )
         assert response.status_code == 200
 
         response = self.client.post(
             u,
-            get_wizard_data({
-                'addfile_weekly-title': 'Not really a file'
-            }, 'addfile_weekly')
+            {
+                'title': 'Not really a file'
+            }
         )
         assert response.status_code == 200
 
-        response = self.client.post(u, get_wizard_data({
-            'addfile_weekly-url': 'http://data.gov.uk',
-            'addfile_weekly-title': 'Not really a file'
-        }, 'addfile_weekly'))
+        response = self.client.post(u, {
+            'url': 'http://data.gov.uk',
+            'title': 'Not really a file'
+        })
         assert response.status_code == 200
 
     def test_showfiles(self):
-        u = reverse('edit_dataset_step', args=[self.dataset_name, 'files'])
+        u = reverse('edit_dataset_files', args=[self.dataset_name])
         response = self.client.get(u)
         assert response.status_code == 200

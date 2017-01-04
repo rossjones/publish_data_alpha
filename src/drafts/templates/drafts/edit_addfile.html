@@ -12,8 +12,7 @@
     Add a link
   </h1>
 
-  <form action="{% url 'edit_dataset_step' dataset.name 'addfile' %}" method="POST">
-    {{ wizard.management_form }}
+  <form action="{% url 'edit_dataset_addfile' dataset.name %}" method="POST">
     {% csrf_token %}
 
     {% include 'drafts/includes/title_url.html' %}
