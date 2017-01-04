@@ -73,6 +73,7 @@ def ckan_to_draft(name):
         Datafile.objects.create(
             title=resource.get('description'),
             url=resource.get('url'),
+            format=resource.get('format'),
             dataset=draft
         ).save()
 
