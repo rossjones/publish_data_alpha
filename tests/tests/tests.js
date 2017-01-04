@@ -98,10 +98,11 @@ var goToCreateFrequency = function(browser) {
 
 var goToNotifications = function(browser) {
   return goToCreateFrequency(browser)
-    .selectRadioButton('Never')
+    .selectRadioButton('Every year (January to December)')
     .submitFormAndCheckNextTitle('Add a link')
     .clearSetValue('input[id=id_url]', 'http://example.com/file.csv')
     .clearSetValue('input[id=id_title]', 'First link')
+    .clearSetValue('input[id=period_year]', '2013')
     .submitFormAndCheckNextTitle('Dataset links')
     .submitFormAndCheckNextTitle('Get notifications');
 };
