@@ -242,10 +242,19 @@ def edit_addfile_annually(request, dataset_name):
 def edit_files(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
-    viewname = 'edit_dataset_addfile'
+    if dataset.frequency in ['never', 'daily']:
+        url = 'edit_dataset_addfile'
+    elif dataset.frequency in ['weekly']:
+        url = 'edit_dataset_addfile_weekly'
+    elif dataset.frequency in ['quarterly']:
+        url = 'edit_dataset_addfile_quarterly'
+    elif dataset.frequency in ['monthly']:
+        url = 'edit_dataset_addfile_monthly'
+    elif dataset.frequency in ['annually']:
+        url = 'edit_dataset_addfile_annually'
 
     return render(request, "drafts/show_files.html", {
-        'addfile_viewname': viewname,
+        'addfile_viewname': url,
         'dataset': dataset,
         'editing': request.GET.get('change', '') == '1',
     })
