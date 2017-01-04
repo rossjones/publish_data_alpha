@@ -97,9 +97,17 @@ class CheckedFileForm(forms.ModelForm):
             return cleaned
 
         # Check the URL is a valid URL and exists
-        if not url_exists(cleaned['url']):
+        exists, fmt = url_exists(cleaned['url'])
+        if not exists:
             self._errors['url'] = \
                 [_("This URL can't be reached")]
+
+            # TODO: Consider uncommenting this
+            #if fmt == 'HTML':
+            #    self._errors['url'] = \
+            #        [_("This appears to be a web page and not a data file")]
+
+        cleaned['format'] = fmt
 
         return cleaned
 

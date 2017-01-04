@@ -1,5 +1,6 @@
 from calendar import monthrange
 from datetime import datetime
+from mimetypes import guess_extension
 
 from django.utils.text import slugify
 
@@ -10,12 +11,30 @@ import requests
 
 
 def url_exists(url):
+    fmt = ''
+
     try:
         r = requests.head(url)
     except requests.ConnectionError as ce:
-        return False
+        return False, ''
 
-    return True
+    content_type = r.headers['Content-Type']
+
+    if ';' in content_type:
+        # TODO: Let's not through away encoding information
+        content_type = content_type[0:content_type.index(';')]
+
+    extension = guess_extension(content_type)
+    if extension:
+        fmt = extension[1:].upper()
+        # Mimetypes vary and so there's not an obviously easy way
+        # to get the extension we want for some types. Notably
+        # HTML/SHTML
+        if fmt in ['HTM', 'SHTML']:
+            fmt = 'HTML'
+
+
+    return True, fmt
 
 
 def calculate_dates_for_month(month, year):

@@ -16,8 +16,9 @@ def datafile_to_resource(datafile):
     # quarter = models.TextField(blank=True, default="")
 
     return {
-        "description": datafile.title,
-        "url": datafile.url
+        'description': datafile.title,
+        'url': datafile.url,
+        'format': datafile.format or ''
     }
 
 
@@ -72,6 +73,7 @@ def ckan_to_draft(name):
         Datafile.objects.create(
             title=resource.get('description'),
             url=resource.get('url'),
+            format=resource.get('format'),
             dataset=draft
         ).save()
 
