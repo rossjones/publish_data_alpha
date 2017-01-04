@@ -111,18 +111,7 @@ def edit_frequency(request, dataset_name):
     if request.method == 'POST':
         if form.is_valid():
             obj = form.save()
-
-            # Determine where to route next based on the frequency value
-            if obj.frequency in ['never', 'daily']:
-                url = 'edit_dataset_addfile'
-            elif obj.frequency in ['weekly']:
-                url = 'edit_dataset_addfile_weekly'
-            elif obj.frequency in ['quarterly']:
-                url = 'edit_dataset_addfile_quarterly'
-            elif obj.frequency in ['monthly']:
-                url = 'edit_dataset_addfile_monthly'
-            elif obj.frequency in ['annually']:
-                url = 'edit_dataset_addfile_annually'
+            url = _frequency_redirect_to(obj)
 
             return _redirect_to(request, url, [obj.name])
 
@@ -242,19 +231,7 @@ def edit_addfile_annually(request, dataset_name):
 def edit_files(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
-    if dataset.frequency in ['never', 'daily']:
-        url = 'edit_dataset_addfile'
-    elif dataset.frequency in ['weekly']:
-        url = 'edit_dataset_addfile_weekly'
-    elif dataset.frequency in ['quarterly']:
-        url = 'edit_dataset_addfile_quarterly'
-    elif dataset.frequency in ['monthly']:
-        url = 'edit_dataset_addfile_monthly'
-    elif dataset.frequency in ['annually']:
-        url = 'edit_dataset_addfile_annually'
-    else:
-        url = 'edit_dataset_addfile'
-
+    url = _frequency_redirect_to(dataset)
 
     return render(request, "drafts/show_files.html", {
         'addfile_viewname': url,
@@ -309,6 +286,25 @@ def check_dataset(request, dataset_name):
         'dataset': dataset,
         'organisation': organisation
     })
+
+def _frequency_redirect_to(dataset):
+    frequency = dataset.frequency
+
+    # Default to standard add file.
+    url = 'edit_dataset_addfile'
+
+    if frequency in ['never', 'daily']:
+        url = 'edit_dataset_addfile'
+    elif frequency in ['weekly']:
+        url = 'edit_dataset_addfile_weekly'
+    elif frequency in ['quarterly']:
+        url = 'edit_dataset_addfile_quarterly'
+    elif frequency in ['monthly']:
+        url = 'edit_dataset_addfile_monthly'
+    elif frequency in ['annually']:
+        url = 'edit_dataset_addfile_annually'
+
+    return url
 
 
 def _redirect_to(request, url_name, args):
