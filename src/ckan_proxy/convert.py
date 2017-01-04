@@ -57,16 +57,20 @@ def ckan_to_draft(name):
     if not dataset:
         return None
 
+    extras = {}
+    for d in dataset['extras']:
+        extras[d['key']] = d['value']
+
     draft = Dataset.objects.create(name=dataset['name'])
     draft.organisation = dataset['organization']['name']
     draft.frequency = dataset.get('update_frequency', 'never')
     draft.title = dataset['title']
-    draft.summary = dataset.get('summary', '')
+    draft.summary = extras.get('summary', '')
     draft.description = dataset.get('notes')
     draft.licence = dataset.get('license_id')
-    draft.licence_other = dataset.get('licence_other', '')
+    draft.licence_other = extras.get('licence_other', '')
     #draft.countries =
-    draft.notifications = dataset.get('notifications', '')
+    draft.notifications = extras.get('notifications', '')
     draft.save()
 
     for resource in dataset.get('resources'):
