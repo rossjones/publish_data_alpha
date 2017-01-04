@@ -33,7 +33,7 @@ urlpatterns = [
         login_required(v.edit_addfile_weekly),
         name='edit_dataset_addfile_weekly'),
 
-    url(r'^(?P<dataset_name>[\w-]+)/addfile_weekly$',
+    url(r'^(?P<dataset_name>[\w-]+)/addfile_monthly$',
         login_required(v.edit_addfile_monthly),
         name='edit_dataset_addfile_monthly'),
 
