@@ -16,8 +16,9 @@ def datafile_to_resource(datafile):
     # quarter = models.TextField(blank=True, default="")
 
     return {
-        "description": datafile.title,
-        "url": datafile.url
+        'description': datafile.title,
+        'url': datafile.url,
+        'format': datafile.format or ''
     }
 
 

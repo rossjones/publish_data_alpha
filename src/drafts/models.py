@@ -46,6 +46,7 @@ class Dataset(models.Model):
 class Datafile(models.Model):
     title = models.CharField(max_length=128)
     url = models.URLField()
+    format = models.CharField(max_length=16, blank=True)
     dataset = models.ForeignKey(Dataset, related_name="files")
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)

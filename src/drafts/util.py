@@ -1,5 +1,6 @@
 from calendar import monthrange
 from datetime import datetime
+from mimetypes import guess_all_extensions
 
 from django.utils.text import slugify
 
@@ -10,12 +11,24 @@ import requests
 
 
 def url_exists(url):
+    fmt = ''
+
     try:
         r = requests.head(url)
     except requests.ConnectionError as ce:
-        return False
+        return False, ''
 
-    return True
+    content_type = r.headers['Content-Type']
+    if ';' in content_type:
+        # TODO: Let's not through away encoding information
+        content_type = content_type[0:content_type.index(';')]
+
+    extensions = guess_all_extensions(content_type)
+    if extensions:
+        fmt = max(extensions, key=len)[1:].upper()
+
+
+    return True, fmt
 
 
 def calculate_dates_for_month(month, year):
