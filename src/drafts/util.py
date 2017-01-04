@@ -19,6 +19,7 @@ def url_exists(url):
         return False, ''
 
     content_type = r.headers['Content-Type']
+
     if ';' in content_type:
         # TODO: Let's not through away encoding information
         content_type = content_type[0:content_type.index(';')]
@@ -26,6 +27,12 @@ def url_exists(url):
     extensions = guess_all_extensions(content_type)
     if extensions:
         fmt = max(extensions, key=len)[1:].upper()
+
+        # Mimetypes vary and so there's not an obviously easy way
+        # to get the extension we want for some types. Notably
+        # HTML/SHTML
+        if fmt in ['HTM', 'SHTML']:
+            fmt = 'HTML'
 
 
     return True, fmt
