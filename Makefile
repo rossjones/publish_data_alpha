@@ -1,7 +1,7 @@
 # Where to find the app, and how to log in
 export APP_SERVER_URL=http://localhost:8000
-export USER_EMAIL=a@b.c
-export USER_PASSWORD=foobar
+export USER_EMAIL=test-co@localhost
+export USER_PASSWORD=password
 
 # Various executables needed to run tests
 export SELENIUM=$(HOME)/bin/selenium-server-standalone-3.0.1.jar
