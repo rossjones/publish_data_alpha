@@ -252,6 +252,9 @@ def edit_files(request, dataset_name):
         url = 'edit_dataset_addfile_monthly'
     elif dataset.frequency in ['annually']:
         url = 'edit_dataset_addfile_annually'
+    else:
+        url = 'edit_dataset_addfile'
+
 
     return render(request, "drafts/show_files.html", {
         'addfile_viewname': url,
