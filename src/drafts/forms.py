@@ -88,6 +88,9 @@ class FrequencyForm(forms.ModelForm):
 
 class CheckedFileForm(forms.ModelForm):
 
+    title = forms.CharField(required=True)
+    url = forms.CharField(required=True)
+
     def clean(self):
         cleaned = super(CheckedFileForm, self).clean()
         if self._errors:
@@ -147,6 +150,9 @@ class WeeklyFileForm(CheckedFileForm):
             self._errors['end_date'] = \
                 [_('Please enter a correct end date')]
 
+        if self.errors:
+            return self.cleaned_data
+
         return {
             'title': self.cleaned_data['title'],
             'url': self.cleaned_data['url'],
@@ -154,7 +160,6 @@ class WeeklyFileForm(CheckedFileForm):
             'end_date': frequency_weekly_end
         }
 
-        return self.cleaned_data
 
 
 class MonthlyFileForm(CheckedFileForm):
