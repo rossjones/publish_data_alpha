@@ -243,6 +243,12 @@ def edit_files(request, dataset_name):
 def edit_notifications(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
+    if dataset.frequency in ['daily', 'never']:
+        dataset.noficiations = 'no'
+        dataset.save()
+
+        return _redirect_to(request, 'edit_dataset_check_dataset',[dataset.name])
+
     form = f.NotificationsForm(request.POST or None, instance=dataset)
     if request.method == 'POST':
         if form.is_valid():
