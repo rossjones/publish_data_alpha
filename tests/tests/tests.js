@@ -132,10 +132,10 @@ module.exports = {
     .submitFormAndCheckNextTitle('How often is this dataset updated?')
     .selectRadioButton('Every month')
     .submitFormAndCheckNextTitle('Add a link')
-    .clearSetValue('input[name=addfile_monthly-url]', 'http://example.com/data.csv')
-    .clearSetValue('input[name=addfile_monthly-title]', 'Title of this link')
-    .clearSetValue('input[name=addfile_monthly-month]', '12')
-    .clearSetValue('input[name=addfile_monthly-year]', '2016')
+    .setValue('input[id=id_url]', 'http://example.com/data.csv')
+    .setValue('input[id=id_title]', 'Title of this link')
+    .setValue('input[id=period_month]', '12')
+    .setValue('input[id=period_year]', '2016')
     .submitFormAndCheckNextTitle('Dataset links')
     .submitFormAndCheckNextTitle('Get notifications')
     .selectRadioButton('Yes')
@@ -220,7 +220,7 @@ module.exports = {
     .selectRadioButton('Other:')
     .submitFormAndCheckNextTitle('There was a problem')
     .checkError('Please type the name of your licence')
-    .clearSetValue('input[name=licence-licence_other]', 'other licence')
+    .clearSetValue('input[id=id_licence_other]', 'other licence')
     .submitFormAndCheckNextTitle('Choose an area')
     .end();
   },

@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block inner_content %}
-  {% if wizard.form.errors %}
+  {% if form.errors %}
     <div
         class="error-summary"
         role="group"
@@ -19,14 +19,14 @@
       </h1>
 
       <ul class="error-summary-list">
-        {% for error in wizard.form.non_field_errors %}
+        {% for error in form.non_field_errors %}
           <li>
             {{ error }}
             <span class="visuallyhidden">.</span>
           </li>
         {% endfor %}
 
-          {% for error in wizard.form.licence.errors %}
+          {% for error in form.licence.errors %}
           <li>
             <a href="#licence_form_group">
               Please select a licence for your dataset
@@ -35,7 +35,7 @@
           </li>
           {% endfor %}
 
-          {% for error in wizard.form.licence_other.errors %}
+          {% for error in form.licence_other.errors %}
           <li>
             <a href="#licence_other_label">
               Please type the name of your licence
@@ -59,10 +59,9 @@
   </p>
 
   <form
-      action="{% url 'edit_dataset_step' dataset.name 'licence' %}"
+      action="{% url 'edit_dataset_licence' dataset.name %}"
       method="POST">
 
-    {{ wizard.management_form }}
     {% csrf_token %}
     <input type="hidden" name="editing" value="{{ editing }}">
 
@@ -71,17 +70,17 @@
         id="licence_form_group">
       <fieldset>
         <legend class="visually-hidden">Choose a licence</legend>
-        {% for error in wizard.form.licence.errors %}
+        {% for error in form.licence.errors %}
           <span class="error-message">{{ error }}</span>
         {% endfor %}
 
         <label class="block-label selection-button-radio" for="id_licence_0">
           <input
               id="id_licence_0"
-              name="{{ wizard.form.licence.html_name }}"
+              name="{{ form.licence.html_name }}"
               type="radio"
               value="uk-ogl"
-              {% if wizard.form.licence.value == 'uk-ogl' %}
+              {% if form.licence.value == 'uk-ogl' %}
                 checked
               {% endif %} />
           <span>Open Government Licence</span>
@@ -89,10 +88,10 @@
         <label class="block-label selection-button-radio" for="id_licence_1">
           <input
               id="id_licence_1"
-              name="{{ wizard.form.licence.html_name }}"
+              name="{{ form.licence.html_name }}"
               type="radio"
               value="inspire"
-              {% if wizard.form.licence.value == 'inspire' %}
+              {% if form.licence.value == 'inspire' %}
                 checked
               {% endif %} />
           <span>INSPIRE</span>
@@ -100,10 +99,10 @@
         <label class="block-label selection-button-radio" for="id_licence_2">
           <input
               id="id_licence_2"
-              name="{{ wizard.form.licence.html_name }}"
+              name="{{ form.licence.html_name }}"
               type="radio"
               value="other"
-              {% if wizard.form.licence.value == 'other' %}
+              {% if form.licence.value == 'other' %}
                 checked
               {% endif %}  />
           <span>Other:</span>
@@ -111,20 +110,20 @@
       </fieldset>
     </div>
     <div
-        class="form-group {% if wizard.form.licence_other.errors %}error{% endif %}">
+        class="form-group {% if form.licence_other.errors %}error{% endif %}">
       <label class="form-label" for="id_licence_other" id="licence_other_label">
         Name of your licence:
       </label>
-      {% for error in wizard.form.licence_other.errors %}
+      {% for error in form.licence_other.errors %}
         <span class="error-message">{{ error }}</span>
       {% endfor %}
       <input
           class="form-control"
           id="id_licence_other"
-          name="{{ wizard.form.licence_other.html_name }}"
+          name="{{ form.licence_other.html_name }}"
           type="text"
           {% if form.licence_other.value %}
-            value="{{ wizard.form.licence_other.value }}"
+            value="{{ form.licence_other.value }}"
           {% endif %}
           />
     </div>

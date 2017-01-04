@@ -25,6 +25,21 @@ class DatasetForm(forms.Form):
             self.cleaned_data['name'] = name
         return self.cleaned_data
 
+class EditDatasetForm(forms.ModelForm):
+    title = forms.CharField(label=_('Title'), max_length=100, required=True)
+    summary = forms.CharField(label=_('Summary'), max_length=200, required=True)
+    description = forms.CharField(
+        label=_('Additional Information'),
+        max_length=1024,
+        widget=forms.Textarea,
+        required=True
+    )
+
+    class Meta:
+        model = Dataset
+        fields = ['title', 'summary', 'description']
+
+
 
 class LicenceForm(forms.ModelForm):
 
@@ -73,6 +88,9 @@ class FrequencyForm(forms.ModelForm):
 
 class CheckedFileForm(forms.ModelForm):
 
+    title = forms.CharField(required=True)
+    url = forms.CharField(required=True)
+
     def clean(self):
         cleaned = super(CheckedFileForm, self).clean()
         if self._errors:
@@ -113,7 +131,7 @@ class WeeklyFileForm(CheckedFileForm):
 
     def clean(self):
         try:
-            self.cleaned_data['frequency_weekly_start'] = datetime.date(
+            frequency_weekly_start = datetime.date(
                 self.cleaned_data['start_year'],
                 self.cleaned_data['start_month'],
                 self.cleaned_data['start_day']
@@ -123,7 +141,7 @@ class WeeklyFileForm(CheckedFileForm):
                 [_('Please enter a correct start date')]
 
         try:
-            self.cleaned_data['frequency_weekly_end'] = datetime.date(
+            frequency_weekly_end = datetime.date(
                 self.cleaned_data['end_year'],
                 self.cleaned_data['end_month'],
                 self.cleaned_data['end_day']
@@ -132,7 +150,16 @@ class WeeklyFileForm(CheckedFileForm):
             self._errors['end_date'] = \
                 [_('Please enter a correct end date')]
 
-        return self.cleaned_data
+        if self.errors:
+            return self.cleaned_data
+
+        return {
+            'title': self.cleaned_data['title'],
+            'url': self.cleaned_data['url'],
+            'start_date': frequency_weekly_start,
+            'end_date': frequency_weekly_end
+        }
+
 
 
 class MonthlyFileForm(CheckedFileForm):

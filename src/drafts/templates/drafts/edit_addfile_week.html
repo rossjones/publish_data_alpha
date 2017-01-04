@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block inner_content %}
-{% with w=wizard.form %}
+ {% with w=form %}
 
   {% if w.errors or w.non_field_errors %}
     <div
@@ -55,7 +55,7 @@
 
   <form
       method="post"
-      action="{% url 'edit_dataset_step' dataset.name 'frequency_weekly' %}"
+      action="{% url 'edit_dataset_addfile_weekly' dataset.name%}"
       class="form">
     {{ wizard.management_form }}
     {% csrf_token %}

@@ -14,9 +14,8 @@
 
   <form
       method="post"
-      action="{% url 'edit_dataset_step' dataset.name 'frequency_quarterly' %}"
+      action="{% url 'edit_dataset_addfile_quarterly' dataset.name %}"
       class="form">
-    {{ wizard.management_form }}
     {% csrf_token %}
 
     {% include 'drafts/includes/title_url.html' %}

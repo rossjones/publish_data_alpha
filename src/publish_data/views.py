@@ -4,7 +4,7 @@ from django.shortcuts import render
 from publish_data.logic import dataset_list
 from tasks.logic import get_tasks_for_user
 from stats.logic import get_stats
-
+from ckan_proxy.util import get_ckan_host
 
 def home(request):
     if request.user.is_authenticated():
@@ -44,5 +44,6 @@ def manage_data(request):
         "total": total,
         "page_range": range(1, page_count),
         "current_page": page,
-        "q": q or ""
+        "q": q or "",
+        "ckan_host": get_ckan_host()
     })
