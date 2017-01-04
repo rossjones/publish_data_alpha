@@ -2,10 +2,41 @@
 {% load static %}
 
 {% block page_title %}
-Get notifications
+  Get notifications
 {% endblock %}
 
 {% block inner_content %}
+  {% if form.errors %}
+    <div
+        class="error-summary"
+        role="group"
+        aria-labelledby="error-summary-heading-example-1"
+        tabindex="-1">
+      <h1
+          class="heading-medium error-summary-heading"
+          id="error-summary-heading-example-1">
+        There was a problem
+      </h1>
+
+      <ul class="error-summary-list">
+        {% for error in form.non_field_errors %}
+          <li>
+            {{ error }}
+            <span class="visuallyhidden">.</span>
+          </li>
+        {% endfor %}
+
+        {% for error in form.notifications.errors %}
+          <li>
+            <a href="#notifications_form_group">
+              Please specify if you'd like to receive notifications
+            </a>
+            <span class="visuallyhidden">.</span>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
 
   <h1 class="heading-large">
     Get notifications
@@ -17,7 +48,7 @@ Get notifications
 
     <ul class="errorlist"><li>This field is required.</li></ul>
 
-    <div class="form-group">
+    <div class="form-group {% if form.notifications.errors %}error{% endif %}">
       <fieldset>
         <legend class="visuallyhidden">Get notifications?</legend>
 
@@ -25,6 +56,10 @@ Get notifications
           Would you like us to send you an email when your dataset needs to
           be updated?
         </p>
+
+        {% for error in form.notifications.errors %}
+          <span class="error-message">{{ error }}</span>
+        {% endfor %}
 
         <label
             class="block-label selection-button-radio"

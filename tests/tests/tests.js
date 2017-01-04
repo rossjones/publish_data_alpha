@@ -96,6 +96,16 @@ var goToCreateFrequency = function(browser) {
     .submitFormAndCheckNextTitle('How often is this dataset updated?');
 };
 
+var goToNotifications = function(browser) {
+  return goToCreateFrequency(browser)
+    .selectRadioButton('Never')
+    .submitFormAndCheckNextTitle('Add a link')
+    .clearSetValue('input[id=id_url]', 'http://example.com/file.csv')
+    .clearSetValue('input[id=id_title]', 'First link')
+    .submitFormAndCheckNextTitle('Dataset links')
+    .submitFormAndCheckNextTitle('Get notifications');
+};
+
 
 
 // ============ here start the tests ===========================================
@@ -341,6 +351,12 @@ module.exports = {
     .submitFormAndCheckNextTitle('Dataset links')
     .assert.containsText('table', 'First link')
     .assert.containsText('table', 'Second link')
+    .end();
+  },
+
+  'Create a dataset, no notifications selected' : function (browser) {
+    goToNotifications(browser)
+    .submitFormAndCheckNextTitle('There was a problem')
     .end();
   },
 
