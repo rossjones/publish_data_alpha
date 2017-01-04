@@ -25,7 +25,6 @@ urlpatterns = [
         login_required(v.edit_frequency),
         name='edit_dataset_frequency'),
 
-
     url(r'^(?P<dataset_name>[\w-]+)/addfile$',
         login_required(v.edit_addfile),
         name='edit_dataset_addfile'),
