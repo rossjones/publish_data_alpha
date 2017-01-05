@@ -91,7 +91,9 @@ WSGI_APPLICATION = 'publish_data.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
-if os.environ.get('DATABASE_URL'):
+db_url = os.environ.get('DATABASE_URL')
+if db_url:
+    print("Warning: DATABASE_URL is already set. Value is %s." % db_url)
     import dj_database_url
     DATABASES = {}
     DATABASES['default'] = dj_database_url.config(conn_max_age=600)
