@@ -6,7 +6,8 @@
 {% endblock %}
 
 {% block inner_content %}
-  {% include 'drafts/includes/title_errors.html' %}
+
+  {% include 'drafts/includes/error_box.html' %}
 
   <h1 class="heading-large">
     Add a link
@@ -24,8 +25,12 @@
       <legend class="form-label-bold">
         Time period of this link
       </legend>
-
-      <div class="form-group">
+      {% for error in form.quarter.errors %}
+        <span class="error-message">{{ error }}</span>
+      {% endfor %}
+      <div
+          class="form-group {% if form.quarter.errors %}error{% endif %}"
+          id="quarter_form_group">
         <label for="q1" class="block-label">
           <input
               type="radio"

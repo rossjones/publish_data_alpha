@@ -7,55 +7,11 @@
 
 {% block inner_content %}
 
-  {% if form.errors %}
-    <div
-        class="error-summary"
-        role="group"
-        aria-labelledby="error-summary-heading-example-1"
-        tabindex="-1">
-      <h1
-          class="heading-medium error-summary-heading"
-          id="error-summary-heading-example-1">
-        There was a problem
-      </h1>
-
-      <ul class="error-summary-list">
-        {% for error in form.non_field_errors %}
-          <li>
-            {{ error }}
-            <span class="visuallyhidden">.</span>
-          </li>
-        {% endfor %}
-
-        {% if form.title.errors %}
-          <li>
-            <a href="#id_title_label">Please provide a valid title</a>
-            <span class="visuallyhidden">.</span>
-          </li>
-        {% endif %}
-
-          {% if form.description.errors %}
-          <li>
-            <a href="#id_description_label">Please provide a description</a>
-            <span class="visuallyhidden">.</span>
-          </li>
-          {% endif %}
-
-          {% if form.summary.errors %}
-          <li>
-            <a href="#id_description_label">Please provide a summary</a>
-            <span class="visuallyhidden">.</span>
-          </li>
-          {% endif %}
-      </ul>
-    </div>
-  {% endif %}
+  {% include 'drafts/includes/error_box.html' %}
 
   <h1 class="heading-large">
     Create a dataset
   </h1>
-
-  <p>You must give the dataset a title and a description.</p>
 
   <form method="post" class="form" action="{{ target_url }}">
     {% csrf_token %}
@@ -66,16 +22,17 @@
         Provide a title, summary, and description.
       </legend>
 
-      <div class="form-group {% if form.title.errors %}error{% endif %}">
+      <div
+          class="form-group {% if form.title.errors %}error{% endif %}"
+          id="title_form_group">
         <label
             class="form-label-bold"
-            for="id_title"
-            id="id_title_label">
+            for="id_title">
           Title
         </label>
-        {% if form.title.errors %}
-
-        {% endif %}
+        {% for error in form.title.errors %}
+          <span class="error-message">{{ error }}</span>
+        {% endfor %}
         <span class="form-hint">
           Titles should be 65 characters or less, including spaces.<br/>
           Most search engines will shorten titles if they’re longer than
@@ -89,11 +46,12 @@
             value="{{ form.title.value|default:"" }}"/>
       </div>
 
-      <div class="form-group {% if form.summary.errors %}error{% endif %}">
+      <div
+          class="form-group {% if form.summary.errors %}error{% endif %}"
+          id="summary_form_group">
         <label
             class="form-label-bold"
-            for="id_summary"
-            id="id_summary_label">
+            for="id_summary">
           Summary
         </label>
         {% for error in form.summary.errors %}
@@ -114,11 +72,12 @@
             name="{{ form.summary.html_name }}">{{ form.summary.value|default:""}}</textarea>
       </div>
 
-      <div class="form-group {% if form.description.errors %}error{% endif %}">
+      <div
+          class="form-group {% if form.description.errors %}error{% endif %}"
+          id="description_form_group">
         <label
             class="form-label-bold"
-            for="id_description"
-            id="id_description_label">
+            for="id_description">
           Additional information
         </label>
         {% for error in form.description.errors %}

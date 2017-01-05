@@ -6,39 +6,8 @@
 {% endblock %}
 
 {% block inner_content %}
-{% with org=form.organisation %}
 
-  {% if form.errors %}
-    <div
-        class="error-summary"
-        role="group"
-        aria-labelledby="error-summary-heading-example-1"
-        tabindex="-1">
-      <h1
-          class="heading-medium error-summary-heading"
-          id="error-summary-heading-example-1">
-        There was a problem
-      </h1>
-
-      <ul class="error-summary-list">
-        {% for error in form.non_field_errors %}
-          <li>
-            {{ error }}
-            <span class="visuallyhidden">.</span>
-          </li>
-        {% endfor %}
-
-        {% for error in org.errors %}
-          <li>
-            <a href="#organisation_form_group">
-              Please choose which organisation will own this dataset
-            </a>
-            <span class="visuallyhidden">.</span>
-          </li>
-        {% endfor %}
-      </ul>
-    </div>
-  {% endif %}
+  {% include 'drafts/includes/error_box.html' %}
 
   <h1 class="heading-large">
     Which organisation are you publishing this dataset for?
@@ -52,11 +21,11 @@
     <input type="hidden" name="editing" value="{{ editing }}">
 
     <div
-        class="form-group {% if org.errors %}error{% endif %}"
+        class="form-group {% if form.organisation.errors %}error{% endif %}"
         id="organisation_form_group">
       <fieldset>
         <legend class="visually-hidden">Choose an organisation</legend>
-        {% if org.errors %}
+        {% if form.organisation.errors %}
           <span class="error-message">
             Please choose which organisation will own this dataset
           </span>
@@ -67,10 +36,10 @@
               for="id_organisation_{{ forloop.counter }}">
             <input
                 id="id_organisation_{{ forloop.counter }}"
-                name="{{ org.html_name }}"
+                name="{{ form.organisation.html_name }}"
                 type="radio"
                 value="{{ organisation_name }}"
-                {% if org.value == organisation_name %}
+                {% if form.organisation.value == organisation_name %}
                   checked
                 {% endif %}/>
             <span>{{ organisation_title }}</span>
@@ -84,5 +53,4 @@
     </div>
   </form>
 
-{% endwith %}
 {% endblock %}

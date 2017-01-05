@@ -1,31 +1,44 @@
- {% if form.errors %}
-    <div
-        class="error-summary"
-        role="group"
-        aria-labelledby="error-summary-heading-example-1"
-        tabindex="-1">
-      <h1
-          class="heading-medium error-summary-heading"
-          id="error-summary-heading-example-1">
-        There was a problem
-      </h1>
+{% if form.errors %}
+  <div
+      class="error-summary"
+      role="group"
+      aria-labelledby="error-summary-heading-example-1"
+      tabindex="-1">
+    <h1
+        class="heading-medium error-summary-heading"
+        id="error-summary-heading-example-1">
+      There was a problem
+    </h1>
 
-      <ul class="error-summary-list">
-        {% for error in form.non_field_errors %}
-          <li>
-            {{ error }}
-            <span class="visuallyhidden">.</span>
-          </li>
-        {% endfor %}
+    <ul class="error-summary-list">
+      {% for error in form.non_field_errors %}
+        <li>
+          {{ error }}
+          <span class="visuallyhidden">.</span>
+        </li>
+      {% endfor %}
 
-          {% for error in form.url.errors %}
-          <li>
-            <a href="#url_form_group">
-                {{ error }}
-            </a>
-            <span class="visuallyhidden">.</span>
-          </li>
-          {% endfor %}
-      </ul>
-    </div>
-  {% endif %}
+
+      {% if form.title.errors %}
+        <li>
+          <a href="#id_title_label">Please provide a valid title</a>
+          <span class="visuallyhidden">.</span>
+        </li>
+      {% endif %}
+
+      {% if form.description.errors %}
+        <li>
+          <a href="#id_description_label">Please provide a description</a>
+          <span class="visuallyhidden">.</span>
+        </li>
+      {% endif %}
+
+      {% if form.summary.errors %}
+        <li>
+          <a href="#id_description_label">Please provide a summary</a>
+          <span class="visuallyhidden">.</span>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+{% endif %}

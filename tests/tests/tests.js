@@ -98,10 +98,11 @@ var goToCreateFrequency = function(browser) {
 
 var goToNotifications = function(browser) {
   return goToCreateFrequency(browser)
-    .selectRadioButton('Never')
+    .selectRadioButton('Every year (January to December)')
     .submitFormAndCheckNextTitle('Add a link')
     .clearSetValue('input[id=id_url]', 'http://example.com/file.csv')
     .clearSetValue('input[id=id_title]', 'First link')
+    .clearSetValue('input[id=period_year]', '2013')
     .submitFormAndCheckNextTitle('Dataset links')
     .submitFormAndCheckNextTitle('Get notifications');
 };
@@ -263,7 +264,7 @@ module.exports = {
     .end();
   },
 
-  'Create a dataset, frequency weekly' : function (browser) {
+  'create a dataset, frequency weekly' : function (browser) {
     goToCreateFrequency(browser)
     .selectRadioButton('Every week')
     .submitFormAndCheckNextTitle('Add a link')
@@ -357,6 +358,17 @@ module.exports = {
   'Create a dataset, no notifications selected' : function (browser) {
     goToNotifications(browser)
     .submitFormAndCheckNextTitle('There was a problem')
+    .checkError('Please specify if you\'d like to receive notifications')
+    .end();
+  },
+
+  'Create a dataset, no file url added' : function (browser) {
+    goToCreateFrequency(browser)
+    .selectRadioButton('Every year (January to December)')
+    .submitFormAndCheckNextTitle('Add a link')
+    .submitFormAndCheckNextTitle('There was a problem')
+    .checkError('Please provide a valid title')
+    .checkError('Please provide a valid URL')
     .end();
   },
 

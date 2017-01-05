@@ -6,40 +6,8 @@
 {% endblock %}
 
 {% block inner_content %}
-{% with freq=form.frequency %}
 
-  {% if form.errors %}
-    <div
-        class="error-summary"
-        role="group"
-        aria-labelledby="error-summary-heading-example-1"
-        tabindex="-1">
-      <h1
-          class="heading-medium error-summary-heading"
-          id="error-summary-heading-example-1">
-        There was a problem
-      </h1>
-
-      <ul class="error-summary-list">
-        {% for error in form.non_field_errors %}
-          <li>
-            {{ error }}
-            <span class="visuallyhidden">.</span>
-          </li>
-        {% endfor %}
-
-        {% for error in freq.errors %}
-          <li>
-            <a href="#frequency_form_group">
-              Please indicate how often this dataset is updated
-            </a>
-            <span class="visuallyhidden">.</span>
-          </li>
-        {% endfor %}
-      </ul>
-    </div>
-  {% endif %}
-
+  {% include 'drafts/includes/error_box.html' %}
 
 
   <h1 class="heading-large">
@@ -58,7 +26,7 @@
         id="#frequency_form_group">
       <fieldset>
         <legend class="visually-hidden">Choose a frequency</legend>
-        {% if freq.errors %}
+        {% if form.frequency.errors %}
           <span class="error-message">
             Please indicate how often this dataset is updated
           </span>
@@ -66,10 +34,10 @@
         <label class="block-label selection-button-radio" for="id_frequency_0">
           <input
               id="id_frequency_0"
-              name="{{ freq.html_name }}"
+              name="{{ form.frequency.html_name }}"
               type="radio"
               value="daily"
-              {% if freq.value == 'daily' %}
+              {% if form.frequency.value == 'daily' %}
                 checked
               {% endif %}/>
           <span>Every day</span>
@@ -77,10 +45,10 @@
         <label class="block-label selection-button-radio" for="id_frequency_1">
           <input
               id="id_frequency_1"
-              name="{{ freq.html_name }}"
+              name="{{ form.frequency.html_name }}"
               type="radio"
               value="weekly"
-              {% if freq.value == 'weekly' %}
+              {% if form.frequency.value == 'weekly' %}
                 checked
               {% endif %}/>
           <span>Every week</span>
@@ -88,10 +56,10 @@
         <label class="block-label selection-button-radio" for="id_frequency_2">
           <input
               id="id_frequency_2"
-              name="{{ freq.html_name }}"
+              name="{{ form.frequency.html_name }}"
               type="radio"
               value="monthly"
-              {% if freq.value == 'monthly' %}
+              {% if form.frequency.value == 'monthly' %}
                 checked
               {% endif %}/>
           <span>Every month</span>
@@ -99,10 +67,10 @@
         <label class="block-label selection-button-radio" for="id_frequency_3">
           <input
               id="id_frequency_3"
-              name="{{ freq.html_name }}"
+              name="{{ form.frequency.html_name }}"
               type="radio"
               value="quarterly"
-              {% if freq.value == 'quarterly' %}
+              {% if form.frequency.value == 'quarterly' %}
                 checked
               {% endif %} />
           <span>Every quarter</span>
@@ -110,10 +78,10 @@
         <label class="block-label selection-button-radio" for="id_frequency_4">
           <input
               id="id_frequency_4"
-              name="{{ freq.html_name }}"
+              name="{{ form.frequency.html_name }}"
               type="radio"
               value="annually"
-              {% if freq.value == 'annually' %}
+              {% if form.frequency.value == 'annually' %}
                 checked
               {% endif %} />
           <span>Every year (January to December)</span>
@@ -121,10 +89,10 @@
         <label class="block-label selection-button-radio" for="id_frequency_5">
           <input
               id="id_frequency_5"
-              name="{{ freq.html_name }}"
+              name="{{ form.frequency.html_name }}"
               type="radio"
               value="financial-year"
-              {% if freq.value == 'financial-year' %}
+              {% if form.frequency.value == 'financial-year' %}
                 checked
               {% endif %} />
           <span>Every year (April to March)</span>
@@ -132,10 +100,10 @@
         <label class="block-label selection-button-radio" for="id_frequency_6">
           <input
               id="id_frequency_6"
-              name="{{ freq.html_name }}"
+              name="{{ form.frequency.html_name }}"
               type="radio"
               value="never"
-              {% if freq.value == 'never' %}
+              {% if form.frequency.value == 'never' %}
                 checked
               {% endif %} />
           <span>Never</span>
@@ -148,5 +116,4 @@
     </div>
   </form>
 
-{% endwith %}
 {% endblock %}

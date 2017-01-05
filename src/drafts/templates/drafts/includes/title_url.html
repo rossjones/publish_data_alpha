@@ -3,8 +3,13 @@
     Add a link
   </legend>
 
-  <div id="url_form_group" class="form-group {% if form.url.errors %}error{% endif %}">
+  <div
+      id="url_form_group"
+      class="form-group {% if form.url.errors %}error{% endif %}">
     <label class="form-label-bold" for="id_url">URL</label>
+    {% for error in form.url.errors %}
+      <span class="error-message">{{ error }}</span>
+    {% endfor %}
     <span class="form-hint">
       Enter a link (beginning with http:// or https://) to the page where
       your data file has been uploaded.
@@ -20,15 +25,17 @@
         type="url"
         required=""
         value="{{ form.url.value|default:'' }}"/>
-    {% for error in form.url.errors %}
-      <span class="error-message">{{ error }}</span>
-    {% endfor %}
   </div>
 
-  <div id="title_form_group" class="form-group {% if form.title.errors %}error{% endif %}">
+  <div
+      id="title_form_group"
+      class="form-group {% if form.title.errors %}error{% endif %}">
     <label class="form-label-bold" for="id_title">
       Title
     </label>
+    {% for error in form.title.errors %}
+      <span class="error-message">{{ error }}</span>
+    {% endfor %}
     <span class="form-hint">
       Give your link a descriptive title to help users understand what
       data it contains. The title shouldn’t be the same as the URL.
@@ -40,8 +47,5 @@
         type="text"
         required=""
         value="{{ form.title.value|default:'' }}"/>
-    {% for error in form.title.errors %}
-      <span class="error-message">{{ error }}</span>
-    {% endfor %}
   </div>
 </fieldset>
