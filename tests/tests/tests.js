@@ -107,6 +107,12 @@ var goToNotifications = function(browser) {
     .submitFormAndCheckNextTitle('Get notifications');
 };
 
+var goToCheckPage = function(browser) {
+  return goToNotifications(browser)
+    .selectRadioButton('Yes')
+    .submitFormAndCheckNextTitle('Check your dataset');
+};
+
 
 
 // ============ here start the tests ===========================================
@@ -371,6 +377,18 @@ module.exports = {
     .checkError('Please provide a valid URL')
     .end();
   },
+
+  'Create a dataset, modify after check page' : function (browser) {
+    goToCheckPage(browser)
+    .clickOnLink('Change')
+    .waitForElementVisible('h1', waitTimeout)
+    .assert.containsText('h1', 'Create a dataset')
+    .clearSetValue('input[name=title]', 'modified name')
+    .submitFormAndCheckNextTitle('Check your dataset')
+    .assert.containsText('body', 'modified name')
+    .end();
+  },
+
 
   'Dashboard' : function (browser) {
     login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
