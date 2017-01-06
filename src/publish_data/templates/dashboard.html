@@ -9,13 +9,16 @@
   <div class="dashboard">
     <h1 class="heading-medium">Dashboard</h1>
 
-    <section>
+    <section class="table-show-hide">
       <div class="table-title">
         <h2 class="heading-medium">
           <span class="bignum">{{tasks.update|length}}</span> Update datasets
         </h2>
+        <div>
+          <a class="font-xsmall toggle" style="display:none">Show all</a>
+        </div>
       </div>
-      <table class="todos">
+      <table>
         <tbody>
           {% for task in tasks.update %}
             <tr>
@@ -33,13 +36,16 @@
       </table>
     </section>
 
-    <section>
+    <section class="table-show-hide">
       <div class="table-title">
         <h2 class="heading-medium">
           <span class="bignum">{{tasks.fix|length}}</span> Fix datasets
         </h2>
+        <div>
+          <a class="font-xsmall toggle" style="display:none">Show all</a>
+        </div>
       </div>
-      <table class="todos">
+      <table>
         <tbody>
           {% for task in tasks.fix %}
             <tr>
@@ -57,13 +63,16 @@
       </table>
     </section>
 
-    <section>
+    <section class="table-show-hide">
       <div class="table-title">
         <h2 class="heading-medium">
           <span class="bignum">{{tasks.improve|length}}</span> Improve datasets
         </h2>
+        <div>
+          <a class="font-xsmall toggle" style="display:none">Show all</a>
+        </div>
       </div>
-      <table class="todos">
+      <table>
         <tbody>
           {% for task in tasks.improve %}
             <tr>
@@ -81,13 +90,16 @@
       </table>
     </section>
 
-    <section>
+    <section class="table-show-hide">
       <div class="table-title">
         <h2 class="heading-medium">
           <span class="bignum">{{tasks.accounts|length}}</span> Manage accounts
         </h2>
+        <div>
+          <a class="font-xsmall toggle" style="display:none">Show all</a>
+        </div>
       </div>
-      <table class="todos">
+      <table>
         <tbody>
           {% for task in tasks.accounts %}
             <tr>

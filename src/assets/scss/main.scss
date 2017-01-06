@@ -24,6 +24,13 @@ $Helvetica-Regular: $helvetica-regular;
   display: none;
 }
 
+// Components
+
+.table-show-hide a.toggle {
+  color: $link-colour;
+  cursor: pointer;
+}
+
 // start page
 
 $alpine-fresh: #128400;
