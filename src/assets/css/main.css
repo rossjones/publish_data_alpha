@@ -1596,6 +1596,10 @@ input[type=number] {
 #global-header-bar {
   display: none; }
 
+.table-show-hide a.toggle {
+  color: #005ea5;
+  cursor: pointer; }
+
 .product-header {
   background-color: #128400;
   color: #fff;

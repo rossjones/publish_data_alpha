@@ -5,8 +5,8 @@
     "fields": {
       "owning_organisation": "cabinet-office",
       "required_permission_name" : "",
-      "description": "Update 'Anti-social behaviour order statistics, England and Wales' by 3 February 2017",
-      "category": "update"
+      "description": "Improve 'Anti-social behaviour order statistics, England and Wales' by 3 February 2017",
+      "category": "improve"
     }
   },
   {
@@ -26,7 +26,7 @@
       "owning_organisation": "cabinet-office",
       "required_permission_name" : "",
       "description": "Delete Maria Izquierdo’s account",
-      "category": "accounts"
+      "category": "improve"
     }
   },
   {
@@ -36,7 +36,7 @@
       "owning_organisation": "cabinet-office",
       "required_permission_name" : "",
       "description": "Give ‘editor’ permissions to Max Froumentin",
-      "category": "accounts"
+      "category": "improve"
     }
   },
   {
@@ -46,24 +46,24 @@
       "owning_organisation": "cabinet-office",
       "required_permission_name" : "",
       "description": "Replace broken link in 'Prison population projections'",
-      "category": "fix"
+      "category": "improve"
     }
   },
   {
     "model": "tasks.task",
     "pk": 6,
     "fields": {
-      "owning_organisation": "department-for-environment-food-and-rural-affairs",
+      "owning_organisation": "cabinet-office",
       "required_permission_name" : "",
-      "description": "Update 'Anti-social behaviour order statistics, England and Wales' by 3 February 2017",
-      "category": "update"
+      "description": "Improve 'Anti-social behaviour order statistics, England and Wales' by 3 February 2017",
+      "category": "improve"
     }
   },
   {
     "model": "tasks.task",
     "pk": 7,
     "fields": {
-      "owning_organisation": "department-for-environment-food-and-rural-affairs",
+      "owning_organisation": "cabinet-office",
       "required_permission_name" : "",
       "description": "Add missing data to 'Statistics of mentally disordered offenders, England'",
       "category": "improve"
@@ -73,30 +73,231 @@
     "model": "tasks.task",
     "pk": 8,
     "fields": {
-      "owning_organisation": "department-for-environment-food-and-rural-affairs",
+      "owning_organisation": "cabinet-office",
       "required_permission_name" : "",
       "description": "Delete Maria Izquierdo’s account",
-      "category": "accounts"
+      "category": "improve"
     }
   },
   {
     "model": "tasks.task",
     "pk": 9,
     "fields": {
-      "owning_organisation": "department-for-environment-food-and-rural-affairs",
+      "owning_organisation": "cabinet-office",
       "required_permission_name" : "",
       "description": "Give ‘editor’ permissions to Max Froumentin",
-      "category": "accounts"
+      "category": "improve"
     }
   },
   {
     "model": "tasks.task",
     "pk": 10,
     "fields": {
-      "owning_organisation": "department-for-environment-food-and-rural-affairs",
+      "owning_organisation": "cabinet-office",
+      "required_permission_name" : "",
+      "description": "Replace broken link in 'Prison population projections'",
+      "category": "improve"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 11,
+    "fields": {
+      "owning_organisation": "cabinet-office",
+      "required_permission_name" : "",
+      "description": "Update 'Anti-social behaviour order statistics, England and Wales' by 3 February 2017",
+      "category": "update"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 12,
+    "fields": {
+      "owning_organisation": "cabinet-office",
+      "required_permission_name" : "",
+      "description": "Add missing data to 'Statistics of mentally disordered offenders, England'",
+      "category": "update"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 13,
+    "fields": {
+      "owning_organisation": "cabinet-office",
+      "required_permission_name" : "",
+      "description": "Delete Maria Izquierdo’s account",
+      "category": "update"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 14,
+    "fields": {
+      "owning_organisation": "cabinet-office",
+      "required_permission_name" : "",
+      "description": "Give ‘editor’ permissions to Max Froumentin",
+      "category": "update"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 15,
+    "fields": {
+      "owning_organisation": "cabinet-office",
+      "required_permission_name" : "",
+      "description": "Replace broken link in 'Prison population projections'",
+      "category": "update"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 16,
+    "fields": {
+      "owning_organisation": "cabinet-office",
+      "required_permission_name" : "",
+      "description": "Update 'Anti-social behaviour order statistics, England and Wales' by 3 February 2017",
+      "category": "update"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 17,
+    "fields": {
+      "owning_organisation": "cabinet-office",
+      "required_permission_name" : "",
+      "description": "Add missing data to 'Statistics of mentally disordered offenders, England'",
+      "category": "update"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 18,
+    "fields": {
+      "owning_organisation": "cabinet-office",
+      "required_permission_name" : "",
+      "description": "Delete Maria Izquierdo’s account",
+      "category": "update"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 19,
+    "fields": {
+      "owning_organisation": "cabinet-office",
+      "required_permission_name" : "",
+      "description": "Give ‘editor’ permissions to Max Froumentin",
+      "category": "update"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 20,
+    "fields": {
+      "owning_organisation": "cabinet-office",
+      "required_permission_name" : "",
+      "description": "Replace broken link in 'Prison population projections'",
+      "category": "update"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 21,
+    "fields": {
+      "owning_organisation": "cabinet-office",
+      "required_permission_name" : "",
+      "description": "Fix 'Anti-social behaviour order statistics, England and Wales' by 3 February 2017",
+      "category": "fix"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 22,
+    "fields": {
+      "owning_organisation": "cabinet-office",
+      "required_permission_name" : "",
+      "description": "Add missing data to 'Statistics of mentally disordered offenders, England'",
+      "category": "fix"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 23,
+    "fields": {
+      "owning_organisation": "cabinet-office",
+      "required_permission_name" : "",
+      "description": "Delete Maria Izquierdo’s account",
+      "category": "fix"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 24,
+    "fields": {
+      "owning_organisation": "cabinet-office",
+      "required_permission_name" : "",
+      "description": "Give ‘editor’ permissions to Max Froumentin",
+      "category": "fix"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 25,
+    "fields": {
+      "owning_organisation": "cabinet-office",
+      "required_permission_name" : "",
+      "description": "Replace broken link in 'Prison population projections'",
+      "category": "fix"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 26,
+    "fields": {
+      "owning_organisation": "cabinet-office",
+      "required_permission_name" : "",
+      "description": "Fix 'Anti-social behaviour order statistics, England and Wales' by 3 February 2017",
+      "category": "fix"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 27,
+    "fields": {
+      "owning_organisation": "cabinet-office",
+      "required_permission_name" : "",
+      "description": "Add missing data to 'Statistics of mentally disordered offenders, England'",
+      "category": "fix"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 28,
+    "fields": {
+      "owning_organisation": "cabinet-office",
+      "required_permission_name" : "",
+      "description": "Delete Maria Izquierdo’s account",
+      "category": "fix"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 29,
+    "fields": {
+      "owning_organisation": "cabinet-office",
+      "required_permission_name" : "",
+      "description": "Give ‘editor’ permissions to Max Froumentin",
+      "category": "fix"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 30,
+    "fields": {
+      "owning_organisation": "cabinet-office",
       "required_permission_name" : "",
       "description": "Replace broken link in 'Prison population projections'",
       "category": "fix"
     }
   }
+
 ]
