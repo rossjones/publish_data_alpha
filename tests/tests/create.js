@@ -1,69 +1,9 @@
-var waitTimeout = 1000; // milliseconds
+var common = require('../common.js')
 
-var extended = function(browser) {
-  browser.clickOn = function(element, text) {
-    return this
-      .useXpath()
-      .click('//' + element + '[contains(text(), "'+text+'")]')
-      .useCss();
-  };
-  browser.clickOnLink = function(text) {
-    return this.clickOn('a', text);
-  };
-  browser.clickOnButton = function(text) {
-    return this.clickOn('button', text);
-  };
-  browser.selectRadioButton = function(text) {
-    return this
-      .useXpath()
-      .click('//label[contains(span/text(), "'+text+'")]')
-      .useCss();
-  };
-  browser.submitFormAndCheckNextTitle = function(title) {
-    return this
-      .submitForm('form')
-      .waitForElementVisible('h1', waitTimeout)
-      .assert.containsText('h1', title);
-  };
-  browser.clickAndCheckNextTitle = function(linkText, title) {
-    return this
-      .clickOnLink(linkText)
-      .waitForElementVisible('h1', waitTimeout)
-      .assert.containsText('h1', title);
-  };
-  browser.checkError = function(text) {
-    return this
-      .assert.containsText('ul.error-summary-list', text);
-  };
-
-  browser.checkFormInput = function(name) {
-    return this
-      .assert.elementPresent('input[name=' + name + ']');
-  };
-  browser.clearSetValue = function(selector, value) {
-    return this
-      .clearValue(selector).setValue(selector, value);
-  };
-
-  return browser;
-}
-
-var login = function(browser, email, password) {
-  extended(browser)
-    .url(process.env.APP_SERVER_URL)
-    .waitForElementVisible('body', waitTimeout)
-    .assert.containsText('h1', 'Publish and update data')
-    .clickOnLink('Sign in')
-    .waitForElementVisible('main', waitTimeout)
-    .assert.containsText('h1', 'Sign in')
-    .clearSetValue('input[name=email]', email)
-    .clearSetValue('input[name=password]', password)
-    .submitFormAndCheckNextTitle('Dashboard');
-  return browser;
-};
+// ============ shortcut functions =============================================
 
 var goToCreateTitle = function(browser) {
-  return login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
+  return common.login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset');
 };
 
@@ -114,25 +54,11 @@ var goToCheckPage = function(browser) {
 };
 
 
-
 // ============ here start the tests ===========================================
 
-var test_failed_login = function(browser) {
-  extended(browser)
-    .url(process.env.APP_SERVER_URL)
-    .waitForElementVisible('body', waitTimeout)
-    .assert.containsText('h1', 'Publish and update data')
-    .clickOnLink('Sign in')
-    .waitForElementVisible('main', waitTimeout)
-    .assert.containsText('h1', 'Sign in')
-    .clearSetValue('input[name=email]', 'foo@bar.baz')
-    .clearSetValue('input[name=password]', 'qux')
-    .submitFormAndCheckNextTitle('There was a problem signing you in')
-    .end()
-};
 
 var test_create_happy_path = function (browser) {
-  login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
+  common.login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
     .clearSetValue('input[name=title]', 'Title of my dataset')
     .clearSetValue('textarea[name=summary]', 'Summary of my dataset')
@@ -380,7 +306,7 @@ var test_create_omit_url = function (browser) {
 var test_create_modify_after_check = function (browser) {
   goToCheckPage(browser)
     .clickOnLink('Change')
-    .waitForElementVisible('h1', waitTimeout)
+    .waitForElementVisible('h1', common.waitTimeout)
     .assert.containsText('h1', 'Create a dataset')
     .clearSetValue('input[name=title]', 'modified name')
     .submitFormAndCheckNextTitle('Check your dataset')
@@ -389,16 +315,7 @@ var test_create_modify_after_check = function (browser) {
 };
 
 
-var test_dashboard = function (browser) {
-  login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
-    .assert.containsText('main', 'Update datasets')
-    .assert.containsText('main', 'Fix datasets')
-    .end()
-};
-
-
 module.exports = {
-  'Failed login': test_failed_login,
   'Create a dataset, happy path': test_create_happy_path,
   'Create a dataset, missing title' : test_create_missing_title,
   'Create a dataset, invalid title' : test_create_invalid_title,
@@ -417,7 +334,5 @@ module.exports = {
   'Create a dataset, frequency yearly' : test_create_yearly,
   'Create a dataset, omit notifications' : test_create_omit_notifications,
   'Create a dataset, omit url' : test_create_omit_url,
-  'Create a dataset, modify after check' : test_create_modify_after_check,
-
-  'Dashboard' : test_dashboard
+  'Create a dataset, modify after check' : test_create_modify_after_check
 };
