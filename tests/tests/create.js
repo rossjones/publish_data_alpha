@@ -23,7 +23,6 @@ var goToCreateLicence = function(browser) {
     .submitFormAndCheckNextTitle('Choose a licence');
 };
 
-
 var goToCreateRegion = function(browser) {
   return goToCreateLicence(browser)
     .selectRadioButton('Open Government Licence')
@@ -303,7 +302,7 @@ var test_create_omit_url = function (browser) {
     .end();
 };
 
-var test_create_modify_after_check = function (browser) {
+var test_create_modify_title = function (browser) {
   goToCheckPage(browser)
     .clickOnLink('Change')
     .waitForElementVisible('h1', common.waitTimeout)
@@ -311,6 +310,18 @@ var test_create_modify_after_check = function (browser) {
     .clearSetValue('input[name=title]', 'modified name')
     .submitFormAndCheckNextTitle('Check your dataset')
     .assert.containsText('body', 'modified name')
+    .end();
+};
+
+var test_create_modify_licence = function (browser) {
+  goToCheckPage(browser)
+    .click('a[href="licence?change=1"]')
+    .waitForElementVisible('h1', common.waitTimeout)
+    .assert.containsText('h1', 'Choose a licence')
+    .selectRadioButton('Other')
+    .clearSetValue('input[id=id_licence_other]', 'my licence')
+    .submitFormAndCheckNextTitle('Check your dataset')
+    .assert.containsText('body', 'my licence')
     .end();
 };
 
@@ -334,5 +345,6 @@ module.exports = {
   'Create a dataset, frequency yearly' : test_create_yearly,
   'Create a dataset, omit notifications' : test_create_omit_notifications,
   'Create a dataset, omit url' : test_create_omit_url,
-  'Create a dataset, modify after check' : test_create_modify_after_check
+  'Create a dataset, modify title' : test_create_modify_title,
+  'Create a dataset, modify licence' : test_create_modify_licence
 };
