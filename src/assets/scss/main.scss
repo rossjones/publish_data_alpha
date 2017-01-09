@@ -39,6 +39,18 @@ $Helvetica-Regular: $helvetica-regular;
   cursor: pointer;
 }
 
+table tr .actions {
+  text-align: right;
+  padding-right: 0;
+}
+
+a.delete-button, a.delete-button:visited {
+  display: inline-block;
+  color: $link-colour;
+  padding: .5em 0 .5em 1em;
+}
+
+
 // start page
 
 $alpine-fresh: #128400;
@@ -112,14 +124,6 @@ table {
       min-width: 10em;
       vertical-align: baseline;
       text-align: right;
-    }
-  }
-  .actions {
-    text-align: right;
-    padding-right: 0;
-    a {
-      padding-left: .2em;
-      padding-right: .2em;
     }
   }
   .overdue {

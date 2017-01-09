@@ -1610,6 +1610,15 @@ input[type=number] {
   color: #005ea5;
   cursor: pointer; }
 
+table tr .actions {
+  text-align: right;
+  padding-right: 0; }
+
+a.delete-button, a.delete-button:visited {
+  display: inline-block;
+  color: #005ea5;
+  padding: .5em 0 .5em 1em; }
+
 .product-header {
   background-color: #128400;
   color: #fff;
@@ -1667,13 +1676,6 @@ table {
   min-width: 10em;
   vertical-align: baseline;
   text-align: right; }
-
-.dashboard .actions {
-  text-align: right;
-  padding-right: 0; }
-  .dashboard .actions a {
-    padding-left: .2em;
-    padding-right: .2em; }
 
 .dashboard .overdue {
   color: #b10e1e;

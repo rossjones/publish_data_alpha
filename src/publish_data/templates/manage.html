@@ -44,20 +44,18 @@
           <tr>
             <th>Name</th>
             <th>Status</th>
-            <th>Actions</th>
+            <th class="actions">Actions</th>
           </tr>
         </thead>
         <tbody>
           {% for dataset in datasets %}
             <tr>
-              <td>{{ dataset.title }}</td>
+              <td><a href="{{ ckan_host }}/dataset/{{ dataset.name }}">{{ dataset.title }}</a></td>
               <td>{{ dataset.status }}</td>
-              <td>
+              <td class="actions">
                 {% if dataset.name %}
-                  <a href="">Add Data</a> <br/>
-                  <a href="{% url 'edit_dataset_check_dataset' dataset.name  %}">Edit</a> <br/>
-                  <a href="{{ ckan_host }}/dataset/{{ dataset.name }}" target="_blank">View</a>
-                  <a href="">Delete</a>
+                  <a href="{% url 'edit_dataset_files' dataset.name %}?change=1">Add Data</a><br/>
+                  <a href="{% url 'edit_dataset_check_dataset' dataset.name %}">Edit</a><br/>
                 {% endif %}
               </td>
             </tr>
