@@ -1,7 +1,6 @@
 var common = require('../common.js')
 
-var before = function(browser) {
-  console.log('Setting up...');
+var beforeEach = function(browser) {
   common.login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD);
 }
 
@@ -26,7 +25,7 @@ var test_dashboard_show_hide = function(browser) {
 };
 
 module.exports = {
-  before: before,
+  'beforeEach': beforeEach,
   'Dashboard': test_dashboard,
   'Dashboard show/hide section': test_dashboard_show_hide
 };
