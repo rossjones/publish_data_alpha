@@ -29,6 +29,7 @@ def manage_data(request):
 
     q = request.GET.get('q')
     new_set = request.GET.get('newset')
+    deleted = request.GET.get('deleted')
 
     page = 1
     try:
@@ -47,5 +48,6 @@ def manage_data(request):
         "current_page": page,
         "q": q or "",
         "newset": new_set or "",
+        "deleted": deleted or "",
         "ckan_host": get_ckan_host()
     })

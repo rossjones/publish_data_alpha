@@ -24,12 +24,32 @@ $Helvetica-Regular: $helvetica-regular;
   display: none;
 }
 
+// govuk-* additions
+
+.column-three-quarters {
+  @include grid-column(3 / 4);
+}
+
+
+
 // Components
 
 .table-show-hide a.toggle {
   color: $link-colour;
   cursor: pointer;
 }
+
+table tr .actions {
+  text-align: right;
+  padding-right: 0;
+}
+
+a.delete-button, a.delete-button:visited {
+  display: inline-block;
+  color: $link-colour;
+  padding: .5em 0 .5em 1em;
+}
+
 
 // start page
 
@@ -104,14 +124,6 @@ table {
       min-width: 10em;
       vertical-align: baseline;
       text-align: right;
-    }
-  }
-  .actions {
-    text-align: right;
-    padding-right: 0;
-    a {
-      padding-left: .2em;
-      padding-right: .2em;
     }
   }
   .overdue {

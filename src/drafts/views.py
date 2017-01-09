@@ -40,6 +40,14 @@ def new_dataset(request):
     })
 
 
+def delete_dataset(request, dataset_name):
+    dataset = get_object_or_404(Dataset, name=dataset_name)
+    dataset.delete()
+    return HttpResponseRedirect(
+        reverse('manage_data') + "?deleted=1"
+    )
+
+
 def edit_dataset_details(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
     form = f.EditDatasetForm(request.POST or None, instance=dataset)
@@ -292,6 +300,7 @@ def check_dataset(request, dataset_name):
         'dataset': dataset,
         'organisation': organisation
     })
+
 
 def _frequency_redirect_to(dataset):
     frequency = dataset.frequency
