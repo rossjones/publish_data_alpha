@@ -38,6 +38,7 @@ REQUIRED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.admin',
     'django.contrib.staticfiles',
 ]
 
@@ -46,7 +47,8 @@ PROJECT_APPS = [
     'userauth',
     'drafts',
     'tasks',
-    'stats'
+    'stats',
+    'organisations'
 ]
 
 INSTALLED_APPS = REQUIRED_APPS + PROJECT_APPS
