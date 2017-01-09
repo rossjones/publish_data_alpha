@@ -24,6 +24,14 @@ $Helvetica-Regular: $helvetica-regular;
   display: none;
 }
 
+// govuk-* additions
+
+.column-three-quarters {
+  @include grid-column(3 / 4);
+}
+
+
+
 // Components
 
 .table-show-hide a.toggle {
