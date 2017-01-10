@@ -12,11 +12,26 @@ $Helvetica-Regular: $helvetica-regular;
 
 // govuk-* overrides
 
-#global-header #logo {
-  font-weight: normal;
-  background: none;
-  img {
-    display: none;
+#global-header {
+  #logo {
+    font-weight: normal;
+    background: none;
+    img {
+      display: none;
+    }
+  }
+  .phase-tag-logo {
+    @include phase-tag();
+    margin-top: 7px;
+  }
+  .header-proposition {
+    padding-top: 4px;
+    .header-link {
+      font-weight: bold;
+      line-height: 2em;
+      color: $page-colour;
+      float: right;
+    }
   }
 }
 
