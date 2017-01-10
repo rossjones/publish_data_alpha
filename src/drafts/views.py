@@ -237,7 +237,13 @@ def edit_addfile_annually(request, dataset_name):
 
 
 def edit_files(request, dataset_name):
-    dataset = get_object_or_404(Dataset, name=dataset_name)
+    try:
+        dataset = Dataset.objects.get(name=dataset_name)
+    except Dataset.DoesNotExist:
+        # Try and load the dataset from the live CKAN
+        dataset = ckan_to_draft(dataset_name)
+
+
 
     url = _frequency_redirect_to(dataset)
 
