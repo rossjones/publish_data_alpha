@@ -1,0 +1,77 @@
+{% extends 'main_with_navbar.html' %}
+{% load static %}
+
+{% block page_title %}
+  Time period
+{% endblock %}
+
+{% block inner_content %}
+
+  {% include 'datasets/includes/error_box.html' %}
+
+  <h1 class="heading-large">
+    Add a link
+  </h1>
+
+  <form
+      method="post"
+      action="{% url 'edit_dataset_addfile_monthly' dataset.name %}"
+      class="form">
+       {% csrf_token %}
+
+    {% include 'datasets/includes/title_url.html' %}
+
+    <fieldset>
+      <legend>
+        <span class="form-label-bold">
+          Time period of this link
+        </span>
+        <span class="form-hint">For example, 3 2016</span>
+      </legend>
+      <div class="form-date">
+        <div
+            id="month_form_group"
+            class="form-group form-group-month {% if form.month.errors %}error{% endif %}">
+          <label class="form-label" for="period_month">Month</label>
+          {% for error in form.month.errors %}
+            <span class="error-message">{{ error }}</span>
+          {% endfor %}
+          <input
+              class="form-control"
+              id="period_month"
+              name="{{ form.month.html_name }}"
+              type="number"
+              pattern="[0-9]*"
+              min="0"
+              max="12"
+              value="{{ form.month.value|default:'' }}"/>
+        </div>
+
+        <div
+            id="year_form_group"
+            class="form-group form-group-year {% if form.year.errors %}error{% endif %}">
+          <label class="form-label" for="period_year">Year</label>
+          {% for error in form.year.errors %}
+            <span class="error-message">{{ error }}</span>
+          {% endfor %}
+          <input
+              class="form-control"
+              id="period_year"
+              name="{{ form.year.html_name }}"
+              type="number"
+              pattern="[0-9]*"
+              min="0"
+              value="{{ form.year.value|default:'' }}"/>
+        </div>
+      </div>
+    </fieldset>
+
+    <br/>
+
+    <div class="form-group">
+      <input type="submit" class="button" value="Continue" />
+    </div>
+
+  </form>
+
+{% endblock %}

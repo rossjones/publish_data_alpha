@@ -1,0 +1,132 @@
+% extends 'main_with_navbar.html' %}
+{% load static %}
+
+{% block page_title %}
+  Time period
+{% endblock %}
+
+{% block inner_content %}
+
+  {% include 'datasets/includes/error_box.html' %}
+
+  <h1 class="heading-large">
+    Add a link
+  </h1>
+
+  <form
+      method="post"
+      action="{% url 'edit_dataset_addfile_weekly' dataset.name%}"
+      class="form">
+
+    {% csrf_token %}
+
+    {% include 'datasets/includes/title_url.html' %}
+
+    <div class="form-group" id="start_date_form_group">
+      <fieldset>
+        <legend>
+          <span class="form-label-bold">
+            Start date
+            <span class="form-hint">For example, 31 3 2016</span>
+          </span>
+        </legend>
+        {% for error in form.errors.start_date %}
+          <span class="error-message">{{ error }}</span>
+        {% endfor %}
+        <div class="form-date">
+          <div class="form-group form-group-day {% if form.errors.start_day %}error{% endif %}"
+            <label class="form-label" for="start_day">Day</label>
+            <input
+                class="form-control"
+                id="start_day"
+                name="{{ form.start_day.html_name }}"
+                type="number"
+                pattern="[0-9]*"
+                min="1"
+                max="31"
+                value="{{ form.start_day.value|default:'' }}"
+                aria-describedby="start_hint">
+          </div>
+          <div class="form-group form-group-month {% if form.errors.start_month %}error{% endif %}">
+            <label class="form-label" for="start_month">Month</label>
+            <input
+                class="form-control"
+                id="start_month"
+                name="{{ form.start_month.html_name }}"
+                type="number"
+                pattern="[0-9]*"
+                min="1"
+                max="12"
+                value="{{ form.start_month.value|default:'' }}">
+          </div>
+          <div class="form-group form-group-year {% if form.errors.start_year %}error{% endif %}">
+            <label class="form-label" for="start_year">Year</label>
+            <input
+                class="form-control"
+                id="start_year"
+                name="{{ form.start_year.html_name }}"
+                type="number"
+                pattern="[0-9]*"
+                min="1"
+                value="{{ form.start_year.value|default:'' }}">
+          </div>
+        </div>
+      </fieldset>
+      <br/>
+      <fieldset>
+        <legend>
+          <span class="form-label-bold">
+            End date
+            <span class="form-hint">For example, 31 5 2016</span>
+          </span>
+        </legend>
+        {% for error in form.errors.end_date %}
+          <span class="error-message">{{ error }}</span>
+        {% endfor %}
+        <div class="form-date">
+          <div class="form-group form-group-day {% if form.errors.end_day %}error{% endif %}">
+            <label class="form-label" for="end_day">Day</label>
+            <input
+                class="form-control"
+                id="end_day"
+                name="{{ form.end_day.html_name }}"
+                type="number"
+                pattern="[0-9]*"
+                min="0"
+                max="31"
+                value="{{ form.end_day.value|default:'' }}"
+                aria-describedby="end_hint">
+          </div>
+          <div class="form-group form-group-month {% if form.errors.end_month %}error{% endif %}">
+            <label class="form-label" for="end_month">Month</label>
+            <input
+                class="form-control"
+                id="end_month"
+                name="{{ form.end_month.html_name }}"
+                type="number"
+                pattern="[0-9]*"
+                min="0"
+                max="12"
+                value="{{ form.end_month.value|default:'' }}">
+          </div>
+          <div class="form-group form-group-year {% if form.errors.end_year %}error{% endif %}">
+            <label class="form-label" for="end_year">Year</label>
+            <input
+                class="form-control"
+                id="end_year"
+                name="{{ form.end_year.html_name }}"
+                type="number"
+                pattern="[0-9]*"
+                min="0"
+                value="{{ form.end_year.value|default:'' }}">
+          </div>
+        </div>
+      </fieldset>
+    </div>
+
+    <div class="form-group">
+      <input type="submit" class="button" value="Continue" />
+    </div>
+  </form>
+
+{% endblock %}

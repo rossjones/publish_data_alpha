@@ -3,8 +3,8 @@ Provides functions for converting between the local Draft database model
 (called a Dataset) and the remote CKAN object (called a package).
 """
 
-from drafts.models import Dataset, Datafile
-from drafts.util import convert_to_slug
+from datasets.models import Dataset, Datafile
+from datasets.util import convert_to_slug
 from .logic import dataset_show
 
 def datafile_to_resource(datafile):

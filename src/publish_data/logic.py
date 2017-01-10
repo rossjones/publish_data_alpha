@@ -4,7 +4,7 @@ import pytz
 from dateutil.parser import parse as parse_date
 from django.utils.translation import ugettext as _
 
-from drafts.models import Dataset
+from datasets.models import Dataset
 from ckan_proxy.logic import datasets_for_user
 
 utc = pytz.UTC

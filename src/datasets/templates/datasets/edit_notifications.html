@@ -1,0 +1,66 @@
+{% extends 'main_with_navbar.html' %}
+{% load static %}
+
+{% block page_title %}
+  Get notifications
+{% endblock %}
+
+{% block inner_content %}
+
+  {% include 'datasets/includes/error_box.html' %}
+
+  <h1 class="heading-large">
+    Get notifications
+  </h1>
+
+  <form action="{% url 'edit_dataset_notifications' dataset.name %}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="editing" value="{{ editing }}">
+
+    <ul class="errorlist"><li>This field is required.</li></ul>
+
+    <div
+        id="notifications_form_group"
+        class="form-group {% if form.notifications.errors %}error{% endif %}">
+      <fieldset>
+        <legend class="visuallyhidden">Get notifications?</legend>
+
+        <p>
+          Would you like us to send you an email when your dataset needs to
+          be updated?
+        </p>
+
+        {% for error in form.notifications.errors %}
+          <span class="error-message">{{ error }}</span>
+        {% endfor %}
+
+        <label
+            class="block-label selection-button-radio"
+            for="id_notifications_0">
+          <input
+              id="id_notifications_0"
+              name="{{ form.notifications.html_name }}"
+              type="radio"
+              value="yes"
+              required="">
+          <span>Yes</span>
+        </label>
+
+        <label
+            class="block-label selection-button-radio"
+            for="id_notifications_1">
+          <input
+              id="id_notifications_1"
+              name="{{ form.notifications.html_name }}"
+              type="radio"
+              value="no"
+              required="">
+          <span>No</span>
+        </label>
+      </fieldset>
+    </div>
+    <div class="form-group">
+      <input type="submit" class="button" value="Continue">
+    </div>
+  </form>
+{% endblock %}

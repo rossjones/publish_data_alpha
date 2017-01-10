@@ -28,7 +28,7 @@ SECRET_KEY = 'yx8#%y$tp^nai8qr0u%z30-roqomsu%*_ida4!mj8guyz5c&q('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -45,7 +45,7 @@ REQUIRED_APPS = [
 PROJECT_APPS = [
     'publish_data',
     'userauth',
-    'drafts',
+    'datasets',
     'tasks',
     'stats',
     'organisations'
@@ -77,7 +77,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'drafts.context_processors.govuk_overrides',
+                'datasets.context_processors.govuk_overrides',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
