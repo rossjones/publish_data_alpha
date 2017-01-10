@@ -11,6 +11,7 @@ class Dataset(models.Model):
     summary = models.CharField(max_length=200, default="")
     description = models.TextField()
 
+    # References the organisation by its short name
     organisation = models.CharField(max_length=128, default="")
 
     # ogl, inspire, other
@@ -27,6 +28,11 @@ class Dataset(models.Model):
     creator = models.ForeignKey(settings.AUTH_USER_MODEL,
                                 on_delete=models.SET_NULL,
                                 null=True)
+
+    published = models.BooleanField(default=False)
+    published_date = models.DateTimeField(null=True)
+
+    legacy_metadata = models.TextField(null=True)
 
     def as_dict(self):
         current = model_to_dict(self)
