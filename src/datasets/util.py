@@ -4,7 +4,7 @@ from mimetypes import guess_extension
 
 from django.utils.text import slugify
 
-from drafts.models import Dataset
+from datasets.models import Dataset
 from ckan_proxy.logic import dataset_show
 
 import requests

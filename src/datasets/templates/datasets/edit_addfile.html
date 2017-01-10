@@ -7,7 +7,7 @@
 
 {% block inner_content %}
 
-  {% include 'drafts/includes/error_box.html' %}
+  {% include 'datasets/includes/error_box.html' %}
 
   <h1 class="heading-large">
     Add a link
@@ -16,7 +16,7 @@
   <form action="{% url 'edit_dataset_addfile' dataset.name %}" method="POST">
     {% csrf_token %}
 
-    {% include 'drafts/includes/title_url.html' %}
+    {% include 'datasets/includes/title_url.html' %}
 
     <div class="form-group">
       <input type="submit" class="button" value="Check for errors"/>

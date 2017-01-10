@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
 
-import drafts.views as v
+import datasets.views as v
 
 
 urlpatterns = [

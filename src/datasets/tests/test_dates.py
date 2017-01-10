@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from drafts.util import (calculate_dates_for_year,
+from datasets.util import (calculate_dates_for_year,
                          calculate_dates_for_month,
                          calculate_dates_for_quarter)
 

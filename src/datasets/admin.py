@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from drafts.models import Dataset, Datafile
+from datasets.models import Dataset, Datafile
 
 
 class DatafileInline(admin.TabularInline):

@@ -2,9 +2,9 @@ from django.utils.translation import ugettext as _
 from django import forms
 import datetime
 
-import drafts.choices as choices
-from drafts.models import Dataset, Datafile
-from drafts.util import convert_to_slug, url_exists
+import datasets.choices as choices
+from datasets.models import Dataset, Datafile
+from datasets.util import convert_to_slug, url_exists
 
 
 class DatasetForm(forms.Form):

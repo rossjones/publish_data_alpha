@@ -1,12 +1,12 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse
-from drafts.models import Dataset
+from datasets.models import Dataset
 
 from ckan_proxy.util import test_user_key
 
 
-class DraftsTestCase(TestCase):
+class DatasetsTestCase(TestCase):
 
     def setUp(self):
         self.test_user = get_user_model().objects.create(

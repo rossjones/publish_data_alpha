@@ -7,6 +7,6 @@ urlpatterns = [
     url(r'^cookies$', views.cookies, name='cookies'),
     url(r'manage$', views.manage_data, name='manage_data'),
     url(r'^accounts/', include('userauth.urls')),
-    url(r'^dataset/',  include('drafts.urls')),
+    url(r'^dataset/',  include('datasets.urls')),
     url(r'^task/',  include('tasks.urls')),
 ]

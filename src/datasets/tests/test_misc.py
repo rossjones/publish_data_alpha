@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from drafts.util import url_exists
+from datasets.util import url_exists
 
 
 class MiscTestCase(TestCase):

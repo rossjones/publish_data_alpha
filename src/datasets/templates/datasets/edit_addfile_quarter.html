@@ -7,7 +7,7 @@
 
 {% block inner_content %}
 
-  {% include 'drafts/includes/error_box.html' %}
+  {% include 'datasets/includes/error_box.html' %}
 
   <h1 class="heading-large">
     Add a link
@@ -19,7 +19,7 @@
       class="form">
     {% csrf_token %}
 
-    {% include 'drafts/includes/title_url.html' %}
+    {% include 'datasets/includes/title_url.html' %}
 
     <fieldset>
       <legend class="form-label-bold">
