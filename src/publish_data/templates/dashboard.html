@@ -63,61 +63,6 @@
       </table>
     </section>
 
-    <section class="table-show-hide">
-      <div class="table-title">
-        <h2 class="heading-medium">
-          <span class="bignum">{{tasks.improve|length}}</span> Improve datasets
-        </h2>
-        <div>
-          <a class="font-xsmall toggle" style="display:none">Show all</a>
-        </div>
-      </div>
-      <table>
-        <tbody>
-          {% for task in tasks.improve %}
-            <tr>
-              <td>
-                {{ task.description }}
-              </td>
-              <td><div class="overdue">{{ task.label_text }}</div></td>
-              <td class="actions">
-                <a class="update" href="#">Update</a>
-                <a href="{% url 'skip_task' task.id %}">Skip</a>
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </section>
-
-    <section class="table-show-hide">
-      <div class="table-title">
-        <h2 class="heading-medium">
-          <span class="bignum">{{tasks.accounts|length}}</span> Manage accounts
-        </h2>
-        <div>
-          <a class="font-xsmall toggle" style="display:none">Show all</a>
-        </div>
-      </div>
-      <table>
-        <tbody>
-          {% for task in tasks.accounts %}
-            <tr>
-              <td>
-                {{ task.description }}
-              </td>
-              <td><div class="overdue">{{ task.label_text }}</div></td>
-              <td class="actions">
-                <a class="update" href="#">Update</a>
-                <a href="{% url 'skip_task' task.id %}">Skip</a>
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </section>
-
-
     <h2 class="heading-medium">Most popular</h2>
     <div>
       <table>
