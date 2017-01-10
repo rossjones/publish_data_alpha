@@ -12,6 +12,10 @@ def home(request):
     return render(request, "home.html", {})
 
 
+def cookies(request):
+    return render(request, "cookies.html", {})
+
+
 @login_required()
 def dashboard(request):
     tasks = get_tasks_for_user(request.user)
