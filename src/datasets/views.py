@@ -66,6 +66,12 @@ def edit_dataset_details(request, dataset_name):
 def edit_organisation(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
+    organisations = get_orgs_for_user(request)
+    if len(organisations) == 1:
+        dataset.organisation, _ = organisations[0]
+        dataset.save()
+        return _redirect_to(request, 'edit_dataset_licence',[dataset.name])
+
     form = f.OrganisationForm(request.POST or None, instance=dataset)
     if request.method == 'POST':
         if form.is_valid():
@@ -75,7 +81,7 @@ def edit_organisation(request, dataset_name):
     return render(request, "datasets/edit_organisation.html", {
         'form': form,
         'dataset': dataset.as_dict(),
-        'organisations': get_orgs_for_user(request),
+        'organisations': organisations,
         'editing': request.GET.get('change', '') == '1',
     })
 
@@ -284,6 +290,9 @@ def check_dataset(request, dataset_name):
         dataset = ckan_to_draft(dataset_name)
 
     organisation = organization_show(dataset.organisation)
+    organisations = get_orgs_for_user(request)
+    single_organisation = len(organisations) == 1
+
 
     if request.method == 'POST':
         f = dataset_update \
@@ -305,7 +314,8 @@ def check_dataset(request, dataset_name):
     return render(request, "datasets/check_dataset.html", {
         'dataset': dataset,
         'licence': dataset.licence if dataset.licence != 'other' else dataset.licence_other,
-        'organisation': organisation
+        'organisation': organisation,
+        'single_organisation': single_organisation
     })
 
 

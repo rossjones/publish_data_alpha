@@ -51,19 +51,21 @@
           </a>
         </td>
       </tr>
-      <tr>
-        <td>
-          Organisation
-        </td>
-        <td>
-          {{ organisation.title }}
-        </td>
-        <td class="change-answer">
-          <a href="organisation?change=1">
-            Change <span class="visuallyhidden">description</span>
-          </a>
-        </td>
-      </tr>
+      {% if not single_organisation %}
+        <tr>
+          <td>
+            Organisation
+          </td>
+          <td>
+            {{ organisation.title }}
+          </td>
+          <td class="change-answer">
+            <a href="organisation?change=1">
+              Change <span class="visuallyhidden">description</span>
+            </a>
+          </td>
+        </tr>
+      {% endif %}
       <tr>
         <td>
           Links
