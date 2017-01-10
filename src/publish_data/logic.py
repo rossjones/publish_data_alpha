@@ -18,20 +18,6 @@ def dataset_list(user, page=1, filter_query=None):
     per_page = 20
     max_fetch = per_page * page
 
-    # TODO: This should be organisation specific
-
-    # Find relevant datasets from the drafts database
-    count = Dataset.objects.count()
-
-    drafts = Dataset.objects
-    if filter_query:
-        drafts = drafts.filter(title__icontains=filter_query)
-    drafts = drafts.all().order_by("-last_edit_date")[0:max_fetch]
-
-    for d in drafts:
-        d.last_edit_date = d.last_edit_date.replace(tzinfo=utc)
-        d.status = _("draft")
-
     # Find relevant datasets from CKAN
     results = datasets_for_user(
         user,
@@ -52,10 +38,8 @@ def dataset_list(user, page=1, filter_query=None):
             return obj['metadata_modified']
         return obj.last_edit_date
 
-    resultset = sorted(list(drafts) + datasets, key=get_key, reverse=True)
-
-    total = results['count'] + count
+    total = results['count']
     page_count = math.ceil(float(total) / per_page)
 
     offset = (page * per_page) - per_page
-    return (total, page_count, resultset[offset:offset+per_page],)
+    return (total, page_count, datasets,)
