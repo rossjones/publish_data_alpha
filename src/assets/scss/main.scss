@@ -24,6 +24,10 @@ $Helvetica-Regular: $helvetica-regular;
   display: none;
 }
 
+#global-cookie-message p {
+  max-width: 960px;
+}
+
 // govuk-* additions
 
 .column-three-quarters {
