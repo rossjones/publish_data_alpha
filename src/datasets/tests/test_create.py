@@ -132,20 +132,22 @@ class DatasetsTestCase(TestCase):
             'edit_dataset_organisation',
             args=[self.dataset_name]
         )
+        # With only a single organisation, we expect a redirect
         response = self.client.get(u)
-        assert response.status_code == 200
+        assert response.status_code == 302
 
+        # User in a single organisation so will be redirected
         response = self.client.post(u, {})
-        assert response.status_code == 200
+        assert response.status_code == 302
 
         response = self.client.post(
             u,
             {
-                'organisation': 'cabinet-office'
+                'organisation': 'test-organisation'
             }
         )
         assert response.status_code == 302
-        assert self._get_dataset().organisation == "cabinet-office", \
+        assert self._get_dataset().organisation == "test-organisation", \
             self._get_dataset().organisation
 
 

@@ -59,9 +59,11 @@
           {{ organisation.title }}
         </td>
         <td class="change-answer">
+          {% if not single_organisation %}
           <a href="organisation?change=1">
             Change <span class="visuallyhidden">description</span>
           </a>
+          {% endif %}
         </td>
       </tr>
       <tr>
