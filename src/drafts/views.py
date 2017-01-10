@@ -298,6 +298,7 @@ def check_dataset(request, dataset_name):
 
     return render(request, "drafts/check_dataset.html", {
         'dataset': dataset,
+        'licence': dataset.licence if dataset.licence != 'other' else dataset.licence_other,
         'organisation': organisation
     })
 

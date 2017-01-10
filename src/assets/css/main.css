@@ -1606,6 +1606,9 @@ input[type=number] {
       float: left;
       width: 75%; } }
 
+#side-navigation {
+  padding-top: 2.4em; }
+
 .table-show-hide a.toggle {
   color: #005ea5;
   cursor: pointer; }

@@ -58,7 +58,10 @@
               {% endif %} />
           <span>INSPIRE</span>
         </label>
-        <label class="block-label selection-button-radio" for="id_licence_2">
+        <label
+            class="block-label selection-button-radio"
+            for="id_licence_2"
+            data-target="other-licence">
           <input
               id="id_licence_2"
               name="{{ form.licence.html_name }}"
@@ -69,25 +72,19 @@
               {% endif %}  />
           <span>Other:</span>
         </label>
+        <div class="panel panel-border-narrow js-hidden" id="other-licence">
+          <label
+              class="form-label"
+              for="id_licence_other">Name of your licence:</label>
+          <input
+              class="form-control"
+              id="id_licence_other"
+              name="{{ form.licence_other.html_name }}"
+              value="{{ form.licence_other.value }}"
+              type="text">
+        </div>
+
       </fieldset>
-    </div>
-    <div
-        class="form-group {% if form.licence_other.errors %}error{% endif %}">
-      <label class="form-label" for="id_licence_other" id="licence_other_label">
-        Name of your licence:
-      </label>
-      {% for error in form.licence_other.errors %}
-        <span class="error-message">{{ error }}</span>
-      {% endfor %}
-      <input
-          class="form-control"
-          id="id_licence_other"
-          name="{{ form.licence_other.html_name }}"
-          type="text"
-          {% if form.licence_other.value %}
-            value="{{ form.licence_other.value }}"
-          {% endif %}
-          />
     </div>
 
     <div class="form-group">
