@@ -8,9 +8,9 @@ from django.views.generic.edit import FormView
 from django.http import HttpResponseRedirect, Http404
 
 
-import drafts.forms as f
+import datasets.forms as f
 from userauth.logic import get_orgs_for_user
-from drafts.models import Dataset, Datafile
+from datasets.models import Dataset, Datafile
 from ckan_proxy.convert import draft_to_ckan, ckan_to_draft
 from ckan_proxy.logic import (organization_show,
                               dataset_show,
@@ -34,7 +34,7 @@ def new_dataset(request):
                 reverse('edit_dataset_organisation', args=[obj.name])
             )
 
-    return render(request, "drafts/edit_title.html", {
+    return render(request, "datasets/edit_title.html", {
         "form": form,
         "dataset": {},
     })
@@ -56,7 +56,7 @@ def edit_dataset_details(request, dataset_name):
             obj = form.save()
             return _redirect_to(request, 'edit_dataset_organisation', [obj.name])
 
-    return render(request, "drafts/edit_title.html", {
+    return render(request, "datasets/edit_title.html", {
         "form": form,
         "dataset": dataset.as_dict(),
         'editing': request.GET.get('change', '') == '1',
@@ -72,7 +72,7 @@ def edit_organisation(request, dataset_name):
             obj = form.save()
             return _redirect_to(request, 'edit_dataset_licence',[obj.name])
 
-    return render(request, "drafts/edit_organisation.html", {
+    return render(request, "datasets/edit_organisation.html", {
         'form': form,
         'dataset': dataset.as_dict(),
         'organisations': get_orgs_for_user(request),
@@ -89,7 +89,7 @@ def edit_licence(request, dataset_name):
             obj = form.save()
             return _redirect_to(request, 'edit_dataset_country', [obj.name])
 
-    return render(request, "drafts/edit_licence.html", {
+    return render(request, "datasets/edit_licence.html", {
         'form': form,
         'dataset': dataset.as_dict(),
         'editing': request.GET.get('change', '') == '1',
@@ -105,7 +105,7 @@ def edit_country(request, dataset_name):
             obj = form.save()
             return _redirect_to(request, 'edit_dataset_frequency', [obj.name])
 
-    return render(request, "drafts/edit_country.html", {
+    return render(request, "datasets/edit_country.html", {
         'form': form,
         'dataset': dataset.as_dict(),
         'editing': request.GET.get('change', '') == '1',
@@ -124,7 +124,7 @@ def edit_frequency(request, dataset_name):
             return _redirect_to(request, url, [obj.name])
 
 
-    return render(request, "drafts/edit_frequency.html", {
+    return render(request, "datasets/edit_frequency.html", {
         'form': form,
         'dataset': dataset.as_dict(),
         'editing': request.GET.get('change', '') == '1',
@@ -146,7 +146,7 @@ def edit_addfile(request, dataset_name):
                 reverse('edit_dataset_files', args=[dataset_name])
             )
 
-    return render(request, "drafts/edit_addfile.html", {
+    return render(request, "datasets/edit_addfile.html", {
         'form': form,
         'dataset': dataset.as_dict(),
     })
@@ -167,7 +167,7 @@ def edit_addfile_weekly(request, dataset_name):
                 reverse('edit_dataset_files', args=[dataset_name])
             )
 
-    return render(request, "drafts/edit_addfile_week.html", {
+    return render(request, "datasets/edit_addfile_week.html", {
         'form': form,
         'dataset': dataset.as_dict(),
     })
@@ -188,7 +188,7 @@ def edit_addfile_monthly(request, dataset_name):
                 reverse('edit_dataset_files', args=[dataset_name])
             )
 
-    return render(request, "drafts/edit_addfile_month.html", {
+    return render(request, "datasets/edit_addfile_month.html", {
         'form': form,
         'dataset': dataset.as_dict(),
     })
@@ -209,7 +209,7 @@ def edit_addfile_quarterly(request, dataset_name):
                 reverse('edit_dataset_files', args=[dataset_name])
             )
 
-    return render(request, "drafts/edit_addfile_quarter.html", {
+    return render(request, "datasets/edit_addfile_quarter.html", {
         'form': form,
         'dataset': dataset.as_dict(),
     })
@@ -230,7 +230,7 @@ def edit_addfile_annually(request, dataset_name):
                 reverse('edit_dataset_files', args=[dataset_name])
             )
 
-    return render(request, "drafts/edit_addfile_year.html", {
+    return render(request, "datasets/edit_addfile_year.html", {
         'form': form,
         'dataset': dataset.as_dict(),
     })
@@ -247,7 +247,7 @@ def edit_files(request, dataset_name):
 
     url = _frequency_redirect_to(dataset)
 
-    return render(request, "drafts/show_files.html", {
+    return render(request, "datasets/show_files.html", {
         'addfile_viewname': url,
         'dataset': dataset,
         'editing': request.GET.get('change', '') == '1',
@@ -269,7 +269,7 @@ def edit_notifications(request, dataset_name):
             obj = form.save()
             return _redirect_to(request, 'edit_dataset_check_dataset',[obj.name])
 
-    return render(request, "drafts/edit_notifications.html", {
+    return render(request, "datasets/edit_notifications.html", {
         'form': form,
         'dataset': dataset.as_dict(),
         'editing': request.GET.get('change', '') == '1',
@@ -302,7 +302,7 @@ def check_dataset(request, dataset_name):
         return HttpResponseRedirect('/manage?newset=1')
 
 
-    return render(request, "drafts/check_dataset.html", {
+    return render(request, "datasets/check_dataset.html", {
         'dataset': dataset,
         'licence': dataset.licence if dataset.licence != 'other' else dataset.licence_other,
         'organisation': organisation

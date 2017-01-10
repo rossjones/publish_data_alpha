@@ -44,7 +44,7 @@ REQUIRED_APPS = [
 PROJECT_APPS = [
     'publish_data',
     'userauth',
-    'drafts',
+    'datasets',
     'tasks',
     'stats'
 ]
@@ -75,7 +75,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'drafts.context_processors.govuk_overrides',
+                'datasets.context_processors.govuk_overrides',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',

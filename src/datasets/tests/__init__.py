@@ -6,7 +6,7 @@ want the addfile_weekly form to be showed
 def _show_weekly_for_test(x):
     return True
 
-import drafts.views as v
+import datasets.views as v
 v.show_weekly_frequency = _show_weekly_for_test
 
 
