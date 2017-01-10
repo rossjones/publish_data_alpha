@@ -6,8 +6,6 @@ from django.db import models
 TASK_CATEGORIES = (
     ("update",   _("Update datasets"), ),
     ("fix",      _("Fix datasets"), ),
-    ("improve",  _("Improve datasets"), ),
-    ("accounts", _("Manage accounts"), ),
 )
 
 

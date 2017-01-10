@@ -35,12 +35,6 @@ class TasksTestCase(TestCase):
             description="Task description",
             category="fix"
         )
-        self.simple_task_improve = Task.objects.create(
-            owning_organisation=self.org_names[0],
-            required_permission_name="",
-            description="Task description",
-            category="improve"
-        )
 
     def test_ok(self):
         tasks = get_tasks_for_user(self.test_user)
@@ -63,9 +57,9 @@ class TasksTestCase(TestCase):
         assert response.status_code == 302
 
         tasks = get_tasks_for_user(self.test_user)
-        assert len(tasks['improve']) == 1
+        assert len(tasks['update']) == 1
 
         resp = self.client.get(reverse('skip_task',
-                               args=[tasks['improve'][0].id]))
+                               args=[tasks['update'][0].id]))
         assert resp.status_code == 302
         assert resp.url == "/", resp.url
