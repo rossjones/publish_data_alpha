@@ -3,7 +3,7 @@ import json
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from api.models import Location
+from datasets.models import Location
 
 
 def gazeteer_lookup(request):
