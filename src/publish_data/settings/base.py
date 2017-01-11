@@ -46,7 +46,8 @@ PROJECT_APPS = [
     'userauth',
     'datasets',
     'tasks',
-    'stats'
+    'stats',
+    'api'
 ]
 
 INSTALLED_APPS = REQUIRED_APPS + PROJECT_APPS
