@@ -4,6 +4,11 @@ from django.db import models
 from django.forms.models import model_to_dict
 from django.conf import settings
 
+class Location(models.Model):
+
+    name = models.CharField(max_length=256)
+    location_type = models.CharField(max_length=64, null=True)
+
 
 class Dataset(models.Model):
     name = models.CharField(max_length=64, default="")
