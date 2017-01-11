@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 
 from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
@@ -9,14 +10,17 @@ class Command(BaseCommand):
     help = 'Imports test users from a json file'
 
     def add_arguments(self, parser):
-        parser.add_argument("-f", "--file", dest="filename", required=True)
+        parser.add_argument("-f", "--file", dest="filename")
 
     def handle(self, *args, **options):
         filename = options['filename']
-        if not os.path.exists(filename):
-            print("Could not find file {}".format(filename))
 
-        data = json.load(open(filename, "r"))
+        if filename:
+            if not os.path.exists(filename):
+                print("Could not find file {}".format(filename))
+            data = json.load(open(filename, "r"))
+        else:
+            data = json.load(sys.stdin)
 
         for user_details in data:
 

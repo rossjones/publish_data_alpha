@@ -26,7 +26,7 @@ class Task(models.Model):
         blank=True
     )
 
-    description = models.CharField(max_length=64)
+    description = models.TextField()
     category = models.CharField(max_length=20, choices=TASK_CATEGORIES)
 
     def label_text(self):
