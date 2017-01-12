@@ -1,0 +1,59 @@
+{% extends 'main_with_navbar.html' %}
+{% load static %}
+
+{% block page_title %}
+  Add dataset area
+{% endblock %}
+
+{% block inner_content %}
+{% with countries=form.countries %}
+
+  {% include 'datasets/includes/error_box.html' %}
+
+  <h1 class="heading-large">
+    Choose an area
+  </h1>
+
+  <p>
+    Which area does your dataset cover? You must choose at least one
+    of the following.
+  </p>
+
+  <form
+      action="{% url 'edit_dataset_location' dataset.name %}"
+      method="POST">
+
+    {% csrf_token %}
+    <input type="hidden" name="editing" value="{{ editing }}">
+
+    <div
+        class="form-group {% if form.location.errors %}error{% endif %}"
+        id="countries_form_group">
+      <fieldset>
+        <legend class="visually-hidden">Choose a location</legend>
+        {% if form.location.errors %}
+          <span class="error-message">
+            Please select the area that your dataset covers
+          </span>
+        {% endif %}
+
+        <label class="block-label" for="id_location">
+          <span>Location</span>
+        </label>
+        <input
+            id="id_location"
+            name="{{ form.location.html_name }}"
+            type="text"
+            value="{{ form.location.value|default:'' }}" />
+
+      </fieldset>
+    </div>
+
+    <div class="form-group">
+      <input type="submit" class="button" value="Continue">
+    </div>
+
+  </form>
+
+{% endwith %}
+{% endblock %}

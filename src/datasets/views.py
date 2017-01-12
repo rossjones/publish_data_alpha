@@ -93,7 +93,7 @@ def edit_licence(request, dataset_name):
     if request.method == 'POST':
         if form.is_valid():
             obj = form.save()
-            return _redirect_to(request, 'edit_dataset_country', [obj.name])
+            return _redirect_to(request, 'edit_dataset_location', [obj.name])
 
     return render(request, "datasets/edit_licence.html", {
         'form': form,
@@ -102,16 +102,16 @@ def edit_licence(request, dataset_name):
     })
 
 
-def edit_country(request, dataset_name):
+def edit_location(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
-    form = f.CountryForm(request.POST or None, instance=dataset)
+    form = f.LocationForm(request.POST or None, instance=dataset)
     if request.method == 'POST':
         if form.is_valid():
             obj = form.save()
             return _redirect_to(request, 'edit_dataset_frequency', [obj.name])
 
-    return render(request, "datasets/edit_country.html", {
+    return render(request, "datasets/edit_location.html", {
         'form': form,
         'dataset': dataset.as_dict(),
         'editing': request.GET.get('change', '') == '1',

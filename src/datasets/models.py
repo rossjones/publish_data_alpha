@@ -23,7 +23,7 @@ class Dataset(models.Model):
     licence = models.CharField(max_length=64, default="")
     licence_other = models.TextField(default="", blank=True)
 
-    countries = models.TextField(default="[]")
+    location = models.TextField(default="")
     frequency = models.TextField(default="", blank=True)
 
     notifications = models.TextField(default="", blank=True)

@@ -17,9 +17,9 @@ urlpatterns = [
         login_required(v.edit_licence),
         name='edit_dataset_licence'),
 
-    url(r'^(?P<dataset_name>[\w-]+)/country$',
-        login_required(v.edit_country),
-        name='edit_dataset_country'),
+    url(r'^(?P<dataset_name>[\w-]+)/location$',
+        login_required(v.edit_location),
+        name='edit_dataset_location'),
 
     url(r'^(?P<dataset_name>[\w-]+)/frequency$',
         login_required(v.edit_frequency),

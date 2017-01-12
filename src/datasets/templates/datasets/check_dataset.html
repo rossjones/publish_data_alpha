@@ -92,16 +92,12 @@
         </td>
         <td>
           <ul>
-            {% for country in dataset.countries_as_list %}
-              <li>
-                {{ country|title }}
-              </li>
-            {% endfor %}
+              {{ dataset.location }}
           </ul>
         </td>
         <td class="change-answer">
-          <a href="country?change=1">
-            Change <span class="visuallyhidden">country</span>
+          <a href="location?change=1">
+            Change <span class="visuallyhidden">location</span>
           </a>
         </td>
       </tr>
