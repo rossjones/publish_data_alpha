@@ -73,6 +73,26 @@ a.delete-button, a.delete-button:visited {
   padding: .5em 0 .5em 1em;
 }
 
+.tt-input {
+  width: 100%;
+}
+
+.tt-menu {
+  width: 100%;
+  border: 1px solid $grey-1;
+  background: $page-colour;
+  overflow: hidden;
+}
+
+.tt-cursor {
+  background: $grey-3;
+}
+
+.tt-hint {
+  width: 100%;
+  color: $grey-1;
+}
+
 
 // start page
 
