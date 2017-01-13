@@ -1,0 +1,8 @@
+---
+applications:
+- name: publish-data-alpha
+  memory: 512M
+  buildpack: python_buildpack
+  env:
+    DISABLE_COLLECTSTATIC: 1
+    DJANGO_SETTINGS_MODULE: "publish_data.settings.dev"
