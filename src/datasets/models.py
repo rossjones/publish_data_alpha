@@ -41,14 +41,7 @@ class Dataset(models.Model):
 
     def as_dict(self):
         current = model_to_dict(self)
-        if not isinstance(current.get('countries'), list):
-            current['countries'] = \
-                ast.literal_eval(current.get('countries', '[]'))
         return current
-
-    def countries_as_list(self):
-        current = model_to_dict(self)
-        return ast.literal_eval(current.get('countries', '[]'))
 
     def __str__(self):
         return u"{}:{}".format(self.name, self.title)

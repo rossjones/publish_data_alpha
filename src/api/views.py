@@ -11,7 +11,7 @@ def gazeteer_lookup(request):
     data = []
 
     if q:
-        data = [l for l in
-            Location.objects.filter(name__istartswith=q).values()]
+        data = ["{} ({})".format(l['name'], l['location_type'])
+            for l in  Location.objects.filter(name__istartswith=q).values()]
 
     return HttpResponse(json.dumps(data), content_type='application/json')

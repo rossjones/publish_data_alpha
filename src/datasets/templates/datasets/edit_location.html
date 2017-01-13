@@ -6,7 +6,6 @@
 {% endblock %}
 
 {% block inner_content %}
-{% with countries=form.countries %}
 
   {% include 'datasets/includes/error_box.html' %}
 
@@ -15,8 +14,7 @@
   </h1>
 
   <p>
-    Which area does your dataset cover? You must choose at least one
-    of the following.
+    Which area does your dataset cover?
   </p>
 
   <form
@@ -28,12 +26,12 @@
 
     <div
         class="form-group {% if form.location.errors %}error{% endif %}"
-        id="countries_form_group">
+        id="location_form_group">
       <fieldset>
         <legend class="visually-hidden">Choose a location</legend>
         {% if form.location.errors %}
           <span class="error-message">
-            Please select the area that your dataset covers
+            Please enter the area that your dataset covers
           </span>
         {% endif %}
 
@@ -41,12 +39,17 @@
           <span>Location</span>
         </label>
         <input
+            class="location_input"
             id="id_location"
             name="{{ form.location.html_name }}"
             type="text"
+            autocomplete="off"
             value="{{ form.location.value|default:'' }}" />
-
       </fieldset>
+    </div>
+
+    <div id="more-locations" style="display: none">
+      <a href="#" id="add-location">Add another location</a>
     </div>
 
     <div class="form-group">
@@ -55,5 +58,4 @@
 
   </form>
 
-{% endwith %}
 {% endblock %}

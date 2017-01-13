@@ -21,7 +21,6 @@
       });
     },
 
-
     callback: function(event) {
       var a = $(this);
       var rows = $(this).parents('section').first().find('tr');
@@ -38,8 +37,38 @@
     }
   };
 
+  var typeAhead = {
+    options: {
+      hint: true,
+      highlight: true,
+      minLength: 3,
+      classNames: {
+        input: 'form-control tt-input',
+        hint: 'form-control tt-hint'
+      }
+    },
+
+    sourceOptions: {
+      name: 'states',
+      source: new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+          url: '/api/locations?q=%QUERY',
+          wildcard: '%QUERY'
+        }
+      })
+    },
+
+    init: function(params) {
+      $(params.selector).typeahead(this.options, this.sourceOptions);
+    },
+  };
+
 
   $(document).ready(function() {
     tableShowHide.init({ rowLimit: 3});
+    typeAhead.init({ selector: '.location_input' });
   });
+
 })();

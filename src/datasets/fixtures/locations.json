@@ -62,5 +62,30 @@
       "name": "Swansea",
       "location_type" : "City"
     }
+  },
+  {
+    "model": "datasets.location",
+    "pk": 9,
+    "fields": {
+      "name": "Swansea",
+      "location_type" : "Parish"
+    }
+  },
+  {
+    "model": "datasets.location",
+    "pk": 10,
+    "fields": {
+      "name": "Swansea",
+      "location_type" : "County"
+    }
+  },
+  {
+    "model": "datasets.location",
+    "pk": 11,
+    "fields": {
+      "name": "Swansea",
+      "location_type" : "Diocese"
+    }
   }
+
 ]
