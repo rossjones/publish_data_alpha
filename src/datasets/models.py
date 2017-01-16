@@ -4,6 +4,11 @@ from django.db import models
 from django.forms.models import model_to_dict
 from django.conf import settings
 
+class Location(models.Model):
+
+    name = models.CharField(max_length=256)
+    location_type = models.CharField(max_length=64, null=True)
+
 
 class Dataset(models.Model):
     name = models.CharField(max_length=64, default="")
@@ -18,7 +23,7 @@ class Dataset(models.Model):
     licence = models.CharField(max_length=64, default="")
     licence_other = models.TextField(default="", blank=True)
 
-    countries = models.TextField(default="[]")
+    location = models.TextField(default="")
     frequency = models.TextField(default="", blank=True)
 
     notifications = models.TextField(default="", blank=True)
@@ -36,14 +41,7 @@ class Dataset(models.Model):
 
     def as_dict(self):
         current = model_to_dict(self)
-        if not isinstance(current.get('countries'), list):
-            current['countries'] = \
-                ast.literal_eval(current.get('countries', '[]'))
         return current
-
-    def countries_as_list(self):
-        current = model_to_dict(self)
-        return ast.literal_eval(current.get('countries', '[]'))
 
     def __str__(self):
         return u"{}:{}".format(self.name, self.title)

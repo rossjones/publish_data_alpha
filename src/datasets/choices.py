@@ -5,14 +5,6 @@ LICENCE_CHOICES = (
     ('other', 'Other',),
 )
 
-COUNTRY_CHOICES = (
-    ('england', 'England',),
-    ('wales', 'Wales',),
-    ('scotland', 'Scotland',),
-    ('northern-ireland', 'Northern Ireland',),
-    ('overseas', 'Overseas',),
-)
-
 FREQUENCY_CHOICES = (
     ('daily', 'Every day',),
     ('weekly', 'Every week',),

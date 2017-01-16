@@ -1,0 +1,91 @@
+[
+  {
+    "model": "datasets.location",
+    "pk": 1,
+    "fields": {
+      "name": "Birmingham",
+      "location_type" : "City"
+    }
+  },
+  {
+    "model": "datasets.location",
+    "pk": 2,
+    "fields": {
+      "name": "Liverpool",
+      "location_type" : "City"
+    }
+  },
+  {
+    "model": "datasets.location",
+    "pk": 3,
+    "fields": {
+      "name": "Manchester",
+      "location_type" : "City"
+    }
+  },
+  {
+    "model": "datasets.location",
+    "pk": 4,
+    "fields": {
+      "name": "London",
+      "location_type" : "City"
+    }
+  },
+  {
+    "model": "datasets.location",
+    "pk": 5,
+    "fields": {
+      "name": "Glasgow",
+      "location_type" : "City"
+    }
+  },
+  {
+    "model": "datasets.location",
+    "pk": 6,
+    "fields": {
+      "name": "Edinburgh",
+      "location_type" : "City"
+    }
+  },
+  {
+    "model": "datasets.location",
+    "pk": 7,
+    "fields": {
+      "name": "Cardiff",
+      "location_type" : "City"
+    }
+  },
+  {
+    "model": "datasets.location",
+    "pk": 8,
+    "fields": {
+      "name": "Swansea",
+      "location_type" : "City"
+    }
+  },
+  {
+    "model": "datasets.location",
+    "pk": 9,
+    "fields": {
+      "name": "Swansea",
+      "location_type" : "Parish"
+    }
+  },
+  {
+    "model": "datasets.location",
+    "pk": 10,
+    "fields": {
+      "name": "Swansea",
+      "location_type" : "County"
+    }
+  },
+  {
+    "model": "datasets.location",
+    "pk": 11,
+    "fields": {
+      "name": "Swansea",
+      "location_type" : "Diocese"
+    }
+  }
+
+]

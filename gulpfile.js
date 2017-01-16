@@ -36,8 +36,10 @@ gulp.task('styles', function () {
 
 //script paths
 var jsFiles = ignoredFiles.concat(
-  [ assets + '/javascripts/vendor/**/*.js'
+  [ assets + '/javascripts/vendor/jquery/*.js'
+  , assets + '/javascripts/vendor/polyfills/*.js'
   , assets + '/javascripts/govuk/**/*.js'
+  , assets + '/javascripts/vendor/typeahead.bundle.min.js'
   , assets + '/javascripts/*.js'
   ]);
 

@@ -64,23 +64,23 @@ class DatasetsTestCase(TestCase):
         })
         assert response.status_code == 200
 
-    def test_country(self):
-        u = reverse('edit_dataset_country', args=[self.dataset_name])
+    def test_location(self):
+        u = reverse('edit_dataset_location', args=[self.dataset_name])
         response = self.client.get(u)
         assert response.status_code == 200
 
         # No selected countries
         response = self.client.post(u, {})
         assert response.status_code == 200
-        assert self._get_dataset().countries == '[]'
+        assert self._get_dataset().location == ''
 
         response = self.client.post(
             u,
-            {'countries': 'england'}
+            {'location': 'England, Wales'}
         )
         assert response.status_code == 302
-        assert self._get_dataset().countries == "['england']", \
-            self._get_dataset().countries
+        assert self._get_dataset().location == "England, Wales", \
+            self._get_dataset().location
 
     def test_licence(self):
         u = reverse('edit_dataset_licence', args=[self.dataset_name])

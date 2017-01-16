@@ -1654,6 +1654,22 @@ a.delete-button, a.delete-button:visited {
   color: #005ea5;
   padding: .5em 0 .5em 1em; }
 
+.tt-input {
+  width: 100%; }
+
+.tt-menu {
+  width: 100%;
+  border: 1px solid #6f777b;
+  background: #fff;
+  overflow: hidden; }
+
+.tt-cursor {
+  background: #dee0e2; }
+
+.tt-hint {
+  width: 100%;
+  color: #6f777b; }
+
 .product-header {
   background-color: #128400;
   color: #fff;

@@ -56,17 +56,11 @@ class LicenceForm(forms.ModelForm):
         return self.cleaned_data
 
 
-class CountryForm(forms.ModelForm):
-
-    countries = forms.MultipleChoiceField(
-        required=True,
-        widget=forms.CheckboxSelectMultiple,
-        choices=choices.COUNTRY_CHOICES,
-    )
+class LocationForm(forms.ModelForm):
 
     class Meta:
         model = Dataset
-        fields = ['countries']
+        fields = ['location']
 
 
 class OrganisationForm(forms.ModelForm):

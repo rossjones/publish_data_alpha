@@ -31,7 +31,7 @@ var goToCreateRegion = function(browser) {
 
 var goToCreateFrequency = function(browser) {
   return goToCreateRegion(browser)
-    .selectRadioButton('England')
+    .clearSetValue('input[id=id_location]', 'England, Wales')
     .submitFormAndCheckNextTitle('How often is this dataset updated?');
 };
 
@@ -69,7 +69,7 @@ var test_create_happy_path = function (browser) {
     .submitFormAndCheckNextTitle('Choose a licence')
     .selectRadioButton('Open Government Licence')
     .submitFormAndCheckNextTitle('Choose an area')
-    .selectRadioButton('England')
+    .clearSetValue('input[id=id_location]', 'England, Wales')
     .submitFormAndCheckNextTitle('How often is this dataset updated?')
     .selectRadioButton('Every month')
     .submitFormAndCheckNextTitle('Add a link')
@@ -169,11 +169,20 @@ var test_create_blank_other_licence = function (browser) {
 var test_create_omit_region = function (browser) {
   goToCreateRegion(browser)
     .submitFormAndCheckNextTitle('There was a problem')
-    .checkError('Please select the area that your dataset covers')
-    .selectRadioButton('England')
+    .checkError('Please enter the area that your dataset covers')
+    .clearSetValue('input[id=id_location]', 'England and Scotland')
     .submitFormAndCheckNextTitle('How often is this dataset updated?')
     .end();
 };
+
+var test_create_region_autocomplete = function (browser) {
+  goToCreateRegion(browser)
+    .clearSetValue('input[id=id_location]', 'Swa')
+    .waitForElementVisible('div[role=listbox]', 5000)
+    .assert.containsText('div[role=listbox]', 'Swansea')
+    .end();
+};
+
 
 var test_create_omit_frequency = function (browser) {
   goToCreateFrequency(browser)
@@ -336,6 +345,7 @@ module.exports = {
   'Create a dataset, omit licence' : test_create_omit_licence,
   'Create a dataset, blank other licence' : test_create_blank_other_licence,
   'Create a dataset, omit region' : test_create_omit_region,
+  'Create a dataset, region autocomplete' : test_create_region_autocomplete,
   'Create a dataset, omit frequency' : test_create_omit_frequency,
   'Create a dataset, frequency daily' : test_create_daily,
   'Create a dataset, frequency weekly' : test_create_weekly,

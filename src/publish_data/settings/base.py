@@ -48,7 +48,8 @@ PROJECT_APPS = [
     'datasets',
     'tasks',
     'stats',
-    'organisations'
+    'organisations',
+    'api',
 ]
 
 INSTALLED_APPS = REQUIRED_APPS + PROJECT_APPS
