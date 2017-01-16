@@ -34,9 +34,27 @@ def new_dataset(request):
                 reverse('edit_dataset_organisation', args=[obj.name])
             )
 
+
     return render(request, "datasets/edit_title.html", {
         "form": form,
         "dataset": {},
+    })
+
+
+def edit_full_dataset(request, dataset_name):
+    dataset = get_object_or_404(Dataset, name=dataset_name)
+
+    form = f.FullDatasetForm(request.POST or None, instance=dataset)
+    if request.method == 'POST':
+        if form.is_valid():
+            obj = form.save()
+            return HttpResponseRedirect(
+                reverse('manage_data') + "?edited=1"
+            )
+
+    return render(request, "datasets/edit_dataset.html", {
+        "form": form,
+        "dataset": dataset,
     })
 
 
