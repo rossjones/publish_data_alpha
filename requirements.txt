@@ -14,5 +14,4 @@ python-dateutil==2.6.0
 pytz==2016.10
 requests==2.12.4
 six==1.10.0
-waitress==1.0.1
 whitenoise==3.2.3
