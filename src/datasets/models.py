@@ -41,9 +41,9 @@ class Dataset(models.Model):
                                 null=True)
 
     published = models.BooleanField(default=False)
-    published_date = models.DateTimeField(null=True)
+    published_date = models.DateTimeField(null=True, blank=True)
 
-    legacy_metadata = models.TextField(null=True)
+    legacy_metadata = models.TextField(null=True, blank=True)
 
     def as_dict(self):
         current = model_to_dict(self)
