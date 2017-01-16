@@ -4,7 +4,7 @@ import sys
 
 from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
-
+from datasets.models import Organisation
 
 class Command(BaseCommand):
     help = 'Imports test users from a json file'
@@ -14,6 +14,13 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         filename = options['filename']
+
+        if Organisation.objects.count() == 0:
+            print("Run './manage.py loaddata organisations' first")
+            sys.exit(1)
+
+        self.co = Organisation.objects.get(name='cabinet-office')
+        self.gps = Organisation.objects.get(name='government-procurement-service')
 
         if filename:
             if not os.path.exists(filename):
@@ -36,5 +43,8 @@ class Command(BaseCommand):
                 )
                 user.set_password(password)
                 user.save()
+
+                self.co.users.add(user)
+                self.gps.users.add(user)
 
                 print("User {} created".format(user.email))

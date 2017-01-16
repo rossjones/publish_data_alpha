@@ -15,7 +15,7 @@ for line in open(SOURCE, 'r').readlines():
     org = json.loads(line)
 
     data = {
-        'model': 'organisations.organisation',
+        'model': 'datasets.organisation',
         'pk': org['id'],
         'fields': {
             'name': org.get('name'),

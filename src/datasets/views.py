@@ -1,3 +1,4 @@
+from datetime import datetime
 
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -9,7 +10,7 @@ from django.http import HttpResponseRedirect, Http404
 
 
 import datasets.forms as f
-from userauth.logic import get_orgs_for_user
+from .logic import organisations_for_user
 from datasets.models import Dataset, Datafile
 from ckan_proxy.convert import draft_to_ckan, ckan_to_draft
 from ckan_proxy.logic import (organization_show,
@@ -66,13 +67,15 @@ def edit_dataset_details(request, dataset_name):
 def edit_organisation(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
-    organisations = get_orgs_for_user(request)
+    organisations = organisations_for_user(request.user)
     if len(organisations) == 1:
-        dataset.organisation, _ = organisations[0]
+        dataset.organisation = organisations[0]
         dataset.save()
         return _redirect_to(request, 'edit_dataset_licence',[dataset.name])
 
     form = f.OrganisationForm(request.POST or None, instance=dataset)
+    form.fields["organisation"].queryset = request.user.organisation_set.all()
+
     if request.method == 'POST':
         if form.is_valid():
             obj = form.save()
@@ -289,24 +292,14 @@ def check_dataset(request, dataset_name):
         # Try and load the dataset from the live CKAN
         dataset = ckan_to_draft(dataset_name)
 
-    organisation = organization_show(dataset.organisation)
-    organisations = get_orgs_for_user(request)
+    organisation = dataset.organisation
+    organisations = organisations_for_user(request.user)
     single_organisation = len(organisations) == 1
 
 
     if request.method == 'POST':
-        f = dataset_update \
-            if dataset_show(dataset.name, request.user) \
-            else dataset_create
-
-        try:
-            f(draft_to_ckan(dataset), request.user)
-        except Exception as e:
-            # TODO: Handle the error correctly
-            print(e)
-        else:
-            # Success! We can safely delete the draft now
-            dataset.delete()
+        dataset.published = True
+        published_date = datetime.now()
 
         return HttpResponseRedirect('/manage?newset=1')
 

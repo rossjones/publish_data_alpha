@@ -30,7 +30,7 @@
             Please choose which organisation will own this dataset
           </span>
         {% endif %}
-        {% for organisation_name, organisation_title in organisations %}
+        {% for organisation in organisations %}
           <label
               class="block-label selection-button-radio"
               for="id_organisation_{{ forloop.counter }}">
@@ -38,11 +38,11 @@
                 id="id_organisation_{{ forloop.counter }}"
                 name="{{ form.organisation.html_name }}"
                 type="radio"
-                value="{{ organisation_name }}"
-                {% if form.organisation.value == organisation_name %}
+                value="{{ organisation.id }}"
+                {% if form.organisation.value == organisation.id %}
                   checked
                 {% endif %}/>
-            <span>{{ organisation_title }}</span>
+            <span>{{ organisation.title }}</span>
           </label>
         {% endfor %}
       </fieldset>

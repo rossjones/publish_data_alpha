@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from datasets.models import Dataset, Datafile
+from datasets.models import Dataset, Datafile, Organisation
 
 
 class DatafileInline(admin.TabularInline):
@@ -13,3 +13,10 @@ class DatasetAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Dataset, DatasetAdmin)
+
+
+class OrganisationAdmin(admin.ModelAdmin):
+    list_display = ['name', 'title', 'abbreviation']
+    search_fields = ['title', 'abbreviation']
+
+admin.site.register(Organisation, OrganisationAdmin)

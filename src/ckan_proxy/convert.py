@@ -3,7 +3,7 @@ Provides functions for converting between the local Draft database model
 (called a Dataset) and the remote CKAN object (called a package).
 """
 
-from datasets.models import Dataset, Datafile
+from datasets.models import Dataset, Datafile, Organisation
 from datasets.util import convert_to_slug
 from .logic import dataset_show
 
@@ -62,7 +62,7 @@ def ckan_to_draft(name):
         extras[d['key']] = d['value']
 
     draft = Dataset.objects.create(name=dataset['name'])
-    draft.organisation = dataset['organization']['name']
+    draft.organisation = Organisation.objects.get(name=dataset['organization']['name'])
     draft.frequency = dataset.get('update_frequency', 'never')
     draft.title = dataset['title']
     draft.summary = extras.get('summary', '')
