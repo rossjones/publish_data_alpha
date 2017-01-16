@@ -25,6 +25,7 @@ class DatasetForm(forms.Form):
             self.cleaned_data['name'] = name
         return self.cleaned_data
 
+
 class EditDatasetForm(forms.ModelForm):
     title = forms.CharField(label=_('Title'), max_length=100, required=True)
     summary = forms.CharField(label=_('Summary'), max_length=200, required=True)
@@ -38,6 +39,36 @@ class EditDatasetForm(forms.ModelForm):
     class Meta:
         model = Dataset
         fields = ['title', 'summary', 'description']
+
+
+
+class FullDatasetForm(forms.ModelForm):
+    title = forms.CharField(label=_('Title'), max_length=100, required=True)
+    summary = forms.CharField(label=_('Summary'), max_length=200, required=True)
+    description = forms.CharField(
+        label=_('Additional Information'),
+        max_length=1024,
+        widget=forms.Textarea,
+        required=True
+    )
+
+    class Meta:
+        model = Dataset
+        fields = [
+            'title', 'summary', 'description',
+            'licence', 'licence_other', 'organisation',
+            'frequency', 'notifications', 'name'
+        ]
+
+
+    def clean(self):
+        if 'licence' in self.cleaned_data:
+            if self.cleaned_data['licence'] == 'other' \
+                    and not self.cleaned_data['licence_other']:
+                self._errors['licence_other'] = \
+                    [_('Please type the name of your licence')]
+
+        return self.cleaned_data
 
 
 
