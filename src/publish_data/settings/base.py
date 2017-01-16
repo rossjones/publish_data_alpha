@@ -158,14 +158,3 @@ STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, "assets"),
 ]
 
-
-try:
-    from .local_settings import *
-except ImportError:
-    error = False
-    required_env = ['CKAN_HOST', 'CKAN_ADMIN', 'CKAN_TEST_USER']
-    for k in required_env:
-        if not os.environ.get(k):
-            print("{} must be set if you are not using a local_settings file".format(k))
-            error = True
-    if error: sys.exit(1)

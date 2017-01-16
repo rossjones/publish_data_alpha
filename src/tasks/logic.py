@@ -1,5 +1,5 @@
 from tasks.models import Task, UserHiddenTask, TASK_CATEGORIES
-from ckan_proxy.logic import organization_list_for_user
+from datasets.logic import organisations_for_user
 
 
 def get_tasks_for_user(user):
@@ -9,7 +9,7 @@ def get_tasks_for_user(user):
             * Them having the required permissions
             * Them not having skipped it before.
     """
-    orgs = [o['name'] for o in organization_list_for_user(user)]
+    orgs = [o.name for o in organisations_for_user(user)]
     user_permissions = [""]
     ignored_task_ids = UserHiddenTask.objects\
         .values_list('task__id', flat=True)
