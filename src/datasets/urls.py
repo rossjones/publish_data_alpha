@@ -9,6 +9,10 @@ urlpatterns = [
         login_required(v.new_dataset),
         name='new_dataset'),
 
+    url(r'^edit/(?P<dataset_name>[\w-]+)$',
+        login_required(v.edit_full_dataset),
+        name='edit_full_dataset'),
+
     url(r'^(?P<dataset_name>[\w-]+)/organisation$',
         login_required(v.edit_organisation),
         name='edit_dataset_organisation'),

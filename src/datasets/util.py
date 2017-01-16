@@ -73,6 +73,12 @@ def convert_to_slug(title):
         if not slug:
             return None
 
+
+        if slug in ['edit', 'new']:
+            t = "{}{}".format(title, counter)
+            counter += 1
+            continue
+
         draft, dataset = None, None
 
         try:

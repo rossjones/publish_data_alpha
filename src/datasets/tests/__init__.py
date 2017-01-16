@@ -42,7 +42,18 @@ class MockCKANRequestHandler(BaseHTTPRequestHandler):
         response = self.load_file(name)
 
         if name == 'package_show' \
-                and params.get('id') == 'a-test-dataset-for-create':
+                and (params.get('id') == 'a-test-dataset-for-create' or
+                    params.get('id') == 'a-test-dataset-for-edit'):
+            err = {"success": False,
+            "error": {
+                "message": "Not found",
+                "__type": "Not Found Error"
+            }}
+            response = json.dumps(err)
+
+        if name == 'package_show' \
+                and (params.get('id').startswith('new') or
+                    params.get('id').startswith('edit')):
             err = {"success": False,
             "error": {
                 "message": "Not found",
