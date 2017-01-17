@@ -22,8 +22,7 @@ def new_dataset(request):
                 title=form.cleaned_data['title'],
                 description=form.cleaned_data['description'],
                 summary=form.cleaned_data['summary'],
-                creator=request.user,
-                name=form.cleaned_data['name']
+                creator=request.user
             )
 
             return HttpResponseRedirect(
@@ -72,7 +71,7 @@ def edit_dataset_details(request, dataset_name):
 
     return render(request, "datasets/edit_title.html", {
         "form": form,
-        "dataset": dataset.as_dict(),
+        "dataset": dataset,
         'editing': request.GET.get('change', '') == '1',
     })
 
@@ -96,7 +95,7 @@ def edit_organisation(request, dataset_name):
 
     return render(request, "datasets/edit_organisation.html", {
         'form': form,
-        'dataset': dataset.as_dict(),
+        'dataset': dataset,
         'organisations': organisations,
         'editing': request.GET.get('change', '') == '1',
     })
@@ -113,7 +112,7 @@ def edit_licence(request, dataset_name):
 
     return render(request, "datasets/edit_licence.html", {
         'form': form,
-        'dataset': dataset.as_dict(),
+        'dataset': dataset,
         'editing': request.GET.get('change', '') == '1',
     })
 
@@ -129,7 +128,7 @@ def edit_location(request, dataset_name):
 
     return render(request, "datasets/edit_location.html", {
         'form': form,
-        'dataset': dataset.as_dict(),
+        'dataset': dataset,
         'editing': request.GET.get('change', '') == '1',
     })
 
@@ -148,7 +147,7 @@ def edit_frequency(request, dataset_name):
 
     return render(request, "datasets/edit_frequency.html", {
         'form': form,
-        'dataset': dataset.as_dict(),
+        'dataset': dataset,
         'editing': request.GET.get('change', '') == '1',
     })
 
@@ -170,7 +169,7 @@ def edit_addfile(request, dataset_name):
 
     return render(request, "datasets/edit_addfile.html", {
         'form': form,
-        'dataset': dataset.as_dict(),
+        'dataset': dataset,
     })
 
 
@@ -191,7 +190,7 @@ def edit_addfile_weekly(request, dataset_name):
 
     return render(request, "datasets/edit_addfile_week.html", {
         'form': form,
-        'dataset': dataset.as_dict(),
+        'dataset': dataset,
     })
 
 
@@ -212,7 +211,7 @@ def edit_addfile_monthly(request, dataset_name):
 
     return render(request, "datasets/edit_addfile_month.html", {
         'form': form,
-        'dataset': dataset.as_dict(),
+        'dataset': dataset,
     })
 
 
@@ -233,7 +232,7 @@ def edit_addfile_quarterly(request, dataset_name):
 
     return render(request, "datasets/edit_addfile_quarter.html", {
         'form': form,
-        'dataset': dataset.as_dict(),
+        'dataset': dataset,
     })
 
 
@@ -254,7 +253,7 @@ def edit_addfile_annually(request, dataset_name):
 
     return render(request, "datasets/edit_addfile_year.html", {
         'form': form,
-        'dataset': dataset.as_dict(),
+        'dataset': dataset,
     })
 
 
@@ -287,7 +286,7 @@ def edit_notifications(request, dataset_name):
 
     return render(request, "datasets/edit_notifications.html", {
         'form': form,
-        'dataset': dataset.as_dict(),
+        'dataset': dataset,
         'editing': request.GET.get('change', '') == '1',
     })
 

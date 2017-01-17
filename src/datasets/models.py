@@ -5,6 +5,8 @@ from django.db import models
 from django.forms.models import model_to_dict
 from django.conf import settings
 
+from autoslug import AutoSlugField
+
 
 class Location(models.Model):
 
@@ -13,7 +15,8 @@ class Location(models.Model):
 
 
 class Dataset(models.Model):
-    name = models.CharField(max_length=64, default="")
+    #name = models.CharField(max_length=64, default="")
+    name = AutoSlugField(populate_from='title', default='')
     title = models.CharField(max_length=64)
     summary = models.CharField(max_length=200, default="")
     description = models.TextField()
@@ -44,10 +47,6 @@ class Dataset(models.Model):
     published_date = models.DateTimeField(null=True, blank=True)
 
     legacy_metadata = models.TextField(null=True, blank=True)
-
-    def as_dict(self):
-        current = model_to_dict(self)
-        return current
 
     def __str__(self):
         return u"{}:{}".format(self.name, self.title)

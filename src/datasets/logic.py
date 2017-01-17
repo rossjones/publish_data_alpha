@@ -21,7 +21,7 @@ def dataset_list(user, page=1, filter_query=None):
     q = Dataset.objects\
         .filter(organisation__in=organisations)\
         .filter(published=True)\
-        .order_by('last_edit_date')
+        .order_by('-last_edit_date')
 
     datasets = q.all()[0:max_fetch]
 

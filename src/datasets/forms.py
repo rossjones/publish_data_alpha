@@ -19,10 +19,8 @@ class DatasetForm(forms.Form):
 
     def clean(self):
         if 'title' in self.cleaned_data:
-            name = convert_to_slug(self.cleaned_data['title'])
-            if not name:
+            if not list(filter(lambda x: x.isalpha(), self.cleaned_data['title'])):
                 self._errors['title'] = [_('This title is not valid')]
-            self.cleaned_data['name'] = name
         return self.cleaned_data
 
 
@@ -57,7 +55,7 @@ class FullDatasetForm(forms.ModelForm):
         fields = [
             'title', 'summary', 'description',
             'licence', 'licence_other', 'organisation',
-            'frequency', 'notifications', 'name'
+            'frequency', 'notifications'
         ]
 
 
