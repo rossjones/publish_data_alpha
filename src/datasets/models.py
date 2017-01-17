@@ -73,7 +73,7 @@ class Organisation(models.Model):
     name = models.CharField(max_length=200, default="", blank=True)
     title = models.CharField(max_length=200, default="", blank=True)
     description = models.TextField()
-    abbreviation = models.CharField(max_length=32, default="", null=True, blank=True)
+    abbreviation = models.CharField(max_length=200, default="", null=True, blank=True)
 
     created = models.DateTimeField(auto_now=True)
 
