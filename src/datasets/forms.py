@@ -57,11 +57,17 @@ class FullDatasetForm(forms.ModelForm):
         fields = [
             'title', 'summary', 'description',
             'licence', 'licence_other', 'organisation',
-            'frequency', 'notifications'
+            'frequency', 'notifications', 'location'
         ]
 
 
     def clean(self):
+        if 'title' in self.cleaned_data:
+            name = convert_to_slug(self.cleaned_data['title'])
+            if not name:
+                self._errors['title'] = [_('This title is not valid')]
+            self.cleaned_data['name'] = name
+
         if 'licence' in self.cleaned_data:
             if self.cleaned_data['licence'] == 'other' \
                     and not self.cleaned_data['licence_other']:

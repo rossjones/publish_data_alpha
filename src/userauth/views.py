@@ -1,8 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 
-from datasets.logic import organisations_for_user
-from userauth.logic import set_orgs_for_user
 from .forms import SigninForm
 
 
