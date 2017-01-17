@@ -53,6 +53,13 @@ $Helvetica-Regular: $helvetica-regular;
 
 // Components
 
+h2.user-bar {
+  font-weight: bold;
+  margin-top: 1em;
+  padding-bottom: .5em;
+  border-bottom: 1px solid $grey-2;
+}
+
 #side-navigation {
   padding-top: 2.4em;
 }
@@ -140,6 +147,15 @@ $alpine-fresh: #128400;
 nav ul {
   list-style-type: none;
   margin-bottom: 1em;
+  li {
+    margin-bottom: 1em;
+    a {
+      text-decoration: none;
+      &:visited {
+        color: $link-colour;
+      }
+    }
+  }
 }
 
 table {

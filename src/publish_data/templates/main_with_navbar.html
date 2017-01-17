@@ -25,16 +25,26 @@
 
 {% block content %}
   <main id="content" role="main" tabindex="-1">
+    {% if user.email %}
+      <h2 class="user-bar">{{ user.email }}</h2>
+    {% endif %}
     <div class="grid-row">
       <div class="column-one-quarter">
         <div id="side-navigation">
           <nav>
             <ul>
-              <li><a href="/">Dashboard</a></li>
-              <li>
-                <a href="/dataset/new">Create a dataset</a>
+              {% url 'home' as home %}
+              {% url 'new_dataset' as new %}
+              {% url 'manage_data' as manage %}
+              <li class="{% if request.path == home %}bold{% endif %}">
+                <a href="{{ home }}">Dashboard</a>
               </li>
-              <li><a href="/manage">Manage your data</a></li>
+              <li class="{% if request.path == new %}bold{% endif %}">
+                <a href="{{ new }}">Create a dataset</a>
+              </li>
+              <li class="{% if request.path == manage %}bold{% endif %}">
+                <a href="{{ manage }}">Manage your data</a>
+              </li>
             </ul>
           </nav>
         </div>

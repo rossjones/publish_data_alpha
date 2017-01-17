@@ -26,6 +26,9 @@
 
 {% block content %}
   <main id="content" role="main" tabindex="-1">
+    {% if user.email %}
+      <h2 class="user-bar">{{ user.email }}</h2>
+    {% endif %}
     {% block inner_content %}{% endblock %}
   </main>
 {% endblock %}
