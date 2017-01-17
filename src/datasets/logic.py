@@ -20,8 +20,12 @@ def dataset_list(user, page=1, filter_query=None):
     organisations = organisations_for_user(user)
     q = Dataset.objects\
         .filter(organisation__in=organisations)\
-        .filter(published=True)\
-        .order_by('-last_edit_date')
+        .filter(published=True)
+
+    if filter_query:
+        q = q.filter(title__contains=filter_query)
+
+    q = q.order_by('-last_edit_date')
 
     datasets = q.all()[0:max_fetch]
 

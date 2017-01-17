@@ -177,7 +177,7 @@ var test_create_omit_region = function (browser) {
 
 var test_create_region_autocomplete = function (browser) {
   goToCreateRegion(browser)
-    .clearSetValue('input[id=id_location]', 'Swa')
+    .clearSetValue('input[id=id_location]', 'Swans')
     .waitForElementVisible('div[role=listbox]', 5000)
     .assert.containsText('div[role=listbox]', 'Swansea')
     .end();

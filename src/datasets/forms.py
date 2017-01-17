@@ -19,7 +19,9 @@ class DatasetForm(forms.Form):
 
     def clean(self):
         if 'title' in self.cleaned_data:
-            if not list(filter(lambda x: x.isalpha(), self.cleaned_data['title'])):
+            title = self.cleaned_data['title']
+            length = len(list(filter(lambda x: x.isalpha(), title)))
+            if length < 3:
                 self._errors['title'] = [_('This title is not valid')]
         return self.cleaned_data
 
