@@ -179,7 +179,7 @@ var test_create_region_autocomplete = function (browser) {
   goToCreateRegion(browser)
     .clearSetValue('input[id=id_location]', 'Swa')
     .waitForElementVisible('div[role=listbox]', 5000)
-    .assert.containsText('div[role=listbox]', 'Swansea')
+    .assert.containsText('div[role=listbox]', 'Swaby (town)')
     .end();
 };
 

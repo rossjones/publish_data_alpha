@@ -42,7 +42,9 @@
               name="{{ form.notifications.html_name }}"
               type="radio"
               value="yes"
-              required="">
+              {% if form.notifications.value == 'yes' %}
+                checked
+              {% endif %} />
           <span>Yes</span>
         </label>
 
@@ -54,7 +56,9 @@
               name="{{ form.notifications.html_name }}"
               type="radio"
               value="no"
-              required="">
+              {% if form.notifications.value == 'no' %}
+                checked
+              {% endif %} />
           <span>No</span>
         </label>
       </fieldset>

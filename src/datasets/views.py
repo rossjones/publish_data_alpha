@@ -43,6 +43,8 @@ def new_dataset(request):
 
 def edit_full_dataset(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
+    organisations = get_orgs_for_user(request)
+
 
     form = f.FullDatasetForm(request.POST or None, instance=dataset)
     if request.method == 'POST':
@@ -55,6 +57,7 @@ def edit_full_dataset(request, dataset_name):
     return render(request, "datasets/edit_dataset.html", {
         "form": form,
         "dataset": dataset,
+        "organisations": organisations
     })
 
 
