@@ -1638,6 +1638,12 @@ input[type=number] {
       float: left;
       width: 75%; } }
 
+h2.user-bar {
+  font-weight: bold;
+  margin-top: 1em;
+  padding-bottom: .5em;
+  border-bottom: 1px solid #bfc1c3; }
+
 #side-navigation {
   padding-top: 2.4em; }
 
@@ -1706,6 +1712,12 @@ a.delete-button, a.delete-button:visited {
 nav ul {
   list-style-type: none;
   margin-bottom: 1em; }
+  nav ul li {
+    margin-bottom: 1em; }
+    nav ul li a {
+      text-decoration: none; }
+      nav ul li a:visited {
+        color: #005ea5; }
 
 table {
   margin-bottom: 1em; }

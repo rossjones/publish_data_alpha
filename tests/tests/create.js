@@ -57,9 +57,10 @@ var goToCheckPage = function(browser) {
 
 
 var test_create_happy_path = function (browser) {
+  var dataSetTitle = 'Test dataset ' + new Date();
   common.login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
-    .clearSetValue('input[name=title]', 'Title of my dataset')
+    .clearSetValue('input[name=title]', dataSetTitle)
     .clearSetValue('textarea[name=summary]', 'Summary of my dataset')
     .clearSetValue('textarea[name=description]', 'Description of my dataset')
     .submitFormAndCheckNextTitle(
@@ -82,6 +83,13 @@ var test_create_happy_path = function (browser) {
     .selectRadioButton('Yes')
     .submitFormAndCheckNextTitle('Check your dataset')
     .submitFormAndCheckNextTitle('Your dataset has been published')
+    .useXpath()
+    .click('//a[text()="Edit" and contains(../../td[1]/a/text(),"'+dataSetTitle+'")]')
+    .useCss()
+    .waitForElementVisible('main', common.waitTimeout)
+    .clickOnLink('Delete this dataset')
+    .waitForElementVisible('main', common.waitTimeout)
+    .assert.containsText('main', 'Your dataset has been deleted')
     .end();
 };
 
