@@ -1,9 +1,10 @@
+import uuid
+
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse
-from datasets.models import Dataset
+from datasets.models import Dataset, Organisation
 
-from ckan_proxy.util import test_user_key
 
 
 class DatasetsTestCase(TestCase):
@@ -12,10 +13,17 @@ class DatasetsTestCase(TestCase):
         self.test_user = get_user_model().objects.create(
             email="test-signin@localhost",
             username="Test User Signin",
-            apikey=test_user_key()
+            apikey=str(uuid.uuid4())
         )
         self.test_user.set_password("password")
         self.test_user.save()
+
+        self.organisation = Organisation.objects.create(
+            name='test-org',
+            title='Test Organisation',
+            description='Test Organisation Description'
+        )
+        self.organisation.users.add(self.test_user)
 
         # Log the user in
         self.client.post(reverse('signin'), {
@@ -134,7 +142,7 @@ class DatasetsTestCase(TestCase):
         )
         # With only a single organisation, we expect a redirect
         response = self.client.get(u)
-        assert response.status_code == 302
+        assert response.status_code == 302, response.content
 
         # User in a single organisation so will be redirected
         response = self.client.post(u, {})
@@ -143,11 +151,11 @@ class DatasetsTestCase(TestCase):
         response = self.client.post(
             u,
             {
-                'organisation': 'test-organisation'
+                'organisation': self.organisation.id
             }
         )
         assert response.status_code == 302
-        assert self._get_dataset().organisation == "test-organisation", \
+        assert self._get_dataset().organisation.name == "test-org", \
             self._get_dataset().organisation
 
 

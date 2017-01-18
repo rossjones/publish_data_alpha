@@ -1,8 +1,8 @@
+import uuid
+
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse
-
-from ckan_proxy.util import test_user_key
 
 
 class TopLevelViewsCase(TestCase):
@@ -11,7 +11,7 @@ class TopLevelViewsCase(TestCase):
         self.test_user = get_user_model().objects.create(
             email="test-signin@localhost",
             username="Test User Signin",
-            apikey=test_user_key()
+            apikey=str(uuid.uuid4())
         )
         self.test_user.set_password("password")
         self.test_user.save()

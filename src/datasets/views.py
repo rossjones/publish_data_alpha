@@ -1,3 +1,4 @@
+from datetime import datetime
 
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -9,13 +10,8 @@ from django.http import HttpResponseRedirect, Http404
 
 
 import datasets.forms as f
-from userauth.logic import get_orgs_for_user
+from datasets.logic import organisations_for_user
 from datasets.models import Dataset, Datafile
-from ckan_proxy.convert import draft_to_ckan, ckan_to_draft
-from ckan_proxy.logic import (organization_show,
-                              dataset_show,
-                              dataset_create,
-                              dataset_update)
 
 
 def new_dataset(request):
@@ -26,8 +22,7 @@ def new_dataset(request):
                 title=form.cleaned_data['title'],
                 description=form.cleaned_data['description'],
                 summary=form.cleaned_data['summary'],
-                creator=request.user,
-                name=form.cleaned_data['name']
+                creator=request.user
             )
 
             return HttpResponseRedirect(
@@ -43,7 +38,7 @@ def new_dataset(request):
 
 def edit_full_dataset(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
-    organisations = get_orgs_for_user(request)
+    organisations = organisations_for_user(request.user)
 
 
     form = f.FullDatasetForm(request.POST or None, instance=dataset)
@@ -79,7 +74,7 @@ def edit_dataset_details(request, dataset_name):
 
     return render(request, "datasets/edit_title.html", {
         "form": form,
-        "dataset": dataset.as_dict(),
+        "dataset": dataset,
         'editing': request.GET.get('change', '') == '1',
     })
 
@@ -87,13 +82,15 @@ def edit_dataset_details(request, dataset_name):
 def edit_organisation(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
-    organisations = get_orgs_for_user(request)
+    organisations = organisations_for_user(request.user)
     if len(organisations) == 1:
-        dataset.organisation, _ = organisations[0]
+        dataset.organisation = organisations[0]
         dataset.save()
         return _redirect_to(request, 'edit_dataset_licence',[dataset.name])
 
     form = f.OrganisationForm(request.POST or None, instance=dataset)
+    form.fields["organisation"].queryset = request.user.organisation_set.all()
+
     if request.method == 'POST':
         if form.is_valid():
             obj = form.save()
@@ -101,7 +98,7 @@ def edit_organisation(request, dataset_name):
 
     return render(request, "datasets/edit_organisation.html", {
         'form': form,
-        'dataset': dataset.as_dict(),
+        'dataset': dataset,
         'organisations': organisations,
         'editing': request.GET.get('change', '') == '1',
     })
@@ -118,7 +115,7 @@ def edit_licence(request, dataset_name):
 
     return render(request, "datasets/edit_licence.html", {
         'form': form,
-        'dataset': dataset.as_dict(),
+        'dataset': dataset,
         'editing': request.GET.get('change', '') == '1',
     })
 
@@ -134,7 +131,7 @@ def edit_location(request, dataset_name):
 
     return render(request, "datasets/edit_location.html", {
         'form': form,
-        'dataset': dataset.as_dict(),
+        'dataset': dataset,
         'editing': request.GET.get('change', '') == '1',
     })
 
@@ -153,7 +150,7 @@ def edit_frequency(request, dataset_name):
 
     return render(request, "datasets/edit_frequency.html", {
         'form': form,
-        'dataset': dataset.as_dict(),
+        'dataset': dataset,
         'editing': request.GET.get('change', '') == '1',
     })
 
@@ -175,7 +172,7 @@ def edit_addfile(request, dataset_name):
 
     return render(request, "datasets/edit_addfile.html", {
         'form': form,
-        'dataset': dataset.as_dict(),
+        'dataset': dataset,
     })
 
 
@@ -196,7 +193,7 @@ def edit_addfile_weekly(request, dataset_name):
 
     return render(request, "datasets/edit_addfile_week.html", {
         'form': form,
-        'dataset': dataset.as_dict(),
+        'dataset': dataset,
     })
 
 
@@ -217,7 +214,7 @@ def edit_addfile_monthly(request, dataset_name):
 
     return render(request, "datasets/edit_addfile_month.html", {
         'form': form,
-        'dataset': dataset.as_dict(),
+        'dataset': dataset,
     })
 
 
@@ -238,7 +235,7 @@ def edit_addfile_quarterly(request, dataset_name):
 
     return render(request, "datasets/edit_addfile_quarter.html", {
         'form': form,
-        'dataset': dataset.as_dict(),
+        'dataset': dataset,
     })
 
 
@@ -259,18 +256,12 @@ def edit_addfile_annually(request, dataset_name):
 
     return render(request, "datasets/edit_addfile_year.html", {
         'form': form,
-        'dataset': dataset.as_dict(),
+        'dataset': dataset,
     })
 
 
 def edit_files(request, dataset_name):
-    try:
-        dataset = Dataset.objects.get(name=dataset_name)
-    except Dataset.DoesNotExist:
-        # Try and load the dataset from the live CKAN
-        dataset = ckan_to_draft(dataset_name)
-
-
+    dataset = get_object_or_404(Dataset, name=dataset_name)
 
     url = _frequency_redirect_to(dataset)
 
@@ -298,36 +289,23 @@ def edit_notifications(request, dataset_name):
 
     return render(request, "datasets/edit_notifications.html", {
         'form': form,
-        'dataset': dataset.as_dict(),
+        'dataset': dataset,
         'editing': request.GET.get('change', '') == '1',
     })
 
 
 def check_dataset(request, dataset_name):
-    try:
-        dataset = Dataset.objects.get(name=dataset_name)
-    except Dataset.DoesNotExist:
-        # Try and load the dataset from the live CKAN
-        dataset = ckan_to_draft(dataset_name)
+    dataset = get_object_or_404(Dataset, name=dataset_name)
 
-    organisation = organization_show(dataset.organisation)
-    organisations = get_orgs_for_user(request)
+    organisation = dataset.organisation
+    organisations = organisations_for_user(request.user)
     single_organisation = len(organisations) == 1
 
 
     if request.method == 'POST':
-        f = dataset_update \
-            if dataset_show(dataset.name, request.user) \
-            else dataset_create
-
-        try:
-            f(draft_to_ckan(dataset), request.user)
-        except Exception as e:
-            # TODO: Handle the error correctly
-            print(e)
-        else:
-            # Success! We can safely delete the draft now
-            dataset.delete()
+        dataset.published = True
+        dataset.published_date = datetime.now()
+        dataset.save()
 
         return HttpResponseRedirect('/manage?newset=1')
 

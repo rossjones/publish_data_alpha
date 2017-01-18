@@ -1,12 +1,14 @@
+import uuid
+
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 
-from ckan_proxy.logic import organization_list_for_user
-from ckan_proxy.util import test_user_key
-
 from tasks.models import Task
 from tasks.logic import get_tasks_for_user, user_ignore_task
+
+from datasets.logic import organisations_for_user
+from datasets.models import Organisation
 
 
 class TasksTestCase(TestCase):
@@ -15,13 +17,19 @@ class TasksTestCase(TestCase):
         self.test_user = get_user_model().objects.create(
             username="Test User",
             email="test-signin@localhost",
-            apikey=test_user_key()
+            apikey=str(uuid.uuid4())
         )
         self.test_user.set_password("password")
         self.test_user.save()
 
-        self.org_names = [o['name'] for o in
-                          organization_list_for_user(self.test_user)]
+        self.organisation = Organisation.objects.create(
+            name='test-org',
+            title='Test Organisation',
+            description='Test Organisation Description'
+        )
+        self.organisation.users.add(self.test_user)
+
+        self.org_names = [self.organisation.name]
 
         self.simple_task_update = Task.objects.create(
             owning_organisation=self.org_names[0],

@@ -19,10 +19,10 @@ class DatasetForm(forms.Form):
 
     def clean(self):
         if 'title' in self.cleaned_data:
-            name = convert_to_slug(self.cleaned_data['title'])
-            if not name:
+            title = self.cleaned_data['title']
+            length = len(list(filter(lambda x: x.isalpha(), title)))
+            if length < 3:
                 self._errors['title'] = [_('This title is not valid')]
-            self.cleaned_data['name'] = name
         return self.cleaned_data
 
 
@@ -102,11 +102,10 @@ class LocationForm(forms.ModelForm):
 
 class OrganisationForm(forms.ModelForm):
 
-    organisation = forms.CharField(required=True)
-
     class Meta:
         model = Dataset
         fields = ['organisation']
+
 
 
 class FrequencyForm(forms.ModelForm):

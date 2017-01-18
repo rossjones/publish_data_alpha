@@ -1,10 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
-from publish_data.logic import dataset_list
+from datasets.logic import dataset_list
 from tasks.logic import get_tasks_for_user
 from stats.logic import get_stats
-from ckan_proxy.util import get_ckan_host
 
 def home(request):
     if request.user.is_authenticated():
@@ -48,6 +47,5 @@ def manage_data(request):
         "current_page": page,
         "q": q or "",
         "newset": new_set or "",
-        "deleted": deleted or "",
-        "ckan_host": get_ckan_host()
+        "deleted": deleted or ""
     })
