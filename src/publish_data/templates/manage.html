@@ -8,14 +8,19 @@
 {% block inner_content %}
   <main id="content" role="main" tabindex="-1">
 
-    {% if newset %}
+    {% if result == "newset" %}
       <div class="govuk-box-highlight">
         <h1 class="bold-large">Your dataset has been published</h1>
       </div>
     {% endif %}
-    {% if deleted %}
+    {% if result == "deleted" %}
       <div class="govuk-box-highlight">
         <h1 class="bold-large">Your dataset has been deleted</h1>
+      </div>
+    {% endif %}
+    {% if result == "edited" %}
+      <div class="govuk-box-highlight">
+        <h1 class="bold-large">Your dataset has been edited</h1>
       </div>
     {% endif %}
 

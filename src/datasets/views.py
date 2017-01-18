@@ -60,7 +60,7 @@ def delete_dataset(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
     dataset.delete()
     return HttpResponseRedirect(
-        reverse('manage_data') + "?deleted=1"
+        reverse('manage_data') + "?r=deleted"
     )
 
 
@@ -307,7 +307,7 @@ def check_dataset(request, dataset_name):
         dataset.published_date = datetime.now()
         dataset.save()
 
-        return HttpResponseRedirect('/manage?newset=1')
+        return HttpResponseRedirect('/manage?r=newset')
 
 
     return render(request, "datasets/check_dataset.html", {

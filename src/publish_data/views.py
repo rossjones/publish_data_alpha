@@ -27,8 +27,7 @@ def dashboard(request):
 def manage_data(request):
 
     q = request.GET.get('q')
-    new_set = request.GET.get('newset')
-    deleted = request.GET.get('deleted')
+    result = request.GET.get('r')
 
     page = 1
     try:
@@ -46,6 +45,5 @@ def manage_data(request):
         "page_range": range(1, page_count),
         "current_page": page,
         "q": q or "",
-        "newset": new_set or "",
-        "deleted": deleted or ""
+        "result": result or ""
     })
