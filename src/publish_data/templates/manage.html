@@ -53,6 +53,7 @@
         <thead>
           <tr>
             <th>Name</th>
+            <th>Status</th>
             <th class="actions">Actions</th>
           </tr>
         </thead>
@@ -60,6 +61,7 @@
           {% for dataset in datasets %}
             <tr>
               <td><a href="{{ ckan_host }}/dataset/{{ dataset.name }}">{{ dataset.title }}</a></td>
+              <td>{% if dataset.published %}published{% else %}draft{% endif %}</td>
               <td class="actions">
                 {% if dataset.name %}
                   <a href="{% url 'edit_dataset_files' dataset.name %}?change=1">Add&nbsp;Data</a><br/>
