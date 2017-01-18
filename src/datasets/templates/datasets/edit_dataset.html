@@ -77,13 +77,67 @@
       </div>
     </fieldset>
 
+    <!-- LINKS -->
+
+    <h2 class="heading-small">Links</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Url</th>
+          <th>Valid</th>
+          <th><span class="visuallyhidden">Actions</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for file in dataset.files.all %}
+        <tr>
+          <td>{{ file.title }} </td>
+          <td>{{ file.url }} </td>
+          <td>✔</td>
+          <td>
+            <a href="">Edit</a>
+            <a href="">Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <!-- LOCATION -->
+
+    <div
+        class="form-group {% if form.location.errors %}error{% endif %}"
+        id="location_form_group">
+      <fieldset>
+        <legend class="heading-small">Location</legend>
+        {% if form.location.errors %}
+        <span class="error-message">
+          Please enter the area that your dataset covers
+        </span>
+        {% endif %}
+
+        <label class="visuallyhidden" for="id_location">
+          <span>Location</span>
+        </label>
+        <input
+            class="location_input"
+            id="id_location"
+            name="{{ form.location.html_name }}"
+            type="text"
+            autocomplete="off"
+            value="{{ form.location.value|default:'' }}" />
+      </fieldset>
+    </div>
+
     <!-- LICENCE -->
 
     <div
         class="form-group {% if form.licence.errors %}error{% endif %}"
         id="licence_form_group">
       <fieldset>
-        <legend>Licence</legend>
+        <legend class="heading-small">Licence</legend>
         {% for error in form.licence.errors %}
           <span class="error-message">{{ error }}</span>
         {% endfor %}
@@ -137,7 +191,7 @@
         class="form-group {% if form.organisation.errors %}error{% endif %}"
         id="organisation_form_group">
       <fieldset>
-        <legend>Organisation</legend>
+        <legend class="heading-small">Organisation</legend>
         {% if form.organisation.errors %}
         <span class="error-message">
           Please choose which organisation will own this dataset
@@ -161,39 +215,13 @@
       </fieldset>
     </div>
 
-    <!-- LOCATION -->
-
-    <div
-        class="form-group {% if form.location.errors %}error{% endif %}"
-        id="location_form_group">
-      <fieldset>
-        <legend>Location</legend>
-        {% if form.location.errors %}
-        <span class="error-message">
-          Please enter the area that your dataset covers
-        </span>
-        {% endif %}
-
-        <label class="block-label" for="id_location">
-          <span>Location</span>
-        </label>
-        <input
-            class="location_input"
-            id="id_location"
-            name="{{ form.location.html_name }}"
-            type="text"
-            autocomplete="off"
-            value="{{ form.location.value|default:'' }}" />
-      </fieldset>
-    </div>
-
     <!-- FREQUENCY -->
 
     <div
         class="form-group {% if form.frequency.errors %}error{% endif %}"
         id="#frequency_form_group">
       <fieldset>
-        <legend>Frequency</legend>
+        <legend class="heading-small">Updates</legend>
         {% if form.frequency.errors %}
         <span class="error-message">
           Please indicate how often this dataset is updated
@@ -285,13 +313,9 @@
           id="notifications_form_group"
           class="form-group {% if form.notifications.errors %}error{% endif %}">
         <fieldset>
-          <legend>Notifications</legend>
-          <p>
-            Would you like us to send you an email when your dataset needs to
-            be updated?
-          </p>
+          <legend class="heading-small">Update notification</legend>
           {% for error in form.notifications.errors %}
-          <span class="error-message">{{ error }}</span>
+            <span class="error-message">{{ error }}</span>
           {% endfor %}
           <label
               class="block-label selection-button-radio"
@@ -304,7 +328,7 @@
                 {% if form.notifications.value == "yes" %}
                   checked
                 {% endif %} />
-            <span>Yes {{ form.notifications.value }}</span>
+            <span>Yes</span>
           </label>
           <label
               class="block-label selection-button-radio"
