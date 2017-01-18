@@ -93,7 +93,6 @@
               name="{{ form.licence.html_name }}"
               type="radio"
               value="uk-ogl"
-              required
               {% if form.licence.value == 'uk-ogl' %}checked{% endif %} />
           <span>Open Government Licence</span>
         </label>
@@ -103,7 +102,6 @@
               name="{{ form.licence.html_name }}"
               type="radio"
               value="inspire"
-              required
               {% if form.licence.value == 'inspire' %}checked{% endif %} />
           <span>INSPIRE</span>
         </label>
@@ -116,7 +114,6 @@
               name="{{ form.licence.html_name }}"
               type="radio"
               value="other"
-              required
               {% if form.licence.value == 'other' %}checked{% endif %}  />
           <span>Other:</span>
         </label>
@@ -156,7 +153,7 @@
               type="radio"
               value="{{ organisation.id }}"
               {% if form.organisation.value == organisation.id %}
-              checked
+                checked
               {% endif %}/>
           <span>{{ organisation.title }}</span>
         </label>
@@ -209,7 +206,7 @@
               type="radio"
               value="daily"
               {% if form.frequency.value == 'daily' %}
-              checked
+                checked
               {% endif %}/>
           <span>Every day</span>
         </label>
@@ -220,7 +217,7 @@
               type="radio"
               value="weekly"
               {% if form.frequency.value == 'weekly' %}
-              checked
+                checked
               {% endif %}/>
           <span>Every week</span>
         </label>
@@ -231,7 +228,7 @@
               type="radio"
               value="monthly"
               {% if form.frequency.value == 'monthly' %}
-              checked
+                checked
               {% endif %}/>
           <span>Every month</span>
         </label>
@@ -253,7 +250,7 @@
               type="radio"
               value="annually"
               {% if form.frequency.value == 'annually' %}
-              checked
+                checked
               {% endif %} />
           <span>Every year (January to December)</span>
         </label>
@@ -264,7 +261,7 @@
               type="radio"
               value="financial-year"
               {% if form.frequency.value == 'financial-year' %}
-              checked
+                checked
               {% endif %} />
           <span>Every year (April to March)</span>
         </label>
@@ -275,7 +272,7 @@
               type="radio"
               value="never"
               {% if form.frequency.value == 'never' %}
-              checked
+                checked
               {% endif %} />
           <span>Never</span>
         </label>
