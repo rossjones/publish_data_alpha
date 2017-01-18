@@ -127,19 +127,21 @@
           </a>
         </td>
       </tr>
-      <tr>
-        <td>
-          Notifications
-        </td>
-        <td>
-          {{ dataset.notifications|title }}
-        </td>
-        <td class="change-answer">
-          <a href="notifications?change=1">
-            Change <span class="visuallyhidden">notifications</span>
-          </a>
-        </td>
-      </tr>
+      {% if dataset.notifications %}
+        <tr>
+          <td>
+            Notifications
+          </td>
+          <td>
+            {{ dataset.notifications|title }}
+          </td>
+          <td class="change-answer">
+            <a href="notifications?change=1">
+              Change <span class="visuallyhidden">notifications</span>
+            </a>
+          </td>
+        </tr>
+      {% endif %}
     </tbody>
   </table>
 

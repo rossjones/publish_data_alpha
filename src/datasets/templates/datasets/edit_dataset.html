@@ -280,50 +280,48 @@
     </div>
 
     <!-- NOTIFICATIONS -->
-
-    <div
-        id="notifications_form_group"
-        class="form-group {% if form.notifications.errors %}error{% endif %}">
-      <fieldset>
-        <legend>Notifications</legend>
-        <p>
-          Would you like us to send you an email when your dataset needs to
-          be updated?
-        </p>
-        {% for error in form.notifications.errors %}
-        <span class="error-message">{{ error }}</span>
-        {% endfor %}
-        <label
-            class="block-label selection-button-radio"
-            for="id_notifications_0">
-          <input
-              id="id_notifications_0"
-              name="{{ form.notifications.html_name }}"
-              type="radio"
-              value="yes"
-              required=""
-              {% if form.notifications.value == "yes" %}
-              checked
-              {% endif %} />
-          <span>Yes</span>
-        </label>
-        <label
-            class="block-label selection-button-radio"
-            for="id_notifications_1">
-          <input
-              id="id_notifications_1"
-              name="{{ form.notifications.html_name }}"
-              type="radio"
-              value="no"
-              required=""
-              {% if form.notifications.value == "no" %}
-              checked
-              {% endif %} />
-          <span>No</span>
-        </label>
-      </fieldset>
-    </div>
-
+    {% if form.notifications.value %}
+      <div
+          id="notifications_form_group"
+          class="form-group {% if form.notifications.errors %}error{% endif %}">
+        <fieldset>
+          <legend>Notifications</legend>
+          <p>
+            Would you like us to send you an email when your dataset needs to
+            be updated?
+          </p>
+          {% for error in form.notifications.errors %}
+          <span class="error-message">{{ error }}</span>
+          {% endfor %}
+          <label
+              class="block-label selection-button-radio"
+              for="id_notifications_0">
+            <input
+                id="id_notifications_0"
+                name="{{ form.notifications.html_name }}"
+                type="radio"
+                value="yes"
+                {% if form.notifications.value == "yes" %}
+                  checked
+                {% endif %} />
+            <span>Yes {{ form.notifications.value }}</span>
+          </label>
+          <label
+              class="block-label selection-button-radio"
+              for="id_notifications_1">
+            <input
+                id="id_notifications_1"
+                name="{{ form.notifications.html_name }}"
+                type="radio"
+                value="no"
+                {% if form.notifications.value == "no" %}
+                  checked
+                {% endif %} />
+            <span>No</span>
+          </label>
+        </fieldset>
+      </div>
+    {% endif %}
     <div class="form-group">
       <input type="submit" class="button" value="Save"/>
       <a href="{% url 'delete_dataset' dataset.name %}" class="delete-button">Delete this dataset</a>
