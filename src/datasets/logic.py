@@ -23,7 +23,7 @@ def dataset_list(user, page=1, filter_query=None):
         .filter(published=True)
 
     if filter_query:
-        q = q.filter(title__contains=filter_query)
+        q = q.filter(title__icontains=filter_query)
 
     q = q.order_by('-last_edit_date')
 
