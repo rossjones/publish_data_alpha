@@ -45,6 +45,9 @@
               <li class="{% if request.path == manage %}bold{% endif %}">
                 <a href="{{ manage }}">Manage your data</a>
               </li>
+              <li>
+                <a href="{% url 'signout' %}">Sign out</a>
+              </li>
             </ul>
           </nav>
         </div>
