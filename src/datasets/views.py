@@ -276,7 +276,7 @@ def edit_notifications(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
     if dataset.frequency in ['daily', 'never']:
-        dataset.noficiations = 'no'
+        dataset.notifications = 'no'
         dataset.save()
 
         return _redirect_to(request, 'edit_dataset_check_dataset',[dataset.name])

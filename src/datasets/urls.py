@@ -57,16 +57,13 @@ urlpatterns = [
         login_required(v.edit_notifications),
         name='edit_dataset_notifications'),
 
-
     url(r'^(?P<dataset_name>[\w-]+)/check_dataset$',
         login_required(v.check_dataset),
         name='edit_dataset_check_dataset'),
 
-
     url(r'^(?P<dataset_name>[\w-]+)/edit$',
         login_required(v.edit_dataset_details),
         name='edit_dataset'),
-
 
     url(r'^(?P<dataset_name>[\w-]+)/delete$',
         login_required(v.delete_dataset),
