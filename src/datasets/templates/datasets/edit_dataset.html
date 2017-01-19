@@ -10,7 +10,7 @@
   {% include 'datasets/includes/error_box.html' %}
 
   <h1 class="heading-large">
-    Edit '{{ dataset.title }}'
+    Edit ‘{{ dataset.title }}’
   </h1>
 
   <form action="{% url 'edit_full_dataset' dataset.name %}" method="POST">
@@ -77,13 +77,72 @@
       </div>
     </fieldset>
 
+    <!-- LINKS -->
+
+    <h2 class="heading-small">Links</h2>
+
+    <table>
+      <thead class="visuallyhidden">
+        <tr>
+          <th>Title</th>
+          <th>Url</th>
+          <th>Valid</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for file in dataset.files.all %}
+        <tr>
+          <td>{{ file.title }} </td>
+          <td>{{ file.url }} </td>
+          <td>valid</td>
+          <td>
+            <a href="">Edit</a>
+            <a href="">Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <a href="{% url addfile_viewname dataset.name  %}">
+      Add another link
+    </a>
+
+
+    <!-- LOCATION -->
+
+    <div
+        class="form-group {% if form.location.errors %}error{% endif %}"
+        id="location_form_group">
+      <fieldset>
+        <legend class="heading-small">Location</legend>
+        {% if form.location.errors %}
+        <span class="error-message">
+          Please enter the area that your dataset covers
+        </span>
+        {% endif %}
+
+        <label class="visuallyhidden" for="id_location">
+          <span>Location</span>
+        </label>
+        <input
+            class="location_input"
+            id="id_location"
+            name="{{ form.location.html_name }}"
+            type="text"
+            autocomplete="off"
+            value="{{ form.location.value|default:'' }}" />
+      </fieldset>
+    </div>
+
     <!-- LICENCE -->
 
     <div
         class="form-group {% if form.licence.errors %}error{% endif %}"
         id="licence_form_group">
       <fieldset>
-        <legend>Licence</legend>
+        <legend class="heading-small">Licence</legend>
         {% for error in form.licence.errors %}
           <span class="error-message">{{ error }}</span>
         {% endfor %}
@@ -93,7 +152,6 @@
               name="{{ form.licence.html_name }}"
               type="radio"
               value="uk-ogl"
-              required
               {% if form.licence.value == 'uk-ogl' %}checked{% endif %} />
           <span>Open Government Licence</span>
         </label>
@@ -103,7 +161,6 @@
               name="{{ form.licence.html_name }}"
               type="radio"
               value="inspire"
-              required
               {% if form.licence.value == 'inspire' %}checked{% endif %} />
           <span>INSPIRE</span>
         </label>
@@ -116,7 +173,6 @@
               name="{{ form.licence.html_name }}"
               type="radio"
               value="other"
-              required
               {% if form.licence.value == 'other' %}checked{% endif %}  />
           <span>Other:</span>
         </label>
@@ -140,7 +196,7 @@
         class="form-group {% if form.organisation.errors %}error{% endif %}"
         id="organisation_form_group">
       <fieldset>
-        <legend>Organisation</legend>
+        <legend class="heading-small">Organisation</legend>
         {% if form.organisation.errors %}
         <span class="error-message">
           Please choose which organisation will own this dataset
@@ -156,37 +212,11 @@
               type="radio"
               value="{{ organisation.id }}"
               {% if form.organisation.value == organisation.id %}
-              checked
+                checked
               {% endif %}/>
           <span>{{ organisation.title }}</span>
         </label>
         {% endfor %}
-      </fieldset>
-    </div>
-
-    <!-- LOCATION -->
-
-    <div
-        class="form-group {% if form.location.errors %}error{% endif %}"
-        id="location_form_group">
-      <fieldset>
-        <legend>Location</legend>
-        {% if form.location.errors %}
-        <span class="error-message">
-          Please enter the area that your dataset covers
-        </span>
-        {% endif %}
-
-        <label class="block-label" for="id_location">
-          <span>Location</span>
-        </label>
-        <input
-            class="location_input"
-            id="id_location"
-            name="{{ form.location.html_name }}"
-            type="text"
-            autocomplete="off"
-            value="{{ form.location.value|default:'' }}" />
       </fieldset>
     </div>
 
@@ -196,7 +226,7 @@
         class="form-group {% if form.frequency.errors %}error{% endif %}"
         id="#frequency_form_group">
       <fieldset>
-        <legend>Frequency</legend>
+        <legend class="heading-small">Updates</legend>
         {% if form.frequency.errors %}
         <span class="error-message">
           Please indicate how often this dataset is updated
@@ -209,7 +239,7 @@
               type="radio"
               value="daily"
               {% if form.frequency.value == 'daily' %}
-              checked
+                checked
               {% endif %}/>
           <span>Every day</span>
         </label>
@@ -220,7 +250,7 @@
               type="radio"
               value="weekly"
               {% if form.frequency.value == 'weekly' %}
-              checked
+                checked
               {% endif %}/>
           <span>Every week</span>
         </label>
@@ -231,7 +261,7 @@
               type="radio"
               value="monthly"
               {% if form.frequency.value == 'monthly' %}
-              checked
+                checked
               {% endif %}/>
           <span>Every month</span>
         </label>
@@ -253,7 +283,7 @@
               type="radio"
               value="annually"
               {% if form.frequency.value == 'annually' %}
-              checked
+                checked
               {% endif %} />
           <span>Every year (January to December)</span>
         </label>
@@ -264,7 +294,7 @@
               type="radio"
               value="financial-year"
               {% if form.frequency.value == 'financial-year' %}
-              checked
+                checked
               {% endif %} />
           <span>Every year (April to March)</span>
         </label>
@@ -275,7 +305,7 @@
               type="radio"
               value="never"
               {% if form.frequency.value == 'never' %}
-              checked
+                checked
               {% endif %} />
           <span>Never</span>
         </label>
@@ -283,50 +313,44 @@
     </div>
 
     <!-- NOTIFICATIONS -->
-
-    <div
-        id="notifications_form_group"
-        class="form-group {% if form.notifications.errors %}error{% endif %}">
-      <fieldset>
-        <legend>Notifications</legend>
-        <p>
-          Would you like us to send you an email when your dataset needs to
-          be updated?
-        </p>
-        {% for error in form.notifications.errors %}
-        <span class="error-message">{{ error }}</span>
-        {% endfor %}
-        <label
-            class="block-label selection-button-radio"
-            for="id_notifications_0">
-          <input
-              id="id_notifications_0"
-              name="{{ form.notifications.html_name }}"
-              type="radio"
-              value="yes"
-              required=""
-              {% if form.notifications.value == "yes" %}
-              checked
-              {% endif %} />
-          <span>Yes</span>
-        </label>
-        <label
-            class="block-label selection-button-radio"
-            for="id_notifications_1">
-          <input
-              id="id_notifications_1"
-              name="{{ form.notifications.html_name }}"
-              type="radio"
-              value="no"
-              required=""
-              {% if form.notifications.value == "no" %}
-              checked
-              {% endif %} />
-          <span>No</span>
-        </label>
-      </fieldset>
-    </div>
-
+    {% if form.notifications.value %}
+      <div
+          id="notifications_form_group"
+          class="form-group {% if form.notifications.errors %}error{% endif %}">
+        <fieldset>
+          <legend class="heading-small">Update notification</legend>
+          {% for error in form.notifications.errors %}
+            <span class="error-message">{{ error }}</span>
+          {% endfor %}
+          <label
+              class="block-label selection-button-radio"
+              for="id_notifications_0">
+            <input
+                id="id_notifications_0"
+                name="{{ form.notifications.html_name }}"
+                type="radio"
+                value="yes"
+                {% if form.notifications.value == "yes" %}
+                  checked
+                {% endif %} />
+            <span>Yes</span>
+          </label>
+          <label
+              class="block-label selection-button-radio"
+              for="id_notifications_1">
+            <input
+                id="id_notifications_1"
+                name="{{ form.notifications.html_name }}"
+                type="radio"
+                value="no"
+                {% if form.notifications.value == "no" %}
+                  checked
+                {% endif %} />
+            <span>No</span>
+          </label>
+        </fieldset>
+      </div>
+    {% endif %}
     <div class="form-group">
       <input type="submit" class="button" value="Save"/>
       <a href="{% url 'delete_dataset' dataset.name %}" class="delete-button">Delete this dataset</a>

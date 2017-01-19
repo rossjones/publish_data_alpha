@@ -19,8 +19,7 @@ def dataset_list(user, page=1, filter_query=None):
 
     organisations = organisations_for_user(user)
     q = Dataset.objects\
-        .filter(organisation__in=organisations)\
-        .filter(published=True)
+        .filter(organisation__in=organisations)
 
     if filter_query:
         q = q.filter(title__icontains=filter_query)

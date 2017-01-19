@@ -8,14 +8,19 @@
 {% block inner_content %}
   <main id="content" role="main" tabindex="-1">
 
-    {% if newset %}
+    {% if result == "newset" %}
       <div class="govuk-box-highlight">
         <h1 class="bold-large">Your dataset has been published</h1>
       </div>
     {% endif %}
-    {% if deleted %}
+    {% if result == "deleted" %}
       <div class="govuk-box-highlight">
         <h1 class="bold-large">Your dataset has been deleted</h1>
+      </div>
+    {% endif %}
+    {% if result == "edited" %}
+      <div class="govuk-box-highlight">
+        <h1 class="bold-large">Your dataset has been edited</h1>
       </div>
     {% endif %}
 
@@ -48,6 +53,7 @@
         <thead>
           <tr>
             <th>Name</th>
+            <th>Status</th>
             <th class="actions">Actions</th>
           </tr>
         </thead>
@@ -55,6 +61,7 @@
           {% for dataset in datasets %}
             <tr>
               <td><a href="{{ ckan_host }}/dataset/{{ dataset.name }}">{{ dataset.title }}</a></td>
+              <td>{% if dataset.published %}published{% else %}draft{% endif %}</td>
               <td class="actions">
                 {% if dataset.name %}
                   <a href="{% url 'edit_dataset_files' dataset.name %}?change=1">Add&nbsp;Data</a><br/>
