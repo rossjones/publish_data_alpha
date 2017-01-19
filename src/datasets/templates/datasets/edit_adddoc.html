@@ -1,0 +1,69 @@
+{% extends 'main_with_navbar.html' %}
+{% load static %}
+
+{% block page_title %}
+  Add documentation
+{% endblock %}
+
+{% block inner_content %}
+
+  {% include 'datasets/includes/error_box.html' %}
+
+  <h1 class="heading-large">
+    Add documentation
+  </h1>
+
+  <form action="{% url 'edit_dataset_addfile' dataset.name %}" method="POST">
+    {% csrf_token %}
+
+    <fieldset>
+      <legend class="visuallyhidden">Add a document</legend>
+      <div
+          id="url_form_group"
+          class="form-group {% if form.url.errors %}error{% endif %}">
+        <label class="form-label-bold" for="id_url">URL</label>
+        {% for error in form.url.errors %}
+          <span class="error-message">{{ error }}</span>
+        {% endfor %}
+        <span class="form-hint">
+          Enter a link (beginning with http:// or https://) to the document
+        </span>
+        <input
+            class="form-control form-control-2-3"
+            id="id_url"
+            name="{{ form.url.html_name }}"
+            type="url"
+            required=""
+            value="{{ form.url.value|default:'' }}"/>
+      </div>
+
+      <div
+          id="title_form_group"
+          class="form-group {% if form.title.errors %}error{% endif %}">
+        <label class="form-label-bold" for="id_title">
+          Title
+        </label>
+        {% for error in form.title.errors %}
+          <span class="error-message">{{ error }}</span>
+        {% endfor %}
+        <span class="form-hint">
+          Give your document a descriptive title to help users understand what
+          it contains. The title shouldn’t be the same as the URL.
+        </span>
+        <input
+            class="form-control form-control-2-3"
+            id="id_title"
+            name="{{ form.title.html_name }}"
+            type="text"
+            required=""
+            value="{{ form.title.value|default:'' }}"/>
+      </div>
+    </fieldset>
+
+
+    <div class="form-group">
+      <input type="submit" class="button" value="Save and continue"/>
+      <a href="{% url 'delete_dataset' dataset.name %}" class="secondary-button">Skip</a>
+    </div>
+  </form>
+{% endblock %}

@@ -344,7 +344,9 @@
     {% endif %}
     <div class="form-group">
       <input type="submit" class="button" value="Save"/>
-      <a href="{% url 'delete_dataset' dataset.name %}" class="delete-button">Delete this dataset</a>
+      <a href="{% url 'delete_dataset' dataset.name %}" class="secondary-button">
+        Delete this dataset
+      </a>
     </div>
   </form>
 {% endblock %}

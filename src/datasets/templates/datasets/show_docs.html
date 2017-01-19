@@ -1,0 +1,62 @@
+{% extends 'main_with_navbar.html' %}
+{% load static %}
+
+{% block page_title %}
+  Dataset documentation
+{% endblock %}
+
+{% block inner_content %}
+  <main id="content" role="main" tabindex="-1">
+    <h1 class="heading-large">
+      Dataset documentation
+    </h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Url</th>
+          <th>Valid</th>
+          <th><span class="visuallyhidden">Actions</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for file in dataset.files.all %}
+          <tr>
+            <td>{{ file.title }} </td>
+            <td>{{ file.url }} </td>
+            <td>✔</td>
+            <td>
+              <a href="">Edit</a>
+              <a href="">Delete</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <form
+        method="GET"
+        {% if editing %}
+          action="{% url 'edit_dataset_check_dataset' dataset.name %}"
+        {% else %}
+          action="{% url 'edit_dataset_notifications' dataset.name %}"
+        {% endif %}
+        class="form">
+      <div class="form-group">
+
+        {% csrf_token %}
+        <input type="hidden" name="editing" value="{{ editing }}">
+
+        <input type="submit" class="button" value="Save and continue">
+      </div>
+    </form>
+
+    <div class="form-group">
+      <a href="{% url addfile_viewname dataset.name  %}">
+        Add another link
+      </a>
+    </div>
+
+  </main>
+{% endblock %}
