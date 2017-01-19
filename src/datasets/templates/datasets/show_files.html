@@ -48,13 +48,13 @@
         {% csrf_token %}
         <input type="hidden" name="editing" value="{{ editing }}">
 
-        <input type="submit" class="button" value="Continue">
+        <input type="submit" class="button" value="Save and continue">
       </div>
     </form>
 
     <div class="form-group">
       <a href="{% url addfile_viewname dataset.name  %}">
-        Add another file
+        Add another link
       </a>
     </div>
 

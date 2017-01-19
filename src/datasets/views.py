@@ -39,6 +39,7 @@ def new_dataset(request):
 def edit_full_dataset(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
     organisations = organisations_for_user(request.user)
+    url = _frequency_redirect_to(dataset)
 
 
     form = f.FullDatasetForm(request.POST or None, instance=dataset)
@@ -50,6 +51,7 @@ def edit_full_dataset(request, dataset_name):
             )
 
     return render(request, "datasets/edit_dataset.html", {
+        "addfile_viewname": url,
         "form": form,
         "dataset": dataset,
         "organisations": organisations
@@ -60,7 +62,7 @@ def delete_dataset(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
     dataset.delete()
     return HttpResponseRedirect(
-        reverse('manage_data') + "?deleted=1"
+        reverse('manage_data') + "?r=deleted"
     )
 
 
@@ -276,7 +278,7 @@ def edit_notifications(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
     if dataset.frequency in ['daily', 'never']:
-        dataset.noficiations = 'no'
+        dataset.notifications = 'no'
         dataset.save()
 
         return _redirect_to(request, 'edit_dataset_check_dataset',[dataset.name])
@@ -307,7 +309,7 @@ def check_dataset(request, dataset_name):
         dataset.published_date = datetime.now()
         dataset.save()
 
-        return HttpResponseRedirect('/manage?newset=1')
+        return HttpResponseRedirect('/manage?r=newset')
 
 
     return render(request, "datasets/check_dataset.html", {
