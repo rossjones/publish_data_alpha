@@ -28,7 +28,7 @@ class Dataset(models.Model):
         null=True
     )
 
-    # ogl, inspire, other
+    # ogl, other
     licence = models.CharField(max_length=64, default="")
     licence_other = models.TextField(default="", blank=True)
 
