@@ -97,16 +97,6 @@
               {% if form.licence.value == 'uk-ogl' %}checked{% endif %} />
           <span>Open Government Licence</span>
         </label>
-        <label class="block-label selection-button-radio" for="id_licence_1">
-          <input
-              id="id_licence_1"
-              name="{{ form.licence.html_name }}"
-              type="radio"
-              value="inspire"
-              required
-              {% if form.licence.value == 'inspire' %}checked{% endif %} />
-          <span>INSPIRE</span>
-        </label>
         <label
             class="block-label selection-button-radio"
             for="id_licence_2"
