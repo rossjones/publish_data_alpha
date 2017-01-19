@@ -39,6 +39,7 @@ def new_dataset(request):
 def edit_full_dataset(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
     organisations = organisations_for_user(request.user)
+    url = _frequency_redirect_to(dataset)
 
 
     form = f.FullDatasetForm(request.POST or None, instance=dataset)
@@ -50,6 +51,7 @@ def edit_full_dataset(request, dataset_name):
             )
 
     return render(request, "datasets/edit_dataset.html", {
+        "addfile_viewname": url,
         "form": form,
         "dataset": dataset,
         "organisations": organisations

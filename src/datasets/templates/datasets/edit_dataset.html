@@ -82,12 +82,12 @@
     <h2 class="heading-small">Links</h2>
 
     <table>
-      <thead>
+      <thead class="visuallyhidden">
         <tr>
           <th>Title</th>
           <th>Url</th>
           <th>Valid</th>
-          <th><span class="visuallyhidden">Actions</span></th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -95,7 +95,7 @@
         <tr>
           <td>{{ file.title }} </td>
           <td>{{ file.url }} </td>
-          <td>✔</td>
+          <td>valid</td>
           <td>
             <a href="">Edit</a>
             <a href="">Delete</a>
@@ -104,6 +104,11 @@
         {% endfor %}
       </tbody>
     </table>
+
+    <a href="{% url addfile_viewname dataset.name  %}">
+      Add another link
+    </a>
+
 
     <!-- LOCATION -->
 
