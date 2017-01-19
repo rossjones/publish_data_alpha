@@ -1,7 +1,6 @@
 
 LICENCE_CHOICES = (
     ('ogl', 'Open Government Licence',),
-    ('inspire', 'INSPIRE',),
     ('other', 'Other',),
 )
 
