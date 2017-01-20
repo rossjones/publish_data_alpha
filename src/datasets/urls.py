@@ -34,15 +34,15 @@ urlpatterns = [
         login_required(v.edit_addfile),
         name='edit_dataset_addfile'),
 
-    url(r'^(?P<dataset_name>[\w-]+)/addfile_weekly/(?P<datafile_id>[\w-]+)$',
+    url(r'^(?P<dataset_name>[\w-]+)/addfile_weekly/(?P<datafile_id>[\w-]+)?$',
         login_required(v.edit_addfile_weekly),
         name='edit_dataset_addfile_weekly'),
 
-    url(r'^(?P<dataset_name>[\w-]+)/addfile_monthly/(?P<datafile_id>[\w-]+)$',
+    url(r'^(?P<dataset_name>[\w-]+)/addfile_monthly/(?P<datafile_id>[\w-]+)?$',
         login_required(v.edit_addfile_monthly),
         name='edit_dataset_addfile_monthly'),
 
-    url(r'^(?P<dataset_name>[\w-]+)/addfile_quarterly/(?P<datafile_id>[\w-]+)$',
+    url(r'^(?P<dataset_name>[\w-]+)/addfile_quarterly/(?P<datafile_id>[\w-]+)?$',
         login_required(v.edit_addfile_quarterly),
         name='edit_dataset_addfile_quarterly'),
 

@@ -194,7 +194,7 @@ def edit_deletefile(request, dataset_name, datafile_id):
     )
 
 
-def edit_addfile_weekly(request, dataset_name, id=None):
+def edit_addfile_weekly(request, dataset_name, datafile_id=None):
     dataset = get_object_or_404(Dataset, name=dataset_name)
     datafile = get_object_or_404(Datafile, id=datafile_id) \
         if datafile_id else None
