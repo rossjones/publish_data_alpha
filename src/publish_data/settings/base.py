@@ -50,6 +50,7 @@ PROJECT_APPS = [
     'tasks',
     'stats',
     'api',
+    'runtime_config'
 ]
 
 INSTALLED_APPS = REQUIRED_APPS + PROJECT_APPS
