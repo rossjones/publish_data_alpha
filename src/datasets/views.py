@@ -157,16 +157,21 @@ def edit_frequency(request, dataset_name):
     })
 
 
-def edit_addfile(request, dataset_name):
+def edit_addfile(request, dataset_name, datafile_id=None):
     dataset = get_object_or_404(Dataset, name=dataset_name)
+    datafile = get_object_or_404(Datafile, id=datafile_id) \
+        if datafile_id else None
+    form = f.FileForm(request.POST or None, instance=datafile)
 
-    form = f.FileForm(request.POST or None)
     if request.method == 'POST':
         if form.is_valid():
             data = dict(**form.cleaned_data)
-            data['dataset'] = dataset
-            obj = Datafile.objects.create(**data)
-            obj.save()
+            if datafile:
+                form.save()
+            else:
+                data['dataset'] = dataset
+                obj = Datafile.objects.create(**data)
+                obj.save()
 
             return HttpResponseRedirect(
                 reverse('edit_dataset_files', args=[dataset_name])
@@ -175,19 +180,35 @@ def edit_addfile(request, dataset_name):
     return render(request, "datasets/edit_addfile.html", {
         'form': form,
         'dataset': dataset,
+        'datafile_id': datafile_id or '',
     })
 
 
-def edit_addfile_weekly(request, dataset_name):
-    dataset = get_object_or_404(Dataset, name=dataset_name)
+def edit_deletefile(request, dataset_name, datafile_id):
+    datafile = get_object_or_404(Datafile, id=datafile_id)
 
-    form = f.WeeklyFileForm(request.POST or None)
+    datafile.delete();
+
+    return HttpResponseRedirect(
+        reverse('edit_dataset_files', args=[dataset_name])
+    )
+
+
+def edit_addfile_weekly(request, dataset_name, id=None):
+    dataset = get_object_or_404(Dataset, name=dataset_name)
+    datafile = get_object_or_404(Datafile, id=datafile_id) \
+        if datafile_id else None
+    form = f.WeeklyFileForm(request.POST or None, instance=datafile)
+
     if request.method == 'POST':
         if form.is_valid():
             data = dict(**form.cleaned_data)
-            data['dataset'] = dataset
-            obj = Datafile.objects.create(**data)
-            obj.save()
+            if datafile:
+                form.save()
+            else:
+                data['dataset'] = dataset
+                obj = Datafile.objects.create(**data)
+                obj.save()
 
             return HttpResponseRedirect(
                 reverse('edit_dataset_files', args=[dataset_name])
@@ -196,19 +217,25 @@ def edit_addfile_weekly(request, dataset_name):
     return render(request, "datasets/edit_addfile_week.html", {
         'form': form,
         'dataset': dataset,
+        'datafile_id': datafile_id or '',
     })
 
 
-def edit_addfile_monthly(request, dataset_name):
+def edit_addfile_monthly(request, dataset_name, datafile_id=None):
     dataset = get_object_or_404(Dataset, name=dataset_name)
-
+    datafile = get_object_or_404(Datafile, id=datafile_id) \
+        if datafile_id else None
     form = f.MonthlyFileForm(request.POST or None)
+
     if request.method == 'POST':
         if form.is_valid():
             data = dict(**form.cleaned_data)
-            data['dataset'] = dataset
-            obj = Datafile.objects.create(**data)
-            obj.save()
+            if datafile:
+                form.save()
+            else:
+                data['dataset'] = dataset
+                obj = Datafile.objects.create(**data)
+                obj.save()
 
             return HttpResponseRedirect(
                 reverse('edit_dataset_files', args=[dataset_name])
@@ -217,19 +244,25 @@ def edit_addfile_monthly(request, dataset_name):
     return render(request, "datasets/edit_addfile_month.html", {
         'form': form,
         'dataset': dataset,
+        'datafile_id': datafile_id or '',
     })
 
 
-def edit_addfile_quarterly(request, dataset_name):
+def edit_addfile_quarterly(request, dataset_name, datafile_id=None):
     dataset = get_object_or_404(Dataset, name=dataset_name)
-
+    datafile = get_object_or_404(Datafile, id=datafile_id) \
+        if datafile_id else None
     form = f.QuarterlyFileForm(request.POST or None)
+
     if request.method == 'POST':
         if form.is_valid():
             data = dict(**form.cleaned_data)
-            data['dataset'] = dataset
-            obj = Datafile.objects.create(**data)
-            obj.save()
+            if datafile:
+                form.save()
+            else:
+                data['dataset'] = dataset
+                obj = Datafile.objects.create(**data)
+                obj.save()
 
             return HttpResponseRedirect(
                 reverse('edit_dataset_files', args=[dataset_name])
@@ -238,19 +271,25 @@ def edit_addfile_quarterly(request, dataset_name):
     return render(request, "datasets/edit_addfile_quarter.html", {
         'form': form,
         'dataset': dataset,
+        'datafile_id': datafile_id or '',
     })
 
 
-def edit_addfile_annually(request, dataset_name):
+def edit_addfile_annually(request, dataset_name, datafile_id = None):
     dataset = get_object_or_404(Dataset, name=dataset_name)
+    datafile = get_object_or_404(Datafile, id=datafile_id) \
+        if datafile_id else None
+    form = f.AnnuallyFileForm(request.POST or None, instance=datafile)
 
-    form = f.AnnuallyFileForm(request.POST or None)
     if request.method == 'POST':
         if form.is_valid():
             data = dict(**form.cleaned_data)
-            data['dataset'] = dataset
-            obj = Datafile.objects.create(**data)
-            obj.save()
+            if datafile:
+                form.save()
+            else:
+                data['dataset'] = dataset
+                obj = Datafile.objects.create(**data)
+                obj.save()
 
             return HttpResponseRedirect(
                 reverse('edit_dataset_files', args=[dataset_name])
@@ -259,6 +298,7 @@ def edit_addfile_annually(request, dataset_name):
     return render(request, "datasets/edit_addfile_year.html", {
         'form': form,
         'dataset': dataset,
+        'datafile_id': datafile_id or '',
     })
 
 
