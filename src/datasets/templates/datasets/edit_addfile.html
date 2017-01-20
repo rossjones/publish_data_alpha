@@ -19,7 +19,8 @@
     {% include 'datasets/includes/title_url.html' %}
 
     <div class="form-group">
-      <input type="submit" class="button" value="Check for errors"/>
+      <input type="submit" class="button" value="Save and continue"/>
+      <a href="{% url 'delete_dataset' dataset.name %}" class="secondary-button">Skip</a>
     </div>
   </form>
 {% endblock %}

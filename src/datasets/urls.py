@@ -29,6 +29,7 @@ urlpatterns = [
         login_required(v.edit_frequency),
         name='edit_dataset_frequency'),
 
+    # Data file URLs
     url(r'^(?P<dataset_name>[\w-]+)/addfile$',
         login_required(v.edit_addfile),
         name='edit_dataset_addfile'),
@@ -52,6 +53,15 @@ urlpatterns = [
     url(r'^(?P<dataset_name>[\w-]+)/files$',
         login_required(v.edit_files),
         name='edit_dataset_files'),
+
+    # Documentation URLs
+    url(r'^(?P<dataset_name>[\w-]+)/adddoc$',
+        login_required(v.edit_add_doc),
+        name='edit_dataset_adddoc'),
+
+    url(r'^(?P<dataset_name>[\w-]+)/documents$',
+        login_required(v.edit_documents),
+        name='edit_dataset_documents'),
 
     url(r'^(?P<dataset_name>[\w-]+)/notifications$',
         login_required(v.edit_notifications),

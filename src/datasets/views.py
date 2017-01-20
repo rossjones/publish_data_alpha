@@ -264,11 +264,40 @@ def edit_addfile_annually(request, dataset_name):
 
 def edit_files(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
-
     url = _frequency_redirect_to(dataset)
 
     return render(request, "datasets/show_files.html", {
         'addfile_viewname': url,
+        'dataset': dataset,
+        'editing': request.GET.get('change', '') == '1',
+    })
+
+
+def edit_add_doc(request, dataset_name):
+    dataset = get_object_or_404(Dataset, name=dataset_name)
+
+    form = f.FileForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            data = dict(**form.cleaned_data)
+            data['dataset'] = dataset
+            data['is_documentation'] = True
+            obj = Datafile.objects.create(**data)
+            obj.save()
+
+            return HttpResponseRedirect(
+                reverse('edit_dataset_documents', args=[dataset_name])
+            )
+
+    return render(request, "datasets/edit_adddoc.html", {
+        'form': form,
+        'dataset': dataset,
+    })
+
+def edit_documents(request, dataset_name):
+    dataset = get_object_or_404(Dataset, name=dataset_name)
+
+    return render(request, "datasets/show_docs.html", {
         'dataset': dataset,
         'editing': request.GET.get('change', '') == '1',
     })
@@ -312,11 +341,16 @@ def check_dataset(request, dataset_name):
         return HttpResponseRedirect('/manage?r=newset')
 
 
+    datafiles = dataset.files.filter(is_documentation=False).all()
+    docfiles = dataset.files.filter(is_documentation=True).all()
+
     return render(request, "datasets/check_dataset.html", {
         'dataset': dataset,
         'licence': dataset.licence if dataset.licence != 'other' else dataset.licence_other,
         'organisation': organisation,
-        'single_organisation': single_organisation
+        'single_organisation': single_organisation,
+        'docfiles': docfiles,
+        'datafiles': datafiles
     })
 
 

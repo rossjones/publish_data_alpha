@@ -35,7 +35,7 @@ var goToCreateFrequency = function(browser) {
     .submitFormAndCheckNextTitle('How often is this dataset updated?');
 };
 
-var goToNotifications = function(browser) {
+var goToDocumentation = function(browser) {
   return goToCreateFrequency(browser)
     .selectRadioButton('Every year (January to December)')
     .submitFormAndCheckNextTitle('Add a link')
@@ -43,7 +43,15 @@ var goToNotifications = function(browser) {
     .clearSetValue('input[id=id_title]', 'First link')
     .clearSetValue('input[id=period_year]', '2013')
     .submitFormAndCheckNextTitle('Dataset links')
-    .submitFormAndCheckNextTitle('Get notifications');
+    .submitFormAndCheckNextTitle('Add documentation');
+};
+
+var goToNotifications = function(browser) {
+  return goToCreateFrequency(browser)
+    .clearSetValue('input[id=id_title]', 'A document')
+    .clearSetValue('input[id=url]', 'http://example.com/file.csv')
+    .submitFormAndCheckNextTitle('Dataset documentation')
+    .submitFormAndCheckNextTitle('Check your dataset');
 };
 
 var goToCheckPage = function(browser) {
@@ -79,6 +87,10 @@ var test_create_happy_path = function (browser) {
     .setValue('input[id=period_month]', '12')
     .setValue('input[id=period_year]', '2016')
     .submitFormAndCheckNextTitle('Dataset links')
+    .submitFormAndCheckNextTitle('Add documentation')
+    .setValue('input[id=id_url]', 'http://example.com/data.csv')
+    .setValue('input[id=id_title]', 'Title of this link')
+    .submitFormAndCheckNextTitle('Dataset documentation')
     .submitFormAndCheckNextTitle('Get notifications')
     .selectRadioButton('Yes')
     .submitFormAndCheckNextTitle('Check your dataset')
@@ -224,7 +236,7 @@ var test_create_weekly = function (browser) {
     .clearSetValue('input[id=end_month]', '01')
     .clearSetValue('input[id=end_year]', '2013')
     .submitFormAndCheckNextTitle('Dataset links')
-    .clickOnLink('Add another file')
+    .clickOnLink('Add another link')
     .clearSetValue('input[id=id_url]', 'http://example.com/file2.csv')
     .clearSetValue('input[id=id_title]', 'Second link')
     .clearSetValue('input[id=start_day]', '30')
@@ -248,7 +260,7 @@ var test_create_monthly = function (browser) {
     .clearSetValue('input[id=period_month]', '12')
     .clearSetValue('input[id=period_year]', '2012')
     .submitFormAndCheckNextTitle('Dataset links')
-    .clickOnLink('Add another file')
+    .clickOnLink('Add another link')
     .clearSetValue('input[id=id_url]', 'http://example.com/file2.csv')
     .clearSetValue('input[id=id_title]', 'Second link')
     .clearSetValue('input[id=period_month]', '12')
@@ -267,7 +279,7 @@ var test_create_quarterly = function (browser) {
     .clearSetValue('input[id=id_title]', 'First link')
     .selectRadioButton('Q2 (July to September)')
     .submitFormAndCheckNextTitle('Dataset links')
-    .clickOnLink('Add another file')
+    .clickOnLink('Add another link')
     .clearSetValue('input[id=id_url]', 'http://example.com/file2.csv')
     .clearSetValue('input[id=id_title]', 'Second link')
     .selectRadioButton('Q3 (October to December)')
@@ -292,7 +304,7 @@ var test_create_yearly = function (browser) {
     .clearSetValue('input[id=id_title]', 'First link')
     .clearSetValue('input[id=period_year]', '2012')
     .submitFormAndCheckNextTitle('Dataset links')
-    .clickOnLink('Add another file')
+    .clickOnLink('Add another link')
     .clearSetValue('input[id=id_url]', 'http://example.com/file2.csv')
     .clearSetValue('input[id=id_title]', 'Second link')
     .clearSetValue('input[id=period_year]', '2013')

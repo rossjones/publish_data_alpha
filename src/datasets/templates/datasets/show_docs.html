@@ -2,13 +2,13 @@
 {% load static %}
 
 {% block page_title %}
-  Dataset links
+  Dataset documentation
 {% endblock %}
 
 {% block inner_content %}
   <main id="content" role="main" tabindex="-1">
     <h1 class="heading-large">
-      Dataset links
+      Dataset documentation
     </h1>
 
     <table>
@@ -22,7 +22,7 @@
       </thead>
       <tbody>
         {% for file in dataset.files.all %}
-          {% if not file.is_documentation %}
+          {% if file.is_documentation %}
             <tr>
               <td>{{ file.title }} </td>
               <td>{{ file.url }} </td>
@@ -42,7 +42,7 @@
         {% if editing %}
           action="{% url 'edit_dataset_check_dataset' dataset.name %}"
         {% else %}
-          action="{% url 'edit_dataset_adddoc' dataset.name %}"
+          action="{% url 'edit_dataset_notifications' dataset.name %}"
         {% endif %}
         class="form">
       <div class="form-group">
@@ -55,7 +55,7 @@
     </form>
 
     <div class="form-group">
-      <a href="{% url addfile_viewname dataset.name  %}">
+      <a href="{% url 'edit_dataset_adddoc' dataset.name  %}">
         Add another link
       </a>
     </div>
