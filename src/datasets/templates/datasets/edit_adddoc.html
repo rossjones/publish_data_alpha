@@ -13,7 +13,7 @@
     Add documentation
   </h1>
 
-  <form action="{% url 'edit_dataset_addfile' dataset.name %}" method="POST">
+  <form action="{% url 'edit_dataset_adddoc' dataset.name %}" method="POST">
     {% csrf_token %}
 
     <fieldset>
@@ -63,7 +63,7 @@
 
     <div class="form-group">
       <input type="submit" class="button" value="Save and continue"/>
-      <a href="{% url 'delete_dataset' dataset.name %}" class="secondary-button">Skip</a>
+      <a href="{% url 'edit_dataset_notifications' dataset.name %}" class="secondary-button">Skip</a>
     </div>
   </form>
 {% endblock %}

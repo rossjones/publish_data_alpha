@@ -210,6 +210,31 @@ class DatasetsTestCase(TestCase):
         #assert response.url == reverse('edit_dataset_step-year',
         #    args=[self.dataset_name, 'frequency_financial_year'])
 
+    def test_adddoc(self):
+        u = reverse(
+            'edit_dataset_adddoc',
+            args=[self.dataset_name]
+        )
+        response = self.client.get(u)
+        assert response.status_code == 200
+
+        # Assert an error
+        response = self.client.post(u, {})
+        assert response.status_code == 200
+
+        response = self.client.post(
+            u,
+            {
+                'title': 'A title',
+                'url': 'https://data.gov.uk'
+            }
+        )
+        assert response.status_code == 302
+        assert response.url ==  reverse(
+            'edit_dataset_documents',
+            args=[self.dataset_name]
+        )
+
     def test_notifications(self):
         u = reverse(
             'edit_dataset_notifications',

@@ -72,7 +72,7 @@
         </td>
         <td>
           <ul>
-          {% for link in dataset.files.all %}
+          {% for link in datafiles %}
             <li>
               {{ link.title }}<br/>
               {{ link.url }}
@@ -82,6 +82,26 @@
         </td>
         <td class="change-answer">
           <a href="files?change=1">
+            Change <span class="visuallyhidden">url</span>
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Documentation
+        </td>
+        <td>
+          <ul>
+          {% for link in docfiles %}
+            <li>
+              {{ link.title }}<br/>
+              {{ link.url }}
+            </li>
+          {% endfor %}
+          </ul>
+        </td>
+        <td class="change-answer">
+          <a href="documents?change=1">
             Change <span class="visuallyhidden">url</span>
           </a>
         </td>
