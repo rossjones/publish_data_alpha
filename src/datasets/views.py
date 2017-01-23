@@ -46,6 +46,10 @@ def edit_full_dataset(request, dataset_name):
     if request.method == 'POST':
         if form.is_valid():
             obj = form.save()
+
+            # Re-publish if we are editing a published dataset
+            publish_to_ckan(obj)
+
             return HttpResponseRedirect(
                 reverse('manage_data') + "?edited=1"
             )
