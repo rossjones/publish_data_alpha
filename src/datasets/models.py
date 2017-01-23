@@ -24,6 +24,9 @@ class Dataset(models.Model):
     summary = models.CharField(max_length=200, default="")
     description = models.TextField()
 
+    # register, its, inspire etc.
+    dataset_type = models.CharField(max_length=200, default="")
+
     # References the organisation by its short name
     organisation = models.ForeignKey(
         'Organisation',
@@ -58,6 +61,7 @@ class Dataset(models.Model):
             'title': self.title,
             'summary': self.summary,
             'notes': self.description,
+            'dataset_type': self.dataset_type,
             'licence': self.licence,
             'licence_other': self.licence_other or '',
             'location': self.location or '',
