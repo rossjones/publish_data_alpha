@@ -45,7 +45,6 @@ REQUIRED_APPS = [
 PROJECT_APPS = [
     'publish_data',
     'userauth',
-    'organisations',
     'datasets',
     'tasks',
     'stats',
