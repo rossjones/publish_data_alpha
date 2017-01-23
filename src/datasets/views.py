@@ -229,7 +229,7 @@ def edit_addfile_monthly(request, dataset_name, datafile_id=None):
     dataset = get_object_or_404(Dataset, name=dataset_name)
     datafile = get_object_or_404(Datafile, id=datafile_id) \
         if datafile_id else None
-    form = f.MonthlyFileForm(request.POST or None)
+    form = f.MonthlyFileForm(request.POST or None, instance=datafile)
 
     if request.method == 'POST':
         if form.is_valid():
@@ -256,7 +256,7 @@ def edit_addfile_quarterly(request, dataset_name, datafile_id=None):
     dataset = get_object_or_404(Dataset, name=dataset_name)
     datafile = get_object_or_404(Datafile, id=datafile_id) \
         if datafile_id else None
-    form = f.QuarterlyFileForm(request.POST or None)
+    form = f.QuarterlyFileForm(request.POST or None, instance=datafile)
 
     if request.method == 'POST':
         if form.is_valid():

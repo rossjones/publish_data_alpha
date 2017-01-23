@@ -4,8 +4,6 @@ from mimetypes import guess_extension
 
 from django.utils.text import slugify
 
-from datasets.models import Dataset
-
 import requests
 
 
@@ -44,7 +42,7 @@ def calculate_dates_for_month(month, year):
     )
 
 
-def calculate_dates_for_quarter(q, year):
+def calculate_dates_for_quarter(q, year=2017):
     first_month_of_quarter = 3 * q - 2
     last_month_of_quarter = 3 * q
     sd, _ = calculate_dates_for_month(first_month_of_quarter, year)
@@ -59,32 +57,3 @@ def calculate_dates_for_year(year):
     )
 
 
-def convert_to_slug(title):
-    """ Checks for a local dataset with this name """
-    t = title
-
-    slug = None
-    counter = 1
-
-    while True:
-        slug = slugify(t)
-        if not slug:
-            return None
-
-
-        if slug in ['edit', 'new']:
-            t = "{}{}".format(title, counter)
-            counter += 1
-            continue
-
-        draft, dataset = None, None
-
-        try:
-            draft = Dataset.objects.get(name=slug)
-        except Dataset.DoesNotExist:
-            return slug
-
-        t = "{}{}".format(title, counter)
-        counter += 1
-
-    return slug
