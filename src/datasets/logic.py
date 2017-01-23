@@ -77,7 +77,7 @@ def make_alpha_id(dataset):
     """ Use id of the dataset to generate an alpha id. This isn't
     intended to be secure, it's just intended to not be obviously an ID.
     """
-    return hashlib.md5(bytes(dataset.id)).hexdigest()
+    return hashlib.md5(dataset.id.bytes).hexdigest()
 
 
 def convert_to_ckan(dataset, alpha_id):

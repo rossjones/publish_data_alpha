@@ -6,7 +6,7 @@ from django.urls import reverse
 from datasets.models import Dataset
 
 
-class DatasetEditTestCase(TestCase):
+class DatasetAuthEditTestCase(TestCase):
 
     def setUp(self):
         self.test_user = get_user_model().objects.create(
@@ -18,11 +18,19 @@ class DatasetEditTestCase(TestCase):
         self.test_user.save()
 
         # Log the user in
-        success = self.client.login(username='test-signin@localhost', password='password')
-
-        # Both test the initial dataset creation, and get a name we can
-        # use for the remaining tests.
+        self.client.login(username='test-signin@localhost', password='password')
         self.dataset_name = self._create_new_dataset()
+        self.client.logout()
+
+        self.random_user = get_user_model().objects.create(
+            email="random_user@localhost",
+            username="random_user@localhost",
+            apikey=str(uuid.uuid4())
+        )
+        self.test_user.set_password("password")
+        self.test_user.save()
+        self.client.login(username='random_user@localhost', password='password')
+
 
     def _create_new_dataset(self):
         response = self.client.post(reverse('new_dataset', args=[]), {
@@ -43,16 +51,16 @@ class DatasetEditTestCase(TestCase):
 
     def test_bad_doesnotexist(self):
         r = self._edit_dataset('nope')
-        assert r.status_code == 404
+        assert r.status_code == 302, r.status_code
+        assert r.url == reverse('signin') + "?next=/dataset/edit/nope"
 
     def test_edit_get(self):
         r = self._edit_dataset(self.dataset_name)
-        assert r.status_code == 200
-        assert b'A test dataset for edit' in r.content
-
+        assert r.status_code == 302
+        assert r.url == reverse('signin') + "?next=/dataset/edit/" + self.dataset_name
 
     def test_edit_update(self):
-        response = self.client.post(
+        r = self.client.post(
             reverse('edit_full_dataset',
             args=[self.dataset_name]),
             {
@@ -64,5 +72,5 @@ class DatasetEditTestCase(TestCase):
                 'notifications': 'no'
             })
 
-        ds = Dataset.objects.get(name=self.dataset_name)
+        assert r.status_code == 302
 

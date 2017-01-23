@@ -18,6 +18,7 @@ class Location(models.Model):
 
 
 class Dataset(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = AutoSlugField(populate_from='title', default='', unique=True)
     title = models.CharField(max_length=64)
     summary = models.CharField(max_length=200, default="")

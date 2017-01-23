@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
@@ -9,6 +9,7 @@ from django.views.generic.edit import FormView
 from django.http import HttpResponseRedirect, Http404
 
 
+from datasets.auth import user_can_edit_dataset, user_can_edit_datafile
 import datasets.forms as f
 from datasets.logic import organisations_for_user, publish_to_ckan
 from datasets.models import Dataset, Datafile
@@ -41,6 +42,8 @@ def edit_full_dataset(request, dataset_name):
     organisations = organisations_for_user(request.user)
     url = _frequency_redirect_to(dataset)
 
+    if not user_can_edit_dataset(request.user, dataset):
+        return HttpResponseForbidden()
 
     form = f.FullDatasetForm(request.POST or None, instance=dataset)
     if request.method == 'POST':
@@ -64,6 +67,10 @@ def edit_full_dataset(request, dataset_name):
 
 def delete_dataset(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
+
+    if not user_can_edit_dataset(request.user, dataset):
+        return HttpResponseForbidden()
+
     dataset.delete()
     return HttpResponseRedirect(
         reverse('manage_data') + "?r=deleted"
@@ -72,6 +79,10 @@ def delete_dataset(request, dataset_name):
 
 def edit_dataset_details(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
+
+    if not user_can_edit_dataset(request.user, dataset):
+        return HttpResponseForbidden()
+
     form = f.EditDatasetForm(request.POST or None, instance=dataset)
     if request.method == 'POST':
         if form.is_valid():
@@ -87,6 +98,9 @@ def edit_dataset_details(request, dataset_name):
 
 def edit_organisation(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
+
+    if not user_can_edit_dataset(request.user, dataset):
+        return HttpResponseForbidden()
 
     organisations = organisations_for_user(request.user)
     if len(organisations) == 1:
@@ -113,6 +127,9 @@ def edit_organisation(request, dataset_name):
 def edit_licence(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
+    if not user_can_edit_dataset(request.user, dataset):
+        return HttpResponseForbidden()
+
     form = f.LicenceForm(request.POST or None, instance=dataset)
     if request.method == 'POST':
         if form.is_valid():
@@ -129,6 +146,9 @@ def edit_licence(request, dataset_name):
 def edit_location(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
+    if not user_can_edit_dataset(request.user, dataset):
+        return HttpResponseForbidden()
+
     form = f.LocationForm(request.POST or None, instance=dataset)
     if request.method == 'POST':
         if form.is_valid():
@@ -144,6 +164,9 @@ def edit_location(request, dataset_name):
 
 def edit_frequency(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
+
+    if not user_can_edit_dataset(request.user, dataset):
+        return HttpResponseForbidden()
 
     form = f.FrequencyForm(request.POST or None, instance=dataset)
     if request.method == 'POST':
@@ -166,6 +189,9 @@ def edit_addfile(request, dataset_name, datafile_id=None):
     datafile = get_object_or_404(Datafile, id=datafile_id) \
         if datafile_id else None
     form = f.FileForm(request.POST or None, instance=datafile)
+
+    if not user_can_edit_dataset(request.user, dataset):
+        return HttpResponseForbidden()
 
     if request.method == 'POST':
         if form.is_valid():
@@ -191,6 +217,9 @@ def edit_addfile(request, dataset_name, datafile_id=None):
 def edit_deletefile(request, dataset_name, datafile_id):
     datafile = get_object_or_404(Datafile, id=datafile_id)
 
+    if not user_can_edit_datafile(request.user, dataset):
+        return HttpResponseForbidden()
+
     datafile.delete();
 
     return HttpResponseRedirect(
@@ -203,6 +232,9 @@ def edit_addfile_weekly(request, dataset_name, datafile_id=None):
     datafile = get_object_or_404(Datafile, id=datafile_id) \
         if datafile_id else None
     form = f.WeeklyFileForm(request.POST or None, instance=datafile)
+
+    if not user_can_edit_dataset(request.user, dataset):
+        return HttpResponseForbidden()
 
     if request.method == 'POST':
         if form.is_valid():
@@ -231,6 +263,10 @@ def edit_addfile_monthly(request, dataset_name, datafile_id=None):
         if datafile_id else None
     form = f.MonthlyFileForm(request.POST or None, instance=datafile)
 
+    if not user_can_edit_dataset(request.user, dataset):
+        return HttpResponseForbidden()
+
+
     if request.method == 'POST':
         if form.is_valid():
             data = dict(**form.cleaned_data)
@@ -257,6 +293,9 @@ def edit_addfile_quarterly(request, dataset_name, datafile_id=None):
     datafile = get_object_or_404(Datafile, id=datafile_id) \
         if datafile_id else None
     form = f.QuarterlyFileForm(request.POST or None, instance=datafile)
+
+    if not user_can_edit_dataset(request.user, dataset):
+        return HttpResponseForbidden()
 
     if request.method == 'POST':
         if form.is_valid():
@@ -285,6 +324,9 @@ def edit_addfile_annually(request, dataset_name, datafile_id = None):
         if datafile_id else None
     form = f.AnnuallyFileForm(request.POST or None, instance=datafile)
 
+    if not user_can_edit_dataset(request.user, dataset):
+        return HttpResponseForbidden()
+
     if request.method == 'POST':
         if form.is_valid():
             data = dict(**form.cleaned_data)
@@ -310,6 +352,9 @@ def edit_files(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
     url = _frequency_redirect_to(dataset)
 
+    if not user_can_edit_dataset(request.user, dataset):
+        return HttpResponseForbidden()
+
     return render(request, "datasets/show_files.html", {
         'addfile_viewname': url,
         'dataset': dataset,
@@ -322,6 +367,9 @@ def edit_add_doc(request, dataset_name, datafile_id=None):
     datafile = get_object_or_404(Datafile, id=datafile_id) \
         if datafile_id else None
     form = f.FileForm(request.POST or None)
+
+    if not user_can_edit_dataset(request.user, dataset):
+        return HttpResponseForbidden()
 
     if request.method == 'POST':
         if form.is_valid():
@@ -348,6 +396,9 @@ def edit_add_doc(request, dataset_name, datafile_id=None):
 def edit_documents(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
+    if not user_can_edit_dataset(request.user, dataset):
+        return HttpResponseForbidden()
+
     return render(request, "datasets/show_docs.html", {
         'dataset': dataset,
         'editing': request.GET.get('change', '') == '1',
@@ -356,6 +407,9 @@ def edit_documents(request, dataset_name):
 
 def edit_notifications(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
+
+    if not user_can_edit_dataset(request.user, dataset):
+        return HttpResponseForbidden()
 
     if dataset.frequency in ['daily', 'never']:
         dataset.notifications = 'no'
@@ -379,10 +433,12 @@ def edit_notifications(request, dataset_name):
 def check_dataset(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
+    if not user_can_edit_dataset(request.user, dataset):
+        return HttpResponseForbidden()
+
     organisation = dataset.organisation
     organisations = organisations_for_user(request.user)
     single_organisation = len(organisations) == 1
-
 
     if request.method == 'POST':
         dataset.published = True
