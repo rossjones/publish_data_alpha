@@ -48,7 +48,7 @@ def edit_full_dataset(request, dataset_name):
             obj = form.save()
 
             # Re-publish if we are editing a published dataset
-            publish_to_ckan(obj)
+            err = publish_to_ckan(obj)
 
             return HttpResponseRedirect(
                 reverse('manage_data') + "?edited=1"
@@ -343,7 +343,6 @@ def check_dataset(request, dataset_name):
         dataset.save()
 
         err = publish_to_ckan(dataset)
-        print(err)
 
         return HttpResponseRedirect('/manage?r=newset')
 
