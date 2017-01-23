@@ -4,6 +4,7 @@ from django.shortcuts import render
 from datasets.logic import dataset_list
 from tasks.logic import get_tasks_for_user
 from stats.logic import get_stats
+from runtime_config.logic import get_config
 
 def home(request):
     if request.user.is_authenticated():
@@ -39,11 +40,14 @@ def manage_data(request):
         request.user, page, filter_query=q
     )
 
+    ckan_host = get_config('ckan.host') or ''
+
     return render(request, "manage.html", {
         "datasets": datasets,
         "total": total,
         "page_range": range(1, page_count),
         "current_page": page,
         "q": q or "",
-        "result": result or ""
+        "result": result or "",
+        "ckan_host": ckan_host,
     })
