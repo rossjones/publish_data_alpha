@@ -10,7 +10,7 @@ from django.http import HttpResponseRedirect, Http404
 
 
 import datasets.forms as f
-from datasets.logic import organisations_for_user
+from datasets.logic import organisations_for_user, publish_to_ckan
 from datasets.models import Dataset, Datafile
 
 
@@ -337,6 +337,9 @@ def check_dataset(request, dataset_name):
         dataset.published = True
         dataset.published_date = datetime.now()
         dataset.save()
+
+        err = publish_to_ckan(dataset)
+        print(err)
 
         return HttpResponseRedirect('/manage?r=newset')
 

@@ -58,65 +58,132 @@ import hashlib
 import json
 import requests
 
-def get_a_ckan():
-    return None
+def get_ckan():
+    """ Returns a CKAN instance if configuration contains both a host
+    and a key.  If not, returns None
+    """
+    from runtime_config.logic import get_config
+    from ckanapi import RemoteCKAN
+
+    ckan_host = get_config('ckan.host')
+    ckan_key =  get_config('ckan.apikey')
+    if not (ckan_host and ckan_key):
+        return None
+
+    return RemoteCKAN(ckan_host, apikey=ckan_key)
+
 
 def make_alpha_id(dataset):
-    '''
-    Use properties of the dataset to generate an alpha id. This isn't
+    """ Use id of the dataset to generate an alpha id. This isn't
     intended to be secure, it's just intended to not be obviously an ID.
-    '''
+    """
     return hashlib.md5(bytes(dataset.id)).hexdigest()
 
-def convert_to_ckan(dataset):
-    '''
-    Convert from our local database structure into a format that
-    we can push to a CKAN.
-    '''
-    return {}
+
+def convert_to_ckan(dataset, alpha_id):
+    """ Convert from our local database structure into a format that
+    we can push to a CKAN instance.
+    """
+    data = {
+        'name': dataset.name,
+        'title': dataset.title,
+        'notes': '{}\n\n{}'.format(dataset.summary, dataset.description),
+        'owner_org': dataset.organisation.name,
+        'license_id': dataset.licence,
+        'extras': [
+            {'key': 'alpha_id', 'value': alpha_id},
+            {'key': 'update_frequency', 'value': dataset.frequency or ''},
+            {'key': 'location', 'value': dataset.location or ''} ,
+        ],
+        'resources': []
+    }
+
+    if dataset.licence == 'other':
+        data['extras'].append({
+            'key': 'licence_other', 'value': dataset.licence_other
+        })
+
+    for file in dataset.files.all():
+        r = {
+            'description': file.title,
+            'url': file.url,
+            'format': file.format or '',
+        }
+        if file.is_documentation:
+            r['resource_type'] = 'documentation'
+        data['resources'].append(r)
+
+    return data
 
 
-def find_ckan_dataset(ckan, name):
-    '''
-    Find any existing dataset with the same name as our local dataset
-    where the alpha_id is not present in the extras. If we find it, we
-    will package_update.  If we do not find it we will publish. If
-    we find a dataset without the alpha_id we will increment the number
-    in the name and go around the loop again.
-    '''
-    return '', False
+def get_alpha_id(ckan_dataset):
+    for extra in ckan_dataset.get('extras', []):
+        if extra.get('key') == 'alpha_id':
+            return extra.get('value')
+    return None
+
+
+def find_ckan_dataset(ckan, current_name, alpha_id):
+    """ Looks for the first name we can use for this dataset.
+    We may find an existing dataset with this name, and no
+    alpha id, in which case we will try a different name.  We
+    may find an existing with an alpha_id, in which case we
+    will use this one. We may find nothing, in which case
+    we're good to go.
+    """
+    from ckanapi.errors import NotFound
+    name = current_name
+
+    while True:
+        try:
+            res = ckan.action.package_show(id=name)
+        except NotFound:
+            # Does not currently exist, not an update.
+            return name, False
+
+        if get_alpha_id(res) == alpha_id:
+            return name, True
+
+        # name is in use, modify it and try again.
+        name = name + "-1"
+
+    return None, False
 
 
 def publish_to_ckan(dataset):
     # The dataset MUST have been published.
     if not dataset.published:
-        return None
+        return "Dataset is not published"
 
     # The configuration for where to publish must be available and active
-    ckan = get_a_ckan()
+    ckan = get_ckan()
     if not ckan:
-        return None
+        return "CKAN is not configured"
+
+    alpha_id = make_alpha_id(dataset)
 
     # Find the name under which we want to publish this dataset, and
     # if necessary set the local name to match. Also tells us whether
     # to update or create.
-    name, update = find_ckan_dataset(ckan, dataset.name)
+    name, update = find_ckan_dataset(ckan, dataset.name, alpha_id)
     if name != dataset.name:
         dataset.name = name
         dataset.save()
 
     # Prepare the dataset for publishing in CKAN format.
-
+    data = convert_to_ckan(dataset, alpha_id)
 
     # Publish the dataset to CKAN
+    f = ckan.action.package_create
     if update:
-        # package_update
-        pass
-    else:
-        # package_create
-        pass
+        f = ckan.action.package_update
 
+    try:
+        f(**data)
+    except Exception as e:
+        return str(e)
 
+    return ""
 
 
 
