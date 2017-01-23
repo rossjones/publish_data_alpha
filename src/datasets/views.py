@@ -54,7 +54,7 @@ def edit_full_dataset(request, dataset_name):
             err = publish_to_ckan(obj)
 
             return HttpResponseRedirect(
-                reverse('manage_data')
+                reverse('manage_data') + "?result=edited"
             )
 
     return render(request, "datasets/edit_dataset.html", {
@@ -73,7 +73,7 @@ def delete_dataset(request, dataset_name):
 
     dataset.delete()
     return HttpResponseRedirect(
-        reverse('manage_data') + "?return_to=deleted"
+        reverse('manage_data') + "?result=deleted"
     )
 
 
@@ -87,12 +87,16 @@ def edit_dataset_details(request, dataset_name):
     if request.method == 'POST':
         if form.is_valid():
             obj = form.save()
-            return _redirect_to(request, 'edit_dataset_organisation', [obj.name])
+            return _redirect_to(
+                request,
+                'edit_dataset_organisation',
+                [obj.name]
+            )
 
-    return render(request, "datasets/edit_title.html", {
-        "form": form,
-        "dataset": dataset,
-        'editing': request.GET.get('change', '') == '1',
+    return render(request, 'datasets/edit_title.html', {
+        'form': form,
+        'dataset': dataset,
+        'return_to': request.GET.get('return_to', ''),
     })
 
 
@@ -120,7 +124,7 @@ def edit_organisation(request, dataset_name):
         'form': form,
         'dataset': dataset,
         'organisations': organisations,
-        'editing': request.GET.get('change', '') == '1',
+        'return_to': request.GET.get('return_to', '') == '1',
     })
 
 
@@ -139,7 +143,7 @@ def edit_licence(request, dataset_name):
     return render(request, "datasets/edit_licence.html", {
         'form': form,
         'dataset': dataset,
-        'editing': request.GET.get('change', '') == '1',
+        'return_to': request.GET.get('return_to', ''),
     })
 
 
@@ -158,7 +162,7 @@ def edit_location(request, dataset_name):
     return render(request, "datasets/edit_location.html", {
         'form': form,
         'dataset': dataset,
-        'editing': request.GET.get('change', '') == '1',
+        'return_to': request.GET.get('return_to', ''),
     })
 
 
@@ -180,7 +184,7 @@ def edit_frequency(request, dataset_name):
     return render(request, "datasets/edit_frequency.html", {
         'form': form,
         'dataset': dataset,
-        'editing': request.GET.get('change', '') == '1',
+        'return_to': request.GET.get('return_to', '') == '1',
     })
 
 
@@ -432,7 +436,6 @@ def edit_documents(request, dataset_name):
 
     return render(request, "datasets/show_docs.html", {
         'dataset': dataset,
-        'editing': request.GET.get('change', '') == '1',
         'return_to': request.GET.get('return_to', ''),
     })
 
@@ -447,18 +450,26 @@ def edit_notifications(request, dataset_name):
         dataset.notifications = 'no'
         dataset.save()
 
-        return _redirect_to(request, 'edit_dataset_check_dataset',[dataset.name])
+        return _redirect_to(
+            request,
+            'edit_dataset_check_dataset',
+            [dataset.name]
+        )
 
     form = f.NotificationsForm(request.POST or None, instance=dataset)
     if request.method == 'POST':
         if form.is_valid():
             obj = form.save()
-            return _redirect_to(request, 'edit_dataset_check_dataset',[obj.name])
+            return _redirect_to(
+                request,
+                'edit_dataset_check_dataset',
+                [obj.name]
+            )
 
     return render(request, "datasets/edit_notifications.html", {
         'form': form,
         'dataset': dataset,
-        'editing': request.GET.get('change', '') == '1',
+        'return_to': request.GET.get('return_to', ''),
     })
 
 
@@ -479,8 +490,9 @@ def check_dataset(request, dataset_name):
 
         err = publish_to_ckan(dataset)
 
-        return HttpResponseRedirect('/manage?return_to=newset')
-
+        return HttpResponseRedirect(
+            reverse('manage_data') + '?result=created'
+        )
 
     datafiles = dataset.files.filter(is_documentation=False).all()
     docfiles = dataset.files.filter(is_documentation=True).all()
@@ -516,7 +528,7 @@ def _frequency_redirect_to(dataset):
 
 
 def _redirect_to(request, url_name, args):
-    if request.POST.get('editing') == "True":
+    if request.POST.get('return_to') == "check":
         return HttpResponseRedirect(
             reverse('edit_dataset_check_dataset', args=args)
         )
