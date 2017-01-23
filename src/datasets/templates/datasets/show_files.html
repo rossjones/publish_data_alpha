@@ -28,8 +28,8 @@
               <td>{{ file.url }} </td>
               <td>✔</td>
               <td>
-                <a href="{% url addfile_viewname dataset.name file.id %}?r={{return_to}}">Edit</a>
-                <a href="{% url 'edit_dataset_deletefile' dataset.name file.id %}?r={{return_to}}">Delete</a>
+                <a href="{% url addfile_viewname dataset.name file.id %}?return_to={{return_to}}">Edit</a>
+                <a href="{% url 'edit_dataset_deletefile' dataset.name file.id %}?return_to={{return_to}}">Delete</a>
               </td>
             </tr>
           {% endif %}
@@ -41,7 +41,7 @@
         method="GET"
         {% if return_to == 'check' %}
           action="{% url 'edit_dataset_check_dataset' dataset.name %}"
-        {% elif return_to == 'edit_full' %}
+        {% elif return_to == 'edit' %}
           action="{% url 'edit_full_dataset' dataset.name %}"
         {% else %}
           action="{% url 'edit_dataset_adddoc' dataset.name %}"
@@ -57,7 +57,7 @@
     </form>
 
     <div class="form-group">
-      <a href="{% url addfile_viewname dataset.name %}">
+      <a href="{% url addfile_viewname dataset.name %}?return_to={{ return_to }}">
         Add another link
       </a>
     </div>

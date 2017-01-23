@@ -13,14 +13,23 @@
     Add a link
   </h1>
 
-  <form action="{% url 'edit_dataset_addfile' dataset.name datafile_id %}?r={{ return_to }}" method="POST">
+  <form
+      action="{% url 'edit_dataset_addfile' dataset.name datafile_id %}"
+      method="POST">
     {% csrf_token %}
+    <input type="hidden" name="return_to" value="{{ return_to }}"
 
     {% include 'datasets/includes/title_url.html' %}
 
     <div class="form-group">
       <input type="submit" class="button" value="Save and continue"/>
-      <a href="{% url 'edit_dataset_check_dataset' dataset.name %}?r={{ return_to }}" class="secondary-button">Skip</a>
+      <a
+        {% if return_to == 'check' %}
+          href="{% url 'edit_dataset_checkdataset' dataset.name %}"
+        {% elif return_to == 'edit' %}
+          href="{% url 'edit_full_dataset' dataset.name %}"
+        {% endif %}
+        class="secondary-button">Skip</a>
     </div>
   </form>
 {% endblock %}

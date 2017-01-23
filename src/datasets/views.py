@@ -54,14 +54,14 @@ def edit_full_dataset(request, dataset_name):
             err = publish_to_ckan(obj)
 
             return HttpResponseRedirect(
-                reverse('manage_data') + "?edited=1"
+                reverse('manage_data')
             )
 
     return render(request, "datasets/edit_dataset.html", {
         "addfile_viewname": url,
         "form": form,
         "dataset": dataset,
-        "organisations": organisations
+        "organisations": organisations,
     })
 
 
@@ -73,7 +73,7 @@ def delete_dataset(request, dataset_name):
 
     dataset.delete()
     return HttpResponseRedirect(
-        reverse('manage_data') + "?r=deleted"
+        reverse('manage_data') + "?return_to=deleted"
     )
 
 
@@ -192,11 +192,9 @@ def edit_addfile(request, dataset_name, datafile_id=None):
 
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
-    print('edit addfile')
-    print(request.GET.get('r', ''))
 
     if request.method == 'POST':
-        return_to = request.POST.get('r', '')
+        return_to = request.POST.get('return_to', '')
         if form.is_valid():
             data = dict(**form.cleaned_data)
             if datafile:
@@ -205,15 +203,15 @@ def edit_addfile(request, dataset_name, datafile_id=None):
                 data['dataset'] = dataset
                 obj = Datafile.objects.create(**data)
                 obj.save()
-
             return HttpResponseRedirect(
-                reverse('edit_dataset_files', args=[dataset_name])
+                reverse('edit_dataset_files', args=[dataset_name]) \
+                + '?return_to=' + return_to
             )
     else:
-        return_to = request.GET.get('r', '')
+        return_to = request.GET.get('return_to', '')
 
 
-    return render(request, "datasets/edit_addfile.html?r=" + return_to, {
+    return render(request, "datasets/edit_addfile.html", {
         'form': form,
         'dataset': dataset,
         'datafile_id': datafile_id or '',
@@ -224,13 +222,14 @@ def edit_addfile(request, dataset_name, datafile_id=None):
 def edit_deletefile(request, dataset_name, datafile_id):
     datafile = get_object_or_404(Datafile, id=datafile_id)
 
-    if not user_can_edit_datafile(request.user, dataset):
+    if not user_can_edit_datafile(request.user, datafile):
         return HttpResponseForbidden()
 
     datafile.delete();
 
     return HttpResponseRedirect(
-        reverse('edit_dataset_files', args=[dataset_name]) + '?r=' + request.GET.get('r', '')
+        reverse('edit_dataset_files', args=[dataset_name]) \
+        + '?return_to=' + request.GET.get('return_to', '')
     )
 
 
@@ -244,7 +243,7 @@ def edit_addfile_weekly(request, dataset_name, datafile_id=None):
         return HttpResponseForbidden()
 
     if request.method == 'POST':
-        return_to = request.POST.get('r', '')
+        return_to = request.POST.get('return_to', '')
         if form.is_valid():
             data = dict(**form.cleaned_data)
             if datafile:
@@ -255,10 +254,11 @@ def edit_addfile_weekly(request, dataset_name, datafile_id=None):
                 obj.save()
 
             return HttpResponseRedirect(
-                reverse('edit_dataset_files', args=[dataset_name])
+                reverse('edit_dataset_files', args=[dataset_name]) \
+                + '?return_to=' + return_to
             )
     else:
-        return_to = request.POST.get('r', '')
+        return_to = request.POST.get('return_to', '')
 
     return render(request, "datasets/edit_addfile_week.html", {
         'form': form,
@@ -279,7 +279,7 @@ def edit_addfile_monthly(request, dataset_name, datafile_id=None):
 
 
     if request.method == 'POST':
-        return_to = request.POST.get('r', '')
+        return_to = request.POST.get('return_to', '')
         if form.is_valid():
             data = dict(**form.cleaned_data)
             if datafile:
@@ -293,7 +293,7 @@ def edit_addfile_monthly(request, dataset_name, datafile_id=None):
                 reverse('edit_dataset_files', args=[dataset_name])
             )
     else:
-        return_to = request.GET.get('r', '')
+        return_to = request.GET.get('return_to', '')
 
     return render(request, "datasets/edit_addfile_month.html", {
         'form': form,
@@ -313,7 +313,7 @@ def edit_addfile_quarterly(request, dataset_name, datafile_id=None):
         return HttpResponseForbidden()
 
     if request.method == 'POST':
-        return_to = request.POST.get('r', '')
+        return_to = request.POST.get('return_to', '')
         if form.is_valid():
             data = dict(**form.cleaned_data)
             if datafile:
@@ -327,7 +327,7 @@ def edit_addfile_quarterly(request, dataset_name, datafile_id=None):
                 reverse('edit_dataset_files', args=[dataset_name])
             )
     else:
-        return_to = request.GET.get('r', ''),
+        return_to = request.GET.get('return_to', ''),
 
 
     return render(request, "datasets/edit_addfile_quarter.html", {
@@ -348,7 +348,7 @@ def edit_addfile_annually(request, dataset_name, datafile_id = None):
         return HttpResponseForbidden()
 
     if request.method == 'POST':
-        return_to = request.POST.get('r', '')
+        return_to = request.POST.get('return_to', '')
         if form.is_valid():
             data = dict(**form.cleaned_data)
             if datafile:
@@ -362,7 +362,7 @@ def edit_addfile_annually(request, dataset_name, datafile_id = None):
                 reverse('edit_dataset_files', args=[dataset_name])
             )
     else:
-        return_to = request.GET.get('r', '')
+        return_to = request.GET.get('return_to', '')
 
 
     return render(request, "datasets/edit_addfile_year.html", {
@@ -383,7 +383,7 @@ def edit_files(request, dataset_name):
     return render(request, "datasets/show_files.html", {
         'addfile_viewname': url,
         'dataset': dataset,
-        'return_to': request.GET.get('r', ''),
+        'return_to': request.GET.get('return_to', ''),
     })
 
 
@@ -472,7 +472,7 @@ def check_dataset(request, dataset_name):
 
         err = publish_to_ckan(dataset)
 
-        return HttpResponseRedirect('/manage?r=newset')
+        return HttpResponseRedirect('/manage?return_to=newset')
 
 
     datafiles = dataset.files.filter(is_documentation=False).all()

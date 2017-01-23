@@ -16,7 +16,6 @@
   <form action="{% url 'edit_full_dataset' dataset.name %}" method="POST">
     {% csrf_token %}
 
-
     <!-- TITLE / SUMMARY / DESCRIPTION -->
 
     <fieldset>
@@ -103,7 +102,7 @@
       </tbody>
     </table>
 
-    <a href="{% url 'edit_dataset_files' dataset.name %}?edit=1">
+    <a href="{% url 'edit_dataset_files' dataset.name %}?return_to=edit">
       Change
     </a>
 
@@ -133,7 +132,7 @@
       </tbody>
     </table>
 
-    <a href="{% url 'edit_dataset_documents' dataset.name %}?edit=1">
+    <a href="{% url 'edit_dataset_documents' dataset.name %}?return_to=edit">
       Change
     </a>
 

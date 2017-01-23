@@ -17,7 +17,8 @@
       method="post"
       action="{% url 'edit_dataset_addfile_monthly' dataset.name datafile_id %}"
       class="form">
-       {% csrf_token %}
+    {% csrf_token %}
+    <input type="hidden" name="return_to" value="{{ return_to }}"
 
     {% include 'datasets/includes/title_url.html' %}
 
@@ -34,7 +35,7 @@
             class="form-group form-group-month {% if form.month.errors %}error{% endif %}">
           <label class="form-label" for="period_month">Month</label>
           {% for error in form.month.errors %}
-            <span class="error-message">{{ error }}</span>
+          <span class="error-message">{{ error }}</span>
           {% endfor %}
           <input
               class="form-control"
@@ -52,7 +53,7 @@
             class="form-group form-group-year {% if form.year.errors %}error{% endif %}">
           <label class="form-label" for="period_year">Year</label>
           {% for error in form.year.errors %}
-            <span class="error-message">{{ error }}</span>
+          <span class="error-message">{{ error }}</span>
           {% endfor %}
           <input
               class="form-control"
@@ -70,6 +71,13 @@
 
     <div class="form-group">
       <input type="submit" class="button" value="Save and continue" />
+      <a
+        {% if return_to == 'check' %}
+          href="{% url 'edit_dataset_checkdataset' dataset.name %}"
+        {% elif return_to == 'edit' %}
+          href="{% url 'edit_full_dataset' dataset.name %}"
+        {% endif %}
+        class="secondary-button">Skip</a>
     </div>
 
   </form>
