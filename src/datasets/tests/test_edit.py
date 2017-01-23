@@ -11,17 +11,14 @@ class DatasetEditTestCase(TestCase):
     def setUp(self):
         self.test_user = get_user_model().objects.create(
             email="test-signin@localhost",
-            username="Test User Signin",
+            username="test-signin@localhost",
             apikey=str(uuid.uuid4())
         )
         self.test_user.set_password("password")
         self.test_user.save()
 
         # Log the user in
-        self.client.post(reverse('signin'), {
-            "email": "test-signin@localhost",
-            "password": "password"
-        })
+        success = self.client.login(username='test-signin@localhost', password='password')
 
         # Both test the initial dataset creation, and get a name we can
         # use for the remaining tests.
