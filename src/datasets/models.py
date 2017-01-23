@@ -5,6 +5,9 @@ from django.db import models
 from django.forms.models import model_to_dict
 from django.conf import settings
 
+from datasets.util import (calculate_dates_for_month,
+                           calculate_dates_for_quarter,
+                           calculate_dates_for_year)
 from autoslug import AutoSlugField
 
 
@@ -48,6 +51,26 @@ class Dataset(models.Model):
 
     legacy_metadata = models.TextField(null=True, blank=True)
 
+    def as_dict(self):
+        data = {
+            'id': str(self.id),
+            'name': self.name,
+            'title': self.title,
+            'summary': self.summary,
+            'notes': self.description,
+            'licence': self.licence,
+            'licence_other': self.licence_other or '',
+            'location': self.location or '',
+            'update_frequency': self.frequency,
+            'last_edit_date': self.last_edit_date.isoformat(),
+            'published_date': self.published_date.isoformat(),
+            'organisation': self.organisation.as_dict(),
+            'resources': [f.as_dict() for f in self.files.filter(is_documentation=False).all()],
+            'documentation': [f.as_dict() for f in self.files.filter(is_documentation=True).all()],
+        }
+
+        return data
+
     def __str__(self):
         return u"{}:{}".format(self.name, self.title)
 
@@ -64,6 +87,32 @@ class Datafile(models.Model):
     quarter = models.TextField(blank=True, default="")
 
     is_documentation = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        if not (self.start_date and self.end_date):
+            if self.quarter:
+                self.start_date, self.end_date = \
+                    calculate_dates_for_quarter(self.quarter)
+            elif self.year and self.month:
+                self.start_date, self.end_date = \
+                    calculate_dates_for_month(self.month, self.year)
+            elif self.year:
+                self.start_date, self.end_date = \
+                    calculate_dates_for_year(self.year)
+
+        super(Datafile, self).save(*args, **kwargs)
+
+    def as_dict(self):
+        start, end = self.start_date, self.end_date
+        data = {
+            'title': self.title,
+            'url': self.url,
+            'format': self.format,
+            'start_date': start.isoformat() if start else '',
+            'end_date': end.isoformat() if end else '',
+        }
+
+        return data
 
     def __str__(self):
         return u"{}/{}".format(self.title, self.url)
@@ -91,6 +140,17 @@ class Organisation(models.Model):
     foi_web = models.CharField(max_length=200, default="", blank=True)
 
     users = models.ManyToManyField(settings.AUTH_USER_MODEL)
+
+    def as_dict(self):
+        data = {
+            'id': str(self.id),
+            'name': self.name,
+            'title': self.title,
+            'description': self.description,
+            'abbreviation': self.abbreviation or ''
+        }
+
+        return data
 
     def __str__(self):
         return self.title
