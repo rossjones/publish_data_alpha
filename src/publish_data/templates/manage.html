@@ -60,7 +60,13 @@
         <tbody>
           {% for dataset in datasets %}
             <tr>
-              <td><a href="{{ ckan_host }}/dataset/{{ dataset.name }}">{{ dataset.title }}</a></td>
+              <td>
+                {% if ckan_host %}
+                  <a href="{{ ckan_host }}/dataset/{{ dataset.name }}">{{ dataset.title }}</a>
+                {% else %}
+                  {{ dataset.title }}
+                {% endif %}
+              </td>
               <td>{% if dataset.published %}published{% else %}draft{% endif %}</td>
               <td class="actions">
                 {% if dataset.name %}
