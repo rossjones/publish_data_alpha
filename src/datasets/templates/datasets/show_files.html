@@ -22,27 +22,15 @@
       </thead>
       <tbody>
         {% for file in dataset.files.all %}
-          {% if file.is_documentation %}
-            <tr>
-              <td>{{ file.title }} </td>
-              <td>{{ file.url }} </td>
-              <td>✔</td>
-              <td>
-                <a href="{% url adddoc_viewname dataset.name file.id %}">Edit</a>
-                <a href="{% url 'edit_dataset_deletedoc' dataset.name file.id %}">Delete</a>
-              </td>
-            </tr>
-          {% else %}
-            <tr>
-              <td>{{ file.title }} </td>
-              <td>{{ file.url }} </td>
-              <td>✔</td>
-              <td>
-                <a href="{% url addfile_viewname dataset.name file.id %}">Edit</a>
-                <a href="{% url 'edit_dataset_deletefile' dataset.name file.id %}">Delete</a>
-              </td>
-            </tr>
-          {% endif %}
+          <tr>
+            <td>{{ file.title }} </td>
+            <td>{{ file.url }} </td>
+            <td>✔</td>
+            <td>
+              <a href="{% url addfile_viewname dataset.name file.id %}">Edit</a>
+              <a href="{% url 'edit_dataset_deletefile' dataset.name file.id %}">Delete</a>
+            </td>
+          </tr>
         {% endfor %}
       </tbody>
     </table>

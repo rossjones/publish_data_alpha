@@ -28,8 +28,8 @@
               <td>{{ file.url }} </td>
               <td>✔</td>
               <td>
-                <a href="">Edit</a>
-                <a href="">Delete</a>
+                <a href="{% url 'edit_dataset_adddoc' dataset.name file.id %}">Edit</a>
+                <a href="{% url 'edit_dataset_deletefile' dataset.name file.id %}">Delete</a>
               </td>
             </tr>
           {% endif %}

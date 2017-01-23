@@ -20,7 +20,7 @@
 
     <div class="form-group">
       <input type="submit" class="button" value="Save and continue"/>
-      <a href="{% url 'delete_dataset' dataset.name %}" class="secondary-button">Skip</a>
+      <a href="{% url 'edit_dataset_check_dataset' dataset.name %}" class="secondary-button">Skip</a>
     </div>
   </form>
 {% endblock %}

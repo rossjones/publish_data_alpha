@@ -313,17 +313,22 @@ def edit_files(request, dataset_name):
     })
 
 
-def edit_add_doc(request, dataset_name):
+def edit_add_doc(request, dataset_name, datafile_id=None):
     dataset = get_object_or_404(Dataset, name=dataset_name)
-
+    datafile = get_object_or_404(Datafile, id=datafile_id) \
+        if datafile_id else None
     form = f.FileForm(request.POST or None)
+
     if request.method == 'POST':
         if form.is_valid():
             data = dict(**form.cleaned_data)
-            data['dataset'] = dataset
-            data['is_documentation'] = True
-            obj = Datafile.objects.create(**data)
-            obj.save()
+            if datafile:
+                form.save()
+            else:
+                data['dataset'] = dataset
+                data['is_documentation'] = True
+                obj = Datafile.objects.create(**data)
+                obj.save()
 
             return HttpResponseRedirect(
                 reverse('edit_dataset_documents', args=[dataset_name])
@@ -332,7 +337,9 @@ def edit_add_doc(request, dataset_name):
     return render(request, "datasets/edit_adddoc.html", {
         'form': form,
         'dataset': dataset,
+        'datafile_id': datafile_id or '',
     })
+
 
 def edit_documents(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)

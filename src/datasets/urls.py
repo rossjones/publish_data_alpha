@@ -59,7 +59,7 @@ urlpatterns = [
         name='edit_dataset_files'),
 
     # Documentation URLs
-    url(r'^(?P<dataset_name>[\w-]+)/adddoc$',
+    url(r'^(?P<dataset_name>[\w-]+)/adddoc/(?P<datafile_id>\d+)?$$',
         login_required(v.edit_add_doc),
         name='edit_dataset_adddoc'),
 
