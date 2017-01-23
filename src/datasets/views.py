@@ -397,6 +397,7 @@ def edit_add_doc(request, dataset_name, datafile_id=None):
         return HttpResponseForbidden()
 
     if request.method == 'POST':
+        return_to = request.POST.get('return_to', '')
         if form.is_valid():
             data = dict(**form.cleaned_data)
             if datafile:
@@ -408,13 +409,18 @@ def edit_add_doc(request, dataset_name, datafile_id=None):
                 obj.save()
 
             return HttpResponseRedirect(
-                reverse('edit_dataset_documents', args=[dataset_name])
+                reverse('edit_dataset_documents', args=[dataset_name]) \
+                + '?return_to=' + return_to
             )
+    else:
+        return_to = request.GET.get('return_to', '')
+
 
     return render(request, "datasets/edit_adddoc.html", {
         'form': form,
         'dataset': dataset,
         'datafile_id': datafile_id or '',
+        'return_to': return_to,
     })
 
 
@@ -427,6 +433,7 @@ def edit_documents(request, dataset_name):
     return render(request, "datasets/show_docs.html", {
         'dataset': dataset,
         'editing': request.GET.get('change', '') == '1',
+        'return_to': request.GET.get('return_to', ''),
     })
 
 
