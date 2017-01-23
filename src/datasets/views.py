@@ -10,7 +10,7 @@ from django.http import HttpResponseRedirect, Http404
 
 
 import datasets.forms as f
-from datasets.logic import organisations_for_user
+from datasets.logic import organisations_for_user, publish_to_ckan
 from datasets.models import Dataset, Datafile
 
 
@@ -46,6 +46,10 @@ def edit_full_dataset(request, dataset_name):
     if request.method == 'POST':
         if form.is_valid():
             obj = form.save()
+
+            # Re-publish if we are editing a published dataset
+            err = publish_to_ckan(obj)
+
             return HttpResponseRedirect(
                 reverse('manage_data') + "?edited=1"
             )
@@ -384,6 +388,8 @@ def check_dataset(request, dataset_name):
         dataset.published = True
         dataset.published_date = datetime.now()
         dataset.save()
+
+        err = publish_to_ckan(dataset)
 
         return HttpResponseRedirect('/manage?r=newset')
 
