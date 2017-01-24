@@ -8,12 +8,12 @@ from django.template import RequestContext
 from django.views.generic.edit import FormView
 from django.http import HttpResponseRedirect, Http404
 
-
-from datasets.auth import user_can_edit_dataset, user_can_edit_datafile
 import datasets.forms as f
+from datasets.auth import user_can_edit_dataset, user_can_edit_datafile
 from datasets.logic import organisations_for_user, publish_to_ckan
 from datasets.models import Dataset, Datafile
-
+from datasets.search import index_dataset
+from datasets.search import delete_dataset as unindex_dataset
 
 def new_dataset(request):
     form = f.DatasetForm(request.POST or None)
@@ -52,6 +52,10 @@ def edit_full_dataset(request, dataset_name):
 
             # Re-publish if we are editing a published dataset
             err = publish_to_ckan(obj)
+            if dataset.published:
+                index_dataset(obj)
+            else:
+                unindex_dataset(obj)
 
             return HttpResponseRedirect(
                 reverse('manage_data') + "?edited=1"

@@ -21,7 +21,8 @@ sudo bash dev_setup.sh
 
 After a few minutes you should see the site at http://192.168.99.99:8000
 
-Alternatively to just run on your machine with Sqlite3
+Alternatively to just run on your machine with Sqlite3 and Elastic search (v5)
+
 
 ``` bash
 # Make and active a virtualenv for Python 3
@@ -30,6 +31,9 @@ cd publish_data_alpha
 pip install -r requirements.txt
 cd src
 export DJANGO_SETTINGS_MODULE="publish_data.settings.dev"
+export ES_HOSTS='127.0.0.1:9200'
+export ES_INDEX='data_discovery'
+
 ./manage.py migrate
 ./manage.py loaddata organisations
 ./manage.py loaddata locations
@@ -38,19 +42,17 @@ export DJANGO_SETTINGS_MODULE="publish_data.settings.dev"
 ./manage.py runserver
 ```
 
+
 ### Configuration
 
-To successfully run the server, you will require a local_settings.py file that is stored in ```src/publish_data/settings/local_settings.py```.  The file should have the following contents:
+To successfully run the server, you can use a local_settings.py file that is stored in ```src/publish_data/settings/local_settings.py```.  The file should have the following contents:
 
 ```python
 
 
 # CKAN specific settings.
-CKAN_HOST = "URL of a CKAN Server"
-CKAN_ADMIN = "An administrators API Key"
-
-# Username - test-co
-CKAN_TEST_USER = "The API key of a test user"
+ES_HOSTS = "http://127.0.0.1:9200"
+ES_INDEX = "dev-index"
 
 ```
 
