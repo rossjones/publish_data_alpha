@@ -17,6 +17,7 @@
       action="{% url 'edit_dataset_addfile' dataset.name datafile_id %}"
       method="POST">
     {% csrf_token %}
+
     <input type="hidden" name="return_to" value="{{ return_to }}"
 
     {% include 'datasets/includes/title_url.html' %}
@@ -28,6 +29,8 @@
           href="{% url 'edit_dataset_check_dataset' dataset.name %}"
         {% elif return_to == 'edit' %}
           href="{% url 'edit_full_dataset' dataset.name %}"
+        {% else %}
+          href="{% url 'edit_dataset_adddoc' dataset.name %}"
         {% endif %}
         class="secondary-button">Skip</a>
     </div>

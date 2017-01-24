@@ -67,10 +67,10 @@
     <div class="form-group">
       <input type="submit" class="button" value="Save and continue"/>
       <a
-        {% if return_to == 'check' %}
-          href="{% url 'edit_dataset_check_dataset' dataset.name %}"
-        {% elif return_to == 'edit' %}
+        {% if return_to == 'edit' %}
           href="{% url 'edit_full_dataset' dataset.name %}"
+        {% else %}
+          href="{% url 'edit_dataset_check_dataset' dataset.name %}"
         {% endif %}
         class="secondary-button">Skip</a>
     </div>

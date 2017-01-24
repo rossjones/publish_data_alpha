@@ -226,7 +226,7 @@ class DatasetsTestCase(TestCase):
             }
         )
         assert response.status_code == 302
-        assert response.url ==  reverse(
+        assert response.url == reverse(
             'edit_dataset_documents',
             args=[self.dataset_name]
         )
