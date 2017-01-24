@@ -43,15 +43,15 @@ var goToDocumentation = function(browser) {
     .clearSetValue('input[id=id_title]', 'First link')
     .clearSetValue('input[id=period_year]', '2013')
     .submitFormAndCheckNextTitle('Dataset links')
-    .submitFormAndCheckNextTitle('Add documentation');
+    .clickAndCheckNextTitle('Save and continue', 'Add documentation');
 };
 
 var goToNotifications = function(browser) {
-  return goToCreateFrequency(browser)
+  return goToDocumentation(browser)
     .clearSetValue('input[id=id_title]', 'A document')
-    .clearSetValue('input[id=url]', 'http://example.com/file.csv')
+    .clearSetValue('input[id=id_url]', 'http://example.com/file.csv')
     .submitFormAndCheckNextTitle('Dataset documentation')
-    .submitFormAndCheckNextTitle('Check your dataset');
+    .clickAndCheckNextTitle('Save and continue', 'Get notifications')
 };
 
 var goToCheckPage = function(browser) {
@@ -87,16 +87,16 @@ var test_create_happy_path = function (browser) {
     .setValue('input[id=period_month]', '12')
     .setValue('input[id=period_year]', '2016')
     .submitFormAndCheckNextTitle('Dataset links')
-    .submitFormAndCheckNextTitle('Add documentation')
+    .clickAndCheckNextTitle('Save and continue', 'Add documentation')
     .setValue('input[id=id_url]', 'http://example.com/data.csv')
     .setValue('input[id=id_title]', 'Title of this link')
     .submitFormAndCheckNextTitle('Dataset documentation')
-    .submitFormAndCheckNextTitle('Get notifications')
+    .clickAndCheckNextTitle('Save and continue', 'Get notifications')
     .selectRadioButton('Yes')
     .submitFormAndCheckNextTitle('Check your dataset')
     .submitFormAndCheckNextTitle('Your dataset has been published')
     .useXpath()
-    .click('//a[text()="Edit" and contains(../../td[1]/a/text(),"'+dataSetTitle+'")]')
+    .click('//a[text()="Edit" and contains(../../td[1]//text(),"'+dataSetTitle+'")]')
     .useCss()
     .waitForElementVisible('main', common.waitTimeout)
     .clickOnLink('Delete this dataset')
@@ -199,7 +199,7 @@ var test_create_region_autocomplete = function (browser) {
   goToCreateRegion(browser)
     .clearSetValue('input[id=id_location]', 'Swa')
     .waitForElementVisible('div[role=listbox]', 5000)
-    .assert.containsText('div[role=listbox]', 'Swaby (town)')
+    .assert.containsText('div[role=listbox]', 'Swansea (local authority)')
     .end();
 };
 
@@ -344,7 +344,7 @@ var test_create_modify_title = function (browser) {
 
 var test_create_modify_licence = function (browser) {
   goToCheckPage(browser)
-    .click('a[href="licence?change=1"]')
+    .click('a[href^="licence"]')
     .waitForElementVisible('h1', common.waitTimeout)
     .assert.containsText('h1', 'Choose a licence')
     .selectRadioButton('Other')
