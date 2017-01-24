@@ -38,7 +38,6 @@ class BasicAuthenticationMiddleware(object):
             return basic_challenge()
 
         authenticated = basic_authenticate(request.META['HTTP_AUTHORIZATION'])
-        print(authenticated)
         if authenticated:
             return response
 
