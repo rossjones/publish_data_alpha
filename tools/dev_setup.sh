@@ -1,6 +1,10 @@
 apt-get update
 apt-get install -qy  python3-dev python-virtualenv
 
+# Install a recent Elasticsearch
+wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.1.2.deb
+dpkg -i elasticsearch-5.1.2.deb
+
 mkdir -p /usr/lib/publishing
 chown -R vagrant /usr/lib/publishing/
 virtualenv -p /usr/bin/python3 /usr/lib/publishing

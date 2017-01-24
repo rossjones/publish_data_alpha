@@ -158,3 +158,20 @@ STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, "assets"),
 ]
 
+ES_HOSTS = os.environ.get('ELASTIC_HOSTS')
+ES_INDEX = os.environ.get('ELASTIC_INDEX')
+
+try:
+    from .local_settings import *
+except:
+    pass
+
+# Make sure ES settings are available and that the hosts settings is a list
+# of strings.
+if not (ES_HOSTS and ES_INDEX):
+    print("You must export ES_HOSTS and ES_INDEX")
+    sys.exit(0)
+
+if isinstance(ES_HOSTS, str):
+    ES_HOSTS = [h.strip() for h in ES_HOSTS.split(',')]
+
