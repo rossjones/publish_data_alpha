@@ -28,7 +28,7 @@ def dashboard(request):
 def manage_data(request):
 
     q = request.GET.get('q')
-    result = request.GET.get('r')
+    result = request.GET.get('result')
 
     page = 1
     try:

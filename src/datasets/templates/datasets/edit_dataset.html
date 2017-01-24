@@ -16,7 +16,6 @@
   <form action="{% url 'edit_full_dataset' dataset.name %}" method="POST">
     {% csrf_token %}
 
-
     <!-- TITLE / SUMMARY / DESCRIPTION -->
 
     <fieldset>
@@ -92,23 +91,50 @@
       </thead>
       <tbody>
         {% for file in dataset.files.all %}
-        <tr>
-          <td>{{ file.title }} </td>
-          <td>{{ file.url }} </td>
-          <td>valid</td>
-          <td>
-            <a href="">Edit</a>
-            <a href="">Delete</a>
-          </td>
-        </tr>
+          {% if not file.is_documentation %}
+            <tr>
+              <td>{{ file.title }}</td>
+              <td>{{ file.url }}</td>
+              <td>valid</td>
+            </tr>
+          {% endif %}
         {% endfor %}
       </tbody>
     </table>
 
-    <a href="{% url addfile_viewname dataset.name  %}">
-      Add another link
+    <a href="{% url 'edit_dataset_files' dataset.name %}?return_to=edit">
+      Change
     </a>
 
+    <!-- DOCUMENTS -->
+
+    <h2 class="heading-small">Documents</h2>
+
+    <table>
+      <thead class="visuallyhidden">
+        <tr>
+          <th>Title</th>
+          <th>Url</th>
+          <th>Valid</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for file in dataset.files.all %}
+          {% if file.is_documentation %}
+            <tr>
+              <td>{{ file.title }}</td>
+              <td>{{ file.url }}</td>
+              <td>valid</td>
+            </tr>
+          {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <a href="{% url 'edit_dataset_documents' dataset.name %}?return_to=edit">
+      Change
+    </a>
 
     <!-- LOCATION -->
 

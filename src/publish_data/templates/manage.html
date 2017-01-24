@@ -8,7 +8,7 @@
 {% block inner_content %}
   <main id="content" role="main" tabindex="-1">
 
-    {% if result == "newset" %}
+    {% if result == "created" %}
       <div class="govuk-box-highlight">
         <h1 class="bold-large">Your dataset has been published</h1>
       </div>
@@ -70,7 +70,7 @@
               <td>{% if dataset.published %}published{% else %}draft{% endif %}</td>
               <td class="actions">
                 {% if dataset.name %}
-                  <a href="{% url 'edit_dataset_files' dataset.name %}?change=1">Add&nbsp;Data</a><br/>
+                  <a href="{% url 'edit_dataset_addfile' dataset.name %}">Add&nbsp;Data</a><br/>
                   <a href="{% url 'edit_full_dataset' dataset.name %}">Edit</a><br/>
                 {% endif %}
               </td>

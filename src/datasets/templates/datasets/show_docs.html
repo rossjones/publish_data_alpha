@@ -28,8 +28,8 @@
               <td>{{ file.url }} </td>
               <td>✔</td>
               <td>
-                <a href="{% url 'edit_dataset_adddoc' dataset.name file.id %}">Edit</a>
-                <a href="{% url 'edit_dataset_deletefile' dataset.name file.id %}">Delete</a>
+                <a href="{% url 'edit_dataset_adddoc' dataset.name file.id %}{{return_to_qs}}">Edit</a>
+                <a href="{% url 'edit_dataset_deletefile' dataset.name file.id %}{{return_to_qs}}">Delete</a>
               </td>
             </tr>
           {% endif %}
@@ -37,28 +37,20 @@
       </tbody>
     </table>
 
-    <form
-        method="GET"
-        {% if editing %}
-          action="{% url 'edit_dataset_check_dataset' dataset.name %}"
-        {% else %}
-          action="{% url 'edit_dataset_notifications' dataset.name %}"
-        {% endif %}
-        class="form">
-      <div class="form-group">
+    <a
+      {% if return_to == 'check' %}
+        href="{% url 'edit_dataset_check_dataset' dataset.name %}"
+      {% elif return_to == 'edit' %}
+        href="{% url 'edit_full_dataset' dataset.name %}"
+      {% else %}
+        href="{% url 'edit_dataset_notifications' dataset.name %}"
+      {% endif %}
+      class="buton">Save and continue</a>
 
-        {% csrf_token %}
-        <input type="hidden" name="editing" value="{{ editing }}">
-
-        <input type="submit" class="button" value="Save and continue">
-      </div>
-    </form>
-
-    <div class="form-group">
-      <a href="{% url 'edit_dataset_adddoc' dataset.name  %}">
+      <a href="{% url 'edit_dataset_adddoc' dataset.name %}{{ return_to }}">
         Add another link
       </a>
-    </div>
+
 
   </main>
 {% endblock %}
