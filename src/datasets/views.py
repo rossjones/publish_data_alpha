@@ -243,13 +243,16 @@ def edit_addfile(request, dataset_name, datafile_id=None):
 
 def edit_deletefile(request, dataset_name, datafile_id):
     datafile = get_object_or_404(Datafile, id=datafile_id)
+    ret = request.GET.get('return_to')
 
     if not user_can_edit_datafile(request.user, datafile):
         return HttpResponseForbidden()
 
     datafile.delete();
 
-    return _return_to(request, 'edit_dataset_files', [dataset_name])
+    return HttpResponseRedirect(
+        reverse('edit_dataset_files', args=[dataset_name]) + _qsp_return_to(ret)
+    )
 
 
 def edit_addfile_weekly(request, dataset_name, datafile_id=None):
