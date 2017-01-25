@@ -60,6 +60,12 @@ var goToCheckPage = function(browser) {
     .submitFormAndCheckNextTitle('Check your dataset');
 };
 
+var createDataset = function(browser) {
+  return goToCheckPage()
+    .submitFormAndCheckNextTitle('Your dataset has been published');
+};
+
+
 
 // ============ here start the tests ===========================================
 
@@ -115,6 +121,7 @@ var test_create_missing_title = function (browser) {
     .submitFormAndCheckNextTitle(
       'Which organisation are you publishing this dataset for?'
     )
+    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -129,6 +136,7 @@ var test_create_invalid_title = function (browser) {
     .submitFormAndCheckNextTitle(
       'Which organisation are you publishing this dataset for?'
     )
+    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -142,6 +150,7 @@ var test_create_missing_description = function (browser) {
     .submitFormAndCheckNextTitle(
       'Which organisation are you publishing this dataset for?'
     )
+    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -155,6 +164,7 @@ var test_create_missing_summary = function (browser) {
     .submitFormAndCheckNextTitle(
       'Which organisation are you publishing this dataset for?'
     )
+    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -164,6 +174,7 @@ var test_create_missing_org = function (browser) {
     .checkError('Please choose which organisation will own this dataset')
     .selectRadioButton('Cabinet Office')
     .submitFormAndCheckNextTitle('Choose a licence')
+    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -173,6 +184,7 @@ var test_create_omit_licence = function (browser) {
     .checkError('Please select a licence for your dataset')
     .selectRadioButton('Open Government Licence')
     .submitFormAndCheckNextTitle('Choose an area')
+    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -183,6 +195,7 @@ var test_create_blank_other_licence = function (browser) {
     .checkError('Please type the name of your licence')
     .clearSetValue('input[id=id_licence_other]', 'other licence')
     .submitFormAndCheckNextTitle('Choose an area')
+    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -192,6 +205,7 @@ var test_create_omit_region = function (browser) {
     .checkError('Please enter the area that your dataset covers')
     .clearSetValue('input[id=id_location]', 'England and Scotland')
     .submitFormAndCheckNextTitle('How often is this dataset updated?')
+    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -200,6 +214,7 @@ var test_create_region_autocomplete = function (browser) {
     .clearSetValue('input[id=id_location]', 'Swa')
     .waitForElementVisible('div[role=listbox]', 5000)
     .assert.containsText('div[role=listbox]', 'Swansea (local authority)')
+    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -210,6 +225,7 @@ var test_create_omit_frequency = function (browser) {
     .checkError('Please indicate how often this dataset is updated')
     .selectRadioButton('Every day')
     .submitFormAndCheckNextTitle('Add a link')
+    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -220,6 +236,7 @@ var test_create_daily = function (browser) {
     .clearSetValue('input[id=id_url]', 'http://example.com/file.csv')
     .clearSetValue('input[id=id_title]', 'First link')
     .submitFormAndCheckNextTitle('Dataset links')
+    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -248,6 +265,7 @@ var test_create_weekly = function (browser) {
     .submitFormAndCheckNextTitle('Dataset links')
     .assert.containsText('table', 'First link')
     .assert.containsText('table', 'Second link')
+    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -268,6 +286,7 @@ var test_create_monthly = function (browser) {
     .submitFormAndCheckNextTitle('Dataset links')
     .assert.containsText('table', 'First link')
     .assert.containsText('table', 'Second link')
+    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -286,6 +305,7 @@ var test_create_quarterly = function (browser) {
     .submitFormAndCheckNextTitle('Dataset links')
     .assert.containsText('table', 'First link')
     .assert.containsText('table', 'Second link')
+    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -293,6 +313,7 @@ var test_create_never = function (browser) {
   goToCreateFrequency(browser)
     .selectRadioButton('Never')
     .submitFormAndCheckNextTitle('Add a link')
+    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -311,6 +332,7 @@ var test_create_yearly = function (browser) {
     .submitFormAndCheckNextTitle('Dataset links')
     .assert.containsText('table', 'First link')
     .assert.containsText('table', 'Second link')
+    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -328,6 +350,7 @@ var test_create_omit_url = function (browser) {
     .submitFormAndCheckNextTitle('There was a problem')
     .checkError('Please provide a valid title')
     .checkError('Please provide a valid URL')
+    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -339,6 +362,7 @@ var test_create_modify_title = function (browser) {
     .clearSetValue('input[name=title]', 'modified name')
     .submitFormAndCheckNextTitle('Check your dataset')
     .assert.containsText('body', 'modified name')
+    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -350,56 +374,66 @@ var test_create_modify_licence = function (browser) {
     .selectRadioButton('Other')
     .clearSetValue('input[id=id_licence_other]', 'my licence')
     .submitFormAndCheckNextTitle('Check your dataset')
+    .waitForElementVisible('body', common.waitTimeout)
     .assert.containsText('body', 'my licence')
+    .deleteLastCreatedDataset()
     .end();
 };
 
 var test_create_remove_link = function (browser) {
   goToCheckPage(browser)
     .click('a[href^="files"]')
+    .waitForElementVisible('h1', common.waitTimeout)
     .assert.containsText('h1', 'Dataset links')
-    .clickOnLink('Delete')
-    .assert.containsText('h1', 'Dataset links')
-    .clickOnLink('Save and continue')
-    .assert.containsText('h1', 'Check your dataset')
-    .submitFormAndCheckNextTitle('Your dataset has been published')
+    .clickAndCheckNextTitle('Delete', 'Dataset links')
+    .clickAndCheckNextTitle('Save and continue', 'Check your dataset')
+    .deleteLastCreatedDataset()
     .end();
 };
 
 var test_create_remove_doc = function (browser) {
   goToCheckPage(browser)
     .click('a[href^="documents"]')
+    .waitForElementVisible('h1', common.waitTimeout)
     .assert.containsText('h1', 'Dataset documentation')
-    .clickOnLink('Delete')
-    .assert.containsText('h1', 'Dataset documentation')
-    .clickOnLink('Save and continue')
-    .assert.containsText('h1', 'Check your dataset')
-    .submitFormAndCheckNextTitle('Your dataset has been published')
+    .clickAndCheckNextTitle('Delete', 'Dataset documentation')
+    .clickAndCheckNextTitle('Save and continue', 'Check your dataset')
+    .deleteLastCreatedDataset()
     .end();
 };
 
+var test_create_edit_title = function (browser) {
+  createDataset()
+    .clickAndCheckNextTitle('Edit', 'Edit ‘Title of my dataset’')
+    .clearSetValue('input[name=title]', 'Corrected title')
+    .submitFormAndCheckNextTitle('Manage data')
+    .assert.containsText('td', 'Corrected title')
+    .end();
+};
+
+
 module.exports = {
   'Create a dataset, happy path': test_create_happy_path,
-  'Create a dataset, missing title' : test_create_missing_title,
-  'Create a dataset, invalid title' : test_create_invalid_title,
-  'Create a dataset, missing description' : test_create_missing_description,
-  'Create a dataset, missing summary' : test_create_missing_summary,
-  'Create a dataset, omit organisation' : test_create_missing_org,
-  'Create a dataset, omit licence' : test_create_omit_licence,
-  'Create a dataset, blank other licence' : test_create_blank_other_licence,
-  'Create a dataset, omit region' : test_create_omit_region,
-  'Create a dataset, region autocomplete' : test_create_region_autocomplete,
-  'Create a dataset, omit frequency' : test_create_omit_frequency,
-  'Create a dataset, frequency daily' : test_create_daily,
-  'Create a dataset, frequency weekly' : test_create_weekly,
-  'Create a dataset, frequency monthly' : test_create_monthly,
-  'Create a dataset, frequency quarterly' : test_create_quarterly,
-  'Create a dataset, frequency never' : test_create_never,
-  'Create a dataset, frequency yearly' : test_create_yearly,
-  'Create a dataset, omit notifications' : test_create_omit_notifications,
-  'Create a dataset, omit url' : test_create_omit_url,
-  'Create a dataset, modify title' : test_create_modify_title,
-  'Create a dataset, modify licence' : test_create_modify_licence,
-  'Create a dataset, remove link at the end': test_create_remove_link,
-  'Create a dataset, remove doc at the end': test_create_remove_doc
+  'Create a dataset, missing title': test_create_missing_title,
+  'Create a dataset, invalid title': test_create_invalid_title,
+  'Create a dataset, missing description': test_create_missing_description,
+  'Create a dataset, missing summary': test_create_missing_summary,
+  'Create a dataset, omit organisation': test_create_missing_org,
+  'Create a dataset, omit licence': test_create_omit_licence,
+  'Create a dataset, blank other licence': test_create_blank_other_licence,
+  'Create a dataset, omit region': test_create_omit_region,
+  'Create a dataset, region autocomplete': test_create_region_autocomplete,
+  'Create a dataset, omit frequency': test_create_omit_frequency,
+  'Create a dataset, frequency daily': test_create_daily,
+  'Create a dataset, frequency weekly': test_create_weekly,
+  'Create a dataset, frequency monthly': test_create_monthly,
+  'Create a dataset, frequency quarterly': test_create_quarterly,
+  'Create a dataset, frequency never': test_create_never,
+  'Create a dataset, frequency yearly': test_create_yearly,
+  'Create a dataset, omit notifications': test_create_omit_notifications,
+  'Create a dataset, omit url': test_create_omit_url,
+  'Create a dataset, modify title': test_create_modify_title,
+  'Create a dataset, modify licence': test_create_modify_licence,
+  'Create a dataset, remove link after check': test_create_remove_link,
+  'Create a dataset, remove doc after check': test_create_remove_doc
 };
