@@ -19,9 +19,8 @@ def dataset_list(user, page=1, filter_query=None):
     per_page = 20
     max_fetch = per_page * page
 
-    organisations = organisations_for_user(user)
     q = Dataset.objects\
-        .filter(organisation__in=organisations)
+        .filter(creator=user)
 
     if filter_query:
         q = q.filter(title__icontains=filter_query)
@@ -186,11 +185,3 @@ def publish_to_ckan(dataset):
         return str(e)
 
     return ""
-
-
-
-
-
-
-
-
