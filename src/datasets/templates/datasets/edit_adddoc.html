@@ -35,8 +35,7 @@
             class="form-control form-control-2-3"
             id="id_url"
             name="{{ form.url.html_name }}"
-            type="url"
-            required=""
+            type="text"
             value="{{ form.url.value|default:'' }}"/>
       </div>
 
@@ -58,7 +57,6 @@
             id="id_title"
             name="{{ form.title.html_name }}"
             type="text"
-            required=""
             value="{{ form.title.value|default:'' }}"/>
       </div>
     </fieldset>
