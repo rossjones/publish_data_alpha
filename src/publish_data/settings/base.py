@@ -49,7 +49,8 @@ PROJECT_APPS = [
     'tasks',
     'stats',
     'api',
-    'runtime_config'
+    'runtime_config',
+    'oauth2_provider',
 ]
 
 INSTALLED_APPS = REQUIRED_APPS + PROJECT_APPS

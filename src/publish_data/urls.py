@@ -15,4 +15,6 @@ urlpatterns = [
     url(r'^dataset/',  include('datasets.urls')),
     url(r'^task/',  include('tasks.urls')),
     url(r'^api/',  include('api.urls')),
+
+    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 ]

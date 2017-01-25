@@ -18,3 +18,4 @@ whitenoise==3.2.3
 elasticsearch>=5.0.0,<6.0.0
 ckanapi==4.0
 boto==2.45.0
+django-oauth-toolkit==0.11
