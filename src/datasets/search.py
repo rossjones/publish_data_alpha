@@ -20,7 +20,8 @@ def index_dataset(dataset):
             index=settings.ES_INDEX,
             doc_type='dataset',
             id=dataset.id,
-            body=dataset.as_dict()
+            body=dataset.as_dict(),
+            refresh=True # Make sure it shows straight away
         )
     except TransportError as te:
         # TODO: Log the failure as serious so we find out about it
