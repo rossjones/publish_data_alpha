@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 es = Elasticsearch(settings.ES_HOSTS,
           sniff_on_start=False,
           sniff_on_connection_fail=False,
-          sniffer_timeout=60)
+          sniffer_timeout=None)
 es.indices.create(
     index=settings.ES_INDEX,
     body={"mappings" : {
