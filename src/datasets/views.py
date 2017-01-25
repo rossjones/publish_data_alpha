@@ -75,7 +75,9 @@ def delete_dataset(request, dataset_name):
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
 
+    unindex_dataset(dataset)
     dataset.delete()
+
     return HttpResponseRedirect(
         reverse('manage_data') + "?result=deleted"
     )
