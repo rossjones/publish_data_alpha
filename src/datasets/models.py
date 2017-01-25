@@ -143,7 +143,8 @@ class Organisation(models.Model):
     foi_phone = models.CharField(max_length=200, default="", blank=True)
     foi_web = models.CharField(max_length=200, default="", blank=True)
 
-    users = models.ManyToManyField(settings.AUTH_USER_MODEL)
+    users = models.ManyToManyField(settings.AUTH_USER_MODEL,
+        related_name='organisations')
 
     def as_dict(self):
         data = {

@@ -4,7 +4,9 @@ from datasets.models import Dataset, Organisation
 
 
 def organisations_for_user(user):
-    return user.organisation_set.all()
+    if user.is_staff:
+        return Organisation.objects.all()
+    return user.organisations.all()
 
 
 def dataset_list(user, page=1, filter_query=None):

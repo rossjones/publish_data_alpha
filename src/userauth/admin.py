@@ -6,8 +6,15 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from userauth.models import PublishingUser
 
 
+class OrganisationsInline(admin.TabularInline):
+    model = PublishingUser.organisations.through
+    extra = 1
+
+
+
 class UserAdmin(BaseUserAdmin):
     model = PublishingUser
+    inlines = [OrganisationsInline]
     fieldsets = (
         (None, {'fields': ('email', 'apikey')}),
         (_('Personal info'), {'fields': ('first_name', 'last_name')}),
