@@ -354,6 +354,29 @@ var test_create_modify_licence = function (browser) {
     .end();
 };
 
+var test_create_remove_link = function (browser) {
+  goToCheckPage(browser)
+    .click('a[href^="files"]')
+    .assert.containsText('h1', 'Dataset links')
+    .clickOnLink('Delete')
+    .assert.containsText('h1', 'Dataset links')
+    .clickOnLink('Save and continue')
+    .assert.containsText('h1', 'Check your dataset')
+    .submitFormAndCheckNextTitle('Your dataset has been published')
+    .end();
+};
+
+var test_create_remove_doc = function (browser) {
+  goToCheckPage(browser)
+    .click('a[href^="documents"]')
+    .assert.containsText('h1', 'Dataset documentation')
+    .clickOnLink('Delete')
+    .assert.containsText('h1', 'Dataset documentation')
+    .clickOnLink('Save and continue')
+    .assert.containsText('h1', 'Check your dataset')
+    .submitFormAndCheckNextTitle('Your dataset has been published')
+    .end();
+};
 
 module.exports = {
   'Create a dataset, happy path': test_create_happy_path,
@@ -376,5 +399,7 @@ module.exports = {
   'Create a dataset, omit notifications' : test_create_omit_notifications,
   'Create a dataset, omit url' : test_create_omit_url,
   'Create a dataset, modify title' : test_create_modify_title,
-  'Create a dataset, modify licence' : test_create_modify_licence
+  'Create a dataset, modify licence' : test_create_modify_licence,
+  'Create a dataset, remove link at the end': test_create_remove_link,
+  'Create a dataset, remove doc at the end': test_create_remove_doc
 };

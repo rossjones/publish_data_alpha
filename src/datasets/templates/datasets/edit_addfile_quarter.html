@@ -37,8 +37,8 @@
               type="radio"
               id="q1"
               name="{{ form.quarter.html_name }}"
-              {% if form.quarter.value == "q1" %}checked="1"{% endif %}
-              value="q1"/>
+              {% if form.quarter.value == "1" %}checked="1"{% endif %}
+              value="1"/>
           <span>Q1 (April to June)</span>
         </label>
         <label for="q2" class="block-label">
@@ -46,8 +46,8 @@
               type="radio"
               id="q2"
               name="{{ form.quarter.html_name }}"
-              {% if form.quarter.value == "q2" %}checked="1"{% endif %}
-              value="q2"/>
+              {% if form.quarter.value == "2" %}checked="1"{% endif %}
+              value="2"/>
           <span>Q2 (July to September)</span>
         </label>
         <label for="q3" class="block-label">
@@ -55,17 +55,17 @@
               type="radio"
               id="q3"
               name="{{ form.quarter.html_name }}"
-              {% if form.quarter.value == "q3" %}checked="1"{% endif %}
-              value="q3"/>
+              {% if form.quarter.value == "3" %}checked="1"{% endif %}
+              value="3"/>
           <span>Q3 (October to December)</span>
         </label>
-        <label for="q4" class="block-label">
+        <label for="4" class="block-label">
           <input
               type="radio"
               id="q4"
               name="{{ form.quarter.html_name }}"
-              {% if form.quarter.value == "q4" %}checked="1"{% endif %}
-              value="q4"/>
+              {% if form.quarter.value == "4" %}checked="1"{% endif %}
+              value="4"/>
           <span>Q4 (January to March)</span>
         </label>
 
@@ -77,7 +77,7 @@
       <input type="submit" class="button" value="Save and continue" />
       <a
         {% if return_to == 'check' %}
-          href="{% url 'edit_dataset_checkdataset' dataset.name %}"
+          href="{% url 'edit_dataset_check_dataset' dataset.name %}"
         {% elif return_to == 'edit' %}
           href="{% url 'edit_full_dataset' dataset.name %}"
         {% endif %}
