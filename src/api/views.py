@@ -1,6 +1,8 @@
 import json
 
+from oauth2_provider.views.generic import ProtectedResourceView
 from django.http import HttpResponse
+from django.http import JsonResponse
 from django.shortcuts import render
 
 from datasets.models import Location
@@ -14,4 +16,9 @@ def gazeteer_lookup(request):
         data = ["{} ({})".format(l['name'], l['location_type'])
             for l in  Location.objects.filter(name__istartswith=q).values()]
 
-    return HttpResponse(json.dumps(data), content_type='application/json')
+    return JsonResponse(data, safe=False)
+
+
+class StatusEndpoint(ProtectedResourceView):
+    def get(self, request, *args, **kwargs):
+        return JsonResponse({})

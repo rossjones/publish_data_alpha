@@ -28,6 +28,8 @@
 
   <form action="{% url 'signin' %}" method="POST" class="form">
     {% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}" />
+
     <div class="form-group">
       <label class="form-label" for="id_email">Email address</label>
       <input
