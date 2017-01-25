@@ -36,7 +36,8 @@
           <input
               type="radio"
               id="q1"
-              name="period_quarter"
+              name="{{ form.quarter.html_name }}"
+              {% if form.quarter.value == "q1" %}checked="1"{% endif %}
               value="q1"/>
           <span>Q1 (April to June)</span>
         </label>
@@ -44,7 +45,8 @@
           <input
               type="radio"
               id="q2"
-              name="period_quarter"
+              name="{{ form.quarter.html_name }}"
+              {% if form.quarter.value == "q2" %}checked="1"{% endif %}
               value="q2"/>
           <span>Q2 (July to September)</span>
         </label>
@@ -52,7 +54,8 @@
           <input
               type="radio"
               id="q3"
-              name="period_quarter"
+              name="{{ form.quarter.html_name }}"
+              {% if form.quarter.value == "q3" %}checked="1"{% endif %}
               value="q3"/>
           <span>Q3 (October to December)</span>
         </label>
@@ -60,7 +63,8 @@
           <input
               type="radio"
               id="q4"
-              name="period_quarter"
+              name="{{ form.quarter.html_name }}"
+              {% if form.quarter.value == "q4" %}checked="1"{% endif %}
               value="q4"/>
           <span>Q4 (January to March)</span>
         </label>
