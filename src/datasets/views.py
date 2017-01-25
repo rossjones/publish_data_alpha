@@ -502,6 +502,7 @@ def check_dataset(request, dataset_name):
         dataset.save()
 
         err = publish_to_ckan(dataset)
+        index_dataset(dataset)
 
         return HttpResponseRedirect(
             reverse('manage_data') + '?result=created'

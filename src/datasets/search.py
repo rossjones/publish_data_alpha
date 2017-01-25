@@ -11,7 +11,17 @@ es = Elasticsearch(settings.ES_HOSTS,
           sniff_on_start=False,
           sniff_on_connection_fail=False,
           sniffer_timeout=60)
-es.indices.create(index=settings.ES_INDEX, ignore=400)
+es.indices.create(
+    index=settings.ES_INDEX,
+    body={"mappings" : {
+        "datasets" : {
+            "properties" : {
+                "name" : { "type": "string", "index" : "not_analyzed" }
+            }
+        }
+    }},
+    ignore=400
+)
 
 
 def index_dataset(dataset):
@@ -20,7 +30,8 @@ def index_dataset(dataset):
             index=settings.ES_INDEX,
             doc_type='dataset',
             id=dataset.id,
-            body=dataset.as_dict()
+            body=dataset.as_dict(),
+            refresh=True # Make sure it shows straight away
         )
     except TransportError as te:
         # TODO: Log the failure as serious so we find out about it
@@ -47,7 +58,18 @@ def bulk_import(data):
 
 def reset_index():
     es.indices.delete(index=settings.ES_INDEX, ignore=400)
-    es.indices.create(index=settings.ES_INDEX, ignore=400)
+    es.indices.create(
+        index=settings.ES_INDEX,
+        body={
+            "mappings": {
+                "datasets" : {
+                    "properties" : {
+                        "name" : { "type": "string", "index" : "not_analyzed" }
+                    }
+            }
+        }},
+        ignore=400
+    )
 
 
 # TODO: Provide a query function like ....
