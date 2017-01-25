@@ -11,7 +11,17 @@ es = Elasticsearch(settings.ES_HOSTS,
           sniff_on_start=False,
           sniff_on_connection_fail=False,
           sniffer_timeout=60)
-es.indices.create(index=settings.ES_INDEX, ignore=400)
+es.indices.create(
+    index=settings.ES_INDEX,
+    body={"mappings" : {
+        "datasets" : {
+            "properties" : {
+                "name" : { "type": "string", "index" : "not_analyzed" }
+            }
+        }
+    }},
+    ignore=400
+)
 
 
 def index_dataset(dataset):
@@ -48,7 +58,18 @@ def bulk_import(data):
 
 def reset_index():
     es.indices.delete(index=settings.ES_INDEX, ignore=400)
-    es.indices.create(index=settings.ES_INDEX, ignore=400)
+    es.indices.create(
+        index=settings.ES_INDEX,
+        body={
+            "mappings": {
+                "datasets" : {
+                    "properties" : {
+                        "name" : { "type": "string", "index" : "not_analyzed" }
+                    }
+            }
+        }},
+        ignore=400
+    )
 
 
 # TODO: Provide a query function like ....
