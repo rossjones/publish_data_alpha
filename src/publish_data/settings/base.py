@@ -145,7 +145,7 @@ USE_TZ = True
 LOGIN_URL = '/accounts/signin'
 
 
-HOMEPAGE_URL = 'https://data.gov.uk'
+HOMEPAGE_URL = '/'
 LOGO_LINK_TITLE = 'Go to the data.gov.uk homepage'
 GLOBAL_HEADER_TEXT = 'data.gov.uk'
 
@@ -175,4 +175,3 @@ if not (ES_HOSTS and ES_INDEX):
 
 if isinstance(ES_HOSTS, str):
     ES_HOSTS = [h.strip() for h in ES_HOSTS.split(',')]
-
