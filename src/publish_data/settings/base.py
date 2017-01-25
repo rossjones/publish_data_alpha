@@ -49,7 +49,8 @@ PROJECT_APPS = [
     'tasks',
     'stats',
     'api',
-    'runtime_config'
+    'runtime_config',
+    'oauth2_provider',
 ]
 
 INSTALLED_APPS = REQUIRED_APPS + PROJECT_APPS
@@ -109,6 +110,8 @@ else:
         }
     }
 
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
