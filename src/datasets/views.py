@@ -244,6 +244,8 @@ def edit_addfile(request, dataset_name, datafile_id=None):
 def edit_deletefile(request, dataset_name, datafile_id):
     datafile = get_object_or_404(Datafile, id=datafile_id)
     ret = request.GET.get('return_to')
+    next_view = 'edit_dataset_documents' if datafile.is_documentation \
+        else 'edit_dataset_files'
 
     if not user_can_edit_datafile(request.user, datafile):
         return HttpResponseForbidden()
@@ -251,7 +253,7 @@ def edit_deletefile(request, dataset_name, datafile_id):
     datafile.delete();
 
     return HttpResponseRedirect(
-        reverse('edit_dataset_files', args=[dataset_name]) + _qsp_return_to(ret)
+        reverse(next_view, args=[dataset_name]) + _qsp_return_to(ret)
     )
 
 
