@@ -107,10 +107,7 @@ class OrganisationForm(forms.ModelForm):
         fields = ['organisation']
 
 
-
 class FrequencyForm(forms.ModelForm):
-
-    frequency = forms.CharField(required=True)
 
     class Meta:
         model = Dataset
@@ -234,8 +231,6 @@ class StubForm(forms.ModelForm):
 
 
 class NotificationsForm(forms.ModelForm):
-
-    notifications = forms.CharField(required=True)
 
     class Meta:
         model = Dataset

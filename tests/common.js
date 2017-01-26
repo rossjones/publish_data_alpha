@@ -44,6 +44,13 @@ var extended = function(browser) {
       .clearValue(selector).setValue(selector, value);
   };
 
+  browser.deleteLastCreatedDataset = function() {
+    return this
+      .clickOnLink('Manage your data')
+      .clickOnLink('Edit')
+      .clickOnLink('Delete this dataset');
+  };
+
   return browser;
 }
 
