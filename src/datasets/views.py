@@ -544,6 +544,8 @@ def _frequency_redirect_to(dataset):
         url = 'edit_dataset_addfile_monthly'
     elif frequency in ['annually']:
         url = 'edit_dataset_addfile_annually'
+    else:
+        url = 'edit_dataset_adddoc'
 
     return url
 

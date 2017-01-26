@@ -35,11 +35,11 @@ class Dataset(models.Model):
     )
 
     # ogl, other
-    licence = models.CharField(max_length=64, default="")
+    licence = models.CharField(max_length=64, default="", blank=True)
     licence_other = models.TextField(default="", blank=True)
 
-    location = models.TextField(default="")
-    frequency = models.TextField(default="", blank=True)
+    location = models.TextField(default="", blank=True)
+    frequency = models.TextField(default="", blank=True, null=True)
 
     notifications = models.TextField(default="", blank=True)
 
@@ -88,7 +88,7 @@ class Datafile(models.Model):
     end_date = models.DateField(blank=True, null=True)
     month = models.IntegerField(blank=True, null=True)
     year = models.IntegerField(blank=True, null=True)
-    quarter = models.TextField(blank=True, default="")
+    quarter = models.IntegerField(blank=True, null=True)
 
     is_documentation = models.BooleanField(default=False)
 
