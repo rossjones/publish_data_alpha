@@ -68,7 +68,7 @@
 
   $(document).ready(function() {
     tableShowHide.init({ rowLimit: 3});
-    typeAhead.init({ selector: '.location_input' });
+    typeAhead.init({ selector: '.location-input' });
   });
 
 })();
