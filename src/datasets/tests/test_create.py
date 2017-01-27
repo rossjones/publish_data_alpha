@@ -76,15 +76,17 @@ class DatasetsTestCase(TestCase):
         # No selected countries
         response = self.client.post(u, {})
         assert response.status_code == 200
-        assert self._get_dataset().location == ''
+        assert self._get_dataset().location1 == ''
+        assert self._get_dataset().location2 == ''
+        assert self._get_dataset().location3 == ''
 
         response = self.client.post(
             u,
-            {'location': 'England, Wales'}
+            {'location1': 'England, Wales'}
         )
         assert response.status_code == 302
-        assert self._get_dataset().location == "England, Wales", \
-            self._get_dataset().location
+        assert self._get_dataset().location1 == "England, Wales", \
+            self._get_dataset().location1
 
     def test_licence(self):
         u = reverse('edit_dataset_licence', args=[self.dataset_name])

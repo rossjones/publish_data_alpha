@@ -38,7 +38,10 @@ class Dataset(models.Model):
     licence = models.CharField(max_length=64, default="", blank=True)
     licence_other = models.TextField(default="", blank=True)
 
-    location = models.TextField(default="", blank=True)
+    location1 = models.TextField(default="", blank=True)
+    location2 = models.TextField(default="", blank=True)
+    location3 = models.TextField(default="", blank=True)
+
     frequency = models.TextField(default="", blank=True, null=True)
 
     notifications = models.TextField(default="", blank=True)
@@ -64,7 +67,9 @@ class Dataset(models.Model):
             'dataset_type': self.dataset_type,
             'licence': self.licence,
             'licence_other': self.licence_other or '',
-            'location': self.location or '',
+            'location1': self.location1 or '',
+            'location2': self.location2 or '',
+            'location3': self.location3 or '',
             'update_frequency': self.frequency,
             'last_edit_date': self.last_edit_date.isoformat(),
             'published_date': self.published_date.isoformat(),

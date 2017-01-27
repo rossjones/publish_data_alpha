@@ -67,14 +67,32 @@
         </li>
       {% endif %}
 
-      {% if form.location.errors %}
+        {% if form.location1.errors %}
         <li>
           <a href="#location_form_group">
             Please enter the area that your dataset covers
           </a>
           <span class="visuallyhidden">.</span>
         </li>
-      {% endif %}
+        {% endif %}
+
+        {% if form.location2.errors %}
+        <li>
+          <a href="#location_form_group">
+            Please enter the area that your dataset covers
+          </a>
+          <span class="visuallyhidden">.</span>
+        </li>
+        {% endif %}
+
+        {% if form.location3.errors %}
+        <li>
+          <a href="#location_form_group">
+            Please enter the area that your dataset covers
+          </a>
+          <span class="visuallyhidden">.</span>
+        </li>
+        {% endif %}
 
       {% if form.frequency.errors %}
         <li>
