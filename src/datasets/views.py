@@ -59,6 +59,8 @@ def edit_full_dataset(request, dataset_name):
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
 
+    request.session['flow-state'] = 'editing'
+
     form = f.FullDatasetForm(request.POST or None, instance=dataset)
     if request.method == 'POST':
         if form.is_valid():
@@ -541,7 +543,7 @@ def check_dataset(request, dataset_name):
         return HttpResponseForbidden()
 
     # Reset the flow state
-    request.session['flow-state'] = None
+    request.session['flow-state'] = 'checking'
 
     organisation = dataset.organisation
     organisations = organisations_for_user(request.user)
@@ -554,6 +556,8 @@ def check_dataset(request, dataset_name):
 
         err = publish_to_ckan(dataset)
         index_dataset(dataset)
+
+        request.session['flow-state'] = None
 
         return HttpResponseRedirect(
             reverse('manage_data') + '?result=created'
