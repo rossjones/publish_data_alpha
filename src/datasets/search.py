@@ -25,6 +25,7 @@ es.indices.create(
 
 
 def index_dataset(dataset):
+    print(dataset)
     try:
         res = es.index(
             index=settings.ES_INDEX,

@@ -14,6 +14,7 @@ from datasets.logic import organisations_for_user, publish_to_ckan
 from datasets.models import Dataset, Datafile
 from datasets.search import index_dataset
 from datasets.search import delete_dataset as unindex_dataset
+from datasets.validation import check_required_fields
 
 def _set_flow_state(request):
     ''' If the query string contains a 'state' string then
@@ -548,20 +549,24 @@ def check_dataset(request, dataset_name):
     organisation = dataset.organisation
     organisations = organisations_for_user(request.user)
     single_organisation = len(organisations) == 1
+    validation_errors = {}
 
     if request.method == 'POST':
-        dataset.published = True
-        dataset.published_date = datetime.now()
-        dataset.save()
 
-        err = publish_to_ckan(dataset)
-        index_dataset(dataset)
+        validation_errors = check_required_fields(dataset)
+        if not validation_errors:
+            dataset.published = True
+            dataset.published_date = datetime.now()
+            dataset.save()
 
-        request.session['flow-state'] = None
+            publish_to_ckan(dataset)
+            index_dataset(dataset)
 
-        return HttpResponseRedirect(
-            reverse('manage_data') + '?result=created'
-        )
+            request.session['flow-state'] = None
+
+            return HttpResponseRedirect(
+                reverse('manage_data') + '?result=created'
+            )
 
     datafiles = dataset.files.filter(is_documentation=False).all()
     docfiles = dataset.files.filter(is_documentation=True).all()
@@ -572,7 +577,8 @@ def check_dataset(request, dataset_name):
         'organisation': organisation,
         'single_organisation': single_organisation,
         'docfiles': docfiles,
-        'datafiles': datafiles
+        'datafiles': datafiles,
+        'validation_errors': validation_errors
     })
 
 
