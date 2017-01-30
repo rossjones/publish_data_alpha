@@ -151,11 +151,13 @@
         </span>
         {% endif %}
 
+
+
         <div id="location1">
           <label class="form-label-bold" for="id_location1">
             <span>First area</span>
           </label>
-          <a id="del1" class="secondary-button" style="display: none">Remove</a>
+          <a id="del1" class="secondary-button js-hidden">Remove</a>
           <input
               class="location-input form-control form-control-2-3"
               id="id_location1"
@@ -164,15 +166,15 @@
               autocomplete="off"
               value="{{ form.location1.value|default:'' }}" />
         </div>
-        <a id="add1" class="secondary-button" style="display: none">
+        <a id="add1" class="secondary-button">
           Add another area
         </a>
 
-        <div id="location2">
+        <div id="location2" class="js-hidden">
           <label class="form-label-bold" for="id_location2">
             <span>Second area</span>
           </label>
-          <a id="del2" class="secondary-button" style="display: none">Remove</a>
+          <a id="del2" class="secondary-button js-hidden">Remove</a>
           <input
               class="location-input form-control form-control-2-3"
               id="id_location2"
@@ -181,15 +183,15 @@
               autocomplete="off"
               value="{{ form.location2.value|default:'' }}" />
         </div>
-        <a id="add2" class="secondary-button" style="display: none">
+        <a id="add2" class="secondary-button js-hidden">
           Add another area
         </a>
 
-        <div id="location3">
+        <div id="location3" class="js-hidden">
           <label class="form-label-bold" for="id_location3">
             <span>Third area</span>
           </label>
-          <a id="del3" class="secondary-button" style="display: none">Remove</a>
+          <a id="del3" class="secondary-button js-hidden">Remove</a>
           <input
               class="location-input form-control form-control-2-3"
               id="id_location3"
