@@ -20,7 +20,6 @@
       method="POST">
 
     {% csrf_token %}
-    <input type="hidden" name="return_to" value="{{ return_to }}">
 
     <div
         class="form-group {% if form.frequency.errors %}error{% endif %}"
