@@ -1,11 +1,14 @@
 {% extends 'main_with_navbar.html' %}
 {% load static %}
+{% load flow_state %}
 
 {% block page_title %}
   Check your dataset
 {% endblock %}
 
 {% block inner_content %}
+  {{ request|clear_flow_state }}
+
   <h1 class="heading-large">
     Check your dataset
   </h1>

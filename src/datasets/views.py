@@ -15,7 +15,21 @@ from datasets.models import Dataset, Datafile
 from datasets.search import index_dataset
 from datasets.search import delete_dataset as unindex_dataset
 
+def _set_flow_state(request):
+    ''' If the query string contains a 'state' string then
+    we will set the current state, otherwise we will leave
+    it unchanged '''
+    return_to = request.GET.get('state')
+    if return_to == 'edit':
+        request.session['flow-state'] = 'editing'
+    elif return_to == 'check':
+        request.session['flow-state'] = 'checking'
+
+
 def new_dataset(request):
+    # Reset the flow state
+    request.session['flow-state'] = None
+
     form = f.DatasetForm(request.POST or None)
     if request.method == 'POST':
         if form.is_valid():
@@ -91,6 +105,8 @@ def edit_dataset_details(request, dataset_name):
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
 
+    _set_flow_state(request)
+
     form = f.EditDatasetForm(request.POST or None, instance=dataset)
     if request.method == 'POST':
         if form.is_valid():
@@ -116,6 +132,8 @@ def edit_organisation(request, dataset_name):
 
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
+
+    _set_flow_state(request)
 
     organisations = organisations_for_user(request.user)
     if len(organisations) == 1:
@@ -148,6 +166,8 @@ def edit_licence(request, dataset_name):
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
 
+    _set_flow_state(request)
+
     form = f.LicenceForm(request.POST or None, instance=dataset)
     if request.method == 'POST':
         if form.is_valid():
@@ -170,6 +190,8 @@ def edit_location(request, dataset_name):
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
 
+    _set_flow_state(request)
+
     form = f.LocationForm(request.POST or None, instance=dataset)
     if request.method == 'POST':
         if form.is_valid():
@@ -191,6 +213,8 @@ def edit_frequency(request, dataset_name):
 
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
+
+    _set_flow_state(request)
 
     form = f.FrequencyForm(request.POST or None, instance=dataset)
     if request.method == 'POST':
@@ -219,6 +243,8 @@ def edit_addfile(request, dataset_name, datafile_id=None):
 
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
+
+    _set_flow_state(request)
 
     if request.method == 'POST':
         if form.is_valid():
@@ -268,6 +294,8 @@ def edit_addfile_weekly(request, dataset_name, datafile_id=None):
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
 
+    _set_flow_state(request)
+
     if request.method == 'POST':
         if form.is_valid():
             data = dict(**form.cleaned_data)
@@ -303,6 +331,7 @@ def edit_addfile_monthly(request, dataset_name, datafile_id=None):
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
 
+    _set_flow_state(request)
 
     if request.method == 'POST':
         if form.is_valid():
@@ -335,6 +364,8 @@ def edit_addfile_quarterly(request, dataset_name, datafile_id=None):
 
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
+
+    _set_flow_state(request)
 
     if request.method == 'POST':
         if form.is_valid():
@@ -369,6 +400,8 @@ def edit_addfile_annually(request, dataset_name, datafile_id = None):
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
 
+    _set_flow_state(request)
+
     if request.method == 'POST':
         if form.is_valid():
             data = dict(**form.cleaned_data)
@@ -401,6 +434,8 @@ def edit_files(request, dataset_name):
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
 
+    _set_flow_state(request)
+
     return render(request, "datasets/show_files.html", {
         'addfile_viewname': url,
         'dataset': dataset,
@@ -419,6 +454,8 @@ def edit_add_doc(request, dataset_name, datafile_id=None):
 
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
+
+    _set_flow_state(request)
 
     if request.method == 'POST':
         if form.is_valid():
@@ -450,6 +487,8 @@ def edit_documents(request, dataset_name):
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
 
+    _set_flow_state(request)
+
     return render(request, "datasets/show_docs.html", {
         'dataset': dataset,
         'return_to': return_to,
@@ -464,6 +503,8 @@ def edit_notifications(request, dataset_name):
 
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
+
+    _set_flow_state(request)
 
     if dataset.frequency in ['daily', 'never']:
         dataset.notifications = 'no'
@@ -498,6 +539,9 @@ def check_dataset(request, dataset_name):
 
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
+
+    # Reset the flow state
+    request.session['flow-state'] = None
 
     organisation = dataset.organisation
     organisations = organisations_for_user(request.user)
