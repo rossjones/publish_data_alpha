@@ -601,13 +601,13 @@ if (!Function.prototype.bind) {
         var rows = $(showHide).find('table tr');
         rows.each(function() {
           if ($(this).index() >= params.rowLimit) {
-            $(this).hide();
+            $(this).attr('aria-hidden', 'true').hide();
           }
         });
         if (rows.length > params.rowLimit) {
           $(showHide).find('a.toggle')
             .on('click', params, that.callback)
-            .show();
+            .attr('aria-hidden', 'false').show();
         }
       });
     },
@@ -618,11 +618,11 @@ if (!Function.prototype.bind) {
       a.toggleClass('expanded');
       if (a.hasClass('expanded')) {
         a.text('Close');
-        rows.show();
+        rows.attr('aria-hidden', 'false').show();
       } else {
         a.text('Show all');
         rows.each(function(i) {
-          if ($(this).index() >= event.data.rowLimit) $(this).hide();
+          if ($(this).index() >= event.data.rowLimit) $(this).attr('aria-hidden', 'true').hide();
         });
       }
     }
@@ -653,14 +653,14 @@ if (!Function.prototype.bind) {
 
     // what to do when the first 'Add another area' button is clicked
     add1: function() {
-      $(this).hide();
-      $('#location2, #add2, #del1, #del2').show();
+      $(this).attr('aria-hidden', 'true').hide();
+      $('#location2, #add2, #del1, #del2').attr('aria-hidden', 'false').show();
     },
 
     // what to do when the second 'Add another area' button is clicked
     add2: function() {
-      $(this).hide();
-      $('#location3, #add2, #del2, #del3').show();
+      $(this).attr('aria-hidden', 'true').hide();
+      $('#location3, #add2, #del2, #del3').attr('aria-hidden', 'false').show();
     },
 
     // what to do when the first 'Remove' button is clicked
@@ -671,16 +671,16 @@ if (!Function.prototype.bind) {
 
       // second location field disappears if not third present
       if (!$('#location3').is(':visible')) {
-        $('#location2').hide();
-        $('#add1').show();
-        $('#add2').hide();
+        $('#location2').attr('aria-hidden', 'true').hide();
+        $('#add1').attr('aria-hidden', 'false').show();
+        $('#add2').attr('aria-hidden', 'true').hide();
       } else {
-        $('#add2').show();
+        $('#add2').attr('aria-hidden', 'false').show();
       }
       if (!$('#location2').is(':visible')) {
-        $('#del1').hide();
+        $('#del1').attr('aria-hidden', 'true').hide();
       }
-      $('#location3').val('').hide();
+      $('#location3').val('').attr('aria-hidden', 'true').hide();
     },
 
     // second Remove button is clicked
@@ -688,34 +688,34 @@ if (!Function.prototype.bind) {
       $('#id_location2').val($('#id_location3').val());
       $('#id_location3').val('');
       if (!$('#location3').is(':visible')) {
-        $('#location2, #add2, #del1, #del2').hide();
-        $('#add1').show();
+        $('#location2, #add2, #del1, #del2').attr('aria-hidden', 'true').hide();
+        $('#add1').attr('aria-hidden', 'false').show();
       } else {
-        $('#add2').show();
+        $('#add2').attr('aria-hidden', 'false').show();
       }
-      $('#location3').hide();
+      $('#location3').attr('aria-hidden', 'true').hide();
     },
 
     del3: function() {
       $('#id_location3').val('');
-      $('#location3').hide();
-      $('#add2').show();
+      $('#location3').attr('aria-hidden', 'true').hide();
+      $('#add2').attr('aria-hidden', 'false').show();
     },
 
     init: function(params) {
       if ($('#id_location2').val()) {
-        $('#add1').hide();
-        $('#location2, #add2, #del2').show();
+        $('#add1').attr('aria-hidden', 'true').hide();
+        $('#location2, #add2, #del2').attr('aria-hidden', 'false').show();
       } else {
-        $('#add1').show();
-        $('#location2').hide();
+        $('#add1').attr('aria-hidden', 'false').show();
+        $('#location2').attr('aria-hidden', 'true').hide();
       }
 
       if ($('#id_location3').val()) {
-        $('#add2').hide();
-        $('#location3, #del3').show();
+        $('#add2').attr('aria-hidden', 'true').hide();
+        $('#location3, #del3').attr('aria-hidden', 'false').show();
       } else {
-        $('#location3').hide();
+        $('#location3').attr('aria-hidden', 'true').hide();
       }
 
       $('#add1').on('click', this.add1);
