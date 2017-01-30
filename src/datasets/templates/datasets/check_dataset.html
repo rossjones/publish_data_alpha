@@ -7,7 +7,6 @@
 {% endblock %}
 
 {% block inner_content %}
-  {{ request|clear_flow_state }}
 
   <h1 class="heading-large">
     Check your dataset
@@ -23,7 +22,7 @@
           {{ dataset.title }}
         </td>
         <td class="change-answer">
-          <a href="edit?return_to=check">
+          <a href="edit">
             Change <span class="visuallyhidden">dataset name</span>
           </a>
         </td>
@@ -36,7 +35,7 @@
           {{ dataset.summary }}
         </td>
         <td class="change-answer">
-          <a href="edit?return_to=check">
+          <a href="edit">
             Change <span class="visuallyhidden">summary</span>
           </a>
         </td>
@@ -49,7 +48,7 @@
           {{ dataset.description }}
         </td>
         <td class="change-answer">
-          <a href="edit?return_to=check">
+          <a href="edit">
             Change <span class="visuallyhidden">description</span>
           </a>
         </td>
@@ -63,7 +62,7 @@
             {{ organisation.title }}
           </td>
           <td class="change-answer">
-            <a href="organisation?return_to=check">
+            <a href="organisation">
               Change <span class="visuallyhidden">description</span>
             </a>
           </td>
@@ -84,7 +83,7 @@
           </ul>
         </td>
         <td class="change-answer">
-          <a href="files?return_to=check">
+          <a href="files">
             Change <span class="visuallyhidden">datafiles</span>
           </a>
         </td>
@@ -104,7 +103,7 @@
           </ul>
         </td>
         <td class="change-answer">
-          <a href="documents?return_to=check">
+          <a href="documents">
             Change <span class="visuallyhidden">documents</span>
           </a>
         </td>
@@ -121,7 +120,7 @@
           </ul>
         </td>
         <td class="change-answer">
-          <a href="location?return_to=check">
+          <a href="location">
             Change <span class="visuallyhidden">location</span>
           </a>
         </td>
@@ -134,7 +133,7 @@
           {{ licence }}
         </td>
         <td class="change-answer">
-          <a href="licence?return_to=check">
+          <a href="licence">
             Change <span class="visuallyhidden">licence</span>
           </a>
         </td>
@@ -147,7 +146,7 @@
           {{ dataset.frequency|title }}
         </td>
         <td class="change-answer">
-          <a href="frequency?return_to=check">
+          <a href="frequency">
             Change <span class="visuallyhidden">frequency update</span>
           </a>
         </td>
@@ -161,7 +160,7 @@
             {{ dataset.notifications|title }}
           </td>
           <td class="change-answer">
-            <a href="notifications?return_to=check">
+            <a href="notifications">
               Change <span class="visuallyhidden">notifications</span>
             </a>
           </td>
