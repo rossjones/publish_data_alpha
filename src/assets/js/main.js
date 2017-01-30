@@ -651,7 +651,64 @@ if (!Function.prototype.bind) {
       })
     },
 
+    // what to do when the first 'Add another area' button is clicked
+    add1: function() {
+      $(this).hide();
+      $('#location2, #add2, #del1, #del2').show();
+    },
+
+    // what to do when the second 'Add another area' button is clicked
+    add2: function() {
+      $(this).hide();
+      $('#location3, #add2, #del2, #del3').show();
+    },
+
+    // what to do when the first 'Remove' button is clicked
+    del1: function() {
+      // we've remove the first location, copy the 2 others down
+      $('#id_location1').val($('#id_location2').val());
+      $('#id_location2').val($('#id_location3').val());
+
+      // second location field disappears if not third present
+      if (!$('#location3').is(':visible')) {
+        $('#location2').hide();
+        $('#add1').show();
+        $('#add2').hide();
+      } else {
+        $('#add2').show();
+      }
+      if (!$('#location2').is(':visible')) {
+        $('#del1').hide();
+      }
+      $('#location3').val('').hide();
+    },
+
+    // second Remove button is clicked
+    del2: function() {
+      $('#id_location2').val($('#id_location3').val());
+      $('#id_location3').val('');
+      if (!$('#location3').is(':visible')) {
+        $('#location2, #add2, #del1, #del2').hide();
+        $('#add1').show();
+      } else {
+        $('#add2').show();
+      }
+      $('#location3').hide();
+    },
+
+    del3: function() {
+      $('#id_location3').val('');
+      $('#location3').hide();
+      $('#add2').show();
+    },
+
     init: function(params) {
+      $('#location2, #location3').hide();
+      $('#add1').on('click', this.add1).show();
+      $('#add2').on('click', this.add2);
+      $('#del1').on('click', this.del1);
+      $('#del2').on('click', this.del2);
+      $('#del3').on('click', this.del3);
       $(params.selector).typeahead(this.options, this.sourceOptions);
     },
   };
@@ -659,7 +716,7 @@ if (!Function.prototype.bind) {
 
   $(document).ready(function() {
     tableShowHide.init({ rowLimit: 3});
-    typeAhead.init({ selector: '.location_input' });
+    typeAhead.init({ selector: '.location-input' });
   });
 
 })();

@@ -31,7 +31,8 @@ var goToCreateRegion = function(browser) {
 
 var goToCreateFrequency = function(browser) {
   return goToCreateRegion(browser)
-    .clearSetValue('input[id=id_location]', 'England, Wales')
+    .clearSetValue('input[id=id_location1]', 'England')
+    .clearSetValue('input[id=id_location2]', 'Wales')
     .submitFormAndCheckNextTitle('How often is this dataset updated?');
 };
 
@@ -84,7 +85,7 @@ var test_create_happy_path = function (browser) {
     .submitFormAndCheckNextTitle('Choose a licence')
     .selectRadioButton('Open Government Licence')
     .submitFormAndCheckNextTitle('Choose an area')
-    .clearSetValue('input[id=id_location]', 'England, Wales')
+    .clearSetValue('input[id=id_location1]', 'England, Wales')
     .submitFormAndCheckNextTitle('How often is this dataset updated?')
     .selectRadioButton('Every month')
     .submitFormAndCheckNextTitle('Add a link')
@@ -201,7 +202,7 @@ var test_create_omit_region = function (browser) {
 
 var test_create_region_autocomplete = function (browser) {
   goToCreateRegion(browser)
-    .clearSetValue('input[id=id_location]', 'Swa')
+    .clearSetValue('input[id=id_location1]', 'Swa')
     .waitForElementVisible('div[role=listbox]', 5000)
     .assert.containsText('div[role=listbox]', 'Swansea (local authority)')
     .deleteLastCreatedDataset()

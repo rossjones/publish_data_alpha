@@ -57,7 +57,8 @@ class FullDatasetForm(forms.ModelForm):
         fields = [
             'title', 'summary', 'description',
             'licence', 'licence_other', 'organisation',
-            'frequency', 'notifications', 'location'
+            'frequency', 'notifications',
+            'location1', 'location2', 'location3'
         ]
 
 
@@ -97,7 +98,7 @@ class LocationForm(forms.ModelForm):
 
     class Meta:
         model = Dataset
-        fields = ['location']
+        fields = ['location1', 'location2', 'location3' ]
 
 
 class OrganisationForm(forms.ModelForm):

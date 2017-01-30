@@ -1660,21 +1660,33 @@ a.secondary-button, a.secondary-button:visited {
   color: #005ea5;
   padding: .5em 0 .5em 1em; }
 
-.tt-input {
+.twitter-typeahead {
   width: 100%; }
-
-.tt-menu {
-  width: 100%;
-  border: 1px solid #6f777b;
-  background: #fff;
-  overflow: hidden; }
-
-.tt-cursor {
-  background: #dee0e2; }
-
-.tt-hint {
-  width: 100%;
-  color: #6f777b; }
+  .twitter-typeahead .tt-menu.tt-open {
+    width: 66.6%;
+    border: 3px solid orange;
+    border-top: none;
+    left: -3px !important; }
+    @media (max-width: 640px) {
+      .twitter-typeahead .tt-menu.tt-open {
+        width: 100%; } }
+  .twitter-typeahead .tt-cursor {
+    background: #dee0e2; }
+  .twitter-typeahead .tt-hint {
+    color: #6f777b; }
+  .twitter-typeahead .tt-menu {
+    border: 1px solid #6f777b;
+    background: #fff;
+    overflow: hidden; }
+  .twitter-typeahead .tt-dropdown-menu {
+    width: 100%; }
+  .twitter-typeahead .tt-highlight {
+    text-decoration: underline; }
+  .twitter-typeahead .tt-cursor {
+    color: white;
+    background: #005ea5; }
+  .twitter-typeahead .tt-suggestion {
+    padding-left: 2px; }
 
 .product-header {
   background-color: #128400;
