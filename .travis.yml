@@ -2,5 +2,9 @@ language: python
 python:
   - "3.5"
 install: "pip install -r requirements.txt"
-before_script: "cd src; python manage.py migrate; cd .."
+before_script: 
+    - sleep 10
+    - "cd src; python manage.py migrate; cd .."
+services:
+    - elasticsearch
 script: "cd src; python manage.py test;"
