@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.template import RequestContext
 from django.views.generic.edit import FormView
 from django.http import HttpResponseRedirect, Http404
+import papertrail
 
 import datasets.forms as f
 from datasets.auth import user_can_edit_dataset, user_can_edit_datafile
@@ -40,6 +41,18 @@ def new_dataset(request):
                 creator=request.user
             )
 
+            papertrail.log(
+                'new-dataset',
+                '{} created a new dataset "{}"'.format(request.user.username,
+                    obj.title),
+                data={
+                    'dataset_name': obj.name,
+                    'dataset_title': obj.title,
+                    'user': request.user.username
+                },
+                external_key=obj.name
+            )
+
             return HttpResponseRedirect(
                 reverse('edit_dataset_organisation', args=[obj.name])
             )
@@ -66,6 +79,17 @@ def edit_full_dataset(request, dataset_name):
         if form.is_valid():
             obj = form.save()
 
+            papertrail.log(
+                'edit-dataset',
+                '{} edited "{}"'.format(request.user.username, obj.title),
+                data={
+                    'dataset_name': obj.name,
+                    'dataset_title': obj.title,
+                    'user': request.user.username
+                },
+                external_key=obj.name
+            )
+
             # Re-publish if we are editing a published dataset
             err = publish_to_ckan(obj)
             if dataset.published:
@@ -90,6 +114,17 @@ def delete_dataset(request, dataset_name):
 
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
+
+    papertrail.log(
+        'delete-dataset',
+        '{} deleted "{}"'.format(request.user.username, dataset.title),
+        data={
+            'dataset_name': obj.name,
+            'dataset_title': obj.title,
+            'user': request.user.username
+        },
+        external_key=obj.name
+    )
 
     unindex_dataset(dataset)
     dataset.delete()
@@ -556,6 +591,17 @@ def check_dataset(request, dataset_name):
 
         err = publish_to_ckan(dataset)
         index_dataset(dataset)
+
+        papertrail.log(
+            'publish-dataset',
+            'Dataset "{}" was published'.format(dataset.title),
+            data={
+                'dataset_name': dataset.name,
+                'dataset_title': dataset.title,
+                'user': request.user.username
+            },
+            external_key=dataset.name
+        )
 
         request.session['flow-state'] = None
 

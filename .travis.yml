@@ -2,9 +2,13 @@ language: python
 python:
   - "3.5"
 install: "pip install -r requirements.txt"
-before_script: 
+before_script:
     - sleep 10
+    - psql -c 'create database travis_ci_test;' -U postgres
     - "cd src; python manage.py migrate; cd .."
 services:
     - elasticsearch
+    - postgresql
+addons:
+  postgresql: "9.4"
 script: "cd src; python manage.py test;"
