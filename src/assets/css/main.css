@@ -1658,7 +1658,9 @@ table tr .actions {
 a.secondary-button, a.secondary-button:visited {
   display: inline-block;
   color: #005ea5;
-  padding: .5em 0 .5em 1em; }
+  padding: .5em 0 .5em 1em;
+  cursor: pointer;
+  text-decoration: underline; }
 
 .twitter-typeahead {
   width: 100%; }
