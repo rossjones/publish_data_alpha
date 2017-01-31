@@ -61,8 +61,8 @@
           {% for dataset in datasets %}
             <tr>
               <td>
-                {% if ckan_host %}
-                  <a href="{{ ckan_host }}/dataset/{{ dataset.name }}">{{ dataset.title }}</a>
+                {% if find_url %}
+                  <a href="{{ find_url }}/dataset/{{ dataset.name }}">{{ dataset.title }}</a>
                 {% else %}
                   {{ dataset.title }}
                 {% endif %}

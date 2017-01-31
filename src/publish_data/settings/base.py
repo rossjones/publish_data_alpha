@@ -166,6 +166,8 @@ STATICFILES_DIRS = [
 ES_HOSTS = os.environ.get('ES_HOSTS')
 ES_INDEX = os.environ.get('ES_INDEX')
 
+FIND_URL = os.environ.get('FIND_URL')
+
 try:
     from .local_settings import *
 except:
@@ -179,3 +181,6 @@ if not (ES_HOSTS and ES_INDEX):
 
 if isinstance(ES_HOSTS, str):
     ES_HOSTS = [h.strip() for h in ES_HOSTS.split(',')]
+
+if not FIND_URL:
+    print("You should set FIND_URL to link your datasets to the find-data app")

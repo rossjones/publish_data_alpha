@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from django.conf import settings
 
 from datasets.logic import dataset_list
 from tasks.logic import get_tasks_for_user
@@ -49,5 +50,5 @@ def manage_data(request):
         "current_page": page,
         "q": q or "",
         "result": result or "",
-        "ckan_host": ckan_host,
+        "find_url": settings.FIND_URL or ckan_host,
     })
