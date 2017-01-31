@@ -213,7 +213,7 @@ class DatasetsCreateAuthTestCase(TestCase):
 
     def test_check(self):
         u = reverse(
-            'edit_dataset_check_dataset',
+            'publish_dataset',
             args=[self.dataset_name]
         )
         response = self.client.get(u)
