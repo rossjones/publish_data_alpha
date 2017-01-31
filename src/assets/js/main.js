@@ -592,6 +592,17 @@ if (!Function.prototype.bind) {
 !(function () {
   'use strict';
 
+  // Utilities
+
+  // hide something, show something
+  var hs = function(stuffToHideSelector, stuffToShowSelector) {
+    if (stuffToHideSelector) $(stuffToHideSelector).attr('aria-hidden', 'true').hide();
+    if (stuffToShowSelector) $(stuffToShowSelector).attr('aria-hidden', 'false').show();
+  };
+
+
+  // Components
+
   var tableShowHide = {
     selector: '.table-show-hide ',
 
@@ -601,13 +612,13 @@ if (!Function.prototype.bind) {
         var rows = $(showHide).find('table tr');
         rows.each(function() {
           if ($(this).index() >= params.rowLimit) {
-            $(this).attr('aria-hidden', 'true').hide();
+            $(this).hide();
           }
         });
         if (rows.length > params.rowLimit) {
           $(showHide).find('a.toggle')
             .on('click', params, that.callback)
-            .attr('aria-hidden', 'false').show();
+            .show();
         }
       });
     },
@@ -618,11 +629,11 @@ if (!Function.prototype.bind) {
       a.toggleClass('expanded');
       if (a.hasClass('expanded')) {
         a.text('Close');
-        rows.attr('aria-hidden', 'false').show();
+        rows.show();
       } else {
         a.text('Show all');
         rows.each(function(i) {
-          if ($(this).index() >= event.data.rowLimit) $(this).attr('aria-hidden', 'true').hide();
+          if ($(this).index() >= event.data.rowLimit) $(this).hide();
         });
       }
     }
@@ -652,16 +663,10 @@ if (!Function.prototype.bind) {
     },
 
     // what to do when the first 'Add another area' button is clicked
-    add1: function() {
-      $(this).attr('aria-hidden', 'true').hide();
-      $('#location2, #add2, #del1, #del2').attr('aria-hidden', 'false').show();
-    },
+    add1: function() { hs('#add1', '#location2, #add2, #del1, #del2') },
 
     // what to do when the second 'Add another area' button is clicked
-    add2: function() {
-      $(this).attr('aria-hidden', 'true').hide();
-      $('#location3, #add2, #del2, #del3').attr('aria-hidden', 'false').show();
-    },
+    add2: function() { hs('#add2', '#location3, #add2, #del2, #del3') },
 
     // what to do when the first 'Remove' button is clicked
     del1: function() {
@@ -671,16 +676,15 @@ if (!Function.prototype.bind) {
 
       // second location field disappears if not third present
       if (!$('#location3').is(':visible')) {
-        $('#location2').attr('aria-hidden', 'true').hide();
-        $('#add1').attr('aria-hidden', 'false').show();
-        $('#add2').attr('aria-hidden', 'true').hide();
+        hs('#location2, #add2', '#add1');
       } else {
-        $('#add2').attr('aria-hidden', 'false').show();
+        hs('', '#add2');
       }
       if (!$('#location2').is(':visible')) {
-        $('#del1').attr('aria-hidden', 'true').hide();
+        hs('#del1');
       }
-      $('#location3').val('').attr('aria-hidden', 'true').hide();
+      hs('#location3');
+      $('#location3').val('');
     },
 
     // second Remove button is clicked
@@ -688,34 +692,29 @@ if (!Function.prototype.bind) {
       $('#id_location2').val($('#id_location3').val());
       $('#id_location3').val('');
       if (!$('#location3').is(':visible')) {
-        $('#location2, #add2, #del1, #del2').attr('aria-hidden', 'true').hide();
-        $('#add1').attr('aria-hidden', 'false').show();
+        hs('#location2, #add2, #del1, #del2', '#add1');
       } else {
-        $('#add2').attr('aria-hidden', 'false').show();
+        hs('', '#add2');
       }
-      $('#location3').attr('aria-hidden', 'true').hide();
+      hs('#location3');
     },
 
     del3: function() {
       $('#id_location3').val('');
-      $('#location3').attr('aria-hidden', 'true').hide();
-      $('#add2').attr('aria-hidden', 'false').show();
+      hs('#location3', '#add2');
     },
 
     init: function(params) {
       if ($('#id_location2').val()) {
-        $('#add1').attr('aria-hidden', 'true').hide();
-        $('#location2, #add2, #del2').attr('aria-hidden', 'false').show();
+        hs('#add1', '#location2, #add2, #del2');
       } else {
-        $('#add1').attr('aria-hidden', 'false').show();
-        $('#location2').attr('aria-hidden', 'true').hide();
+        hs('#location2', '#add1');
       }
 
       if ($('#id_location3').val()) {
-        $('#add2').attr('aria-hidden', 'true').hide();
-        $('#location3, #del3').attr('aria-hidden', 'false').show();
+        hs('#add2', '#location3, #del3');
       } else {
-        $('#location3').attr('aria-hidden', 'true').hide();
+        hs('#location3');
       }
 
       $('#add1').on('click', this.add1);
