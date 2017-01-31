@@ -47,10 +47,35 @@ var test_edit_title = function (browser) {
     .clearSetValue('input[name=title]', 'Corrected title')
     .submitFormAndCheckNextTitle('Your dataset has been edited')
     .assert.containsText('td', 'Corrected title')
+    .deleteLastCreatedDataset()
+    .end();
+};
+
+var test_edit_location = function (browser) {
+  createDataset(browser)
+    .clickAndCheckNextTitle('Edit', 'Edit ‘My dataset’')
+    .assert.visible('#add1')
+    .assert.hidden('#add2')
+    .clearSetValue('input[id=id_location1]', 'London')
+    .clickOnLink('Add another area')
+    .assert.hidden('#add1')
+    .assert.visible('#add2')
+    .clearSetValue('input[id=id_location2]', 'Paris')
+    .clickOnLink('Remove')
+    .clickOnLink('Add another area')
+    .clearSetValue('input[id=id_location2]', 'Berlin')
+    .submitFormAndCheckNextTitle('Your dataset has been edited')
+    .clickOnLink('Edit')
+    .assert.valueContains('input[id=id_location1]', 'Paris')
+    .assert.valueContains('input[id=id_location2]', 'Berlin')
+    .assert.valueContains('input[id=id_location3]', '')
+    .assert.hidden('#id_location3')
+    .clickOnLink('Delete this dataset')
     .end();
 };
 
 
 module.exports = {
-  'Edit a dataset, ': test_edit_title
+  'Edit a dataset, ': test_edit_title,
+  'Edit a dataset location, ': test_edit_location
 };

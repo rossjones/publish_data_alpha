@@ -1,6 +1,17 @@
 !(function () {
   'use strict';
 
+  // Utilities
+
+  // hide something, show something
+  var hs = function(stuffToHideSelector, stuffToShowSelector) {
+    if (stuffToHideSelector) $(stuffToHideSelector).attr('aria-hidden', 'true').hide();
+    if (stuffToShowSelector) $(stuffToShowSelector).attr('aria-hidden', 'false').show();
+  };
+
+
+  // Components
+
   var tableShowHide = {
     selector: '.table-show-hide ',
 
@@ -61,16 +72,10 @@
     },
 
     // what to do when the first 'Add another area' button is clicked
-    add1: function() {
-      $(this).addClass('js-hidden');
-      $('#location2, #add2, #del1, #del2').removeClass('js-hidden');
-    },
+    add1: function() { hs('#add1', '#location2, #add2, #del1, #del2') },
 
     // what to do when the second 'Add another area' button is clicked
-    add2: function() {
-      $(this).addClass('js-hidden');
-      $('#location3, #add2, #del2, #del3').removeClass('js-hidden');
-    },
+    add2: function() { hs('#add2', '#location3, #add2, #del2, #del3') },
 
     // what to do when the first 'Remove' button is clicked
     del1: function() {
@@ -80,16 +85,15 @@
 
       // second location field disappears if not third present
       if (!$('#location3').is(':visible')) {
-        $('#location2').addClass('js-hidden');
-        $('#add1').removeClass('js-hidden');
-        $('#add2').addClass('js-hidden');
+        hs('#location2, #add2', '#add1');
       } else {
-        $('#add2').removeClass('js-hidden');
+        hs('', '#add2');
       }
       if (!$('#location2').is(':visible')) {
-        $('#del1').addClass('js-hidden');
+        hs('#del1');
       }
-      $('#location3').val('').addClass('js-hidden');
+      hs('#location3');
+      $('#location3').val('');
     },
 
     // second Remove button is clicked
@@ -97,29 +101,29 @@
       $('#id_location2').val($('#id_location3').val());
       $('#id_location3').val('');
       if (!$('#location3').is(':visible')) {
-        $('#location2, #add2, #del1, #del2').addClass('js-hidden');
-        $('#add1').removeClass('js-hidden');
+        hs('#location2, #add2, #del1, #del2', '#add1');
       } else {
-        $('#add2').removeClass('js-hidden');
+        hs('', '#add2');
       }
-      $('#location3').addClass('js-hidden');
+      hs('#location3');
     },
 
     del3: function() {
       $('#id_location3').val('');
-      $('#location3').addClass('js-hidden');
-      $('#add2').removeClass('js-hidden');
+      hs('#location3', '#add2');
     },
 
     init: function(params) {
       if ($('#id_location2').val()) {
-        $('#add1').addClass('js-hidden');
-        $('#location2, #add2, #del2').removeClass('js-hidden');
+        hs('#add1', '#location2, #add2, #del2');
+      } else {
+        hs('#location2', '#add1');
       }
 
       if ($('#id_location3').val()) {
-        $('#add2').addClass('js-hidden');
-        $('#location3, #del3').removeClass('js-hidden');
+        hs('#add2', '#location3, #del3');
+      } else {
+        hs('#location3');
       }
 
       $('#add1').on('click', this.add1);

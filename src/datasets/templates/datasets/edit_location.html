@@ -36,10 +36,10 @@
         {% endif %}
 
         <div id="location1">
-          <label class="form-label-bold" for="id_location1">
-            <span>First area</span>
+          <label class="bold" for="id_location1">
+            <span>Area</span>
           </label>
-          <a id="del1" class="secondary-button js-hidden">Remove</a>
+          <a id="del1" class="secondary-button" style="display: none" aria-hidden="true">Remove</a>
           <input
               class="location-input form-control form-control-2-3"
               id="id_location1"
@@ -48,15 +48,17 @@
               autocomplete="off"
               value="{{ form.location1.value|default:'' }}" />
         </div>
-        <a id="add1" class="secondary-button">
-          Add another area
-        </a>
+        <p>
+          <a id="add1" class="secondary-button" style="display: none" aria-hidden="true">
+            Add another area
+          </a>
+        </p>
 
-        <div id="location2" class="js-hidden">
-          <label class="form-label-bold" for="id_location2">
-            <span>Second area</span>
+        <div id="location2">
+          <label class="bold" for="id_location2">
+            <span>Area</span>
           </label>
-          <a id="del2" class="secondary-button js-hidden">Remove</a>
+          <a id="del2" class="secondary-button" style="display: none" aria-hidden="true">Remove</a>
           <input
               class="location-input form-control form-control-2-3"
               id="id_location2"
@@ -65,15 +67,17 @@
               autocomplete="off"
               value="{{ form.location2.value|default:'' }}" />
         </div>
-        <a id="add2" class="secondary-button js-hidden">
-          Add another area
-        </a>
+        <p>
+          <a id="add2" class="secondary-button" style="display: none" aria-hidden="true">
+            Add another area
+          </a>
+        </p>
 
-        <div id="location3" class="js-hidden">
-          <label class="form-label-bold" for="id_location3">
-            <span>Third area</span>
+        <div id="location3">
+          <label class="bold" for="id_location3">
+            <span>Area</span>
           </label>
-          <a id="del3" class="secondary-button js-hidden">Remove</a>
+          <a id="del3" class="secondary-button" style="display: none" aria-hidden="true">Remove</a>
           <input
               class="location-input form-control form-control-2-3"
               id="id_location3"
@@ -89,7 +93,7 @@
       <input type="submit" class="button" value="Save and continue">
       <a
           href="{% url 'edit_dataset_frequency' dataset.name %}"
-          class="button-secondary">Skip</a>
+          class="secondary-button">Skip</a>
     </div>
 
   </form>

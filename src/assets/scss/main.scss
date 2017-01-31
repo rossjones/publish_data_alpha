@@ -74,12 +74,23 @@ table tr .actions {
   padding-right: 0;
 }
 
+
 a.secondary-button, a.secondary-button:visited {
-  display: inline-block;
   color: $link-colour;
-  padding: .5em 0 .5em 1em;
   cursor: pointer;
   text-decoration: underline;
+  .button + & {
+    padding: .5em 0 .5em 1em;
+    display: inline-block;
+  }
+  label + & {
+    padding: 0 0 0 1em;
+  }
+}
+
+
+.location-input {
+  display: block;
 }
 
 .twitter-typeahead {

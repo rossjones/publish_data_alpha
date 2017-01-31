@@ -1656,11 +1656,17 @@ table tr .actions {
   padding-right: 0; }
 
 a.secondary-button, a.secondary-button:visited {
-  display: inline-block;
   color: #005ea5;
-  padding: .5em 0 .5em 1em;
   cursor: pointer;
   text-decoration: underline; }
+  .button + a.secondary-button, .button + a.secondary-button:visited {
+    padding: .5em 0 .5em 1em;
+    display: inline-block; }
+  label + a.secondary-button, label + a.secondary-button:visited {
+    padding: 0 0 0 1em; }
+
+.location-input {
+  display: block; }
 
 .twitter-typeahead {
   width: 100%; }
