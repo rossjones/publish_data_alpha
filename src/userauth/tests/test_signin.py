@@ -22,7 +22,7 @@ class SigninTestCase(TestCase):
             "password": "password"
         })
         assert response.status_code == 302
-        assert response.url == '/'
+        assert response.url == '/dashboard'
 
     def test_signin_fail(self):
         response = self.client.post(reverse('signin'), {
