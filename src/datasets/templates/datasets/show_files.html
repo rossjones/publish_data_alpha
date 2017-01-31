@@ -29,8 +29,8 @@
               <td>{{ file.url }} </td>
               <td>✔</td>
               <td>
-                <a href="{% url addfile_viewname dataset.name file.id %}{{return_to_qs}}">Edit</a>
-                <a href="{% url 'edit_dataset_deletefile' dataset.name file.id %}{{return_to_qs}}">Delete</a>
+                <a href="{% url addfile_viewname dataset.name file.id %}">Edit</a>
+                <a href="{% url 'edit_dataset_deletefile' dataset.name file.id %}">Delete</a>
               </td>
             </tr>
           {% endif %}
@@ -40,16 +40,16 @@
 
 
     <a
-        {% if return_to == 'check' %}
+        {% if request|is_checking %}
           href="{% url 'edit_dataset_check_dataset' dataset.name %}"
-        {% elif return_to == 'edit' %}
+        {% elif request|is_editing %}
           href="{% url 'edit_full_dataset' dataset.name %}"
         {% else %}
           href="{% url 'edit_dataset_adddoc' dataset.name %}"
         {% endif %}
         class="button">Save and continue</a>
 
-      <a href="{% url addfile_viewname dataset.name %}{{ return_to_qs }}">
+      <a href="{% url addfile_viewname dataset.name %}">
         Add another link
       </a>
 

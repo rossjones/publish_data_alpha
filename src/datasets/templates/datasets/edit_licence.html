@@ -1,7 +1,6 @@
 {% extends 'main_with_navbar.html' %}
 {% load static %}
 {% load flow_state %}
-{% load flow_state %}
 
 {% block page_title %}
   Add dataset licence
@@ -27,7 +26,6 @@
       method="POST">
 
     {% csrf_token %}
-    <input type="hidden" name="return_to" value="{{ return_to }}">
 
     <div
         class="form-group {% if form.licence.errors %}error{% endif %}"

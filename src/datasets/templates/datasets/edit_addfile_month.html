@@ -19,7 +19,6 @@
       action="{% url 'edit_dataset_addfile_monthly' dataset.name datafile_id %}"
       class="form">
     {% csrf_token %}
-    <input type="hidden" name="return_to" value="{{ return_to }}"
 
     {% include 'datasets/includes/title_url.html' %}
 
@@ -73,9 +72,9 @@
     <div class="form-group">
       <input type="submit" class="button" value="Save and continue" />
       <a
-        {% if return_to == 'check' %}
+        {% if request|is_checking %}
           href="{% url 'edit_dataset_check_dataset' dataset.name %}"
-        {% elif return_to == 'edit' %}
+        {% elif request|is_editing %}
           href="{% url 'edit_full_dataset' dataset.name %}"
         {% endif %}
         class="secondary-button">Skip</a>
