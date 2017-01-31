@@ -1,3 +1,4 @@
+from django.core.urlresolvers import resolve, Resolver404
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.conf import settings
@@ -29,15 +30,27 @@ def login_view(request):
                     external_key=user.email
                 )
 
-                # TODO: Handle next parameter and redirect there...
+                # Before assuming that ?next is valid to redirect
+                # to after login, check it. If not valid, just
+                # redirect to dashboard as usual
+                redirect_to = settings.LOGIN_REDIRECT_URL
+                next_url = request.POST.get('next', '')
+                if next_url:
+                    try:
+                        resolve(next_url)
+                        redirect_to = next_url
+                    except Resolver404:
+                        pass
 
-                return redirect(settings.LOGIN_REDIRECT_URL)
+
+                return redirect(redirect_to)
             else:
                 login_failed = True
 
     return render(request, "userauth/signin.html", {
-        "form": form,
-        "login_failed": login_failed
+        'form': form,
+        'login_failed': login_failed,
+        'next': request.GET.get('next', '')
     })
 
 

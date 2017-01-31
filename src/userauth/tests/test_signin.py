@@ -24,6 +24,24 @@ class SigninTestCase(TestCase):
         assert response.status_code == 302
         assert response.url == '/dashboard'
 
+    def test_signin_with_ok_redirect(self):
+        response = self.client.post(reverse('signin'), {
+            "email": "test-signin@localhost",
+            "password": "password",
+            "next": "/dataset/new"
+        })
+        assert response.status_code == 302
+        assert response.url == '/dataset/new'
+
+    def test_signin_with_naughty_redirect(self):
+        response = self.client.post(reverse('signin'), {
+            "email": "test-signin@localhost",
+            "password": "password",
+            "next": "https://google.com"
+        })
+        assert response.status_code == 302
+        assert response.url == '/dashboard'
+
     def test_signin_fail(self):
         response = self.client.post(reverse('signin'), {
             "email": "no",
