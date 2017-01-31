@@ -62,6 +62,27 @@ class FullDatasetForm(forms.ModelForm):
         ]
 
 
+class PublishForm(forms.Form):
+    '''
+    Used to verify that the required fields are present in the
+    dataset. As the models themselves don't enforce that fields
+    are required, we will set them as required in the constructor.
+    '''
+
+    title = forms.CharField(required=True)
+    summary = forms.CharField(required=True)
+    description = forms.CharField(required=True)
+    licence = forms.CharField(required=True)
+    organisation = forms.CharField(required=True)
+    frequency = forms.CharField(required=True)
+
+    def clean(self):
+        print("here")
+        print(self.cleaned_data)
+        return self.cleaned_data
+
+
+
     def clean(self):
         if 'title' in self.cleaned_data:
             title = self.cleaned_data['title']

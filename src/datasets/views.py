@@ -14,7 +14,6 @@ from datasets.logic import organisations_for_user, publish_to_ckan
 from datasets.models import Dataset, Datafile
 from datasets.search import index_dataset
 from datasets.search import delete_dataset as unindex_dataset
-from datasets.validation import check_required_fields
 
 def _set_flow_state(request):
     ''' If the query string contains a 'state' string then
@@ -549,12 +548,13 @@ def check_dataset(request, dataset_name):
     organisation = dataset.organisation
     organisations = organisations_for_user(request.user)
     single_organisation = len(organisations) == 1
-    validation_errors = {}
 
     if request.method == 'POST':
+        from django.forms.models import model_to_dict
+        data = model_to_dict(dataset)
 
-        validation_errors = check_required_fields(dataset)
-        if not validation_errors:
+        form = f.PublishForm(data)
+        if form.is_valid():
             dataset.published = True
             dataset.published_date = datetime.now()
             dataset.save()
@@ -567,6 +567,8 @@ def check_dataset(request, dataset_name):
             return HttpResponseRedirect(
                 reverse('manage_data') + '?result=created'
             )
+    else:
+        form = f.PublishForm()
 
     datafiles = dataset.files.filter(is_documentation=False).all()
     docfiles = dataset.files.filter(is_documentation=True).all()
@@ -578,7 +580,7 @@ def check_dataset(request, dataset_name):
         'single_organisation': single_organisation,
         'docfiles': docfiles,
         'datafiles': datafiles,
-        'validation_errors': validation_errors
+        'form': form
     })
 
 

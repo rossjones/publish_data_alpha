@@ -8,28 +8,7 @@
 
 {% block inner_content %}
 
-  {% if validation_errors %}
-    <div
-      class="error-summary"
-      role="group"
-      aria-labelledby="error-summary-heading-example-1"
-      tabindex="-1">
-      <h1
-        class="heading-medium error-summary-heading"
-        id="error-summary-heading-example-1">
-        There was a problem
-      </h1>
-
-      <ul class="error-summary-list">
-        {% for _, error in validation_errors.items %}
-          <li>
-            {{ error }}
-            <span class="visuallyhidden">.</span>
-          </li>
-        {% endfor %}
-      </ul>
-    </div>
-  {% endif %}
+  {% include 'datasets/includes/error_box.html' %}
 
   <h1 class="heading-large">
     Check your dataset
