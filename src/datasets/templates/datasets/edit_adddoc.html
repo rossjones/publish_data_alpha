@@ -18,7 +18,6 @@
       action="{% url 'edit_dataset_adddoc' dataset.name datafile_id %}"
       method="POST">
     {% csrf_token %}
-    <input type="hidden" name="return_to" value="{{ return_to }}"/>
 
     <fieldset>
       <legend class="visuallyhidden">Add a document</legend>
@@ -66,7 +65,7 @@
     <div class="form-group">
       <input type="submit" class="button" value="Save and continue"/>
       <a
-        {% if return_to == 'edit' %}
+        {% if request|is_editing %}
           href="{% url 'edit_full_dataset' dataset.name %}"
         {% else %}
           href="{% url 'edit_dataset_check_dataset' dataset.name %}"

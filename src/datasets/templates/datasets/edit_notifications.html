@@ -16,7 +16,6 @@
 
   <form action="{% url 'edit_dataset_notifications' dataset.name %}" method="POST">
     {% csrf_token %}
-    <input type="hidden" name="return_to" value="{{ return_to }}">
 
     <ul class="errorlist"><li>This field is required.</li></ul>
 
