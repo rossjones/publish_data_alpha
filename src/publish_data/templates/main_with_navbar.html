@@ -34,11 +34,11 @@
         <div id="side-navigation">
           <nav>
             <ul>
-              {% url 'home' as home %}
+              {% url 'dashboard' as dashboard %}
               {% url 'new_dataset' as new %}
               {% url 'manage_data' as manage %}
-              <li class="{% if request.path == home %}bold{% endif %}">
-                <a href="{{ home }}">Dashboard</a>
+              <li class="{% if request.path == dashboard %}bold{% endif %}">
+                <a href="{{ dashboard }}">Dashboard</a>
               </li>
               <li class="{% if request.path == new %}bold{% endif %}">
                 <a href="{{ new }}">Create a dataset</a>
