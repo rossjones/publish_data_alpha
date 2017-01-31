@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.conf import settings
 
 from .forms import SigninForm
 
@@ -28,7 +29,9 @@ def login_view(request):
                     external_key=user.email
                 )
 
-                return redirect("/")
+                # TODO: Handle next parameter and redirect there...
+
+                return redirect(settings.LOGIN_REDIRECT_URL)
             else:
                 login_failed = True
 

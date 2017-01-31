@@ -1,4 +1,6 @@
+from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 from django.shortcuts import render
 from django.conf import settings
 
@@ -9,7 +11,8 @@ from runtime_config.logic import get_config
 
 def home(request):
     if request.user.is_authenticated():
-        return dashboard(request)
+        return HttpResponseRedirect(reverse('dashboard'))
+
     return render(request, "home.html", {})
 
 
