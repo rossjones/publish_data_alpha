@@ -495,18 +495,25 @@ def check_dataset(request, dataset_name):
     single_organisation = len(organisations) == 1
 
     if request.method == 'POST':
-        dataset.published = True
-        dataset.published_date = datetime.now()
-        dataset.save()
+        from django.forms.models import model_to_dict
+        data = model_to_dict(dataset)
 
-        err = publish_to_ckan(dataset)
-        index_dataset(dataset)
+        form = f.PublishForm(data)
+        if form.is_valid():
+            dataset.published = True
+            dataset.published_date = datetime.now()
+            dataset.save()
 
-        request.session['flow-state'] = None
+            publish_to_ckan(dataset)
+            index_dataset(dataset)
 
-        return HttpResponseRedirect(
-            reverse('manage_data') + '?result=created'
-        )
+            request.session['flow-state'] = None
+
+            return HttpResponseRedirect(
+                reverse('manage_data') + '?result=created'
+            )
+    else:
+        form = f.PublishForm()
 
     datafiles = dataset.files.filter(is_documentation=False).all()
     docfiles = dataset.files.filter(is_documentation=True).all()
@@ -517,7 +524,8 @@ def check_dataset(request, dataset_name):
         'organisation': organisation,
         'single_organisation': single_organisation,
         'docfiles': docfiles,
-        'datafiles': datafiles
+        'datafiles': datafiles,
+        'form': form
     })
 
 
