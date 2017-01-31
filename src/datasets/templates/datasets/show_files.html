@@ -41,7 +41,7 @@
 
     <a
         {% if request|is_checking %}
-          href="{% url 'edit_dataset_check_dataset' dataset.name %}"
+          href="{% url 'publish_dataset' dataset.name %}"
         {% elif request|is_editing %}
           href="{% url 'edit_full_dataset' dataset.name %}"
         {% else %}

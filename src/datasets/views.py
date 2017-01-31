@@ -119,11 +119,11 @@ def delete_dataset(request, dataset_name):
         'delete-dataset',
         '{} deleted "{}"'.format(request.user.username, dataset.title),
         data={
-            'dataset_name': obj.name,
-            'dataset_title': obj.title,
+            'dataset_name': dataset.name,
+            'dataset_title': dataset.title,
             'user': request.user.username
         },
-        external_key=obj.name
+        external_key=dataset.name
     )
 
     unindex_dataset(dataset)
@@ -496,7 +496,7 @@ def edit_notifications(request, dataset_name):
 
         return _redirect_to(
             request,
-            'edit_dataset_check_dataset',
+            'publish_dataset',
             [dataset.name]
         )
 
@@ -506,7 +506,7 @@ def edit_notifications(request, dataset_name):
             obj = form.save()
             return _redirect_to(
                 request,
-                'edit_dataset_check_dataset',
+                'publish_dataset',
                 [obj.name]
             )
 
@@ -516,7 +516,7 @@ def edit_notifications(request, dataset_name):
     })
 
 
-def check_dataset(request, dataset_name):
+def publish_dataset(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
     if not user_can_edit_dataset(request.user, dataset):
@@ -566,7 +566,7 @@ def check_dataset(request, dataset_name):
     datafiles = dataset.files.filter(is_documentation=False).all()
     docfiles = dataset.files.filter(is_documentation=True).all()
 
-    return render(request, "datasets/check_dataset.html", {
+    return render(request, "datasets/publish_dataset.html", {
         'dataset': dataset,
         'licence': dataset.licence if dataset.licence != 'other' else dataset.licence_other,
         'organisation': organisation,
@@ -599,7 +599,7 @@ def _frequency_addfile_viewname(dataset):
 def _redirect_to(request, default_url_name, args):
     flow = request.session.get('flow-state', '')
     if flow == 'checking':
-        next='edit_dataset_check_dataset'
+        next='publish_dataset'
     elif flow == 'editing':
         next = 'edit_full_dataset'
     else:

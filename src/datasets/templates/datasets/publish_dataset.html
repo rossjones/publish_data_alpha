@@ -172,15 +172,15 @@
   </table>
 
   <form
-      action="{% url 'edit_dataset_check_dataset' dataset.name %}"
+      action="{% url 'publish_dataset' dataset.name %}"
       method="POST">
     {% csrf_token %}
     <div class="form-group">
       <input type="submit" class="button" value="Publish">
       <a
-          href="{% url 'delete_dataset' dataset.name %}"
+          href="{% url 'manage_data'%}"
           class="secondary-button">
-        Delete
+        Save for later
       </a>
     </div>
   </form>
