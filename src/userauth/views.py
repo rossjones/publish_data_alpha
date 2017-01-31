@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 
 from .forms import SigninForm
 
+import papertrail
+
 
 def login_view(request):
     login_failed = False
@@ -15,6 +17,17 @@ def login_view(request):
             user = authenticate(username=email, password=password)
             if user is not None:
                 login(request, user)
+
+                papertrail.log(
+                    'login',
+                    '{} logged in'.format(user.username),
+                    data={
+                        'username': user.username,
+                        'email': user.email
+                    },
+                    external_key=user.email
+                )
+
                 return redirect("/")
             else:
                 login_failed = True

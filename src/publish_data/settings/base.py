@@ -43,6 +43,7 @@ REQUIRED_APPS = [
 ]
 
 PROJECT_APPS = [
+    'papertrail',
     'publish_data',
     'userauth',
     'datasets',

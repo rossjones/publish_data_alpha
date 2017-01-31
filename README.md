@@ -21,7 +21,7 @@ sudo bash dev_setup.sh
 
 After a few minutes you should see the site at http://192.168.99.99:8000
 
-Alternatively to just run on your machine with Sqlite3 and Elastic search (v5)
+Alternatively to just run on your machine with Postgres and Elastic search (v5)
 
 
 ``` bash
@@ -30,6 +30,7 @@ git clone <REPO>
 cd publish_data_alpha
 pip install -r requirements.txt
 cd src
+export DATABASE_URL="postgres://username:password@localhost/databasename"
 export DJANGO_SETTINGS_MODULE="publish_data.settings.dev"
 export ES_HOSTS='127.0.0.1:9200'
 export ES_INDEX='data_discovery'
