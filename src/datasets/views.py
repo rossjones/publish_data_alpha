@@ -517,6 +517,13 @@ def edit_notifications(request, dataset_name):
 
 
 def publish_dataset(request, dataset_name):
+
+
+    if request.resolver_match.url_name == 'edit_full_dataset':
+        request.session['flow-state'] = 'editing'
+    else:
+        request.session['flow-state'] = 'checking'
+
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
     if not user_can_edit_dataset(request.user, dataset):
