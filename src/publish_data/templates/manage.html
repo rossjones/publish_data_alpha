@@ -72,6 +72,9 @@
                 {% if dataset.name %}
                   <a href="{% url 'edit_dataset_addfile' dataset.name %}">Add&nbsp;Data</a><br/>
                   <a href="{% url 'edit_full_dataset' dataset.name %}">Edit</a><br/>
+                  {% if not dataset.published %}
+                      <a href="{% url 'edit_dataset_check_dataset' dataset.name %}">Publish</a><br/>
+                  {% endif %}
                 {% endif %}
               </td>
             </tr>
