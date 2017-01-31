@@ -5,6 +5,7 @@
 
 {% block head %}
   <link rel="stylesheet" href="{% static 'css/main.css' %}"/>
+  {% analytics %}
 {% endblock %}
 
 {% block page_title %}
@@ -36,5 +37,4 @@
 
 {% block body_end %}
   <script src="{% static 'js/main.js' %}"></script>
-  {% analytics %}
 {% endblock %}
