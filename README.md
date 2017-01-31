@@ -34,6 +34,7 @@ export DATABASE_URL="postgres://username:password@localhost/databasename"
 export DJANGO_SETTINGS_MODULE="publish_data.settings.dev"
 export ES_HOSTS='127.0.0.1:9200'
 export ES_INDEX='data_discovery'
+export FIND_URL='http://find-data.some-serve.com'  # where the dataset pages are
 
 ./manage.py migrate
 ./manage.py loaddata organisations
