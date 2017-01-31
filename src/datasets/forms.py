@@ -76,12 +76,6 @@ class PublishForm(forms.Form):
     organisation = forms.CharField(required=True)
     frequency = forms.CharField(required=True)
 
-    def clean(self):
-        print("here")
-        print(self.cleaned_data)
-        return self.cleaned_data
-
-
 
     def clean(self):
         if 'title' in self.cleaned_data:
