@@ -72,7 +72,7 @@ class Dataset(models.Model):
             'location3': self.location3 or '',
             'update_frequency': self.frequency,
             'last_edit_date': self.last_edit_date.isoformat(),
-            'published_date': self.published_date.isoformat(),
+            'published_date': self.published_date.isoformat() if self.published_date else '',
             'organisation': self.organisation.as_dict(),
             'resources': [f.as_dict() for f in self.files.filter(is_documentation=False).all()],
             'documentation': [f.as_dict() for f in self.files.filter(is_documentation=True).all()],
