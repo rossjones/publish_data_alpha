@@ -21,17 +21,7 @@
 
     {% include 'datasets/includes/title_url.html' %}
 
-    <div class="form-group">
-      <input type="submit" class="button" value="Save and continue"/>
-      <a
-        {% if request|is_checking %}
-          href="{% url 'publish_dataset' dataset.name %}"
-        {% elif request|is_editing %}
-          href="{% url 'edit_full_dataset' dataset.name %}"
-        {% else %}
-          href="{% url 'edit_dataset_adddoc' dataset.name %}"
-        {% endif %}
-        class="secondary-button">Skip</a>
-    </div>
+    {% include 'datasets/includes/frequency_add_submit.html' %}
+
   </form>
 {% endblock %}

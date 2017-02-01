@@ -1,0 +1,26 @@
+{% load flow_state %}
+
+<div class="form-group">
+  {% if request|is_checking %}
+    <input type="submit" class="button" value="Save">
+    <a
+        href="{% url 'publish_dataset' dataset.name %}"
+        class="secondary-button">
+      Cancel
+    </a>
+  {% elif request|is_editing %}
+    <input type="submit" class="button" value="Save">
+    <a
+        href="{% url 'edit_full_dataset' dataset.name %}"
+        class="secondary-button">
+      Cancel
+    </a>
+  {% else %}
+    <input type="submit" class="button" value="Save and continue">
+    <a
+        href="{% url 'edit_dataset_adddoc' dataset.name %}"
+        class="secondary-button">
+      Skip
+    </a>
+  {% endif %}
+</div>

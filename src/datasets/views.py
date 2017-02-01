@@ -67,43 +67,42 @@ def new_dataset(request):
 def edit_full_dataset(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
     organisations = organisations_for_user(request.user)
-    url = _frequency_addfile_viewname(dataset)
 
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
 
     request.session['flow-state'] = 'editing'
 
-    form = f.FullDatasetForm(request.POST or None, instance=dataset)
     if request.method == 'POST':
+        from django.forms.models import model_to_dict
+        data = model_to_dict(dataset)
+        form = f.PublishForm(data)
         if form.is_valid():
-            obj = form.save()
+            dataset.save()
 
             papertrail.log(
                 'edit-dataset',
-                '{} edited "{}"'.format(request.user.username, obj.title),
+                '{} edited "{}"'.format(request.user.username, dataset.title),
                 data={
-                    'dataset_name': obj.name,
-                    'dataset_title': obj.title,
+                    'dataset_name': dataset.name,
+                    'dataset_title': dataset.title,
                     'user': request.user.username
                 },
-                external_key=obj.name
+                external_key=dataset.name
             )
 
             # Re-publish if we are editing a published dataset
-            err = publish_to_ckan(obj)
+            err = publish_to_ckan(dataset)
             if dataset.published:
-                index_dataset(obj)
+                index_dataset(dataset)
             else:
-                unindex_dataset(obj)
+                unindex_dataset(dataset)
 
             return HttpResponseRedirect(
                 reverse('manage_data') + "?result=edited"
             )
 
-    return render(request, "datasets/edit_dataset.html", {
-        "addfile_viewname": url,
-        "form": form,
+    return render(request, "datasets/publish_dataset.html", {
         "dataset": dataset,
         "organisations": organisations,
     })
