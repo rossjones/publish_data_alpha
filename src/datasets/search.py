@@ -14,12 +14,18 @@ es = Elasticsearch(settings.ES_HOSTS,
 es.indices.create(
     index=settings.ES_INDEX,
     body={"mappings" : {
-        "datasets" : {
-            "properties" : {
-                "name" : { "type": "string", "index" : "not_analyzed" }
+            "datasets" : {
+                "properties" : {
+                    "name" : { "type": "string", "index" : "not_analyzed" }
+                }
             }
-        }
-    }},
+          },
+          "settings" : {
+              "index" : {
+                "max_result_window" : 75000,
+              }
+          }
+    },
     ignore=400
 )
 
@@ -66,8 +72,13 @@ def reset_index():
                     "properties" : {
                         "name" : { "type": "string", "index" : "not_analyzed" }
                     }
-            }
-        }},
+            }},
+            "settings" : {
+              "index" : {
+                "max_result_window" : 75000,
+              }
+          }
+        },
         ignore=400
     )
 
