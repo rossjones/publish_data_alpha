@@ -90,10 +90,28 @@
     </div>
 
     <div class="form-group">
-      <input type="submit" class="button" value="Save and continue">
-      <a
-          href="{% url 'edit_dataset_frequency' dataset.name %}"
-          class="secondary-button">Skip</a>
+      {% if request|is_checking %}
+        <input type="submit" class="button" value="Change">
+        <a
+            href="{% url 'publish_dataset' dataset.name %}"
+            class="secondary-button">
+          Cancel
+        </a>
+      {% elif request|is_editing %}
+        <input type="submit" class="button" value="Change">
+        <a
+            href="{% url 'edit_full_dataset' dataset.name %}"
+            class="secondary-button">
+          Cancel
+        </a>
+      {% else %}
+        <input type="submit" class="button" value="Save and continue">
+        <a
+            href="{% url 'edit_dataset_frequency' dataset.name %}"
+            class="secondary-button">
+          Skip
+        </a>
+      {% endif %}
     </div>
 
   </form>

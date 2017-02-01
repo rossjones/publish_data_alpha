@@ -63,11 +63,26 @@
         </label>
       </fieldset>
     </div>
+
     <div class="form-group">
-      <input type="submit" class="button" value="Save and continue">
+      {% if request|is_checking or request|is_editing %}
+        <input type="submit" class="button" value="Change"/>
+      {% endif %}
+      {% if request|is_checking %}
+        <a
+            href="{% url 'publish_dataset' dataset.name %}"
+            class="secondary-button">Cancel</a>
+
+      {% elif request|is_editing %}
+        <a
+            href="{% url 'edit_full_dataset' dataset.name %}"
+            class="secondary-button">Cancel</a>
+      {% else %}
+        <a
+            href="{% url 'publish_dataset' dataset.name %}"
+          class="secondary-button">Skip</a>
+      {% endif %}
     </div>
-    <a
-        href="{% url 'publish_dataset' dataset.name %}"
-        class="secondary-button">Skip</a>
+
   </form>
 {% endblock %}

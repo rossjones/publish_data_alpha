@@ -12,7 +12,11 @@
   {% include 'datasets/includes/error_box.html' %}
 
   <h1 class="heading-large">
-    Create a dataset
+    {% if request|is_editing or request|is_checking %}
+      Change your dataset's details
+    {% else %}
+      Create a dataset
+    {% endif %}
   </h1>
 
   <form method="post" class="form" action="{{ target_url }}">

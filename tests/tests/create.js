@@ -102,13 +102,7 @@ var test_create_happy_path = function (browser) {
     .selectRadioButton('Yes')
     .submitFormAndCheckNextTitle('Check your dataset')
     .submitFormAndCheckNextTitle('Your dataset has been published')
-    .useXpath()
-    .click('//a[text()="Edit" and contains(../../td[1]//text(),"'+dataSetTitle+'")]')
-    .useCss()
-    .waitForElementVisible('main', common.waitTimeout)
-    .clickOnLink('Delete this dataset')
-    .waitForElementVisible('main', common.waitTimeout)
-    .assert.containsText('main', 'Your dataset has been deleted')
+    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -346,7 +340,7 @@ var test_create_modify_title = function (browser) {
   goToCheckPage(browser)
     .clickOnLink('Change')
     .waitForElementVisible('h1', common.waitTimeout)
-    .assert.containsText('h1', 'Create a dataset')
+    .assert.containsText('h1', 'Change your dataset\'s details')
     .clearSetValue('input[name=title]', 'modified name')
     .submitFormAndCheckNextTitle('Check your dataset')
     .assert.containsText('body', 'modified name')
@@ -356,7 +350,7 @@ var test_create_modify_title = function (browser) {
 
 var test_create_modify_licence = function (browser) {
   goToCheckPage(browser)
-    .click('a[href^="licence"]')
+    .click('a[href*="licence"]')
     .waitForElementVisible('h1', common.waitTimeout)
     .assert.containsText('h1', 'Choose a licence')
     .selectRadioButton('Other')
@@ -370,7 +364,7 @@ var test_create_modify_licence = function (browser) {
 
 var test_create_remove_link = function (browser) {
   goToCheckPage(browser)
-    .click('a[href^="files"]')
+    .click('a[href*="files"]')
     .waitForElementVisible('h1', common.waitTimeout)
     .assert.containsText('h1', 'Dataset links')
     .clickAndCheckNextTitle('Delete', 'Dataset links')
@@ -381,7 +375,7 @@ var test_create_remove_link = function (browser) {
 
 var test_create_remove_doc = function (browser) {
   goToCheckPage(browser)
-    .click('a[href^="documents"]')
+    .click('a[href*="documents"]')
     .waitForElementVisible('h1', common.waitTimeout)
     .assert.containsText('h1', 'Dataset documentation')
     .clickAndCheckNextTitle('Delete', 'Dataset documentation')

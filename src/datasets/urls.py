@@ -10,7 +10,7 @@ urlpatterns = [
         name='new_dataset'),
 
     url(r'^edit/(?P<dataset_name>[\w-]+)$',
-        login_required(v.publish_dataset),
+        login_required(v.edit_full_dataset),
         name='edit_full_dataset'),
 
     url(r'^(?P<dataset_name>[\w-]+)/organisation$',
