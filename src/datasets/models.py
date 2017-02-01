@@ -19,8 +19,8 @@ class Location(models.Model):
 
 class Dataset(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = AutoSlugField(populate_from='title', default='', unique=True)
-    title = models.CharField(max_length=64)
+    name = AutoSlugField(populate_from='title', default='', unique=True, max_length=200)
+    title = models.CharField(max_length=200)
     summary = models.CharField(max_length=200, default="")
     description = models.TextField()
 
@@ -72,7 +72,7 @@ class Dataset(models.Model):
             'location3': self.location3 or '',
             'update_frequency': self.frequency,
             'last_edit_date': self.last_edit_date.isoformat(),
-            'published_date': self.published_date.isoformat(),
+            'published_date': self.published_date.isoformat() if self.published_date else '',
             'organisation': self.organisation.as_dict(),
             'resources': [f.as_dict() for f in self.files.filter(is_documentation=False).all()],
             'documentation': [f.as_dict() for f in self.files.filter(is_documentation=True).all()],
@@ -85,9 +85,11 @@ class Dataset(models.Model):
 
 
 class Datafile(models.Model):
-    title = models.CharField(max_length=128)
-    url = models.URLField()
-    format = models.CharField(max_length=16, blank=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    title = models.CharField(max_length=64)
+    url = models.URLField(max_length=2048)
+    format = models.CharField(max_length=32, blank=True)
     dataset = models.ForeignKey(Dataset, related_name="files")
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)

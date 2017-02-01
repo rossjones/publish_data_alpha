@@ -50,9 +50,9 @@ class Command(BaseCommand):
         )
 
         previous = 0
-        for end in range(50, count + 50, 50):
+        for end in range(250, count + 250, 250):
             datasets = q.all()[previous:end]
-            previous = end
+            print("Indexing from {} to {}".format(previous, end))
 
             k = [
                 {
@@ -63,6 +63,8 @@ class Command(BaseCommand):
                 } for d in datasets]
 
             bulk_import(k)
+            previous = end
+
 
 
     def do_reset(self):
