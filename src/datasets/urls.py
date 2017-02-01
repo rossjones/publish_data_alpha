@@ -30,27 +30,27 @@ urlpatterns = [
         name='edit_dataset_frequency'),
 
     # Data file URLs
-    url(r'^(?P<dataset_name>[\w-]+)/addfile/(?P<datafile_id>\d+)?$',
+    url(r'^(?P<dataset_name>[\w-]+)/addfile/(?P<datafile_id>[a-z\d-]+)?$',
         login_required(v.edit_addfile),
         name='edit_dataset_addfile'),
 
-    url(r'^(?P<dataset_name>[\w-]+)/addfile_weekly/(?P<datafile_id>\d+)?$',
+    url(r'^(?P<dataset_name>[\w-]+)/addfile_weekly/(?P<datafile_id>[a-z\d-]+)?$',
         login_required(v.edit_addfile_weekly),
         name='edit_dataset_addfile_weekly'),
 
-    url(r'^(?P<dataset_name>[\w-]+)/addfile_monthly/(?P<datafile_id>\d+)?$',
+    url(r'^(?P<dataset_name>[\w-]+)/addfile_monthly/(?P<datafile_id>[a-z\d-]+)?$',
         login_required(v.edit_addfile_monthly),
         name='edit_dataset_addfile_monthly'),
 
-    url(r'^(?P<dataset_name>[\w-]+)/addfile_quarterly/(?P<datafile_id>\d+)?$',
+    url(r'^(?P<dataset_name>[\w-]+)/addfile_quarterly/(?P<datafile_id>[a-z\d-]+)?$',
         login_required(v.edit_addfile_quarterly),
         name='edit_dataset_addfile_quarterly'),
 
-    url(r'^(?P<dataset_name>[\w-]+)/addfile_annually/(?P<datafile_id>\d+)?$',
+    url(r'^(?P<dataset_name>[\w-]+)/addfile_annually/(?P<datafile_id>[a-z\d-]+)?$',
         login_required(v.edit_addfile_annually),
         name='edit_dataset_addfile_annually'),
 
-    url(r'^(?P<dataset_name>[\w-]+)/deletefile/(?P<datafile_id>\d+)$',
+    url(r'^(?P<dataset_name>[\w-]+)/deletefile/(?P<datafile_id>[a-z\d-]+)$',
         login_required(v.edit_deletefile),
         name='edit_dataset_deletefile'),
 
@@ -59,7 +59,7 @@ urlpatterns = [
         name='edit_dataset_files'),
 
     # Documentation URLs
-    url(r'^(?P<dataset_name>[\w-]+)/adddoc/(?P<datafile_id>\d+)?$$',
+    url(r'^(?P<dataset_name>[\w-]+)/adddoc/(?P<datafile_id>[a-z\d-]+)?$$',
         login_required(v.edit_add_doc),
         name='edit_dataset_adddoc'),
 
