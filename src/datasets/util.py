@@ -14,6 +14,8 @@ def url_exists(url):
         r = requests.head(url, allow_redirects=True)
     except requests.ConnectionError as ce:
         return False, ''
+    except Exception as e:
+        return False, ''
 
     content_type = r.headers['Content-Type']
 
