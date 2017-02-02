@@ -73,6 +73,9 @@ def edit_full_dataset(request, dataset_name):
 
     request.session['flow-state'] = 'editing'
 
+    organisation = dataset.organisation
+    single_organisation = len(organisations) == 1
+
     if request.method == 'POST':
         from django.forms.models import model_to_dict
         data = model_to_dict(dataset)
@@ -101,11 +104,22 @@ def edit_full_dataset(request, dataset_name):
             return HttpResponseRedirect(
                 reverse('manage_data') + "?result=edited"
             )
+    else:
+        form = f.PublishForm()
+
+    datafiles = dataset.files.filter(is_documentation=False).all()
+    docfiles = dataset.files.filter(is_documentation=True).all()
 
     return render(request, "datasets/publish_dataset.html", {
         "dataset": dataset,
-        "organisations": organisations,
+        'licence': dataset.licence if dataset.licence != 'other' else dataset.licence_other,
+        'organisation': organisation,
+        'single_organisation': single_organisation,
+        'docfiles': docfiles,
+        'datafiles': datafiles,
+        'form': form
     })
+
 
 
 def delete_dataset(request, dataset_name):
