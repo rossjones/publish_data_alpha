@@ -176,14 +176,14 @@
   </table>
 
   <form
-      action="{% if request|is_editing %}{% url 'edit_full_dataset' dataset.name %}{% else %}{% url 'publish_dataset' dataset.name %}{% endif %}"
+      action="{% url 'publish_dataset' dataset.name %}"
       method="POST">
     {% csrf_token %}
     <div class="form-group">
-      {% if request|is_editing %}
-        <input type="submit" class="button" value="Done">
+      {% if dataset.published %}
+        <input type="submit" class="button" value="Done"/>
       {% else %}
-        <input type="submit" class="button" value="Publish">
+        <input type="submit" class="button" value="Publish"/>
         <a
             href="{% url 'manage_data'%}"
             class="secondary-button">
