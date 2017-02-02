@@ -86,7 +86,7 @@ class PublishForm(forms.Form):
 
         if 'licence' in self.cleaned_data:
             if self.cleaned_data['licence'] == 'other' \
-                    and not self.cleaned_data['licence_other']:
+                    and not self.cleaned_data.get('licence_other'):
                 self._errors['licence_other'] = \
                     [_('Please type the name of your licence')]
 
@@ -103,7 +103,7 @@ class LicenceForm(forms.ModelForm):
     def clean(self):
         if 'licence' in self.cleaned_data:
             if self.cleaned_data['licence'] == 'other' \
-                    and not self.cleaned_data['licence_other']:
+                    and not self.cleaned_data.get('licence_other'):
                 self._errors['licence_other'] = \
                     [_('Please type the name of your licence')]
         return self.cleaned_data
