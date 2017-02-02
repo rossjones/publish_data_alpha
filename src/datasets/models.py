@@ -97,6 +97,9 @@ class Datafile(models.Model):
     year = models.IntegerField(blank=True, null=True)
     quarter = models.IntegerField(blank=True, null=True)
 
+    is_broken = models.BooleanField(default=False)
+    last_check = models.DateTimeField(null=True, blank=True)
+
     is_documentation = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
@@ -121,6 +124,8 @@ class Datafile(models.Model):
             'format': self.format,
             'start_date': start.isoformat() if start else '',
             'end_date': end.isoformat() if end else '',
+            'is_broken': self.is_broken,
+            'last_check': self.last_check.isoformat() if self.last_check else ''
         }
 
         return data
