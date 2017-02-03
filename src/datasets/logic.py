@@ -28,14 +28,8 @@ def dataset_list(user, page=1, filter_query=None):
 
     q = q.order_by('-last_edit_date')
 
-    datasets = q.all()[0:max_fetch]
-
-
-    #results = datasets_for_user(
-    #    user,
-    #    search_term=filter_query or "*:*",
-    #)
-
+    start = (per_page * page) - per_page
+    datasets = q.all()[start:start+per_page]
 
     total = q.count()
     page_count = math.ceil(float(total) / per_page)
