@@ -7,6 +7,8 @@ from django.urls import reverse
 from django.template import RequestContext
 from django.views.generic.edit import FormView
 from django.http import HttpResponseRedirect, Http404
+from django.utils.translation import ugettext as _
+
 import papertrail
 
 import datasets.forms as f
@@ -269,20 +271,38 @@ def edit_addfile(request, dataset_name, datafile_id=None):
     _set_flow_state(request)
 
     if request.method == 'POST':
-        if form.is_valid():
-            data = dict(**form.cleaned_data)
-            if datafile:
-                form.save()
-            else:
-                data['dataset'] = dataset
-                obj = Datafile.objects.create(**data)
-                obj.save()
+        yesno = request.POST.get('yesno')
 
+        if yesno == 'false':
             return HttpResponseRedirect(
                 reverse('edit_dataset_files', args=[dataset_name])
             )
+        else:
+            if not yesno:
+                form.add_error(None, _('Please choose if you want to add a file'))
+                return render(request, 'datasets/edit_addfile.html', {
+                    'is_first_file': len(dataset.files.all()) == 0,
+                    'form': form,
+                    'dataset': dataset,
+                    'datafile_id': datafile_id or '',
+                })
+            else:
 
-    return render(request, "datasets/edit_addfile.html", {
+                if form.is_valid():
+                    data = dict(**form.cleaned_data)
+                    if datafile:
+                        form.save()
+                    else:
+                        data['dataset'] = dataset
+                        obj = Datafile.objects.create(**data)
+                        obj.save()
+
+                        return HttpResponseRedirect(
+                            reverse('edit_dataset_adddoc', args=[dataset_name])
+                        )
+
+    return render(request, 'datasets/edit_addfile.html', {
+        'is_first_file': len(dataset.files.all()) == 0,
         'form': form,
         'dataset': dataset,
         'datafile_id': datafile_id or '',

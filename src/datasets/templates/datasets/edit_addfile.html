@@ -19,6 +19,15 @@
       method="POST">
     {% csrf_token %}
 
+    {% if is_first_file %}
+      Yes1<input type="radio" name="yesno" value="true"/>
+      No1<input type="radio" name="yesno" value="false"/>
+    {% else %}
+      Yes2<input type="radio" name="yesno" value="true" checked="checked"/>
+      No2<input type="radio" name="yesno" value="false"/>
+    {% endif %}
+
+
     {% include 'datasets/includes/title_url.html' %}
 
     {% include 'datasets/includes/frequency_add_submit.html' %}
