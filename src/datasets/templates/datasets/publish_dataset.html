@@ -21,102 +21,91 @@
   <table class="check-your-answers">
     <tbody>
       <tr>
-        <td>
-          Name
+        <td class="dataset-item">
+          Name<br/>
+          <a class="font-xsmall" href="{% url 'edit_dataset' dataset.name %}">
+            Change <span class="visuallyhidden">dataset name</span>
+          </a>
         </td>
         <td>
           {{ dataset.title }}
         </td>
-        <td class="change-answer">
-          <a href="{% url 'edit_dataset' dataset.name %}">
-            Change <span class="visuallyhidden">dataset name</span>
-          </a>
-        </td>
       </tr>
       <tr>
-        <td>
-          Summary
-        </td>
-        <td>
-          {{ dataset.summary }}
-        </td>
-        <td class="change-answer">
-          <a href="{% url 'edit_dataset' dataset.name %}">
+        <td class="dataset-item">
+          Summary<br/>
+          <a class="font-xsmall" href="{% url 'edit_dataset' dataset.name %}">
             Change <span class="visuallyhidden">summary</span>
           </a>
         </td>
+        <td>
+          {{ dataset.summary|truncatechars:65 }}
+        </td>
       </tr>
       <tr>
-        <td>
-          Additional information
-        </td>
-        <td>
-          {{ dataset.description }}
-        </td>
-        <td class="change-answer">
-          <a href="{% url 'edit_dataset' dataset.name %}">
+        <td class="dataset-item">
+          Additional information<br/>
+          <a class="font-xsmall" href="{% url 'edit_dataset' dataset.name %}">
             Change <span class="visuallyhidden">description</span>
           </a>
+        </td>
+        <td>
+          {{ dataset.description|truncatechars:250 }}
         </td>
       </tr>
       {% if not single_organisation %}
         <tr>
-          <td>
-            Organisation
+          <td class="dataset-item">
+            Organisation<br/>
+            <a class="font-xsmall" href="{% url 'edit_dataset_organisation' dataset.name %}">
+              Change <span class="visuallyhidden">description</span>
+            </a>
           </td>
           <td>
             {{ organisation.title }}
           </td>
-          <td class="change-answer">
-            <a href="{% url 'edit_dataset_organisation' dataset.name %}">
-              Change <span class="visuallyhidden">description</span>
-            </a>
-          </td>
         </tr>
       {% endif %}
       <tr>
-        <td>
-          Links
+        <td class="dataset-item">
+          Links<br/>
+          <a class="font-xsmall" href="{% url 'edit_dataset_files' dataset.name %}">
+            Change <span class="visuallyhidden">datafiles</span>
+          </a>
         </td>
         <td>
           <ul>
           {% for link in datafiles %}
             <li>
-              {{ link.title }}<br/>
-              {{ link.url }}
+              {{ link.title }} ({{ link.url }})
             </li>
           {% endfor %}
           </ul>
         </td>
-        <td class="change-answer">
-          <a href="{% url 'edit_dataset_files' dataset.name %}">
-            Change <span class="visuallyhidden">datafiles</span>
-          </a>
-        </td>
       </tr>
-      <tr>
+      <tr class="dataset-item">
         <td>
-          Documentation
+          Documentation<br/>
+          <a class="font-xsmall" href="{% url 'edit_dataset_documents' dataset.name %}">
+            Change <span class="visuallyhidden">documents</span>
+          </a>
         </td>
         <td>
           <ul>
           {% for link in docfiles %}
             <li>
-              {{ link.title }}<br/>
-              {{ link.url }}
+              {{ link.title }}&nbsp;{{ link.url }}
             </li>
           {% endfor %}
           </ul>
         </td>
-        <td class="change-answer">
-          <a href="{% url 'edit_dataset_documents' dataset.name %}">
-            Change <span class="visuallyhidden">documents</span>
-          </a>
-        </td>
       </tr>
       <tr>
-        <td>
-          Location
+        <td class="dataset-item">
+          Location<br/>
+          <a class="font-xsmall" href="{% url 'edit_dataset_location' dataset.name %}">
+            Change <span class="visuallyhidden">location</span>
+          </a>
         </td>
         <td>
           <ul>
@@ -125,50 +114,39 @@
             <li>{{ dataset.location3 }}</li>
           </ul>
         </td>
-        <td class="change-answer">
-          <a href="{% url 'edit_dataset_location' dataset.name %}">
-            Change <span class="visuallyhidden">location</span>
-          </a>
-        </td>
       </tr>
       <tr>
-        <td>
-          Licence
+        <td class="dataset-item">
+          Licence<br/>
+          <a class="font-xsmall" href="{% url 'edit_dataset_licence' dataset.name %}">
+            Change <span class="visuallyhidden">licence</span>
+          </a>
         </td>
         <td>
           {{ licence }}
         </td>
-        <td class="change-answer">
-          <a href="{% url 'edit_dataset_licence' dataset.name %}">
-            Change <span class="visuallyhidden">licence</span>
-          </a>
-        </td>
       </tr>
       <tr>
-        <td>
-          Frequency Update
+        <td class="dataset-item">
+          Frequency Update<br/>
+          <a class="font-xsmall" href="{% url 'edit_dataset_frequency' dataset.name %}">
+            Change <span class="visuallyhidden">frequency update</span>
+          </a>
         </td>
         <td>
           {{ dataset.frequency|title }}
         </td>
-        <td class="change-answer">
-          <a href="{% url 'edit_dataset_frequency' dataset.name %}">
-            Change <span class="visuallyhidden">frequency update</span>
-          </a>
-        </td>
       </tr>
       {% if dataset.notifications %}
         <tr>
-          <td>
-            Notifications
+          <td class="dataset-item">
+            Notifications<br/>
+            <a class="font-xsmall" href="{% url 'edit_dataset_notifications' dataset.name %}">
+              Change <span class="visuallyhidden">notifications</span>
+            </a>
           </td>
           <td>
             {{ dataset.notifications|title }}
-          </td>
-          <td class="change-answer">
-            <a href="{% url 'edit_dataset_notifications' dataset.name %}">
-              Change <span class="visuallyhidden">notifications</span>
-            </a>
           </td>
         </tr>
       {% endif %}
