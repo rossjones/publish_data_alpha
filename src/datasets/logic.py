@@ -110,6 +110,7 @@ def convert_to_ckan(dataset, alpha_id):
             'description': file.title,
             'url': file.url,
             'format': file.format or '',
+            'is_broken': file.is_broken,
         }
         if file.is_documentation:
             r['resource_type'] = 'documentation'

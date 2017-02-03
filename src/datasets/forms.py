@@ -133,6 +133,7 @@ class CheckedFileForm(forms.ModelForm):
 
     title = forms.CharField(required=True)
     url = forms.CharField(required=True)
+    is_broken = forms.BooleanField(required=False)
 
     def clean(self):
         cleaned = super(CheckedFileForm, self).clean()
@@ -150,6 +151,8 @@ class CheckedFileForm(forms.ModelForm):
             #    self._errors['url'] = \
             #        [_("This appears to be a web page and not a data file")]
 
+        cleaned['is_broken'] = False
+        cleaned['last_check'] = datetime.datetime.now()
         cleaned['format'] = fmt
 
         return cleaned
