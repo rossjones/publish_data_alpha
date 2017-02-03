@@ -229,7 +229,7 @@ class QuarterlyFileForm(CheckedFileForm):
     class Meta:
         frequency = 'quarterly'
         model = Datafile
-        fields = [ 'title', 'url', 'quarter' ]
+        fields = [ 'title', 'url', 'quarter', 'year' ]
 
 
 class AnnuallyFileForm(CheckedFileForm):

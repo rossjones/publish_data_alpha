@@ -284,6 +284,7 @@ var test_create_quarterly = function (browser) {
     .clearSetValue('input[id=id_url]', 'http://example.com/file2.csv')
     .clearSetValue('input[id=id_title]', 'Second link')
     .selectRadioButton('Q3 (October to December)')
+    .clearSetValue('input[id=period_year]', '1984')
     .submitFormAndCheckNextTitle('Dataset links')
     .assert.containsText('table', 'First link')
     .assert.containsText('table', 'Second link')
