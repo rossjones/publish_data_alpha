@@ -62,6 +62,7 @@ class DatafileDatesTestCase(TestCase):
     def test_quarter(self):
         df = self.skeleton()
         df.quarter = 1
+        df.year = 2017
         df.save()
 
         assert df.start_date == datetime(year=2017, month=1, day=1)

@@ -104,9 +104,9 @@ class Datafile(models.Model):
 
     def save(self, *args, **kwargs):
         if not (self.start_date and self.end_date):
-            if self.quarter:
+            if self.quarter and self.year:
                 self.start_date, self.end_date = \
-                    calculate_dates_for_quarter(self.quarter)
+                    calculate_dates_for_quarter(self.quarter, self.year)
             elif self.year and self.month:
                 self.start_date, self.end_date = \
                     calculate_dates_for_month(self.month, self.year)

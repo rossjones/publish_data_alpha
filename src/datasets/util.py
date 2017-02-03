@@ -32,7 +32,6 @@ def url_exists(url):
         if fmt in ['HTM', 'SHTML']:
             fmt = 'HTML'
 
-
     return True, fmt
 
 
