@@ -133,6 +133,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# Misc settings
+DATA_UPLOAD_MAX_NUMBER_FIELDS = None
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
