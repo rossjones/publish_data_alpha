@@ -77,10 +77,6 @@
         <a
             href="{% url 'edit_full_dataset' dataset.name %}"
             class="secondary-button">Cancel</a>
-      {% else %}
-        <a
-            href="{% url 'publish_dataset' dataset.name %}"
-          class="secondary-button">Skip</a>
       {% endif %}
     </div>
 
