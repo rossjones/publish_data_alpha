@@ -11,6 +11,7 @@
     {% if result == "created" %}
       <div class="govuk-box-highlight">
         <h1 class="bold-large">Your dataset has been published</h1>
+        <h2><a href="{{ find_url }}/dataset/{{ datasets.first.name }}">View it</a></h2>
       </div>
     {% endif %}
     {% if result == "deleted" %}
@@ -21,6 +22,7 @@
     {% if result == "edited" %}
       <div class="govuk-box-highlight">
         <h1 class="bold-large">Your dataset has been edited</h1>
+        <a href="{{ find_url }}/dataset/{{ datasets.first.name }}">View it</a>
       </div>
     {% endif %}
 

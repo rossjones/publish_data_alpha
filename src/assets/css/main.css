@@ -1628,6 +1628,9 @@ input[type=number] {
 #global-cookie-message p {
   max-width: 960px; }
 
+.govuk-box-highlight a {
+  color: #fff; }
+
 .column-three-quarters {
   padding: 0 15px;
   -webkit-box-sizing: border-box;

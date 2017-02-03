@@ -43,6 +43,10 @@ $Helvetica-Regular: $helvetica-regular;
   max-width: 960px;
 }
 
+.govuk-box-highlight a {
+  color: $white;
+}
+
 // govuk-* additions
 
 .column-three-quarters {
