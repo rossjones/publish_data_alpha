@@ -20,7 +20,7 @@
     {% csrf_token %}
 
     {% if is_first_file %}
-      Yes1<input type="radio" name="yesno" value="true"/>
+      Yes1<input type="radio" name="yesno" value="true" {% if form.errors %}checked="checked"{% endif %}/>
       No1<input type="radio" name="yesno" value="false"/>
     {% else %}
       Yes2<input type="radio" name="yesno" value="true" checked="checked"/>

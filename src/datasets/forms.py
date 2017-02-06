@@ -134,9 +134,21 @@ class CheckedFileForm(forms.ModelForm):
     title = forms.CharField(required=True)
     url = forms.CharField(required=True)
     is_broken = forms.BooleanField(required=False)
+    yesno = forms.CharField(required=True)
 
     def clean(self):
+        cleaned = self.cleaned_data
+        if not 'yesno' in cleaned:
+            self.add_error(None, _('Please choose if you want to add a file'))
+            self.errors['url'] = ''
+            self.errors['title'] = ''
+            return cleaned
+
+        if cleaned['yesno'] == 'false':
+            return cleaned
+
         cleaned = super(CheckedFileForm, self).clean()
+        cleaned['yesno'] = 'true'
         if self._errors:
             return cleaned
 

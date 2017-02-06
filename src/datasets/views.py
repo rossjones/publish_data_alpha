@@ -261,45 +261,35 @@ def edit_frequency(request, dataset_name):
 
 def edit_addfile(request, dataset_name, datafile_id=None):
     dataset = get_object_or_404(Dataset, name=dataset_name)
-    datafile = get_object_or_404(Datafile, id=datafile_id) \
-        if datafile_id else None
-    form = f.FileForm(request.POST or None, instance=datafile)
 
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
 
+    datafile = get_object_or_404(Datafile, id=datafile_id) \
+        if datafile_id else None
     _set_flow_state(request)
 
-    if request.method == 'POST':
-        yesno = request.POST.get('yesno')
+    form = f.FileForm(request.POST or None, instance=datafile)
 
-        if yesno == 'false':
+    if request.method == 'POST':
+        if request.POST.get('yesno') == 'false':
             return HttpResponseRedirect(
                 reverse('edit_dataset_files', args=[dataset_name])
             )
-        else:
-            if not yesno:
-                form.add_error(None, _('Please choose if you want to add a file'))
-                return render(request, 'datasets/edit_addfile.html', {
-                    'is_first_file': len(dataset.files.all()) == 0,
-                    'form': form,
-                    'dataset': dataset,
-                    'datafile_id': datafile_id or '',
-                })
+
+        if form.is_valid():
+            data = dict(**form.cleaned_data)
+            del data['yesno']
+            if datafile:
+                form.save()
             else:
+                data['dataset'] = dataset
+                obj = Datafile.objects.create(**data)
+                obj.save()
 
-                if form.is_valid():
-                    data = dict(**form.cleaned_data)
-                    if datafile:
-                        form.save()
-                    else:
-                        data['dataset'] = dataset
-                        obj = Datafile.objects.create(**data)
-                        obj.save()
-
-                        return HttpResponseRedirect(
-                            reverse('edit_dataset_adddoc', args=[dataset_name])
-                        )
+                return HttpResponseRedirect(
+                    reverse('edit_dataset_adddoc', args=[dataset_name])
+                )
 
     return render(request, 'datasets/edit_addfile.html', {
         'is_first_file': len(dataset.files.all()) == 0,
