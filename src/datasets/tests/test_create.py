@@ -223,6 +223,7 @@ class DatasetsTestCase(TestCase):
         response = self.client.post(
             u,
             {
+                'yesno': 'true',
                 'title': 'A title',
                 'url': 'https://data.gov.uk'
             }
