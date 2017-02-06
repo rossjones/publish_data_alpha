@@ -58,6 +58,15 @@ class Dataset(models.Model):
     legacy_metadata = models.TextField(null=True, blank=True)
 
     def as_dict(self):
+        def _strip_location(loc):
+            if not loc or not loc.strip():
+                return ''
+
+            idx = loc.find('(')
+            if idx < 0:
+                idx = len(loc)
+            return loc[0:idx].strip()
+
         data = {
             'id': str(self.id),
             'name': self.name,
@@ -67,9 +76,9 @@ class Dataset(models.Model):
             'dataset_type': self.dataset_type,
             'licence': self.licence,
             'licence_other': self.licence_other or '',
-            'location1': self.location1 or '',
-            'location2': self.location2 or '',
-            'location3': self.location3 or '',
+            'location1': _strip_location(self.location1),
+            'location2': _strip_location(self.location2),
+            'location3': _strip_location(self.location3),
             'update_frequency': self.frequency,
             'last_edit_date': self.last_edit_date.isoformat(),
             'published_date': self.published_date.isoformat() if self.published_date else '',
