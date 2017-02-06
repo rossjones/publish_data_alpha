@@ -3,7 +3,7 @@
 {% load flow_state %}
 
 {% block page_title %}
-  Time period
+  Add a link to the data
 {% endblock %}
 
 {% block inner_content %}
@@ -11,7 +11,11 @@
   {% include 'datasets/includes/error_box.html' %}
 
   <h1 class="heading-large">
-    Add a link
+    {% if is_first_file %}
+      Do you have a link to the data?
+    {% else %}
+      Add a link
+    {% endif %}
   </h1>
 
   <form
@@ -20,30 +24,64 @@
       class="form">
     {% csrf_token %}
 
-    {% include 'datasets/includes/title_url.html' %}
 
-    <fieldset>
-      <legend>
-        <span class="form-label-bold">
-          Time period of this link
-        </span>
-      </legend>
-      <div class="form-group form-group-year {% if form.year.errors %}error{% endif %}">
-        <label class="form-label" for="period_year">Year</label>
-        {% for error in form.year.errors %}
-          <span class="error-message">{{ error }}</span>
-        {% endfor %}
-        <span class="form-hint">For example, 2016</span>
+    <div class="form-group {% if form.yesno.errors %}error{% endif %}">
+
+      {% if form.yesno.errors %}
+        <p id="yesno_form_group" class="error">Please select yes or no</p>
+      {% endif %}
+
+      <label  style="display: {% if is_first_file %}block{% else %}none{% endif %}"
+              class="block-label selection-button-radio"
+              data-target="add-link">
         <input
-            class="form-control"
-            id="period_year"
-            name="{{ form.year.html_name }}"
-            type="number"
-            pattern="[0-9]*"
-            min="0"
-            value="{{ form.year.value|default:'' }}">
+            type="radio"
+            name="yesno"
+            value="true"
+            {% if form.urls.errors or form.title.errors or not is_first_file %}checked="checked"{% endif %}/>
+        <span>Yes</span>
+      </label>
+
+      <div class="{% if is_first_file %}panel panel-border-narrow js-hidden{% endif %}" id="add-link"
+
+        {% include 'datasets/includes/title_url.html' %}
+
+        <div class="form-group">
+
+          <fieldset>
+            <legend>
+              <span class="form-label-bold">
+                Time period of this link
+              </span>
+            </legend>
+            <div class="form-group form-group-year {% if form.year.errors %}error{% endif %}">
+              <label class="form-label" for="period_year">Year</label>
+              {% for error in form.year.errors %}
+                <span class="error-message">{{ error }}</span>
+              {% endfor %}
+              <span class="form-hint">For example, 2016</span>
+              <input
+                  class="form-control"
+                  id="period_year"
+                  name="{{ form.year.html_name }}"
+                  type="number"
+                  pattern="[0-9]*"
+                  min="0"
+                  value="{{ form.year.value|default:'' }}">
+            </div>
+          </fieldset>
+        </div>
       </div>
-    </fieldset>
+
+
+      <label class="block-label selection-button-radio"  style="display: {% if is_first_file %}block{% else %}none{% endif %}">
+        <input
+            type="radio"
+            name="yesno"
+            value="false"/>
+        <span>No</span>
+      </label>
+    </div>
 
     {% include 'datasets/includes/frequency_add_submit.html' %}
 

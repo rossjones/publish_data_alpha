@@ -41,7 +41,6 @@ class EditDatasetForm(forms.ModelForm):
         fields = ['title', 'summary', 'description']
 
 
-
 class FullDatasetForm(forms.ModelForm):
     title = forms.CharField(label=_('Title'), max_length=100, required=True)
     summary = forms.CharField(label=_('Summary'), max_length=200, required=True)
@@ -93,7 +92,6 @@ class PublishForm(forms.Form):
         return self.cleaned_data
 
 
-
 class LicenceForm(forms.ModelForm):
 
     class Meta:
@@ -128,6 +126,7 @@ class FrequencyForm(forms.ModelForm):
     class Meta:
         model = Dataset
         fields = ['frequency']
+
 
 class CheckedFileForm(forms.ModelForm):
 
@@ -192,15 +191,30 @@ class WeeklyFileForm(CheckedFileForm):
         fields = [
             'title', 'url',
             'start_day', 'start_month', 'start_year',
-            'end_day', 'end_month', 'end_year'
+            'end_day', 'end_month', 'end_year', 'yesno'
         ]
 
     def clean(self):
+        cleaned = self.cleaned_data
+        if not 'yesno' in cleaned:
+            self.add_error('yesno', _('Please choose if you want to add a file'))
+            self.errors['url'] = ''
+            self.errors['title'] = ''
+            return cleaned
+
+        if cleaned['yesno'] == 'false':
+            return cleaned
+
+        cleaned = super(CheckedFileForm, self).clean()
+        cleaned['yesno'] = 'true'
+        if self._errors:
+            return cleaned
+
         try:
             frequency_weekly_start = datetime.date(
-                self.cleaned_data['start_year'],
-                self.cleaned_data['start_month'],
-                self.cleaned_data['start_day']
+                cleaned['start_year'],
+                cleaned['start_month'],
+                cleaned['start_day']
             )
         except (KeyError, ValueError):
             self._errors['start_date'] = \
@@ -208,24 +222,38 @@ class WeeklyFileForm(CheckedFileForm):
 
         try:
             frequency_weekly_end = datetime.date(
-                self.cleaned_data['end_year'],
-                self.cleaned_data['end_month'],
-                self.cleaned_data['end_day']
+                cleaned['end_year'],
+                cleaned['end_month'],
+                cleaned['end_day']
             )
         except (KeyError, ValueError):
             self._errors['end_date'] = \
                 [_('Please enter a correct end date')]
 
         if self.errors:
-            return self.cleaned_data
+            return cleaned
+
+        # Check the URL is a valid URL and exists
+        exists, fmt = url_exists(cleaned['url'])
+        if not exists:
+            self._errors['url'] = \
+                [_("This URL can't be reached")]
+
+            # TODO: Consider uncommenting this
+            #if fmt == 'HTML':
+            #    self._errors['url'] = \
+            #        [_("This appears to be a web page and not a data file")]
 
         return {
-            'title': self.cleaned_data['title'],
-            'url': self.cleaned_data['url'],
+            'is_broken': False,
+            'last_check': datetime.datetime.now(),
+            'format': fmt,
+            'yesno': cleaned['yesno'],
+            'title': cleaned['title'],
+            'url': cleaned['url'],
             'start_date': frequency_weekly_start,
             'end_date': frequency_weekly_end
         }
-
 
 
 class MonthlyFileForm(CheckedFileForm):

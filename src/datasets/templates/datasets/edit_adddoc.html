@@ -11,7 +11,11 @@
   {% include 'datasets/includes/error_box.html' %}
 
   <h1 class="heading-large">
-    Add documentation
+    {% if is_first_file %}
+      Do you have supporting documentation?
+    {% else %}
+      Add a link to supporting documentation
+    {% endif %}
   </h1>
 
   <form
@@ -19,47 +23,74 @@
       method="POST">
     {% csrf_token %}
 
-    <fieldset>
-      <legend class="visuallyhidden">Add a document</legend>
-      <div
-          id="url_form_group"
-          class="form-group {% if form.url.errors %}error{% endif %}">
-        <label class="form-label-bold" for="id_url">URL</label>
-        {% for error in form.url.errors %}
-          <span class="error-message">{{ error }}</span>
-        {% endfor %}
-        <span class="form-hint">
-          Enter a link (beginning with http:// or https://) to the document
-        </span>
+    <div class="form-group {% if form.yesno.errors %}error{% endif %}">
+
+      {% if form.yesno.errors %}
+        <p id="yesno_form_group" class="error">Please select yes or no</p>
+      {% endif %}
+
+      <label  style="display: {% if is_first_file %}block{% else %}none{% endif %}"
+              class="block-label selection-button-radio"
+              data-target="add-link">
         <input
-            class="form-control form-control-2-3"
-            id="id_url"
-            name="{{ form.url.html_name }}"
-            type="text"
-            value="{{ form.url.value|default:'' }}"/>
+            type="radio"
+            name="yesno"
+            value="true"
+            {% if form.urls.errors or form.title.errors or not is_first_file %}checked="checked"{% endif %}/>
+        <span>Yes</span>
+      </label>
+
+      <div class="{% if is_first_file %}panel panel-border-narrow js-hidden{% endif %}" id="add-link">
+        <div
+            id="url_form_group"
+            class="form-group {% if form.url.errors %}error{% endif %}">
+          <label class="form-label-bold" for="id_url">URL</label>
+          {% for error in form.url.errors %}
+            <span class="error-message">{{ error }}</span>
+          {% endfor %}
+          <span class="form-hint">
+            Enter a link (beginning with http:// or https://) to the document
+          </span>
+          <input
+              class="form-control form-control-2-3"
+              id="id_url"
+              name="{{ form.url.html_name }}"
+              type="text"
+              value="{{ form.url.value|default:'' }}"/>
+        </div>
+
+        <div
+            id="title_form_group"
+            class="form-group {% if form.title.errors %}error{% endif %}">
+          <label class="form-label-bold" for="id_title">
+            Title
+          </label>
+          {% for error in form.title.errors %}
+            <span class="error-message">{{ error }}</span>
+          {% endfor %}
+          <span class="form-hint">
+            Give your document a descriptive title to help users understand what
+            it contains. The title shouldn’t be the same as the URL.
+          </span>
+          <input
+              class="form-control form-control-2-3"
+              id="id_title"
+              name="{{ form.title.html_name }}"
+              type="text"
+              value="{{ form.title.value|default:'' }}"/>
+        </div>
+
       </div>
 
-      <div
-          id="title_form_group"
-          class="form-group {% if form.title.errors %}error{% endif %}">
-        <label class="form-label-bold" for="id_title">
-          Title
-        </label>
-        {% for error in form.title.errors %}
-          <span class="error-message">{{ error }}</span>
-        {% endfor %}
-        <span class="form-hint">
-          Give your document a descriptive title to help users understand what
-          it contains. The title shouldn’t be the same as the URL.
-        </span>
+      <label class="block-label selection-button-radio"  style="display: {% if is_first_file %}block{% else %}none{% endif %}">
         <input
-            class="form-control form-control-2-3"
-            id="id_title"
-            name="{{ form.title.html_name }}"
-            type="text"
-            value="{{ form.title.value|default:'' }}"/>
-      </div>
-    </fieldset>
+            type="radio"
+            name="yesno"
+            value="false"/>
+        <span>No</span>
+      </label>
+    </div>
+
 
     <div class="form-group">
       {% if request|is_checking %}

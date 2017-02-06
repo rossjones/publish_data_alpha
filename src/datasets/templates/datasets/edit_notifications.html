@@ -17,8 +17,6 @@
   <form action="{% url 'edit_dataset_notifications' dataset.name %}" method="POST">
     {% csrf_token %}
 
-    <ul class="errorlist"><li>This field is required.</li></ul>
-
     <div
         id="notifications_form_group"
         class="form-group {% if form.notifications.errors %}error{% endif %}">
@@ -67,6 +65,8 @@
     <div class="form-group">
       {% if request|is_checking or request|is_editing %}
         <input type="submit" class="button" value="Change"/>
+      {% else %}
+        <input type="submit" class="button" value="Save and continue"/>
       {% endif %}
       {% if request|is_checking %}
         <a

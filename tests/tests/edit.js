@@ -22,13 +22,18 @@ var createDataset = function (browser) {
     .clearSetValue('input[id=id_location2]', 'Wales')
     .submitFormAndCheckNextTitle('How often is this dataset updated?')
     .selectRadioButton('Every month')
-    .submitFormAndCheckNextTitle('Add a link')
+    .submitFormAndCheckNextTitle('Do you have a link to the data?')
+    .selectRadioButton('Yes')
     .setValue('input[id=id_url]', 'http://example.com/data.csv')
     .setValue('input[id=id_title]', 'Title of this link')
     .setValue('input[id=period_month]', '12')
     .setValue('input[id=period_year]', '2016')
     .submitFormAndCheckNextTitle('Dataset links')
-    .clickAndCheckNextTitle('Save and continue', 'Add documentation')
+    .clickAndCheckNextTitle(
+      'Save and continue',
+      'Do you have supporting documentation?'
+    )
+    .selectRadioButton('Yes')
     .setValue('input[id=id_url]', 'http://example.com/data.csv')
     .setValue('input[id=id_title]', 'Title of this link')
     .submitFormAndCheckNextTitle('Dataset documentation')

@@ -17,5 +17,10 @@
     </a>
   {% else %}
     <input type="submit" class="button" value="Save and continue">
+    <a
+        href="{% url 'edit_dataset_adddoc' dataset.name %}"
+        class="secondary-button">
+      Cancel
+    </a>
   {% endif %}
 </div>

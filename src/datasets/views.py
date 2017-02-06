@@ -267,16 +267,15 @@ def edit_addfile(request, dataset_name, datafile_id=None):
 
     datafile = get_object_or_404(Datafile, id=datafile_id) \
         if datafile_id else None
-    _set_flow_state(request)
-
     form = f.FileForm(request.POST or None, instance=datafile)
+
+    _set_flow_state(request)
 
     if request.method == 'POST':
         if request.POST.get('yesno') == 'false':
             return HttpResponseRedirect(
-                reverse('edit_dataset_files', args=[dataset_name])
+                reverse('edit_dataset_adddoc', args=[dataset_name])
             )
-
         if form.is_valid():
             data = dict(**form.cleaned_data)
             del data['yesno']
@@ -287,12 +286,12 @@ def edit_addfile(request, dataset_name, datafile_id=None):
                 obj = Datafile.objects.create(**data)
                 obj.save()
 
-                return HttpResponseRedirect(
-                    reverse('edit_dataset_adddoc', args=[dataset_name])
-                )
+            return HttpResponseRedirect(
+                reverse('edit_dataset_files', args=[dataset_name])
+            )
 
     return render(request, 'datasets/edit_addfile.html', {
-        'is_first_file': len(dataset.files.all()) == 0,
+        'is_first_file': len(dataset.files.filter(is_documentation=True)) == 0,
         'form': form,
         'dataset': dataset,
         'datafile_id': datafile_id or '',
@@ -316,18 +315,24 @@ def edit_deletefile(request, dataset_name, datafile_id):
 
 def edit_addfile_weekly(request, dataset_name, datafile_id=None):
     dataset = get_object_or_404(Dataset, name=dataset_name)
-    datafile = get_object_or_404(Datafile, id=datafile_id) \
-        if datafile_id else None
-    form = f.WeeklyFileForm(request.POST or None, instance=datafile)
 
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
 
+    datafile = get_object_or_404(Datafile, id=datafile_id) \
+        if datafile_id else None
+    form = f.WeeklyFileForm(request.POST or None, instance=datafile)
+
     _set_flow_state(request)
 
     if request.method == 'POST':
+        if request.POST.get('yesno') == 'false':
+            return HttpResponseRedirect(
+                reverse('edit_dataset_adddoc', args=[dataset_name])
+            )
         if form.is_valid():
             data = dict(**form.cleaned_data)
+            del data['yesno']
             if datafile:
                 form.save()
             else:
@@ -340,6 +345,7 @@ def edit_addfile_weekly(request, dataset_name, datafile_id=None):
             )
 
     return render(request, "datasets/edit_addfile_week.html", {
+        'is_first_file': len(dataset.files.all()) == 0,
         'form': form,
         'dataset': dataset,
         'datafile_id': datafile_id or '',
@@ -348,18 +354,25 @@ def edit_addfile_weekly(request, dataset_name, datafile_id=None):
 
 def edit_addfile_monthly(request, dataset_name, datafile_id=None):
     dataset = get_object_or_404(Dataset, name=dataset_name)
-    datafile = get_object_or_404(Datafile, id=datafile_id) \
-        if datafile_id else None
-    form = f.MonthlyFileForm(request.POST or None, instance=datafile)
 
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
 
+    datafile = get_object_or_404(Datafile, id=datafile_id) \
+        if datafile_id else None
+    form = f.MonthlyFileForm(request.POST or None, instance=datafile)
+
     _set_flow_state(request)
 
+
     if request.method == 'POST':
+        if request.POST.get('yesno') == 'false':
+            return HttpResponseRedirect(
+                reverse('edit_dataset_adddoc', args=[dataset_name])
+            )
         if form.is_valid():
             data = dict(**form.cleaned_data)
+            del data['yesno']
             if datafile:
                 form.save()
             else:
@@ -372,6 +385,7 @@ def edit_addfile_monthly(request, dataset_name, datafile_id=None):
             )
 
     return render(request, "datasets/edit_addfile_month.html", {
+        'is_first_file': len(dataset.files.all()) == 0,
         'form': form,
         'dataset': dataset,
         'datafile_id': datafile_id or '',
@@ -380,18 +394,24 @@ def edit_addfile_monthly(request, dataset_name, datafile_id=None):
 
 def edit_addfile_quarterly(request, dataset_name, datafile_id=None):
     dataset = get_object_or_404(Dataset, name=dataset_name)
-    datafile = get_object_or_404(Datafile, id=datafile_id) \
-        if datafile_id else None
-    form = f.QuarterlyFileForm(request.POST or None, instance=datafile)
 
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
 
+    datafile = get_object_or_404(Datafile, id=datafile_id) \
+        if datafile_id else None
+    form = f.QuarterlyFileForm(request.POST or None, instance=datafile)
+
     _set_flow_state(request)
 
     if request.method == 'POST':
+        if request.POST.get('yesno') == 'false':
+            return HttpResponseRedirect(
+                reverse('edit_dataset_adddoc', args=[dataset_name])
+            )
         if form.is_valid():
             data = dict(**form.cleaned_data)
+            del data['yesno']
             if datafile:
                 form.save()
             else:
@@ -404,6 +424,7 @@ def edit_addfile_quarterly(request, dataset_name, datafile_id=None):
             )
 
     return render(request, "datasets/edit_addfile_quarter.html", {
+        'is_first_file': len(dataset.files.all()) == 0,
         'form': form,
         'dataset': dataset,
         'datafile_id': datafile_id or '',
@@ -412,18 +433,24 @@ def edit_addfile_quarterly(request, dataset_name, datafile_id=None):
 
 def edit_addfile_annually(request, dataset_name, datafile_id = None):
     dataset = get_object_or_404(Dataset, name=dataset_name)
-    datafile = get_object_or_404(Datafile, id=datafile_id) \
-        if datafile_id else None
-    form = f.AnnuallyFileForm(request.POST or None, instance=datafile)
 
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
 
+    datafile = get_object_or_404(Datafile, id=datafile_id) \
+        if datafile_id else None
+    form = f.AnnuallyFileForm(request.POST or None, instance=datafile)
+
     _set_flow_state(request)
 
     if request.method == 'POST':
+        if request.POST.get('yesno') == 'false':
+            return HttpResponseRedirect(
+                reverse('edit_dataset_adddoc', args=[dataset_name])
+            )
         if form.is_valid():
             data = dict(**form.cleaned_data)
+            del data['yesno']
             if datafile:
                 form.save()
             else:
@@ -436,6 +463,7 @@ def edit_addfile_annually(request, dataset_name, datafile_id = None):
             )
 
     return render(request, "datasets/edit_addfile_year.html", {
+        'is_first_file': len(dataset.files.all()) == 0,
         'form': form,
         'dataset': dataset,
         'datafile_id': datafile_id or '',
@@ -460,18 +488,24 @@ def edit_files(request, dataset_name):
 
 def edit_add_doc(request, dataset_name, datafile_id=None):
     dataset = get_object_or_404(Dataset, name=dataset_name)
-    datafile = get_object_or_404(Datafile, id=datafile_id) \
-        if datafile_id else None
-    form = f.FileForm(request.POST or None)
 
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
 
+    datafile = get_object_or_404(Datafile, id=datafile_id) \
+        if datafile_id else None
+    form = f.FileForm(request.POST or None)
+
     _set_flow_state(request)
 
     if request.method == 'POST':
+        if request.POST.get('yesno') == 'false':
+            return HttpResponseRedirect(
+                reverse('edit_dataset_adddoc', args=[dataset_name])
+            )
         if form.is_valid():
             data = dict(**form.cleaned_data)
+            del data['yesno']
             if datafile:
                 form.save()
             else:
@@ -485,6 +519,7 @@ def edit_add_doc(request, dataset_name, datafile_id=None):
             )
 
     return render(request, "datasets/edit_adddoc.html", {
+        'is_first_file': len(dataset.files.filter(is_documentation=True)) == 0,
         'form': form,
         'dataset': dataset,
         'datafile_id': datafile_id or '',

@@ -11,7 +11,11 @@
   {% include 'datasets/includes/error_box.html' %}
 
   <h1 class="heading-large">
-    Add a link
+    {% if is_first_file %}
+      Do you have a link to the data?
+    {% else %}
+      Add a link
+    {% endif %}
   </h1>
 
   <form
@@ -19,17 +23,35 @@
       method="POST">
     {% csrf_token %}
 
-    <div id="yesno_form_group">
-      {% if is_first_file %}
-        Yes1<input type="radio" name="yesno" value="true" {% if form.urls.errors or form.title.errors %}checked="checked"{% endif %}/>
-        No1<input type="radio" name="yesno" value="false"/>
-      {% else %}
-        Yes2<input type="radio" name="yesno" value="true" checked="checked"/>
-        No2<input type="radio" name="yesno" value="false"/>
-      {% endif %}
-    </div>
+    <div class="form-group {% if form.yesno.errors %}error{% endif %}">
 
-    {% include 'datasets/includes/title_url.html' %}
+      {% if form.yesno.errors %}
+        <p id="yesno_form_group" class="error">Please select yes or no</p>
+      {% endif %}
+
+      <label  style="display: {% if is_first_file %}block{% else %}none{% endif %}"
+        class="block-label selection-button-radio"
+        data-target="add-link">
+        <input
+            type="radio"
+            name="yesno"
+            value="true"
+            {% if form.urls.errors or form.title.errors or not is_first_file %}checked="checked"{% endif %}/>
+        <span>Yes</span>
+        </label>
+
+      <div class="{% if is_first_file %}panel panel-border-narrow js-hidden{% endif %}" id="add-link">
+        {% include 'datasets/includes/title_url.html' %}
+      </div>
+
+      <label class="block-label selection-button-radio"  style="display: {% if is_first_file %}block{% else %}none{% endif %}">
+        <input
+            type="radio"
+            name="yesno"
+            value="false"/>
+        <span>No</span>
+      </label>
+    </div>
 
     {% include 'datasets/includes/frequency_add_submit.html' %}
 
