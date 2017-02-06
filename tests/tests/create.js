@@ -39,16 +39,21 @@ var goToCreateFrequency = function(browser) {
 var goToDocumentation = function(browser) {
   return goToCreateFrequency(browser)
     .selectRadioButton('Every year (January to December)')
-    .submitFormAndCheckNextTitle('Add a link')
+    .submitFormAndCheckNextTitle('Do you have a link to the data?')
+    .selectRadioButton('Yes')
     .clearSetValue('input[id=id_url]', 'http://example.com/file.csv')
     .clearSetValue('input[id=id_title]', 'First link')
     .clearSetValue('input[id=period_year]', '2013')
     .submitFormAndCheckNextTitle('Dataset links')
-    .clickAndCheckNextTitle('Save and continue', 'Add documentation');
+    .clickAndCheckNextTitle(
+      'Save and continue',
+      'Do you have supporting documentation?'
+    );
 };
 
 var goToNotifications = function(browser) {
   return goToDocumentation(browser)
+    .selectRadioButton('Yes')
     .clearSetValue('input[id=id_title]', 'A document')
     .clearSetValue('input[id=id_url]', 'http://example.com/file.csv')
     .submitFormAndCheckNextTitle('Dataset documentation')
@@ -57,7 +62,6 @@ var goToNotifications = function(browser) {
 
 var goToCheckPage = function(browser) {
   return goToNotifications(browser)
-    .selectRadioButton('Yes')
     .submitFormAndCheckNextTitle('Check your dataset');
 };
 
@@ -88,13 +92,18 @@ var test_create_happy_path = function (browser) {
     .clearSetValue('input[id=id_location1]', 'England, Wales')
     .submitFormAndCheckNextTitle('How often is this dataset updated?')
     .selectRadioButton('Every month')
-    .submitFormAndCheckNextTitle('Add a link')
+    .submitFormAndCheckNextTitle('Do you have a link to the data?')
+    .selectRadioButton('Yes')
     .setValue('input[id=id_url]', 'http://example.com/data.csv')
     .setValue('input[id=id_title]', 'Title of this link')
     .setValue('input[id=period_month]', '12')
     .setValue('input[id=period_year]', '2016')
     .submitFormAndCheckNextTitle('Dataset links')
-    .clickAndCheckNextTitle('Save and continue', 'Add documentation')
+    .clickAndCheckNextTitle(
+      'Save and continue',
+      'Do you have supporting documentation?'
+    )
+    .selectRadioButton('Yes')
     .setValue('input[id=id_url]', 'http://example.com/data.csv')
     .setValue('input[id=id_title]', 'Title of this link')
     .submitFormAndCheckNextTitle('Dataset documentation')
@@ -206,7 +215,7 @@ var test_create_region_autocomplete = function (browser) {
 
 var test_create_omit_frequency = function (browser) {
   goToCreateFrequency(browser)
-    .submitFormAndCheckNextTitle('Add documentation')
+    .submitFormAndCheckNextTitle('Do you have supporting documentation?')
     .deleteLastCreatedDataset()
     .end();
 };
@@ -214,7 +223,8 @@ var test_create_omit_frequency = function (browser) {
 var test_create_daily = function (browser) {
   goToCreateFrequency(browser)
     .selectRadioButton('Every day')
-    .submitFormAndCheckNextTitle('Add a link')
+    .submitFormAndCheckNextTitle('Do you have a link to the data?')
+    .selectRadioButton('Yes')
     .clearSetValue('input[id=id_url]', 'http://example.com/file.csv')
     .clearSetValue('input[id=id_title]', 'First link')
     .submitFormAndCheckNextTitle('Dataset links')
@@ -222,10 +232,32 @@ var test_create_daily = function (browser) {
     .end();
 };
 
+var test_create_daily_omit_link = function (browser) {
+  goToCreateFrequency(browser)
+    .selectRadioButton('Every day')
+    .submitFormAndCheckNextTitle('Do you have a link to the data?')
+    .selectRadioButton('Yes')
+    .clearSetValue('input[id=id_title]', 'First link')
+    .submitFormAndCheckNextTitle('There was a problem')
+    .deleteLastCreatedDataset()
+    .end();
+};
+
+var test_create_daily_nolink = function (browser) {
+  goToCreateFrequency(browser)
+    .selectRadioButton('Every day')
+    .submitFormAndCheckNextTitle('Do you have a link to the data?')
+    .selectRadioButton('No')
+    .submitFormAndCheckNextTitle('Do you have supporting documentation')
+    .deleteLastCreatedDataset()
+    .end();
+};
+
 var test_create_weekly = function (browser) {
   goToCreateFrequency(browser)
     .selectRadioButton('Every week')
-    .submitFormAndCheckNextTitle('Add a link')
+    .submitFormAndCheckNextTitle('Do you have a link to the data?')
+    .selectRadioButton('Yes')
     .clearSetValue('input[id=id_url]', 'http://example.com/file.csv')
     .clearSetValue('input[id=id_title]', 'First link')
     .clearSetValue('input[id=start_day]', '30')
@@ -254,7 +286,8 @@ var test_create_weekly = function (browser) {
 var test_create_monthly = function (browser) {
   goToCreateFrequency(browser)
     .selectRadioButton('Every month')
-    .submitFormAndCheckNextTitle('Add a link')
+    .submitFormAndCheckNextTitle('Do you have a link to the data?')
+    .selectRadioButton('Yes')
     .clearSetValue('input[id=id_url]', 'http://example.com/file.csv')
     .clearSetValue('input[id=id_title]', 'First link')
     .clearSetValue('input[id=period_month]', '12')
@@ -275,7 +308,8 @@ var test_create_monthly = function (browser) {
 var test_create_quarterly = function (browser) {
   goToCreateFrequency(browser)
     .selectRadioButton('Every quarter')
-    .submitFormAndCheckNextTitle('Add a link')
+    .submitFormAndCheckNextTitle('Do you have a link to the data?')
+    .selectRadioButton('Yes')
     .clearSetValue('input[id=id_url]', 'http://example.com/file.csv')
     .clearSetValue('input[id=id_title]', 'First link')
     .selectRadioButton('Q2 (July to September)')
@@ -295,7 +329,8 @@ var test_create_quarterly = function (browser) {
 var test_create_never = function (browser) {
   goToCreateFrequency(browser)
     .selectRadioButton('Never')
-    .submitFormAndCheckNextTitle('Add a link')
+    .submitFormAndCheckNextTitle('Do you have a link to the data?')
+    .selectRadioButton('Yes')
     .deleteLastCreatedDataset()
     .end();
 };
@@ -303,7 +338,8 @@ var test_create_never = function (browser) {
 var test_create_yearly = function (browser) {
   goToCreateFrequency(browser)
     .selectRadioButton('Every year (January to December)')
-    .submitFormAndCheckNextTitle('Add a link')
+    .submitFormAndCheckNextTitle('Do you have a link to the data?')
+    .selectRadioButton('Yes')
     .clearSetValue('input[id=id_url]', 'http://example.com/file.csv')
     .clearSetValue('input[id=id_title]', 'First link')
     .clearSetValue('input[id=period_year]', '2012')
@@ -329,7 +365,8 @@ var test_create_omit_notifications = function (browser) {
 var test_create_omit_url = function (browser) {
   goToCreateFrequency(browser)
     .selectRadioButton('Every year (January to December)')
-    .submitFormAndCheckNextTitle('Add a link')
+    .submitFormAndCheckNextTitle('Do you have a link to the data?')
+    .selectRadioButton('Yes')
     .submitFormAndCheckNextTitle('There was a problem')
     .checkError('Please provide a valid title')
     .checkError('Please provide a valid URL')
@@ -398,6 +435,8 @@ module.exports = {
   'Create a dataset, region autocomplete': test_create_region_autocomplete,
   'Create a dataset, omit frequency': test_create_omit_frequency,
   'Create a dataset, frequency daily': test_create_daily,
+  'Create a dataset, frequency daily, no link': test_create_daily_nolink,
+  'Create a dataset, frequency daily, omit link': test_create_daily_omit_link,
   'Create a dataset, frequency weekly': test_create_weekly,
   'Create a dataset, frequency monthly': test_create_monthly,
   'Create a dataset, frequency quarterly': test_create_quarterly,

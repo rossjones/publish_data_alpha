@@ -24,8 +24,9 @@
       "selenium_host"  : "localhost",
       "silent": true,
       "screenshots" : {
-        "enabled" : false,
-        "path" : ""
+        "enabled" : true,
+        "path" : "",
+        "on_failure": true
       },
       "desiredCapabilities" : {
         "browserName" : "chrome",
