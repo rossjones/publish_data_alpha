@@ -19,6 +19,14 @@
       {% endfor %}
 
 
+      {% if form.yesno.errors %}
+        <li>
+          <a href="#yesno_form_group">Please choose if you want to add a file</a>
+          <span class="visuallyhidden">.</span>
+        </li>
+      {% endif %}
+
+
       {% if form.title.errors %}
         <li>
           <a href="#title_form_group">Please provide a valid title</a>

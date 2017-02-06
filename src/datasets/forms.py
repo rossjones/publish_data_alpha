@@ -139,7 +139,7 @@ class CheckedFileForm(forms.ModelForm):
     def clean(self):
         cleaned = self.cleaned_data
         if not 'yesno' in cleaned:
-            self.add_error(None, _('Please choose if you want to add a file'))
+            self.add_error('yesno', _('Please choose if you want to add a file'))
             self.errors['url'] = ''
             self.errors['title'] = ''
             return cleaned

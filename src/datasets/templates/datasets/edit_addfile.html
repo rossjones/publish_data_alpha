@@ -19,14 +19,15 @@
       method="POST">
     {% csrf_token %}
 
-    {% if is_first_file %}
-      Yes1<input type="radio" name="yesno" value="true" {% if form.errors %}checked="checked"{% endif %}/>
-      No1<input type="radio" name="yesno" value="false"/>
-    {% else %}
-      Yes2<input type="radio" name="yesno" value="true" checked="checked"/>
-      No2<input type="radio" name="yesno" value="false"/>
-    {% endif %}
-
+    <div id="yesno_form_group">
+      {% if is_first_file %}
+        Yes1<input type="radio" name="yesno" value="true" {% if form.urls.errors or form.title.errors %}checked="checked"{% endif %}/>
+        No1<input type="radio" name="yesno" value="false"/>
+      {% else %}
+        Yes2<input type="radio" name="yesno" value="true" checked="checked"/>
+        No2<input type="radio" name="yesno" value="false"/>
+      {% endif %}
+    </div>
 
     {% include 'datasets/includes/title_url.html' %}
 
