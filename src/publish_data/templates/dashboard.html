@@ -54,7 +54,7 @@
               </td>
               <td><div class="overdue">{{ task.label_text }}</div></td>
               <td class="actions">
-                <a class="update" href="#">Update</a>
+                <a class="update" href="{% url 'edit_dataset_files' task.related_object_id %}">Update</a>
                 <a href="{% url 'skip_task' task.id %}">Skip</a>
               </td>
             </tr>
