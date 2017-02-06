@@ -68,6 +68,20 @@ h2.user-bar {
   padding-top: 2.4em;
 }
 
+table.check-your-answers {
+  table-layout: fixed;
+  td.dataset-item {
+    width: 22%;
+  }
+  td {
+    vertical-align: top;
+    overflow-x: hidden;
+  }
+  ul {
+    width: 2000px;
+  }
+}
+
 .table-show-hide a.toggle {
   color: $link-colour;
   cursor: pointer;

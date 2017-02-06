@@ -1650,6 +1650,16 @@ h2.user-bar {
 #side-navigation {
   padding-top: 2.4em; }
 
+table.check-your-answers {
+  table-layout: fixed; }
+  table.check-your-answers td.dataset-item {
+    width: 22%; }
+  table.check-your-answers td {
+    vertical-align: top;
+    overflow-x: hidden; }
+  table.check-your-answers ul {
+    width: 2000px; }
+
 .table-show-hide a.toggle {
   color: #005ea5;
   cursor: pointer; }
