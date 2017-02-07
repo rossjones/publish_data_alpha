@@ -3,7 +3,7 @@
 {% load flow_state %}
 
 {% block page_title %}
-  Add a link to the data
+  Add a link
 {% endblock %}
 
 {% block inner_content %}
@@ -12,9 +12,9 @@
 
   <h1 class="heading-large">
     {% if is_first_file %}
-      Do you have a link to the data?
-    {% else %}
       Add a link
+    {% else %}
+      Add another link
     {% endif %}
   </h1>
 
@@ -24,103 +24,75 @@
       class="form">
     {% csrf_token %}
 
-    <div class="form-group {% if form.yesno.errors %}error{% endif %}">
+    {% include 'datasets/includes/title_url.html' %}
 
-      {% if form.yesno.errors %}
-        <p id="yesno_form_group" class="error">Please select yes or no</p>
-      {% endif %}
-
-      <label  style="display: {% if is_first_file %}block{% else %}none{% endif %}"
-              class="block-label selection-button-radio"
-              data-target="add-link">
-        <input
-            type="radio"
-            name="yesno"
-            value="true"
-            {% if form.urls.errors or form.title.errors or not is_first_file %}checked="checked"{% endif %}/>
-        <span>Yes</span>
-      </label>
-
-      <div class="{% if is_first_file %}panel panel-border-narrow js-hidden{% endif %}" id="add-link">
-        {% include 'datasets/includes/title_url.html' %}
-
-        <div class="form-group">
-          <fieldset>
-            <legend class="form-label-bold">
-              Time period of this link
-            </legend>
-            {% for error in form.quarter.errors %}
+    <div class="form-group">
+      <fieldset>
+        <legend class="form-label-bold">
+          Time period of this link
+        </legend>
+        {% for error in form.quarter.errors %}
+          <span class="error-message">{{ error }}</span>
+        {% endfor %}
+        <div
+            class="form-group {% if form.quarter.errors %}error{% endif %}"
+            id="quarter_form_group">
+          <label for="q1" class="block-label">
+            <input
+                type="radio"
+                id="q1"
+                name="{{ form.quarter.html_name }}"
+                {% if form.quarter.value == "1" %}checked="1"{% endif %}
+                value="1"/>
+            <span>Q1 (April to June)</span>
+          </label>
+          <label for="q2" class="block-label">
+            <input
+                type="radio"
+                id="q2"
+                name="{{ form.quarter.html_name }}"
+                {% if form.quarter.value == "2" %}checked="1"{% endif %}
+                value="2"/>
+            <span>Q2 (July to September)</span>
+          </label>
+          <label for="q3" class="block-label">
+            <input
+                type="radio"
+                id="q3"
+                name="{{ form.quarter.html_name }}"
+                {% if form.quarter.value == "3" %}checked="1"{% endif %}
+                value="3"/>
+            <span>Q3 (October to December)</span>
+          </label>
+          <label for="4" class="block-label">
+            <input
+                type="radio"
+                id="q4"
+                name="{{ form.quarter.html_name }}"
+                {% if form.quarter.value == "4" %}checked="1"{% endif %}
+                value="4"/>
+            <span>Q4 (January to March)</span>
+          </label>
+        </div>
+        <div class="form-date">
+          <div
+              id="year_form_group"
+              class="form-group form-group-year {% if form.year.errors %}error{% endif %}">
+            <label class="form-label" for="period_year">Year</label>
+            {% for error in form.year.errors %}
               <span class="error-message">{{ error }}</span>
             {% endfor %}
-            <div
-                class="form-group {% if form.quarter.errors %}error{% endif %}"
-                id="quarter_form_group">
-              <label for="q1" class="block-label">
-                <input
-                    type="radio"
-                    id="q1"
-                    name="{{ form.quarter.html_name }}"
-                    {% if form.quarter.value == "1" %}checked="1"{% endif %}
-                    value="1"/>
-                <span>Q1 (April to June)</span>
-              </label>
-              <label for="q2" class="block-label">
-                <input
-                    type="radio"
-                    id="q2"
-                    name="{{ form.quarter.html_name }}"
-                    {% if form.quarter.value == "2" %}checked="1"{% endif %}
-                    value="2"/>
-                <span>Q2 (July to September)</span>
-              </label>
-              <label for="q3" class="block-label">
-                <input
-                    type="radio"
-                    id="q3"
-                    name="{{ form.quarter.html_name }}"
-                    {% if form.quarter.value == "3" %}checked="1"{% endif %}
-                    value="3"/>
-                <span>Q3 (October to December)</span>
-              </label>
-              <label for="4" class="block-label">
-                <input
-                    type="radio"
-                    id="q4"
-                    name="{{ form.quarter.html_name }}"
-                    {% if form.quarter.value == "4" %}checked="1"{% endif %}
-                    value="4"/>
-                <span>Q4 (January to March)</span>
-              </label>
-            </div>
-            <div class="form-date">
-              <div
-                  id="year_form_group"
-                  class="form-group form-group-year {% if form.year.errors %}error{% endif %}">
-                <label class="form-label" for="period_year">Year</label>
-                {% for error in form.year.errors %}
-                  <span class="error-message">{{ error }}</span>
-                {% endfor %}
-                <input
-                    class="form-control"
-                    id="period_year"
-                    name="{{ form.year.html_name }}"
-                    type="number"
-                    pattern="[0-9]*"
-                    min="0"
-                    value="{{ form.year.value|default:'' }}"/>
-              </div>
-            </div>
-          </fieldset>
+            <input
+                class="form-control"
+                id="period_year"
+                name="{{ form.year.html_name }}"
+                type="number"
+                pattern="[0-9]*"
+                min="0"
+                value="{{ form.year.value|default:'' }}"/>
+          </div>
         </div>
-      </div>
-
-      <label class="block-label selection-button-radio"  style="display: {% if is_first_file %}block{% else %}none{% endif %}">
-        <input
-            type="radio"
-            name="yesno"
-            value="false"/>
-        <span>No</span>
-      </label>
+      </fieldset>
     </div>
 
     {% include 'datasets/includes/frequency_add_submit.html' %}

@@ -22,19 +22,20 @@ var createDataset = function (browser) {
     .clearSetValue('input[id=id_location2]', 'Wales')
     .submitFormAndCheckNextTitle('How often is this dataset updated?')
     .selectRadioButton('Every month')
-    .submitFormAndCheckNextTitle('Do you have a link to the data?')
-    .selectRadioButton('Yes')
-    .setValue('input[id=id_url]', 'http://example.com/data.csv')
+    .submitFormAndCheckNextTitle('Add a link')
+    .setValue(
+      'input[id=id_url]',
+      'https://data.gov.uk/data/site-usage/data_all.csv'
+    )
     .setValue('input[id=id_title]', 'Title of this link')
     .setValue('input[id=period_month]', '12')
     .setValue('input[id=period_year]', '2016')
     .submitFormAndCheckNextTitle('Dataset links')
-    .clickAndCheckNextTitle(
-      'Save and continue',
-      'Do you have supporting documentation?'
+    .clickAndCheckNextTitle('Save and continue','Add supporting documentation')
+    .setValue(
+      'input[id=id_url]',
+      'https://data.gov.uk/data/site-usage/data_all.csv'
     )
-    .selectRadioButton('Yes')
-    .setValue('input[id=id_url]', 'http://example.com/data.csv')
     .setValue('input[id=id_title]', 'Title of this link')
     .submitFormAndCheckNextTitle('Dataset documentation')
     .clickAndCheckNextTitle('Save and continue', 'Get notifications')

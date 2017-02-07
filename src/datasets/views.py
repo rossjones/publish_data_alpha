@@ -214,13 +214,8 @@ def edit_addfile(request, dataset_name, datafile_id=None):
     _set_flow_state(request)
 
     if request.method == 'POST':
-        if request.POST.get('yesno') == 'false':
-            return HttpResponseRedirect(
-                reverse('edit_dataset_adddoc', args=[dataset_name])
-            )
         if form.is_valid():
             data = dict(**form.cleaned_data)
-            del data['yesno']
             if datafile:
                 form.save()
             else:
@@ -268,13 +263,8 @@ def edit_addfile_weekly(request, dataset_name, datafile_id=None):
     _set_flow_state(request)
 
     if request.method == 'POST':
-        if request.POST.get('yesno') == 'false':
-            return HttpResponseRedirect(
-                reverse('edit_dataset_adddoc', args=[dataset_name])
-            )
         if form.is_valid():
             data = dict(**form.cleaned_data)
-            del data['yesno']
             if datafile:
                 form.save()
             else:
@@ -308,13 +298,8 @@ def edit_addfile_monthly(request, dataset_name, datafile_id=None):
 
 
     if request.method == 'POST':
-        if request.POST.get('yesno') == 'false':
-            return HttpResponseRedirect(
-                reverse('edit_dataset_adddoc', args=[dataset_name])
-            )
         if form.is_valid():
             data = dict(**form.cleaned_data)
-            del data['yesno']
             if datafile:
                 form.save()
             else:
@@ -347,13 +332,8 @@ def edit_addfile_quarterly(request, dataset_name, datafile_id=None):
     _set_flow_state(request)
 
     if request.method == 'POST':
-        if request.POST.get('yesno') == 'false':
-            return HttpResponseRedirect(
-                reverse('edit_dataset_adddoc', args=[dataset_name])
-            )
         if form.is_valid():
             data = dict(**form.cleaned_data)
-            del data['yesno']
             if datafile:
                 form.save()
             else:
@@ -386,13 +366,8 @@ def edit_addfile_annually(request, dataset_name, datafile_id = None):
     _set_flow_state(request)
 
     if request.method == 'POST':
-        if request.POST.get('yesno') == 'false':
-            return HttpResponseRedirect(
-                reverse('edit_dataset_adddoc', args=[dataset_name])
-            )
         if form.is_valid():
             data = dict(**form.cleaned_data)
-            del data['yesno']
             if datafile:
                 form.save()
             else:
@@ -441,13 +416,8 @@ def edit_add_doc(request, dataset_name, datafile_id=None):
     _set_flow_state(request)
 
     if request.method == 'POST':
-        if request.POST.get('yesno') == 'false':
-            return HttpResponseRedirect(
-                reverse('edit_dataset_adddoc', args=[dataset_name])
-            )
         if form.is_valid():
             data = dict(**form.cleaned_data)
-            del data['yesno']
             if datafile:
                 form.save()
             else:
