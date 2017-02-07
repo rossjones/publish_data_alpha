@@ -2,12 +2,21 @@ import math
 
 from django.db.models import Q
 from datasets.models import Dataset, Organisation
+from datasets.search import index_dataset
+from datasets.search import delete_dataset as unindex_dataset
 
 
 def organisations_for_user(user):
     if user.is_staff:
         return Organisation.objects.all()
     return user.organisations.all()
+
+def publish(dataset):
+    if dataset.published:
+        publish_to_ckan(dataset)
+        index_dataset(dataset)
+    else:
+        unindex_dataset(dataset)
 
 
 def dataset_list(user, page=1, filter_query=None):

@@ -13,9 +13,8 @@ import papertrail
 
 import datasets.forms as f
 from datasets.auth import user_can_edit_dataset, user_can_edit_datafile
-from datasets.logic import organisations_for_user, publish_to_ckan
+from datasets.logic import organisations_for_user, publish
 from datasets.models import Dataset, Datafile
-from datasets.search import index_dataset
 from datasets.search import delete_dataset as unindex_dataset
 
 def _set_flow_state(request):
@@ -532,11 +531,7 @@ def _edit_publish_dataset(request, dataset, state):
             )
 
             # Re-publish if we are editing a published dataset
-            if dataset.published:
-                publish_to_ckan(dataset)
-                index_dataset(dataset)
-            else:
-                unindex_dataset(dataset)
+            publish(dataset)
 
             result = 'edited' if new_state == 'editing' else 'created'
 
