@@ -1,5 +1,6 @@
 import math
 
+from django.db.models import Q
 from datasets.models import Dataset, Organisation
 
 
@@ -13,15 +14,14 @@ def dataset_list(user, page=1, filter_query=None):
     """
     For the given user returns a tuple containing total number of datasets
     both draft and published, and the 20 most recent.
-
-    TODO: Get this from a search index.
     """
     per_page = 20
     max_fetch = per_page * page
 
     organisations = organisations_for_user(user)
+    sub_query = Q(organisation__in=organisations) | Q(creator=user)
     q = Dataset.objects\
-        .filter(organisation__in=organisations)
+        .filter(sub_query)
 
     if filter_query:
         q = q.filter(title__icontains=filter_query)
