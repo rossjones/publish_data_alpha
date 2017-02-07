@@ -123,7 +123,11 @@
           </a>
         </td>
         <td>
-          {{ licence }}
+          {% if dataset.licence == "uk-ogl" %}
+            Open Government Licence
+          {% else %}
+            {{ dataset.licence_other }}
+          {% endif %}
         </td>
       </tr>
       <tr>

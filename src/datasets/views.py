@@ -581,7 +581,6 @@ def _edit_publish_dataset(request, dataset, state):
 
     return render(request, "datasets/publish_dataset.html", {
         "dataset": dataset,
-        'licence': dataset.licence if dataset.licence != 'other' else dataset.licence_other,
         'organisation': organisation,
         'single_organisation': single_organisation,
         'docfiles': docfiles,
