@@ -14,7 +14,7 @@ class DatasetForm(forms.Form):
         label=_('Additional Information'),
         max_length=1024,
         widget=forms.Textarea,
-        required=True
+        required=False
     )
 
     def clean(self):

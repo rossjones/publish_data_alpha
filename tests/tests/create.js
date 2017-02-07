@@ -147,9 +147,6 @@ var test_create_missing_description = function (browser) {
   goToCreateTitle(browser)
     .clearSetValue('textarea[name=summary]', 'Summary of my dataset')
     .clearSetValue('input[name=title]', 'Title of my dataset')
-    .submitFormAndCheckNextTitle('There was a problem')
-    .checkError('Please provide a description')
-    .clearSetValue('textarea[name=description]', 'Description of my dataset')
     .submitFormAndCheckNextTitle(
       'Which organisation are you publishing this dataset for?'
     )
