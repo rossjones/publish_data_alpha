@@ -110,6 +110,7 @@ var test_create_happy_path = function (browser) {
     .clickAndCheckNextTitle('Save and continue', 'Get notifications')
     .selectRadioButton('Yes')
     .submitFormAndCheckNextTitle('Check your dataset')
+    .assert.containsText('table', 'Open Government Licence')
     .submitFormAndCheckNextTitle('Your dataset has been published')
     .deleteLastCreatedDataset()
     .end();
