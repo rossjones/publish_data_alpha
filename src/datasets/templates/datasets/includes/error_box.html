@@ -18,21 +18,12 @@
         </li>
       {% endfor %}
 
-
-      {% if form.yesno.errors %}
-        <li>
-          <a href="#yesno_form_group">Please specify if you want to add a file</a>
-          <span class="visuallyhidden">.</span>
-        </li>
-      {% endif %}
-
       {% if form.files.errors %}
         <li>
           <a href="#title_form_group">{{form.files.errors.0}}</a>
           <span class="visuallyhidden">.</span>
         </li>
       {% endif %}
-
 
       {% if form.title.errors %}
         <li>

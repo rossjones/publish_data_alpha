@@ -140,21 +140,9 @@ class CheckedFileForm(forms.ModelForm):
     title = forms.CharField(required=True)
     url = forms.CharField(required=True)
     is_broken = forms.BooleanField(required=False)
-    yesno = forms.CharField(required=True)
 
     def clean(self):
-        cleaned = self.cleaned_data
-        if not 'yesno' in cleaned:
-            self.add_error('yesno', _('Please choose if you want to add a file'))
-            self.errors['url'] = ''
-            self.errors['title'] = ''
-            return cleaned
-
-        if cleaned['yesno'] == 'false':
-            return cleaned
-
         cleaned = super(CheckedFileForm, self).clean()
-        cleaned['yesno'] = 'true'
         if self._errors:
             return cleaned
 
@@ -198,22 +186,11 @@ class WeeklyFileForm(CheckedFileForm):
         fields = [
             'title', 'url',
             'start_day', 'start_month', 'start_year',
-            'end_day', 'end_month', 'end_year', 'yesno'
+            'end_day', 'end_month', 'end_year'
         ]
 
     def clean(self):
-        cleaned = self.cleaned_data
-        if not 'yesno' in cleaned:
-            self.add_error('yesno', _('Please choose if you want to add a file'))
-            self.errors['url'] = ''
-            self.errors['title'] = ''
-            return cleaned
-
-        if cleaned['yesno'] == 'false':
-            return cleaned
-
         cleaned = super(CheckedFileForm, self).clean()
-        cleaned['yesno'] = 'true'
         if self._errors:
             return cleaned
 
@@ -255,7 +232,6 @@ class WeeklyFileForm(CheckedFileForm):
             'is_broken': False,
             'last_check': datetime.datetime.now(),
             'format': fmt,
-            'yesno': cleaned['yesno'],
             'title': cleaned['title'],
             'url': cleaned['url'],
             'start_date': frequency_weekly_start,
