@@ -534,7 +534,10 @@ def _edit_publish_dataset(request, dataset, state):
     if request.method == 'POST':
         from django.forms.models import model_to_dict
         data = model_to_dict(dataset)
-        form = f.PublishForm(data)
+
+
+        file_count = dataset.files.count()
+        form = f.PublishForm(file_count=file_count, data=data)
         if form.is_valid():
             if state == 'checking':
                 dataset.published = True
