@@ -1,26 +1,29 @@
 {% extends 'main_with_navbar.html' %}
 {% load static %}
 {% load flow_state %}
+{% load i18n %}
 
 {% block page_title %}
-  Dataset documentation
+  {% trans "Dataset documentation" %}
 {% endblock %}
 
 {% block inner_content %}
   <main id="content" role="main" tabindex="-1">
     <h1 class="heading-large">
-      Dataset documentation
+      {% trans "Dataset documentation" %}
     </h1>
 
     <table>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Url</th>
-          <th>Valid</th>
-          <th><span class="visuallyhidden">Actions</span></th>
-        </tr>
-      </thead>
+      {% blocktrans %}
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Url</th>
+            <th>Valid</th>
+            <th><span class="visuallyhidden">Actions</span></th>
+          </tr>
+        </thead>
+      {% endblocktrans %}
       <tbody>
         {% for file in dataset.files.all %}
           {% if file.is_documentation %}
@@ -29,8 +32,12 @@
               <td>{{ file.url }} </td>
               <td>✔</td>
               <td>
-                <a href="{% url 'edit_dataset_adddoc' dataset.name file.id %}">Edit</a>
-                <a href="{% url 'edit_dataset_deletefile' dataset.name file.id %}">Delete</a>
+                <a href="{% url 'edit_dataset_adddoc' dataset.name file.id %}">
+                  {% trans "Edit" %}
+                </a>
+                <a href="{% url 'edit_dataset_deletefile' dataset.name file.id %}">
+                  {% trans "Delete" %}
+                </a>
               </td>
             </tr>
           {% endif %}
@@ -46,10 +53,12 @@
       {% else %}
         href="{% url 'edit_dataset_notifications' dataset.name %}"
       {% endif %}
-      class="button">Save and continue</a>
+      class="button">
+      {% trans "Save and continue" %}
+    </a>
 
       <a href="{% url 'edit_dataset_adddoc' dataset.name %}">
-        Add another link
+        {% trans "Add another link" %}
       </a>
 
 

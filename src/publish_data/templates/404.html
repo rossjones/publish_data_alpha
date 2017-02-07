@@ -1,11 +1,14 @@
 {% extends 'main.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block page_title %}
-  Page not found
+  {% trans "Page not found" %}
 {% endblock %}
 
 {% block inner_content %}
-  <h1 class="heading-large">The page you are looking for can't be found</h1>
-  <p>Please check that you have entered the correct web address.</p>
+  {% blocktrans %}
+    <h1 class="heading-large">The page you are looking for can't be found</h1>
+    <p>Please check that you have entered the correct web address.</p>
+  {% endblocktrans %}
 {% endblock %}

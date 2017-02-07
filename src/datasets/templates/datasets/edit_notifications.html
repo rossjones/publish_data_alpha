@@ -1,9 +1,10 @@
 {% extends 'main_with_navbar.html' %}
 {% load static %}
 {% load flow_state %}
+{% load i18n %}
 
 {% block page_title %}
-  Get notifications
+  {% trans "Get notifications" %}
 {% endblock %}
 
 {% block inner_content %}
@@ -11,7 +12,7 @@
   {% include 'datasets/includes/error_box.html' %}
 
   <h1 class="heading-large">
-    Get notifications
+    {% trans "Get notifications" %}
   </h1>
 
   <form action="{% url 'edit_dataset_notifications' dataset.name %}" method="POST">
@@ -21,11 +22,15 @@
         id="notifications_form_group"
         class="form-group {% if form.notifications.errors %}error{% endif %}">
       <fieldset>
-        <legend class="visuallyhidden">Get notifications?</legend>
+        <legend class="visuallyhidden">
+          {% trans "Get notifications?" %}
+        </legend>
 
         <p>
-          Would you like us to send you an email when your dataset needs to
-          be updated?
+          {% blocktrans %}
+            Would you like us to send you an email when your dataset needs to
+            be updated?
+          {% endblocktrans %}
         </p>
 
         {% for error in form.notifications.errors %}
@@ -43,7 +48,7 @@
               {% if form.notifications.value == 'yes' %}
                 checked
               {% endif %} />
-          <span>Yes</span>
+          <span>{% trans "Yes" %}</span>
         </label>
 
         <label
@@ -57,26 +62,26 @@
               {% if form.notifications.value == 'no' %}
                 checked
               {% endif %} />
-          <span>No</span>
+          <span>{% trans "No" %}</span>
         </label>
       </fieldset>
     </div>
 
     <div class="form-group">
       {% if request|is_checking or request|is_editing %}
-        <input type="submit" class="button" value="Change"/>
+        <input type="submit" class="button" value="{% trans "Change" %}"/>
       {% else %}
-        <input type="submit" class="button" value="Save and continue"/>
+        <input type="submit" class="button" value="{% trans "Save and continue" %}"/>
       {% endif %}
       {% if request|is_checking %}
         <a
             href="{% url 'publish_dataset' dataset.name %}"
-            class="secondary-button">Cancel</a>
+            class="secondary-button">{% trans "Cancel" %}</a>
 
       {% elif request|is_editing %}
         <a
             href="{% url 'edit_full_dataset' dataset.name %}"
-            class="secondary-button">Cancel</a>
+            class="secondary-button">{% trans "Cancel" %}</a>
       {% endif %}
     </div>
 

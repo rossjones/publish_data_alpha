@@ -7,7 +7,7 @@
     <h1
         class="heading-medium error-summary-heading"
         id="error-summary-heading-example-1">
-      There was a problem
+      {% trans "There was a problem" %}
     </h1>
 
     <ul class="error-summary-list">
@@ -21,21 +21,27 @@
 
       {% if form.title.errors %}
         <li>
-          <a href="#id_title_label">Please provide a valid title</a>
+          <a href="#id_title_label">
+            {% trans "Please provide a valid title" %}
+          </a>
           <span class="visuallyhidden">.</span>
         </li>
       {% endif %}
 
       {% if form.description.errors %}
         <li>
-          <a href="#id_description_label">Please provide a description</a>
+          <a href="#id_description_label">
+            {% trans "Please provide a description" %}
+          </a>
           <span class="visuallyhidden">.</span>
         </li>
       {% endif %}
 
       {% if form.summary.errors %}
         <li>
-          <a href="#id_description_label">Please provide a summary</a>
+          <a href="#id_description_label">
+            {% trans "Please provide a summary" %}
+          </a>
           <span class="visuallyhidden">.</span>
         </li>
       {% endif %}

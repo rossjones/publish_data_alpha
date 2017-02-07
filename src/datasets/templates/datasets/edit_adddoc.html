@@ -1,9 +1,10 @@
 {% extends 'main_with_navbar.html' %}
 {% load static %}
 {% load flow_state %}
+{% load i18n %}
 
 {% block page_title %}
-  Add documentation
+  {% trans "Add documentation" %}
 {% endblock %}
 
 {% block inner_content %}
@@ -12,9 +13,9 @@
 
   <h1 class="heading-large">
     {% if is_first_file %}
-      Add supporting documentation
+      {% trans "Add supporting documentation" %}
     {% else %}
-      Add more supporting documentation
+      {% trans "Add more supporting documentation" %}
     {% endif %}
   </h1>
 
@@ -31,7 +32,7 @@
         <span class="error-message">{{ error }}</span>
       {% endfor %}
       <span class="form-hint">
-        Enter a link (beginning with http:// or https://) to the document
+        {% trans "Enter a link (beginning with http:// or https://) to the document" %}
       </span>
       <input
           class="form-control form-control-2-3"
@@ -45,14 +46,16 @@
         id="title_form_group"
         class="form-group {% if form.title.errors %}error{% endif %}">
       <label class="form-label-bold" for="id_title">
-        Title
+        {% trans "Title" %}
       </label>
       {% for error in form.title.errors %}
         <span class="error-message">{{ error }}</span>
       {% endfor %}
       <span class="form-hint">
-        Give your document a descriptive title to help users understand what
-        it contains. The title shouldn’t be the same as the URL.
+        {% blocktrans %}
+          Give your document a descriptive title to help users understand what
+          it contains. The title shouldn’t be the same as the URL.
+        {% endblocktrans %}
       </span>
       <input
           class="form-control form-control-2-3"
@@ -64,21 +67,21 @@
 
     <div class="form-group">
       {% if request|is_checking %}
-        <input type="submit" class="button" value="Save">
+        <input type="submit" class="button" value="{% trans "Save" %}">
         <a
             href="{% url 'publish_dataset' dataset.name %}"
             class="secondary-button">
-          Cancel
+          {% trans "Cancel" %}
         </a>
       {% elif request|is_editing %}
-        <input type="submit" class="button" value="Save">
+        <input type="submit" class="button" value="{% trans "Save" %}">
         <a
             href="{% url 'edit_full_dataset' dataset.name %}"
             class="secondary-button">
-          Cancel
+          {% trans "Cancel" %}
         </a>
       {% else %}
-        <input type="submit" class="button" value="Save and continue">
+        <input type="submit" class="button" value="{% trans "Save and continue" %}">
       {% endif %}
     </div>
 

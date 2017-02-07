@@ -1,21 +1,22 @@
 {% extends 'main_with_navbar.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block page_title %}
-  Dashboard
+  {% trans "Dashboard" %}
 {% endblock %}
 
 {% block inner_content %}
   <div class="dashboard">
-    <h1 class="heading-medium">Dashboard</h1>
+    <h1 class="heading-medium">{% trans "Dashboard" %}</h1>
 
     <section class="table-show-hide">
       <div class="table-title">
         <h2 class="heading-medium">
-          <span class="bignum">{{tasks.update|length}}</span> Update datasets
+          <span class="bignum">{{tasks.update|length}}</span> {% trans "Update datasets" %}
         </h2>
         <div>
-          <a class="font-xsmall toggle" style="display:none">Show all</a>
+          <a class="font-xsmall toggle" style="display:none">{% trans "Show all" %}</a>
         </div>
       </div>
       <table>
@@ -27,8 +28,8 @@
               </td>
               <td><div class="overdue">{{ task.label_text }}</div></td>
               <td class="actions">
-                <a href="#">Update</a>
-                <a href="{% url 'skip_task' task.id %}">Skip</a>
+                <a href="#">{% trans "Update" %}</a>
+                <a href="{% url 'skip_task' task.id %}">{% trans "Skip" %}</a>
               </td>
             </tr>
           {% endfor %}
@@ -39,10 +40,10 @@
     <section class="table-show-hide">
       <div class="table-title">
         <h2 class="heading-medium">
-          <span class="bignum">{{tasks.fix|length}}</span> Fix datasets
+          <span class="bignum">{{tasks.fix|length}}</span> {% trans "Fix datasets" %}
         </h2>
         <div>
-          <a class="font-xsmall toggle" style="display:none">Show all</a>
+          <a class="font-xsmall toggle" style="display:none">{% trans "Show all" %}</a>
         </div>
       </div>
       <table>
@@ -54,8 +55,8 @@
               </td>
               <td><div class="overdue">{{ task.label_text }}</div></td>
               <td class="actions">
-                <a class="update" href="#">Update</a>
-                <a href="{% url 'skip_task' task.id %}">Skip</a>
+                <a class="update" href="#">{% trans "Update" %}</a>
+                <a href="{% url 'skip_task' task.id %}">{% trans "Skip" %}</a>
               </td>
             </tr>
           {% endfor %}
@@ -63,13 +64,13 @@
       </table>
     </section>
 
-    <h2 class="heading-medium">Most popular</h2>
+    <h2 class="heading-medium">{% trans "Most popular" %}</h2>
     <div>
       <table>
         <thead>
           <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Downloads</th>
+            <th scope="col">{% trans "Name" %}</th>
+            <th scope="col">{% trans "Downloads" %}</th>
           </tr>
         </thead>
         <tbody>
