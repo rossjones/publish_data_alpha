@@ -152,10 +152,10 @@ class CheckedFileForm(forms.ModelForm):
             return cleaned
 
         # Check the URL is a valid URL and exists
-        exists, fmt, error = url_exists(cleaned['url'])
+        exists, fmt, error_msg = url_exists(cleaned['url'])
         if not exists:
             self._errors['url'] = \
-                [err]
+                [error_msg]
 
             # TODO: Consider uncommenting this
             #if fmt == 'HTML':
@@ -234,10 +234,10 @@ class WeeklyFileForm(CheckedFileForm):
             return cleaned
 
         # Check the URL is a valid URL and exists
-        exists, fmt, error = url_exists(cleaned['url'])
+        exists, fmt, error_msg = url_exists(cleaned['url'])
         if not exists:
             self._errors['url'] = \
-                [error]
+                [error_msg]
 
             # TODO: Consider uncommenting this
             #if fmt == 'HTML':
