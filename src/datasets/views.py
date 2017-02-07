@@ -522,8 +522,6 @@ def _edit_publish_dataset(request, dataset, state):
 
     organisations = organisations_for_user(request.user)
 
-    print(request.session.get('flow-state'))
-
     if request.session.get('flow-state') is None:
         request.session['flow-state'] = state
 
