@@ -41,7 +41,10 @@ var goToDocumentation = function(browser) {
     .selectRadioButton('Every year (January to December)')
     .submitFormAndCheckNextTitle('Do you have a link to the data?')
     .selectRadioButton('Yes')
-    .clearSetValue('input[id=id_url]', 'http://example.com/file.csv')
+    .clearSetValue(
+      'input[id=id_url]',
+      'https://data.gov.uk/data/site-usage/data_all.csv'
+    )
     .clearSetValue('input[id=id_title]', 'First link')
     .clearSetValue('input[id=period_year]', '2013')
     .submitFormAndCheckNextTitle('Dataset links')
@@ -55,7 +58,9 @@ var goToNotifications = function(browser) {
   return goToDocumentation(browser)
     .selectRadioButton('Yes')
     .clearSetValue('input[id=id_title]', 'A document')
-    .clearSetValue('input[id=id_url]', 'http://example.com/file.csv')
+    .clearSetValue(
+      'input[id=id_url]', 'https://data.gov.uk/data/site-usage/data_all.csv'
+    )
     .submitFormAndCheckNextTitle('Dataset documentation')
     .clickAndCheckNextTitle('Save and continue', 'Get notifications')
 };
@@ -94,7 +99,10 @@ var test_create_happy_path = function (browser) {
     .selectRadioButton('Every month')
     .submitFormAndCheckNextTitle('Do you have a link to the data?')
     .selectRadioButton('Yes')
-    .setValue('input[id=id_url]', 'http://example.com/data.csv')
+    .setValue(
+      'input[id=id_url]',
+      'https://data.gov.uk/data/site-usage/data_all.csv'
+    )
     .setValue('input[id=id_title]', 'Title of this link')
     .setValue('input[id=period_month]', '12')
     .setValue('input[id=period_year]', '2016')
@@ -104,7 +112,10 @@ var test_create_happy_path = function (browser) {
       'Do you have supporting documentation?'
     )
     .selectRadioButton('Yes')
-    .setValue('input[id=id_url]', 'http://example.com/data.csv')
+    .setValue(
+      'input[id=id_url]',
+      'https://data.gov.uk/data/site-usage/data_all.csv'
+    )
     .setValue('input[id=id_title]', 'Title of this link')
     .submitFormAndCheckNextTitle('Dataset documentation')
     .clickAndCheckNextTitle('Save and continue', 'Get notifications')
@@ -223,7 +234,10 @@ var test_create_daily = function (browser) {
     .selectRadioButton('Every day')
     .submitFormAndCheckNextTitle('Do you have a link to the data?')
     .selectRadioButton('Yes')
-    .clearSetValue('input[id=id_url]', 'http://example.com/file.csv')
+    .clearSetValue(
+      'input[id=id_url]',
+      'https://data.gov.uk/data/site-usage/data_all.csv'
+    )
     .clearSetValue('input[id=id_title]', 'First link')
     .submitFormAndCheckNextTitle('Dataset links')
     .deleteLastCreatedDataset()
@@ -256,7 +270,10 @@ var test_create_weekly = function (browser) {
     .selectRadioButton('Every week')
     .submitFormAndCheckNextTitle('Do you have a link to the data?')
     .selectRadioButton('Yes')
-    .clearSetValue('input[id=id_url]', 'http://example.com/file.csv')
+    .clearSetValue(
+      'input[id=id_url]',
+      'https://data.gov.uk/data/site-usage/data_all.csv'
+    )
     .clearSetValue('input[id=id_title]', 'First link')
     .clearSetValue('input[id=start_day]', '30')
     .clearSetValue('input[id=start_month]', '01')
@@ -266,7 +283,10 @@ var test_create_weekly = function (browser) {
     .clearSetValue('input[id=end_year]', '2013')
     .submitFormAndCheckNextTitle('Dataset links')
     .clickOnLink('Add another link')
-    .clearSetValue('input[id=id_url]', 'http://example.com/file2.csv')
+    .clearSetValue(
+      'input[id=id_url]',
+      'https://data.gov.uk/data/site-usage/data_all.csv'
+    )
     .clearSetValue('input[id=id_title]', 'Second link')
     .clearSetValue('input[id=start_day]', '30')
     .clearSetValue('input[id=start_month]', '01')
@@ -286,13 +306,19 @@ var test_create_monthly = function (browser) {
     .selectRadioButton('Every month')
     .submitFormAndCheckNextTitle('Do you have a link to the data?')
     .selectRadioButton('Yes')
-    .clearSetValue('input[id=id_url]', 'http://example.com/file.csv')
+    .clearSetValue(
+      'input[id=id_url]',
+      'https://data.gov.uk/data/site-usage/data_all.csv'
+    )
     .clearSetValue('input[id=id_title]', 'First link')
     .clearSetValue('input[id=period_month]', '12')
     .clearSetValue('input[id=period_year]', '2012')
     .submitFormAndCheckNextTitle('Dataset links')
     .clickOnLink('Add another link')
-    .clearSetValue('input[id=id_url]', 'http://example.com/file2.csv')
+    .clearSetValue(
+      'input[id=id_url]',
+      'https://data.gov.uk/data/site-usage/data_all.csv'
+    )
     .clearSetValue('input[id=id_title]', 'Second link')
     .clearSetValue('input[id=period_month]', '12')
     .clearSetValue('input[id=period_year]', '2013')
@@ -308,12 +334,18 @@ var test_create_quarterly = function (browser) {
     .selectRadioButton('Every quarter')
     .submitFormAndCheckNextTitle('Do you have a link to the data?')
     .selectRadioButton('Yes')
-    .clearSetValue('input[id=id_url]', 'http://example.com/file.csv')
+    .clearSetValue(
+      'input[id=id_url]',
+      'https://data.gov.uk/data/site-usage/data_all.csv'
+    )
     .clearSetValue('input[id=id_title]', 'First link')
     .selectRadioButton('Q2 (July to September)')
     .submitFormAndCheckNextTitle('Dataset links')
     .clickOnLink('Add another link')
-    .clearSetValue('input[id=id_url]', 'http://example.com/file2.csv')
+    .clearSetValue(
+      'input[id=id_url]',
+      'https://data.gov.uk/data/site-usage/data_all.csv'
+    )
     .clearSetValue('input[id=id_title]', 'Second link')
     .selectRadioButton('Q3 (October to December)')
     .clearSetValue('input[id=period_year]', '1984')
@@ -338,12 +370,18 @@ var test_create_yearly = function (browser) {
     .selectRadioButton('Every year (January to December)')
     .submitFormAndCheckNextTitle('Do you have a link to the data?')
     .selectRadioButton('Yes')
-    .clearSetValue('input[id=id_url]', 'http://example.com/file.csv')
+    .clearSetValue(
+      'input[id=id_url]',
+      'https://data.gov.uk/data/site-usage/data_all.csv'
+    )
     .clearSetValue('input[id=id_title]', 'First link')
     .clearSetValue('input[id=period_year]', '2012')
     .submitFormAndCheckNextTitle('Dataset links')
     .clickOnLink('Add another link')
-    .clearSetValue('input[id=id_url]', 'http://example.com/file2.csv')
+    .clearSetValue(
+      'input[id=id_url]',
+      'https://data.gov.uk/data/site-usage/data_all.csv'
+    )
     .clearSetValue('input[id=id_title]', 'Second link')
     .clearSetValue('input[id=period_year]', '2013')
     .submitFormAndCheckNextTitle('Dataset links')
