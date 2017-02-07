@@ -104,4 +104,5 @@ node_modules/
 # nightwatchjs
 reports/
 nightwatch.json
+tests/screenshots
 
