@@ -66,64 +66,6 @@ def new_dataset(request):
     })
 
 
-def edit_full_dataset(request, dataset_name):
-    dataset = get_object_or_404(Dataset, name=dataset_name)
-    organisations = organisations_for_user(request.user)
-
-    if not user_can_edit_dataset(request.user, dataset):
-        return HttpResponseForbidden()
-
-    request.session['flow-state'] = 'editing'
-
-    organisation = dataset.organisation
-    single_organisation = len(organisations) == 1
-
-    if request.method == 'POST':
-        from django.forms.models import model_to_dict
-        data = model_to_dict(dataset)
-        form = f.PublishForm(data)
-        if form.is_valid():
-            dataset.save()
-
-            papertrail.log(
-                'edit-dataset',
-                '{} edited "{}"'.format(request.user.username, dataset.title),
-                data={
-                    'dataset_name': dataset.name,
-                    'dataset_title': dataset.title,
-                    'user': request.user.username
-                },
-                external_key=dataset.name
-            )
-
-            # Re-publish if we are editing a published dataset
-            err = publish_to_ckan(dataset)
-            if dataset.published:
-                index_dataset(dataset)
-            else:
-                unindex_dataset(dataset)
-
-            return HttpResponseRedirect(
-                reverse('manage_data') + "?result=edited"
-            )
-    else:
-        form = f.PublishForm()
-
-    datafiles = dataset.files.filter(is_documentation=False).all()
-    docfiles = dataset.files.filter(is_documentation=True).all()
-
-    return render(request, "datasets/publish_dataset.html", {
-        "dataset": dataset,
-        'licence': dataset.licence if dataset.licence != 'other' else dataset.licence_other,
-        'organisation': organisation,
-        'single_organisation': single_organisation,
-        'docfiles': docfiles,
-        'datafiles': datafiles,
-        'form': form
-    })
-
-
-
 def delete_dataset(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
@@ -574,33 +516,40 @@ def edit_notifications(request, dataset_name):
     })
 
 
-def publish_dataset(request, dataset_name):
-    dataset = get_object_or_404(Dataset, name=dataset_name)
+def _edit_publish_dataset(request, dataset, state):
+    ''' Handles the editing or publishing of a dataset, where
+    the primary difference is just the state that we handle '''
 
-    if not user_can_edit_dataset(request.user, dataset):
-        return HttpResponseForbidden()
+    organisations = organisations_for_user(request.user)
 
-    # Reset the flow state
-    request.session['flow-state'] = 'checking'
+    if request.session.get('flow-state') is None:
+        request.session['flow-state'] = state
+
+    new_state = request.session['flow-state']
 
     organisation = dataset.organisation
-    organisations = organisations_for_user(request.user)
     single_organisation = len(organisations) == 1
+
 
     if request.method == 'POST':
         from django.forms.models import model_to_dict
         data = model_to_dict(dataset)
-
         form = f.PublishForm(data)
         if form.is_valid():
-            dataset.published = True
-            dataset.published_date = datetime.now()
+            if state == 'checking':
+                dataset.published = True
+                dataset.published_date = datetime.now()
+
             dataset.save()
 
+            # Determine event message based on state
+            msg = '{} edited "{}"'.format(request.user.username, dataset.title)
+            if new_state == 'checking':
+                msg = '{} published "{}"'.format(request.user.username, dataset.title)
 
             papertrail.log(
-                'publish-dataset',
-                'Dataset "{}" was published'.format(dataset.title),
+                'edit-dataset' if new_state == 'editing' else 'publish-dataset',
+                msg,
                 data={
                     'dataset_name': dataset.name,
                     'dataset_title': dataset.title,
@@ -609,23 +558,29 @@ def publish_dataset(request, dataset_name):
                 external_key=dataset.name
             )
 
+            # Re-publish if we are editing a published dataset
+            if dataset.published:
+                publish_to_ckan(dataset)
+                index_dataset(dataset)
+            else:
+                unindex_dataset(dataset)
 
-            publish_to_ckan(dataset)
-            index_dataset(dataset)
+            result = 'edited' if new_state == 'editing' else 'created'
 
             request.session['flow-state'] = None
 
             return HttpResponseRedirect(
-                reverse('manage_data') + '?result=created'
+                reverse('manage_data') + "?result=" + result
             )
     else:
         form = f.PublishForm()
 
-    datafiles = dataset.files.filter(is_documentation=False).all()
-    docfiles = dataset.files.filter(is_documentation=True).all()
+    all_files = dataset.files.all()
+    datafiles = filter(lambda x: not x.is_documentation, all_files)
+    docfiles = filter(lambda x: x.is_documentation, all_files)
 
     return render(request, "datasets/publish_dataset.html", {
-        'dataset': dataset,
+        "dataset": dataset,
         'licence': dataset.licence if dataset.licence != 'other' else dataset.licence_other,
         'organisation': organisation,
         'single_organisation': single_organisation,
@@ -633,6 +588,32 @@ def publish_dataset(request, dataset_name):
         'datafiles': datafiles,
         'form': form
     })
+
+
+def edit_full_dataset(request, dataset_name):
+    dataset = get_object_or_404(Dataset, name=dataset_name)
+
+    if not user_can_edit_dataset(request.user, dataset):
+        return HttpResponseForbidden()
+
+    return _edit_publish_dataset(
+        request,
+        dataset,
+        'editing',
+    )
+
+
+def publish_dataset(request, dataset_name):
+    dataset = get_object_or_404(Dataset, name=dataset_name)
+
+    if not user_can_edit_dataset(request.user, dataset):
+        return HttpResponseForbidden()
+
+    return _edit_publish_dataset(
+        request,
+        dataset,
+        'checking',
+    )
 
 
 def _frequency_addfile_viewname(dataset):
