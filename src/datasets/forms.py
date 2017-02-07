@@ -74,9 +74,16 @@ class PublishForm(forms.Form):
     licence = forms.CharField(required=True)
     organisation = forms.CharField(required=True)
     frequency = forms.CharField(required=True)
+    files = forms.CharField(required=False)
 
+    def __init__(self, file_count=None, data=None):
+        super(PublishForm, self ).__init__(data)
+        self.file_count = file_count
 
     def clean(self):
+        if self.file_count == 0:
+            self._errors['files'] = [_('You must add at least one link')]
+
         if 'title' in self.cleaned_data:
             title = self.cleaned_data['title']
             length = len(list(filter(lambda x: x.isalpha(), title)))
