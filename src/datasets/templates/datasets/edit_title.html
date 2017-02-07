@@ -78,16 +78,12 @@
       </div>
 
       <div
-          class="form-group {% if form.description.errors %}error{% endif %}"
-          id="description_form_group">
+          class="form-group">
         <label
             class="form-label-bold"
             for="id_description">
           Additional information
         </label>
-        {% for error in form.description.errors %}
-          <span class="error-message">{{ error }}</span>
-        {% endfor %}
         <span class="form-hint">
           You might want to include more information about your dataset,
           such as how it was collected or if there's anything missing from it.
