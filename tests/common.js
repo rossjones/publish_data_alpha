@@ -1,4 +1,5 @@
 var waitTimeout = 1000; // milliseconds
+var validDataUrl = 'https://data.gov.uk/data/site-usage/data_all.csv';
 
 var extended = function(browser) {
   browser.clickOn = function(element, text) {
@@ -69,6 +70,7 @@ var login = function(browser, email, password) {
 
 module.exports = {
   waitTimeout: waitTimeout,
+  validDataUrl: validDataUrl,
   extended: extended,
   login: login
 };
