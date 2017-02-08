@@ -139,7 +139,21 @@
           </a>
         </td>
         <td>
-          {{ dataset.frequency|title }}
+          {% if dataset.frequency == 'daily' %}
+            {% trans "Daily" %}
+          {% elif dataset.frequency == 'weekly' %}
+            {% trans "Weekly" %}
+          {% elif dataset.frequency == 'monthly' %}
+            {% trans "Monthly" %}
+          {% elif dataset.frequency == 'quarterly' %}
+            {% trans "Quarterly" %}
+          {% elif dataset.frequency == 'annually' %}
+            {% trans "Annually (January to December)" %}
+          {% elif dataset.frequency == 'financial-year' %}
+            {% trans "Annually (April to March)" %}
+          {% else %}
+            {{ dataset.frequency|title }}
+          {% endif %}
         </td>
       </tr>
       {% if dataset.notifications %}
