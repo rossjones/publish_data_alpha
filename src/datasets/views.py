@@ -249,9 +249,17 @@ def edit_deletefile(request, dataset_name, datafile_id):
     )
 
 
-def _addfile(request, dataset, form_class, template, datafile=None):
+def _addfile(request, dataset_name, form_class, template, datafile_id=None):
     ''' Handler function for all of the 'period' datafile additions
     that vary only by template and form class '''
+
+    dataset = get_object_or_404(Dataset, name=dataset_name)
+
+    if not user_can_edit_dataset(request.user, dataset):
+        return HttpResponseForbidden()
+
+    datafile = get_object_or_404(Datafile, id=datafile_id) \
+        if datafile_id else None
 
     form = form_class(request.POST or None, instance=datafile)
     _set_flow_state(request)
@@ -277,51 +285,21 @@ def _addfile(request, dataset, form_class, template, datafile=None):
         'datafile_id': datafile.id if datafile else '',
     })
 
+
 def edit_addfile_weekly(request, dataset_name, datafile_id=None):
-    dataset = get_object_or_404(Dataset, name=dataset_name)
-
-    if not user_can_edit_dataset(request.user, dataset):
-        return HttpResponseForbidden()
-
-    datafile = get_object_or_404(Datafile, id=datafile_id) \
-        if datafile_id else None
-    return _addfile(request, dataset, f.WeeklyFileForm, 'week', datafile)
+    return _addfile(request, dataset_name, f.WeeklyFileForm, 'week', datafile_id)
 
 
 def edit_addfile_monthly(request, dataset_name, datafile_id=None):
-    dataset = get_object_or_404(Dataset, name=dataset_name)
-
-    if not user_can_edit_dataset(request.user, dataset):
-        return HttpResponseForbidden()
-
-    datafile = get_object_or_404(Datafile, id=datafile_id) \
-        if datafile_id else None
-
-    return _addfile(request, dataset, f.MonthlyFileForm, 'month', datafile)
+    return _addfile(request, dataset_name, f.MonthlyFileForm, 'month', datafile_id)
 
 
 def edit_addfile_quarterly(request, dataset_name, datafile_id=None):
-    dataset = get_object_or_404(Dataset, name=dataset_name)
-
-    if not user_can_edit_dataset(request.user, dataset):
-        return HttpResponseForbidden()
-
-    datafile = get_object_or_404(Datafile, id=datafile_id) \
-        if datafile_id else None
-
-    return _addfile(request, dataset, f.QuarterlyFileForm, 'quarter', datafile)
+    return _addfile(request, dataset_name, f.QuarterlyFileForm, 'quarter', datafile_id)
 
 
 def edit_addfile_annually(request, dataset_name, datafile_id = None):
-    dataset = get_object_or_404(Dataset, name=dataset_name)
-
-    if not user_can_edit_dataset(request.user, dataset):
-        return HttpResponseForbidden()
-
-    datafile = get_object_or_404(Datafile, id=datafile_id) \
-        if datafile_id else None
-
-    return _addfile(request, dataset, f.AnnuallyFileForm, 'year', datafile)
+    return _addfile(request, dataset_name, f.AnnuallyFileForm, 'year', datafile_id)
 
 
 def edit_files(request, dataset_name):
