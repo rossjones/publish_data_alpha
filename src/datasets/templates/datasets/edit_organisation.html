@@ -4,7 +4,7 @@
 {% load i18n %}
 
 {% block page_title %}
-  {% trans "Choose an organisation" %}
+  {% trans "Choose the organisation you are publishing for" %}
 {% endblock %}
 
 {% block inner_content %}
@@ -12,7 +12,7 @@
   {% include 'datasets/includes/error_box.html' %}
 
   <h1 class="heading-large">
-    {% trans "Which organisation are you publishing this dataset for?" %}
+    {% trans "Choose the organisation you are publishing for" %}
   </h1>
 
   <form
@@ -68,6 +68,11 @@
         </a>
       {% else %}
         <input type="submit" class="button" value="{% trans "Save and continue" %}">
+        <a
+            href="{% url 'edit_dataset_licence' dataset.name %}"
+            class="secondary-button">
+          {% trans "Skip this step" %}
+        </a>
       {% endif %}
     </div>
 

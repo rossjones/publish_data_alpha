@@ -41,9 +41,8 @@
         {% endfor %}
         <span class="form-hint">
           {% blocktrans %}
-            Titles should be 65 characters or less, including spaces.<br/>
-            Most search engines will shorten titles if they’re longer than
-            this.
+            Titles should clearly describe the content of your dataset
+            in under 65 characters.
           {% endblocktrans %}
         </span>
         <input
@@ -67,12 +66,9 @@
         {% endfor %}
         <span class="form-hint">
           {% blocktrans %}
-            Write a short description of the dataset. Along with the title,
-            the summary will appear in search results.
-            <br/>
-            <br/>
-            Include any relevant words and phrases that you didn't use in the title.
-            This will helps users find your dataset.
+            Write a short description in plain English including any
+            key information that will help users understand the dataset contents.
+            Both the title and summary will appear in search results.
           {% endblocktrans %}
         </span>
         <textarea
@@ -91,12 +87,8 @@
         </label>
         <span class="form-hint">
           {% blocktrans %}
-            You might want to include more information about your dataset,
-            such as how it was collected or if there's anything missing from it.
-            <br/>
-            <br/>
-            Make sure you write in plain English, use short sentences and paragraphs.
-            Explain any technical terms of acronyms the first time you use them.
+            If needed, you can add details that explain any technical
+            terms, acronyms or errors that exist in the data.
           {% endblocktrans %}
         </span>
         <textarea

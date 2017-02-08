@@ -4,21 +4,21 @@
 {% load i18n %}
 
 {% block page_title %}
-  {% trans "Dataset links" %}
+  {% trans "Links to your data" %}
 {% endblock %}
 
 {% block inner_content %}
   <main id="content" role="main" tabindex="-1">
     <h1 class="heading-large">
-      {% trans "Dataset links" %}
+      {% trans "Links to your data" %}
     </h1>
 
     <table>
       {% blocktrans %}
         <thead>
           <tr>
-            <th>Title</th>
-            <th>Url</th>
+            <th>Link name</th>
+            <th>Validated URL</th>
             <th>Valid</th>
             <th><span class="visuallyhidden">Actions</span></th>
           </tr>
@@ -45,6 +45,9 @@
       </tbody>
     </table>
 
+    <a href="{% url addfile_viewname dataset.name %}">
+      {% trans "Add another link" %}
+    </a>
 
     <a
         {% if request|is_checking %}
@@ -58,9 +61,6 @@
       {% trans "Save and continue" %}
     </a>
 
-      <a href="{% url addfile_viewname dataset.name %}">
-        {% trans "Add another link" %}
-      </a>
 
   </main>
 {% endblock %}

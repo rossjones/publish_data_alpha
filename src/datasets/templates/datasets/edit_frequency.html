@@ -4,7 +4,7 @@
 {% load i18n %}
 
 {% block page_title %}
-  {% trans "How often is this dataset updated?" %}
+  {% trans "How frequently is this dataset updated?" %}
 {% endblock %}
 
 {% block inner_content %}
@@ -13,7 +13,7 @@
 
 
   <h1 class="heading-large">
-    {% trans "How often is this dataset updated?" %}
+    {% trans "How frequently is this dataset updated?" %}
   </h1>
 
   <form
@@ -41,7 +41,7 @@
               {% if form.frequency.value == 'daily' %}
                 checked
               {% endif %}/>
-          <span>{% trans "Every day" %}</span>
+          <span>{% trans "Daily" %}</span>
         </label>
         <label class="block-label selection-button-radio" for="id_frequency_1">
           <input
@@ -52,7 +52,7 @@
               {% if form.frequency.value == 'weekly' %}
                 checked
               {% endif %}/>
-          <span>{% trans "Every week" %}</span>
+          <span>{% trans "Weekly" %}</span>
         </label>
         <label class="block-label selection-button-radio" for="id_frequency_2">
           <input
@@ -63,7 +63,7 @@
               {% if form.frequency.value == 'monthly' %}
                 checked
               {% endif %}/>
-          <span>{% trans "Every month" %}</span>
+          <span>{% trans "Monthly" %}</span>
         </label>
         <label class="block-label selection-button-radio" for="id_frequency_3">
           <input
@@ -74,7 +74,7 @@
               {% if form.frequency.value == 'quarterly' %}
                 checked
               {% endif %} />
-          <span>{% trans "Every quarter" %}</span>
+          <span>{% trans "Quarterly" %}</span>
         </label>
         <label class="block-label selection-button-radio" for="id_frequency_4">
           <input
@@ -85,7 +85,7 @@
               {% if form.frequency.value == 'annually' %}
                 checked
               {% endif %} />
-          <span>{% trans "Every year (January to December)" %}</span>
+          <span>{% trans "Annually (January to December)" %}</span>
         </label>
         <label class="block-label selection-button-radio" for="id_frequency_5">
           <input
@@ -96,7 +96,7 @@
               {% if form.frequency.value == 'financial-year' %}
                 checked
               {% endif %} />
-          <span>{% trans "Every year (April to March)" %}</span>
+          <span>{% trans "Annually (financial year April to March)" %}</span>
         </label>
         <label class="block-label selection-button-radio" for="id_frequency_6">
           <input
@@ -107,7 +107,7 @@
               {% if form.frequency.value == 'never' %}
                 checked
               {% endif %} />
-          <span>{% trans "Never" %}</span>
+          <span>{% trans "One-off" %}</span>
         </label>
       </fieldset>
     </div>

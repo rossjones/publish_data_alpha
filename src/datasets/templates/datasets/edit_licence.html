@@ -4,7 +4,7 @@
 {% load i18n %}
 
 {% block page_title %}
-  {% trans "Add dataset licence" %}
+  {% trans "Choose a licence" %}
 {% endblock %}
 
 {% block inner_content %}
@@ -12,12 +12,10 @@
   {% include 'datasets/includes/error_box.html' %}
 
   <h1 class="heading-large">
-    {% trans "Choose a licence" %}
+    {% trans "Choose a licence for this dataset" %}
   </h1>
 
   {% blocktrans %}
-    <p>Choose the licence that your dataset is published under.</p>
-
     <p>
       Most datasets are published under the Open Government Licence (OGL),
       which means the data within them can be copied and used by anyone.
@@ -96,6 +94,11 @@
         </a>
       {% else %}
         <input type="submit" class="button" value="{% trans "Save and continue" %}">
+        <a
+            href="{% url 'edit_dataset_location' dataset.name %}"
+            class="secondary-button">
+          {% trans "Skip this step" %}
+        </a>
       {% endif %}
     </div>
 
