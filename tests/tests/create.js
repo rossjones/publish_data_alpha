@@ -420,6 +420,20 @@ var test_create_yearly = function (browser) {
     .end();
 };
 
+var test_create_financial_yearly = function (browser) {
+  goToCreateFrequency(browser)
+    .selectRadioButton('Every year (April to March)')
+    .submitFormAndCheckNextTitle('Add a link')
+    .clearSetValue(
+      'input[id=id_url]',
+      'https://data.gov.uk/data/site-usage/data_all.csv'
+    )
+    .clearSetValue('input[id=period_year]', '1984')
+    .submitFormAndCheckNextTitle('Add a link')
+    .deleteLastCreatedDataset()
+    .end();
+};
+
 var test_create_yearly_bad_year = function (browser) {
   goToCreateFrequency(browser)
     .selectRadioButton('Every year')
@@ -532,6 +546,7 @@ module.exports = {
   'Create a dataset, frequency quarterly': test_create_quarterly,
   'Create a dataset, frequency never': test_create_never,
   'Create a dataset, frequency yearly': test_create_yearly,
+  'Create a dataset, frequency finance yearly': test_create_financial_yearly,
   'Create a dataset, omit notifications': test_create_omit_notifications,
   'Create a dataset, omit url': test_create_omit_url,
   'Create a dataset, modify title': test_create_modify_title,
