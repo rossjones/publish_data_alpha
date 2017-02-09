@@ -96,20 +96,20 @@ var test_create_happy_path = function (browser) {
     .submitFormAndCheckNextTitle('How often is this dataset updated?')
     .selectRadioButton('Every month')
     .submitFormAndCheckNextTitle('Add a link')
-    .setValue(
+    .clearSetValue(
       'input[id=id_url]',
       'https://data.gov.uk/data/site-usage/data_all.csv'
     )
-    .setValue('input[id=id_title]', 'Title of this link')
-    .setValue('input[id=period_month]', '12')
-    .setValue('input[id=period_year]', '2016')
+    .clearSetValue('input[id=id_title]', 'Title of this link')
+    .clearSetValue('input[id=period_month]', '12')
+    .clearSetValue('input[id=period_year]', '2016')
     .submitFormAndCheckNextTitle('Dataset links')
     .clickAndCheckNextTitle('Save and continue', 'Add supporting documentation')
-    .setValue(
+    .clearSetValue(
       'input[id=id_url]',
       'https://data.gov.uk/data/site-usage/data_all.csv'
     )
-    .setValue('input[id=id_title]', 'Title of this link')
+    .clearSetValue('input[id=id_title]', 'Title of this link')
     .submitFormAndCheckNextTitle('Dataset documentation')
     .clickAndCheckNextTitle('Save and continue', 'Get notifications')
     .selectRadioButton('Yes')
@@ -281,6 +281,59 @@ var test_create_weekly = function (browser) {
     .end();
 };
 
+
+var test_create_monthly_bad_month = function (browser) {
+  goToCreateFrequency(browser)
+    .selectRadioButton('Every month')
+    .submitFormAndCheckNextTitle('Add a link')
+    .clearSetValue(
+      'input[id=id_url]',
+      'https://data.gov.uk/data/site-usage/data_all.csv'
+    )
+    .clearSetValue('input[id=id_title]', 'Title of this link')
+    .clearSetValue('input[id=period_month]', 'Movember')
+    .clearSetValue('input[id=period_year]', '2016')
+    .submitFormAndCheckNextTitle('There was a problem')
+    .checkError('Please provide a valid month')
+    .clearSetValue('input[id=period_month]', '13')
+    .submitFormAndCheckNextTitle('There was a problem')
+    .checkError('Please enter a valid date')
+    .deleteLastCreatedDataset()
+    .end();
+};
+
+var test_create_monthly_bad_year = function (browser) {
+  goToCreateFrequency(browser)
+    .selectRadioButton('Every month')
+    .submitFormAndCheckNextTitle('Add a link')
+    .clearSetValue(
+      'input[id=id_url]',
+      'https://data.gov.uk/data/site-usage/data_all.csv'
+    )
+    .clearSetValue('input[id=id_title]', 'Title of this link')
+    .clearSetValue('input[id=period_month]', '11')
+    .clearSetValue('input[id=period_year]', '123203')
+    .submitFormAndCheckNextTitle('There was a problem')
+    .checkError('Please enter a valid date')
+    .deleteLastCreatedDataset()
+    .end();
+};
+
+var test_create_yearly_bad_year = function (browser) {
+  goToCreateFrequency(browser)
+    .selectRadioButton('Every year (January to December)')
+    .submitFormAndCheckNextTitle('Add a link')
+    .clearSetValue(
+      'input[id=id_url]',
+      'https://data.gov.uk/data/site-usage/data_all.csv'
+    )
+    .clearSetValue('input[id=period_year]', '123203')
+    .submitFormAndCheckNextTitle('There was a problem')
+    .checkError('Please enter a valid date')
+    .deleteLastCreatedDataset()
+    .end();
+};
+
 var test_create_monthly = function (browser) {
   goToCreateFrequency(browser)
     .selectRadioButton('Every month')
@@ -367,6 +420,30 @@ var test_create_yearly = function (browser) {
     .end();
 };
 
+var test_create_yearly_bad_year = function (browser) {
+  goToCreateFrequency(browser)
+    .selectRadioButton('Every year')
+    .submitFormAndCheckNextTitle('Add a link')
+    .clearSetValue(
+      'input[id=id_url]',
+      'https://data.gov.uk/data/site-usage/data_all.csv'
+    )
+    .clearSetValue('input[id=id_title]', 'Title of this link')
+    .clearSetValue('input[id=period_year]', 'meh')
+    .submitFormAndCheckNextTitle('There was a problem')
+    .checkError('Please provide a valid year')
+    .clearSetValue('input[id=period_year]', '10234')
+    .submitFormAndCheckNextTitle('There was a problem')
+    .checkError('Please provide a valid year')
+    .clearSetValue('input[id=period_year]', '123')
+    .submitFormAndCheckNextTitle('There was a problem')
+    .checkError('Please provide a valid year')
+    .clearSetValue('input[id=period_year]', '2010')
+    .submitFormAndCheckNextTitle('Dataset links')
+    .deleteLastCreatedDataset()
+    .end();
+};
+
 var test_create_omit_notifications = function (browser) {
   goToNotifications(browser)
     .submitFormAndCheckNextTitle('Check your dataset')
@@ -449,6 +526,9 @@ module.exports = {
   'Create a dataset, frequency daily, omit link': test_create_daily_omit_link,
   'Create a dataset, frequency weekly': test_create_weekly,
   'Create a dataset, frequency monthly': test_create_monthly,
+  'Create a dataset, monthly, bad month': test_create_monthly_bad_month,
+  'Create a dataset, monthly, bad year': test_create_monthly_bad_year,
+  'Create a dataset, yearly, bad year': test_create_yearly_bad_year,
   'Create a dataset, frequency quarterly': test_create_quarterly,
   'Create a dataset, frequency never': test_create_never,
   'Create a dataset, frequency yearly': test_create_yearly,

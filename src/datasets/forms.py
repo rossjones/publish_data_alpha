@@ -40,26 +40,6 @@ class EditDatasetForm(forms.ModelForm):
         fields = ['title', 'summary', 'description']
 
 
-class FullDatasetForm(forms.ModelForm):
-    title = forms.CharField(label=_('Title'), max_length=100, required=True)
-    summary = forms.CharField(label=_('Summary'), max_length=200, required=True)
-    description = forms.CharField(
-        label=_('Additional Information'),
-        max_length=1024,
-        widget=forms.Textarea,
-        required=True
-    )
-
-    class Meta:
-        model = Dataset
-        fields = [
-            'title', 'summary', 'description',
-            'licence', 'licence_other', 'organisation',
-            'frequency', 'notifications',
-            'location1', 'location2', 'location3'
-        ]
-
-
 class PublishForm(forms.Form):
     '''
     Used to verify that the required fields are present in the
@@ -246,6 +226,23 @@ class MonthlyFileForm(CheckedFileForm):
         fields = [ 'title', 'url', 'month', 'year' ]
 
 
+    def clean(self):
+        cleaned = super(CheckedFileForm, self).clean()
+        if self._errors:
+            return cleaned
+
+        try:
+            date = datetime.date(
+                cleaned['year'],
+                cleaned['month'],
+                1
+            )
+        except (KeyError, ValueError):
+            self._errors['date'] = [_('Please enter a valid date')]
+
+        return cleaned
+
+
 class QuarterlyFileForm(CheckedFileForm):
 
     class Meta:
@@ -260,6 +257,17 @@ class AnnuallyFileForm(CheckedFileForm):
         frequency = 'annually'
         model = Datafile
         fields = [ 'title', 'url', 'year' ]
+
+    def clean(self):
+        cleaned = super(CheckedFileForm, self).clean()
+        if self._errors:
+            return cleaned
+
+        if cleaned['year'] < 1000 or cleaned['year'] > 3000:
+            self._errors['year'] = [_('Please enter a valid year')]
+
+        return cleaned
+
 
 
 class StubForm(forms.ModelForm):

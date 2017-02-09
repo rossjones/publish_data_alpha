@@ -162,6 +162,15 @@
         </li>
       {% endif %}
 
+      {% if form.errors.date %}
+        <li>
+          <a href="#date_form_group">
+            {% trans "Please enter a valid date" %}
+          </a>
+          <span class="visuallyhidden">.</span>
+        </li>
+      {% endif %}
+
       {% if form.notifications.errors %}
         <li>
           <a href="#notifications_form_group">
