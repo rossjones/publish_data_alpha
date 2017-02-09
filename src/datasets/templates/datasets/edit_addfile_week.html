@@ -1,9 +1,10 @@
 {% extends 'main_with_navbar.html' %}
 {% load static %}
 {% load flow_state %}
+{% load i18n %}
 
 {% block page_title %}
-  Add a link
+  {% trans "Add a link" %}
 {% endblock %}
 
 {% block inner_content %}
@@ -12,9 +13,9 @@
 
   <h1 class="heading-large">
     {% if is_first_file %}
-      Add a link
+      {% trans "Add a link" %}
     {% else %}
-      Add another link
+      {% trans "Add another link" %}
     {% endif %}
   </h1>
 
@@ -31,8 +32,8 @@
       <fieldset>
         <legend>
           <span class="form-label-bold">
-            Start date
-            <span class="form-hint">For example, 31 3 2016</span>
+            {% trans "Start date" %}
+            <span class="form-hint">{% trans "For example, 31 3 2016" %}</span>
           </span>
         </legend>
         {% for error in form.errors.start_date %}
@@ -40,7 +41,7 @@
         {% endfor %}
         <div class="form-date">
           <div class="form-group form-group-day {% if form.errors.start_day %}error{% endif %}"
-            <label class="form-label" for="start_day">Day</label>
+            <label class="form-label" for="start_day">{% trans "Day" %}</label>
             <input
                 class="form-control"
                 id="start_day"
@@ -53,7 +54,7 @@
                 aria-describedby="start_hint">
           </div>
           <div class="form-group form-group-month {% if form.errors.start_month %}error{% endif %}">
-            <label class="form-label" for="start_month">Month</label>
+            <label class="form-label" for="start_month">{% trans "Month" %}</label>
             <input
                 class="form-control"
                 id="start_month"
@@ -65,7 +66,7 @@
                 value="{{ form.start_month.value|default:'' }}">
           </div>
           <div class="form-group form-group-year {% if form.errors.start_year %}error{% endif %}">
-            <label class="form-label" for="start_year">Year</label>
+            <label class="form-label" for="start_year">{% trans "Year" %}</label>
             <input
                 class="form-control"
                 id="start_year"
@@ -81,8 +82,8 @@
       <fieldset>
         <legend>
           <span class="form-label-bold">
-            End date
-            <span class="form-hint">For example, 31 5 2016</span>
+            {% trans "End date" %}
+            <span class="form-hint">{% trans "For example, 31 5 2016" %}</span>
           </span>
         </legend>
         {% for error in form.errors.end_date %}
@@ -90,7 +91,7 @@
         {% endfor %}
         <div class="form-date">
           <div class="form-group form-group-day {% if form.errors.end_day %}error{% endif %}">
-            <label class="form-label" for="end_day">Day</label>
+            <label class="form-label" for="end_day">{% trans "Day" %}</label>
             <input
                 class="form-control"
                 id="end_day"
@@ -103,7 +104,7 @@
                 aria-describedby="end_hint">
           </div>
           <div class="form-group form-group-month {% if form.errors.end_month %}error{% endif %}">
-            <label class="form-label" for="end_month">Month</label>
+            <label class="form-label" for="end_month">{% trans "Month" %}</label>
             <input
                 class="form-control"
                 id="end_month"
@@ -115,7 +116,7 @@
                 value="{{ form.end_month.value|default:'' }}">
           </div>
           <div class="form-group form-group-year {% if form.errors.end_year %}error{% endif %}">
-            <label class="form-label" for="end_year">Year</label>
+            <label class="form-label" for="end_year">{% trans "Year" %}</label>
             <input
                 class="form-control"
                 id="end_year"

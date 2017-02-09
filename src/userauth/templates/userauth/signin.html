@@ -1,8 +1,9 @@
 {% extends 'main.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block page_title %}
-  Sign in
+  {% trans "Sign in" %}
 {% endblock %}
 
 {% block inner_content %}
@@ -16,22 +17,26 @@
       <h1
           class="heading-medium error-summary-heading"
           id="error-summary-heading-example-1">
-        There was a problem signing you in
+        {% trans "There was a problem signing you in" %}
       </h1>
       <p>
-        Email and password combination not recognised.
+        {% trans "Email and password combination not recognised." %}
       </p>
     </div>
   {% endif %}
 
-  <h1 class="heading-large">Sign in</h1>
+  <h1 class="heading-large">
+    {% trans "Sign in" %}
+  </h1>
 
   <form action="{% url 'signin' %}" method="POST" class="form">
     {% csrf_token %}
     <input type="hidden" name="next" value="{{ next }}" />
 
     <div class="form-group">
-      <label class="form-label" for="id_email">Email address</label>
+      <label class="form-label" for="id_email">
+        {% trans "Email address" %}
+      </label>
       <input
           class="form-control"
           id="id_email"
@@ -39,13 +44,15 @@
           type="text">
     </div>
     <div class="form-group">
-      <label class="form-label" for="id_password">Password</label>
+      <label class="form-label" for="id_password">
+        {% trans "Password" %}
+      </label>
       <input
           class="form-control"
           id="id_password"
           name="password"
           type="password">
     </div>
-    <input class="button" type="submit" value="Sign in"/>
+    <input class="button" type="submit" value="{% trans "Sign in" %}"/>
   </form>
 {% endblock %}

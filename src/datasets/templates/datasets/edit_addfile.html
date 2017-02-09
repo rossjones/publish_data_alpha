@@ -1,9 +1,10 @@
 {% extends 'main_with_navbar.html' %}
 {% load static %}
 {% load flow_state %}
+{% load i18n %}
 
 {% block page_title %}
-  Add a link
+  {% trans "Add a link" %}
 {% endblock %}
 
 {% block inner_content %}
@@ -12,9 +13,9 @@
 
   <h1 class="heading-large">
     {% if is_first_file %}
-      Add a link
+      {% trans "Add a link" %}
     {% else %}
-      Add another link
+      {% trans "Add another link" %}
     {% endif %}
   </h1>
 

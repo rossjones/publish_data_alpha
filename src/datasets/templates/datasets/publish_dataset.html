@@ -1,9 +1,10 @@
 {% extends 'main_with_navbar.html' %}
 {% load static %}
 {% load flow_state %}
+{% load i18n %}
 
 {% block page_title %}
-  Check your dataset
+  {% trans "Check your dataset" %}
 {% endblock %}
 
 {% block inner_content %}
@@ -12,9 +13,9 @@
 
   <h1 class="heading-large">
     {% if request|is_checking %}
-      Check your dataset
+      {% trans "Check your dataset" %}
     {% else %}
-      Edit ‘{{ dataset.title }}’
+      {% trans "Edit" %} ‘{{ dataset.title }}’
     {% endif %}
   </h1>
 
@@ -22,9 +23,9 @@
     <tbody>
       <tr>
         <td class="dataset-item">
-          Name<br/>
+          {% trans "Name" %}<br/>
           <a class="font-xsmall" href="{% url 'edit_dataset' dataset.name %}">
-            Change <span class="visuallyhidden">dataset name</span>
+            {% trans "Change <span class='visuallyhidden'>dataset name</span>" %}
           </a>
         </td>
         <td>
@@ -33,9 +34,9 @@
       </tr>
       <tr>
         <td class="dataset-item">
-          Summary<br/>
+          {% trans "Summary" %}<br/>
           <a class="font-xsmall" href="{% url 'edit_dataset' dataset.name %}">
-            Change <span class="visuallyhidden">summary</span>
+            {% trans "Change <span class='visuallyhidden'>summary</span>" %}
           </a>
         </td>
         <td>
@@ -44,9 +45,9 @@
       </tr>
       <tr>
         <td class="dataset-item">
-          Additional information<br/>
+          {% trans "Additional information" %}<br/>
           <a class="font-xsmall" href="{% url 'edit_dataset' dataset.name %}">
-            Change <span class="visuallyhidden">description</span>
+            {% trans "Change <span class='visuallyhidden'>description</span>" %}
           </a>
         </td>
         <td>
@@ -56,9 +57,9 @@
       {% if not single_organisation %}
         <tr>
           <td class="dataset-item">
-            Organisation<br/>
+            {% trans "Organisation" %}<br/>
             <a class="font-xsmall" href="{% url 'edit_dataset_organisation' dataset.name %}">
-              Change <span class="visuallyhidden">description</span>
+              {% trans "Change <span class='visuallyhidden'>description</span>" %}
             </a>
           </td>
           <td>
@@ -68,9 +69,9 @@
       {% endif %}
       <tr>
         <td class="dataset-item">
-          Links<br/>
+          {% trans "Links" %}<br/>
           <a class="font-xsmall" href="{% url 'edit_dataset_files' dataset.name %}">
-            Change <span class="visuallyhidden">datafiles</span>
+            {% trans "Change <span class='visuallyhidden'>datafiles</span>" %}
           </a>
         </td>
         <td>
@@ -85,9 +86,9 @@
       </tr>
       <tr class="dataset-item">
         <td>
-          Documentation<br/>
+          {% trans "Documentation" %}<br/>
           <a class="font-xsmall" href="{% url 'edit_dataset_documents' dataset.name %}">
-            Change <span class="visuallyhidden">documents</span>
+            {% trans "Change <span class='visuallyhidden'>documents</span>" %}
           </a>
         </td>
         <td>
@@ -102,9 +103,9 @@
       </tr>
       <tr>
         <td class="dataset-item">
-          Location<br/>
+          {% trans "Location" %}<br/>
           <a class="font-xsmall" href="{% url 'edit_dataset_location' dataset.name %}">
-            Change <span class="visuallyhidden">location</span>
+            {% trans "Change <span class='visuallyhidden'>location</span>" %}
           </a>
         </td>
         <td>
@@ -117,14 +118,14 @@
       </tr>
       <tr>
         <td class="dataset-item">
-          Licence<br/>
+          {% trans "Licence" %}<br/>
           <a class="font-xsmall" href="{% url 'edit_dataset_licence' dataset.name %}">
-            Change <span class="visuallyhidden">licence</span>
+            {% trans "Change <span class='visuallyhidden'>licence</span>" %}
           </a>
         </td>
         <td>
           {% if dataset.licence == "uk-ogl" %}
-            Open Government Licence
+            {% trans "Open Government Licence" %}
           {% else %}
             {{ dataset.licence_other }}
           {% endif %}
@@ -132,9 +133,9 @@
       </tr>
       <tr>
         <td class="dataset-item">
-          Frequency Update<br/>
+          {% trans "Frequency Update" %}<br/>
           <a class="font-xsmall" href="{% url 'edit_dataset_frequency' dataset.name %}">
-            Change <span class="visuallyhidden">frequency update</span>
+            {% trans "Change <span class='visuallyhidden'>frequency update</span>" %}
           </a>
         </td>
         <td>
@@ -144,9 +145,9 @@
       {% if dataset.notifications %}
         <tr>
           <td class="dataset-item">
-            Notifications<br/>
+            {% trans "Notifications" %}<br/>
             <a class="font-xsmall" href="{% url 'edit_dataset_notifications' dataset.name %}">
-              Change <span class="visuallyhidden">notifications</span>
+              {% trans "Change <span class='visuallyhidden'>notifications</span>" %}
             </a>
           </td>
           <td>
@@ -163,13 +164,13 @@
     {% csrf_token %}
     <div class="form-group">
       {% if dataset.published %}
-        <input type="submit" class="button" value="Done"/>
+        <input type="submit" class="button" value="{% trans "Done" %}"/>
       {% else %}
-        <input type="submit" class="button" value="Publish"/>
+        <input type="submit" class="button" value="{% trans "Publish" %}"/>
         <a
             href="{% url 'manage_data'%}"
             class="secondary-button">
-          Save for later
+          {% trans "Save for later" %}
         </a>
       {% endif %}
     </div>

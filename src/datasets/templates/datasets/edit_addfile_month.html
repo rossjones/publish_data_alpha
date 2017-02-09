@@ -1,9 +1,10 @@
 {% extends 'main_with_navbar.html' %}
 {% load static %}
 {% load flow_state %}
+{% load i18n %}
 
 {% block page_title %}
-  Add a link
+  {% trans "Add a link" %}
 {% endblock %}
 
 {% block inner_content %}
@@ -12,9 +13,9 @@
 
   <h1 class="heading-large">
     {% if is_first_file %}
-      Add a link
+      {% trans "Add a link" %}
     {% else %}
-      Add another link
+      {% trans "Add another link" %}
     {% endif %}
   </h1>
 
@@ -30,15 +31,15 @@
       <fieldset>
         <legend>
           <span class="form-label-bold">
-            Time period of this link
+            {% trans "Time period of this link" %}
           </span>
-          <span class="form-hint">For example, 3 2016</span>
+          <span class="form-hint">{% trans "For example, 3 2016" %}</span>
         </legend>
         <div class="form-date">
           <div
               id="month_form_group"
               class="form-group form-group-month {% if form.month.errors %}error{% endif %}">
-            <label class="form-label" for="period_month">Month</label>
+            <label class="form-label" for="period_month">{% trans "Month" %}</label>
             {% for error in form.month.errors %}
               <span class="error-message">{{ error }}</span>
             {% endfor %}
@@ -56,7 +57,7 @@
           <div
               id="year_form_group"
               class="form-group form-group-year {% if form.year.errors %}error{% endif %}">
-            <label class="form-label" for="period_year">Year</label>
+            <label class="form-label" for="period_year">{% trans "Year" %}</label>
             {% for error in form.year.errors %}
               <span class="error-message">{{ error }}</span>
             {% endfor %}

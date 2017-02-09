@@ -1,9 +1,10 @@
 {% extends 'main_with_navbar.html' %}
 {% load static %}
 {% load flow_state %}
+{% load i18n %}
 
 {% block page_title %}
-  How often is this dataset updated?
+  {% trans "How often is this dataset updated?" %}
 {% endblock %}
 
 {% block inner_content %}
@@ -12,7 +13,7 @@
 
 
   <h1 class="heading-large">
-    How often is this dataset updated?
+    {% trans "How often is this dataset updated?" %}
   </h1>
 
   <form
@@ -25,10 +26,10 @@
         class="form-group {% if form.frequency.errors %}error{% endif %}"
         id="#frequency_form_group">
       <fieldset>
-        <legend class="visually-hidden">Choose a frequency</legend>
+        <legend class="visually-hidden">{% trans "Choose a frequency" %}</legend>
         {% if form.frequency.errors %}
           <span class="error-message">
-            Please indicate how often this dataset is updated
+            {% trans "Please indicate how often this dataset is updated" %}
           </span>
         {% endif %}
         <label class="block-label selection-button-radio" for="id_frequency_0">
@@ -40,7 +41,7 @@
               {% if form.frequency.value == 'daily' %}
                 checked
               {% endif %}/>
-          <span>Every day</span>
+          <span>{% trans "Every day" %}</span>
         </label>
         <label class="block-label selection-button-radio" for="id_frequency_1">
           <input
@@ -51,7 +52,7 @@
               {% if form.frequency.value == 'weekly' %}
                 checked
               {% endif %}/>
-          <span>Every week</span>
+          <span>{% trans "Every week" %}</span>
         </label>
         <label class="block-label selection-button-radio" for="id_frequency_2">
           <input
@@ -62,7 +63,7 @@
               {% if form.frequency.value == 'monthly' %}
                 checked
               {% endif %}/>
-          <span>Every month</span>
+          <span>{% trans "Every month" %}</span>
         </label>
         <label class="block-label selection-button-radio" for="id_frequency_3">
           <input
@@ -73,7 +74,7 @@
               {% if form.frequency.value == 'quarterly' %}
                 checked
               {% endif %} />
-          <span>Every quarter</span>
+          <span>{% trans "Every quarter" %}</span>
         </label>
         <label class="block-label selection-button-radio" for="id_frequency_4">
           <input
@@ -84,7 +85,7 @@
               {% if form.frequency.value == 'annually' %}
                 checked
               {% endif %} />
-          <span>Every year (January to December)</span>
+          <span>{% trans "Every year (January to December)" %}</span>
         </label>
         <label class="block-label selection-button-radio" for="id_frequency_5">
           <input
@@ -95,7 +96,7 @@
               {% if form.frequency.value == 'financial-year' %}
                 checked
               {% endif %} />
-          <span>Every year (April to March)</span>
+          <span>{% trans "Every year (April to March)" %}</span>
         </label>
         <label class="block-label selection-button-radio" for="id_frequency_6">
           <input
@@ -106,28 +107,28 @@
               {% if form.frequency.value == 'never' %}
                 checked
               {% endif %} />
-          <span>Never</span>
+          <span>{% trans "Never" %}</span>
         </label>
       </fieldset>
     </div>
 
     <div class="form-group">
       {% if request|is_checking %}
-        <input type="submit" class="button" value="Change">
+        <input type="submit" class="button" value="{% trans "Change" %}">
         <a
             href="{% url 'publish_dataset' dataset.name %}"
             class="secondary-button">
-          Cancel
+          {% trans "Cancel" %}
         </a>
       {% elif request|is_editing %}
-        <input type="submit" class="button" value="Change">
+        <input type="submit" class="button" value="{% trans "Change" %}">
         <a
             href="{% url 'edit_full_dataset' dataset.name %}"
             class="secondary-button">
-          Cancel
+          {% trans "Cancel" %}
         </a>
       {% else %}
-        <input type="submit" class="button" value="Save and continue">
+        <input type="submit" class="button" value="{% trans "Save and continue" %}">
       {% endif %}
     </div>
 

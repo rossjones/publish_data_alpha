@@ -2,7 +2,6 @@ from django.utils.translation import ugettext as _
 from django import forms
 import datetime
 
-import datasets.choices as choices
 from datasets.models import Dataset, Datafile
 from datasets.util import url_exists
 
