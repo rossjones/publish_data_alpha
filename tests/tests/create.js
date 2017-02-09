@@ -40,10 +40,7 @@ var goToDocumentation = function(browser) {
   return goToCreateFrequency(browser)
     .selectRadioButton('Every year (January to December)')
     .submitFormAndCheckNextTitle('Add a link')
-    .clearSetValue(
-      'input[id=id_url]',
-      'https://data.gov.uk/data/site-usage/data_all.csv'
-    )
+    .clearSetValue('input[id=id_url]', common.validDataUrl)
     .clearSetValue('input[id=id_title]', 'First link')
     .clearSetValue('input[id=period_year]', '2013')
     .submitFormAndCheckNextTitle('Dataset links')
@@ -56,9 +53,7 @@ var goToDocumentation = function(browser) {
 var goToNotifications = function(browser) {
   return goToDocumentation(browser)
     .clearSetValue('input[id=id_title]', 'A document')
-    .clearSetValue(
-      'input[id=id_url]', 'https://data.gov.uk/data/site-usage/data_all.csv'
-    )
+    .clearSetValue('input[id=id_url]', common.validDataUrl)
     .submitFormAndCheckNextTitle('Dataset documentation')
     .clickAndCheckNextTitle('Save and continue', 'Get notifications')
 };
@@ -96,19 +91,13 @@ var test_create_happy_path = function (browser) {
     .submitFormAndCheckNextTitle('How often is this dataset updated?')
     .selectRadioButton('Every month')
     .submitFormAndCheckNextTitle('Add a link')
-    .clearSetValue(
-      'input[id=id_url]',
-      'https://data.gov.uk/data/site-usage/data_all.csv'
-    )
+    .clearSetValue('input[id=id_url]', common.validDataUrl)
     .clearSetValue('input[id=id_title]', 'Title of this link')
     .clearSetValue('input[id=period_month]', '12')
     .clearSetValue('input[id=period_year]', '2016')
     .submitFormAndCheckNextTitle('Dataset links')
     .clickAndCheckNextTitle('Save and continue', 'Add supporting documentation')
-    .clearSetValue(
-      'input[id=id_url]',
-      'https://data.gov.uk/data/site-usage/data_all.csv'
-    )
+    .clearSetValue('input[id=id_url]', common.validDataUrl)
     .clearSetValue('input[id=id_title]', 'Title of this link')
     .submitFormAndCheckNextTitle('Dataset documentation')
     .clickAndCheckNextTitle('Save and continue', 'Get notifications')
@@ -226,10 +215,7 @@ var test_create_daily = function (browser) {
   goToCreateFrequency(browser)
     .selectRadioButton('Every day')
     .submitFormAndCheckNextTitle('Add a link')
-    .clearSetValue(
-      'input[id=id_url]',
-      'https://data.gov.uk/data/site-usage/data_all.csv'
-    )
+    .clearSetValue('input[id=id_url]', common.validDataUrl)
     .clearSetValue('input[id=id_title]', 'First link')
     .submitFormAndCheckNextTitle('Dataset links')
     .deleteLastCreatedDataset()
@@ -250,10 +236,7 @@ var test_create_weekly = function (browser) {
   goToCreateFrequency(browser)
     .selectRadioButton('Every week')
     .submitFormAndCheckNextTitle('Add a link')
-    .clearSetValue(
-      'input[id=id_url]',
-      'https://data.gov.uk/data/site-usage/data_all.csv'
-    )
+    .clearSetValue('input[id=id_url]', common.validDataUrl)
     .clearSetValue('input[id=id_title]', 'First link')
     .clearSetValue('input[id=start_day]', '30')
     .clearSetValue('input[id=start_month]', '01')
@@ -263,10 +246,7 @@ var test_create_weekly = function (browser) {
     .clearSetValue('input[id=end_year]', '2013')
     .submitFormAndCheckNextTitle('Dataset links')
     .clickOnLink('Add another link')
-    .clearSetValue(
-      'input[id=id_url]',
-      'https://data.gov.uk/data/site-usage/data_all.csv'
-    )
+    .clearSetValue('input[id=id_url]', common.validDataUrl)
     .clearSetValue('input[id=id_title]', 'Second link')
     .clearSetValue('input[id=start_day]', '30')
     .clearSetValue('input[id=start_month]', '01')
@@ -286,10 +266,7 @@ var test_create_monthly_bad_month = function (browser) {
   goToCreateFrequency(browser)
     .selectRadioButton('Every month')
     .submitFormAndCheckNextTitle('Add a link')
-    .clearSetValue(
-      'input[id=id_url]',
-      'https://data.gov.uk/data/site-usage/data_all.csv'
-    )
+    .clearSetValue('input[id=id_url]', common.validDataUrl)
     .clearSetValue('input[id=id_title]', 'Title of this link')
     .clearSetValue('input[id=period_month]', 'Movember')
     .clearSetValue('input[id=period_year]', '2016')
@@ -306,10 +283,7 @@ var test_create_monthly_bad_year = function (browser) {
   goToCreateFrequency(browser)
     .selectRadioButton('Every month')
     .submitFormAndCheckNextTitle('Add a link')
-    .clearSetValue(
-      'input[id=id_url]',
-      'https://data.gov.uk/data/site-usage/data_all.csv'
-    )
+    .clearSetValue('input[id=id_url]', common.validDataUrl)
     .clearSetValue('input[id=id_title]', 'Title of this link')
     .clearSetValue('input[id=period_month]', '11')
     .clearSetValue('input[id=period_year]', '123203')
@@ -323,10 +297,7 @@ var test_create_yearly_bad_year = function (browser) {
   goToCreateFrequency(browser)
     .selectRadioButton('Every year (January to December)')
     .submitFormAndCheckNextTitle('Add a link')
-    .clearSetValue(
-      'input[id=id_url]',
-      'https://data.gov.uk/data/site-usage/data_all.csv'
-    )
+    .clearSetValue('input[id=id_url]', common.validDataUrl)
     .clearSetValue('input[id=period_year]', '123203')
     .submitFormAndCheckNextTitle('There was a problem')
     .checkError('Please enter a valid date')
@@ -338,19 +309,13 @@ var test_create_monthly = function (browser) {
   goToCreateFrequency(browser)
     .selectRadioButton('Every month')
     .submitFormAndCheckNextTitle('Add a link')
-    .clearSetValue(
-      'input[id=id_url]',
-      'https://data.gov.uk/data/site-usage/data_all.csv'
-    )
+    .clearSetValue('input[id=id_url]', common.validDataUrl)
     .clearSetValue('input[id=id_title]', 'First link')
     .clearSetValue('input[id=period_month]', '12')
     .clearSetValue('input[id=period_year]', '2012')
     .submitFormAndCheckNextTitle('Dataset links')
     .clickOnLink('Add another link')
-    .clearSetValue(
-      'input[id=id_url]',
-      'https://data.gov.uk/data/site-usage/data_all.csv'
-    )
+    .clearSetValue('input[id=id_url]', common.validDataUrl)
     .clearSetValue('input[id=id_title]', 'Second link')
     .clearSetValue('input[id=period_month]', '12')
     .clearSetValue('input[id=period_year]', '2013')
@@ -365,18 +330,12 @@ var test_create_quarterly = function (browser) {
   goToCreateFrequency(browser)
     .selectRadioButton('Every quarter')
     .submitFormAndCheckNextTitle('Add a link')
-    .clearSetValue(
-      'input[id=id_url]',
-      'https://data.gov.uk/data/site-usage/data_all.csv'
-    )
+    .clearSetValue('input[id=id_url]', common.validDataUrl)
     .clearSetValue('input[id=id_title]', 'First link')
     .selectRadioButton('Q2 (July to September)')
     .submitFormAndCheckNextTitle('Dataset links')
     .clickOnLink('Add another link')
-    .clearSetValue(
-      'input[id=id_url]',
-      'https://data.gov.uk/data/site-usage/data_all.csv'
-    )
+    .clearSetValue('input[id=id_url]', common.validDataUrl)
     .clearSetValue('input[id=id_title]', 'Second link')
     .selectRadioButton('Q3 (October to December)')
     .clearSetValue('input[id=period_year]', '1984')
@@ -399,18 +358,12 @@ var test_create_yearly = function (browser) {
   goToCreateFrequency(browser)
     .selectRadioButton('Every year (January to December)')
     .submitFormAndCheckNextTitle('Add a link')
-    .clearSetValue(
-      'input[id=id_url]',
-      'https://data.gov.uk/data/site-usage/data_all.csv'
-    )
+    .clearSetValue('input[id=id_url]', common.validDataUrl)
     .clearSetValue('input[id=id_title]', 'First link')
     .clearSetValue('input[id=period_year]', '2012')
     .submitFormAndCheckNextTitle('Dataset links')
     .clickOnLink('Add another link')
-    .clearSetValue(
-      'input[id=id_url]',
-      'https://data.gov.uk/data/site-usage/data_all.csv'
-    )
+    .clearSetValue('input[id=id_url]', common.validDataUrl)
     .clearSetValue('input[id=id_title]', 'Second link')
     .clearSetValue('input[id=period_year]', '2013')
     .submitFormAndCheckNextTitle('Dataset links')
@@ -424,12 +377,10 @@ var test_create_financial_yearly = function (browser) {
   goToCreateFrequency(browser)
     .selectRadioButton('Every year (April to March)')
     .submitFormAndCheckNextTitle('Add a link')
-    .clearSetValue(
-      'input[id=id_url]',
-      'https://data.gov.uk/data/site-usage/data_all.csv'
-    )
+    .clearSetValue('input[id=id_title]', 'Some link')
+    .clearSetValue('input[id=id_url]', common.validDataUrl)
     .clearSetValue('input[id=period_year]', '1984')
-    .submitFormAndCheckNextTitle('Add a link')
+    .submitFormAndCheckNextTitle('Dataset links')
     .deleteLastCreatedDataset()
     .end();
 };
@@ -438,10 +389,7 @@ var test_create_yearly_bad_year = function (browser) {
   goToCreateFrequency(browser)
     .selectRadioButton('Every year')
     .submitFormAndCheckNextTitle('Add a link')
-    .clearSetValue(
-      'input[id=id_url]',
-      'https://data.gov.uk/data/site-usage/data_all.csv'
-    )
+    .clearSetValue('input[id=id_url]', common.validDataUrl)
     .clearSetValue('input[id=id_title]', 'Title of this link')
     .clearSetValue('input[id=period_year]', 'meh')
     .submitFormAndCheckNextTitle('There was a problem')
@@ -546,7 +494,7 @@ module.exports = {
   'Create a dataset, frequency quarterly': test_create_quarterly,
   'Create a dataset, frequency never': test_create_never,
   'Create a dataset, frequency yearly': test_create_yearly,
-  'Create a dataset, frequency finance yearly': test_create_financial_yearly,
+  'Create a dataset, frequency financial yearly': test_create_financial_yearly,
   'Create a dataset, omit notifications': test_create_omit_notifications,
   'Create a dataset, omit url': test_create_omit_url,
   'Create a dataset, modify title': test_create_modify_title,
