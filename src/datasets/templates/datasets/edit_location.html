@@ -4,7 +4,7 @@
 {% load i18n %}
 
 {% block page_title %}
-  {% trans "Add dataset area" %}
+  {% trans "Choose a geographical area" %}
 {% endblock %}
 
 {% block inner_content %}
@@ -12,12 +12,8 @@
   {% include 'datasets/includes/error_box.html' %}
 
   <h1 class="heading-large">
-    {% trans "Choose an area" %}
+    {% trans "Choose a geographical area" %}
   </h1>
-
-  <p>
-    {% trans "Which area does your dataset cover?" %}
-  </p>
 
   <form
       action="{% url 'edit_dataset_location' dataset.name %}"
@@ -34,13 +30,13 @@
         </legend>
         {% if form.location1.errors or form.location2.errors or form.location3.errors %}
         <span class="error-message">
-          {% trans "Please enter the area that your dataset covers" %}
+          {% trans "Please enter the area covered by your dataset" %}
         </span>
         {% endif %}
 
         <div id="location1">
           <label class="bold" for="id_location1">
-            <span>{% trans "Area" %}</span>
+            <span>{% trans "Enter the area covered by this dataset" %}</span>
           </label>
           <a id="del1" class="secondary-button" style="display: none" aria-hidden="true">Remove</a>
           <input
@@ -53,13 +49,13 @@
         </div>
         <p>
           <a id="add1" class="secondary-button" style="display: none" aria-hidden="true">
-            {% trans "Add another area" %}
+            {% trans "Enter another area" %}
           </a>
         </p>
 
         <div id="location2">
           <label class="bold" for="id_location2">
-            <span>Area</span>
+            <span>{% trans "Enter another area" %}</span>
           </label>
           <a id="del2" class="secondary-button" style="display: none" aria-hidden="true">Remove</a>
           <input
@@ -72,13 +68,13 @@
         </div>
         <p>
           <a id="add2" class="secondary-button" style="display: none" aria-hidden="true">
-            {% trans "Add another area" %}
+            {% trans "Enter another area" %}
           </a>
         </p>
 
         <div id="location3">
           <label class="bold" for="id_location3">
-            <span>{% trans "Area" %}</span>
+            <span>{% trans "Enter another area" %}</span>
           </label>
           <a id="del3" class="secondary-button" style="display: none" aria-hidden="true">Remove</a>
           <input
@@ -109,6 +105,11 @@
         </a>
       {% else %}
         <input type="submit" class="button" value="{% trans "Save and continue" %}">
+        <a
+            href="{% url 'edit_dataset_frequency' dataset.name %}"
+            class="secondary-button">
+          {% trans "Skip this step" %}
+        </a>
       {% endif %}
     </div>
 

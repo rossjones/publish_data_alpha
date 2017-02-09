@@ -4,21 +4,21 @@
 {% load i18n %}
 
 {% block page_title %}
-  {% trans "Dataset documentation" %}
+  {% trans "Supporting documents" %}
 {% endblock %}
 
 {% block inner_content %}
   <main id="content" role="main" tabindex="-1">
     <h1 class="heading-large">
-      {% trans "Dataset documentation" %}
+      {% trans "Links to supporting documents" %}
     </h1>
 
     <table>
       {% blocktrans %}
         <thead>
           <tr>
-            <th>Title</th>
-            <th>Url</th>
+            <th>Link name</th>
+            <th>URL</th>
             <th>Valid</th>
             <th><span class="visuallyhidden">Actions</span></th>
           </tr>
@@ -45,6 +45,10 @@
       </tbody>
     </table>
 
+    <a href="{% url 'edit_dataset_adddoc' dataset.name %}">
+      {% trans "Add another link" %}
+    </a>
+
     <a
       {% if request|is_checking %}
         href="{% url 'publish_dataset' dataset.name %}"
@@ -56,11 +60,6 @@
       class="button">
       {% trans "Save and continue" %}
     </a>
-
-      <a href="{% url 'edit_dataset_adddoc' dataset.name %}">
-        {% trans "Add another link" %}
-      </a>
-
 
   </main>
 {% endblock %}

@@ -4,7 +4,7 @@
 {% load i18n %}
 
 {% block page_title %}
-  {% trans "Add documentation" %}
+  {% trans "Add a link to supporting documents" %}
 {% endblock %}
 
 {% block inner_content %}
@@ -13,9 +13,9 @@
 
   <h1 class="heading-large">
     {% if is_first_file %}
-      {% trans "Add supporting documentation" %}
+      {% trans "Add a link to supporting documents" %}
     {% else %}
-      {% trans "Add more supporting documentation" %}
+      {% trans "Add another link to supporting documents" %}
     {% endif %}
   </h1>
 
@@ -32,7 +32,12 @@
         <span class="error-message">{{ error }}</span>
       {% endfor %}
       <span class="form-hint">
-        {% trans "Enter a link (beginning with http:// or https://) to the document" %}
+        {% blocktrans %}
+          Enter a link (beginning with http:// or https://) to point to
+          your data file. The file will usually be uploaded to either
+          your organisation’s website or another website, like GOV.UK or
+          Amazon Web Services (AWS).
+        {% endblocktrans %}
       </span>
       <input
           class="form-control form-control-2-3"
@@ -46,15 +51,15 @@
         id="title_form_group"
         class="form-group {% if form.title.errors %}error{% endif %}">
       <label class="form-label-bold" for="id_title">
-        {% trans "Title" %}
+        {% trans "Link name" %}
       </label>
       {% for error in form.title.errors %}
         <span class="error-message">{{ error }}</span>
       {% endfor %}
       <span class="form-hint">
         {% blocktrans %}
-          Give your document a descriptive title to help users understand what
-          it contains. The title shouldn’t be the same as the URL.
+          The link name mustn’t be the same as the URL. It should clearly
+          describe the data so users can find it easily.
         {% endblocktrans %}
       </span>
       <input
@@ -82,6 +87,11 @@
         </a>
       {% else %}
         <input type="submit" class="button" value="{% trans "Save and continue" %}">
+        <a
+            href="{% url 'publish_dataset' dataset.name %}"
+            class="secondary-button">
+          {% trans "Skip this step" %}
+        </a>
       {% endif %}
     </div>
 
