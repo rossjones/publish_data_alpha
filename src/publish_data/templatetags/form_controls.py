@@ -33,6 +33,8 @@ def form_controls(request, dataset_name):
             params['secondary_link'] = 'edit_dataset_frequency'
         elif page.startswith('edit_dataset_addfile'):
             params['secondary_link'] = 'edit_dataset_adddoc'
+        elif page.startswith('edit_dataset_adddoc'):
+            params['secondary_link'] = 'publish_dataset'
 
     else:
         if page.startswith('edit_dataset_addfile'):
