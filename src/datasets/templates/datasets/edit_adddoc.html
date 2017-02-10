@@ -2,6 +2,7 @@
 {% load static %}
 {% load flow_state %}
 {% load i18n %}
+{% load form_controls %}
 
 {% block page_title %}
   {% trans "Add a link to supporting documents" %}
@@ -70,42 +71,7 @@
           value="{{ form.title.value|default:'' }}"/>
     </div>
 
-    <div class="form-group">
-      {% if request|is_checking %}
-        <p>
-          <input type="submit" class="button" value="{% trans "Save" %}"/>
-        </p>
-        <p>
-          <a
-              href="{% url 'publish_dataset' dataset.name %}"
-              class="secondary-button">
-            {% trans "Cancel" %}
-          </a>
-        </p>
-      {% elif request|is_editing %}
-        <p>
-          <input type="submit" class="button" value="{% trans "Save" %}"/>
-        </p>
-        <p>
-          <a
-              href="{% url 'edit_full_dataset' dataset.name %}"
-              class="secondary-button">
-            {% trans "Cancel" %}
-          </a>
-        </p>
-      {% else %}
-        <p>
-          <input type="submit" class="button" value="{% trans "Save and continue" %}"/>
-        </p>
-        <p>
-          <a
-              href="{% url 'publish_dataset' dataset.name %}"
-              class="secondary-button">
-            {% trans "Skip this step" %}
-          </a>
-        </p>
-      {% endif %}
-    </div>
+    {% form_controls request dataset.name %}
 
   </form>
 {% endblock %}
