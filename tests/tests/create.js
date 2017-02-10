@@ -178,7 +178,7 @@ var test_create_omit_licence = function (browser) {
 
 var test_create_blank_other_licence = function (browser) {
   goToCreateLicence(browser)
-    .selectRadioButton('Other:')
+    .selectRadioButton('Other')
     .submitFormAndCheckNextTitle('There was a problem')
     .checkError('Please type the name of your licence')
     .clearSetValue('input[id=id_licence_other]', 'other licence')
@@ -473,12 +473,12 @@ var test_create_remove_doc = function (browser) {
 };
 
 module.exports = {
-  'Create a dataset, happy path': test_create_happy_path,
-  'Create a dataset, missing title': test_create_missing_title,
-  'Create a dataset, invalid title': test_create_invalid_title,
-  'Create a dataset, missing description': test_create_missing_description,
-  'Create a dataset, missing summary': test_create_missing_summary,
-  'Create a dataset, omit organisation': test_create_missing_org,
+  // 'Create a dataset, happy path': test_create_happy_path,
+  // 'Create a dataset, missing title': test_create_missing_title,
+  // 'Create a dataset, invalid title': test_create_invalid_title,
+  // 'Create a dataset, missing description': test_create_missing_description,
+  // 'Create a dataset, missing summary': test_create_missing_summary,
+  // 'Create a dataset, omit organisation': test_create_missing_org,
   'Create a dataset, omit licence': test_create_omit_licence,
   'Create a dataset, blank other licence': test_create_blank_other_licence,
   'Create a dataset, omit region': test_create_omit_region,

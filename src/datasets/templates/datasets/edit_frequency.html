@@ -2,6 +2,7 @@
 {% load static %}
 {% load flow_state %}
 {% load i18n %}
+{% load form_controls %}
 
 {% block page_title %}
   {% trans "How frequently is this dataset updated?" %}
@@ -112,25 +113,7 @@
       </fieldset>
     </div>
 
-    <div class="form-group">
-      {% if request|is_checking %}
-        <input type="submit" class="button" value="{% trans "Change" %}">
-        <a
-            href="{% url 'publish_dataset' dataset.name %}"
-            class="secondary-button">
-          {% trans "Cancel" %}
-        </a>
-      {% elif request|is_editing %}
-        <input type="submit" class="button" value="{% trans "Change" %}">
-        <a
-            href="{% url 'edit_full_dataset' dataset.name %}"
-            class="secondary-button">
-          {% trans "Cancel" %}
-        </a>
-      {% else %}
-        <input type="submit" class="button" value="{% trans "Save and continue" %}">
-      {% endif %}
-    </div>
+    {% form_controls request dataset.name %}
 
   </form>
 

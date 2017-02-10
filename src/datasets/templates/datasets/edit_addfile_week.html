@@ -2,6 +2,8 @@
 {% load static %}
 {% load flow_state %}
 {% load i18n %}
+{% load form_controls %}
+
 
 {% block page_title %}
   {% trans "Add a link to your data" %}
@@ -130,7 +132,7 @@
       </fieldset>
     </div>
 
-    {% include 'datasets/includes/frequency_add_submit.html' %}
+    {% form_controls request dataset.name %}
 
   </form>
 

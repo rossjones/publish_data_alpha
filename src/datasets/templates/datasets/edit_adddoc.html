@@ -72,26 +72,38 @@
 
     <div class="form-group">
       {% if request|is_checking %}
-        <input type="submit" class="button" value="{% trans "Save" %}">
-        <a
-            href="{% url 'publish_dataset' dataset.name %}"
-            class="secondary-button">
-          {% trans "Cancel" %}
-        </a>
+        <p>
+          <input type="submit" class="button" value="{% trans "Save" %}"/>
+        </p>
+        <p>
+          <a
+              href="{% url 'publish_dataset' dataset.name %}"
+              class="secondary-button">
+            {% trans "Cancel" %}
+          </a>
+        </p>
       {% elif request|is_editing %}
-        <input type="submit" class="button" value="{% trans "Save" %}">
-        <a
-            href="{% url 'edit_full_dataset' dataset.name %}"
-            class="secondary-button">
-          {% trans "Cancel" %}
-        </a>
+        <p>
+          <input type="submit" class="button" value="{% trans "Save" %}"/>
+        </p>
+        <p>
+          <a
+              href="{% url 'edit_full_dataset' dataset.name %}"
+              class="secondary-button">
+            {% trans "Cancel" %}
+          </a>
+        </p>
       {% else %}
-        <input type="submit" class="button" value="{% trans "Save and continue" %}">
-        <a
-            href="{% url 'publish_dataset' dataset.name %}"
-            class="secondary-button">
-          {% trans "Skip this step" %}
-        </a>
+        <p>
+          <input type="submit" class="button" value="{% trans "Save and continue" %}"/>
+        </p>
+        <p>
+          <a
+              href="{% url 'publish_dataset' dataset.name %}"
+              class="secondary-button">
+            {% trans "Skip this step" %}
+          </a>
+        </p>
       {% endif %}
     </div>
 

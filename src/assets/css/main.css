@@ -1672,11 +1672,12 @@ a.secondary-button, a.secondary-button:visited {
   color: #005ea5;
   cursor: pointer;
   text-decoration: underline; }
-  .button + a.secondary-button, .button + a.secondary-button:visited {
-    padding: .5em 0 .5em 1em;
-    display: inline-block; }
-  label + a.secondary-button, label + a.secondary-button:visited {
-    padding: 0 0 0 1em; }
+
+a.remove-button {
+  color: #005ea5;
+  cursor: pointer;
+  text-decoration: underline;
+  padding-left: 1em; }
 
 .location-input {
   display: block; }

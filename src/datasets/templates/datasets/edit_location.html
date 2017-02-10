@@ -2,6 +2,7 @@
 {% load static %}
 {% load flow_state %}
 {% load i18n %}
+{% load form_controls %}
 
 {% block page_title %}
   {% trans "Choose a geographical area" %}
@@ -38,7 +39,7 @@
           <label class="bold" for="id_location1">
             <span>{% trans "Enter the area covered by this dataset" %}</span>
           </label>
-          <a id="del1" class="secondary-button" style="display: none" aria-hidden="true">Remove</a>
+          <a id="del1" class="remove-button" style="display: none" aria-hidden="true">Remove</a>
           <input
               class="location-input form-control form-control-2-3"
               id="id_location1"
@@ -57,7 +58,7 @@
           <label class="bold" for="id_location2">
             <span>{% trans "Enter another area" %}</span>
           </label>
-          <a id="del2" class="secondary-button" style="display: none" aria-hidden="true">Remove</a>
+          <a id="del2" class="remove-button" style="display: none" aria-hidden="true">Remove</a>
           <input
               class="location-input form-control form-control-2-3"
               id="id_location2"
@@ -76,7 +77,7 @@
           <label class="bold" for="id_location3">
             <span>{% trans "Enter another area" %}</span>
           </label>
-          <a id="del3" class="secondary-button" style="display: none" aria-hidden="true">Remove</a>
+          <a id="del3" class="remove-button" style="display: none" aria-hidden="true">Remove</a>
           <input
               class="location-input form-control form-control-2-3"
               id="id_location3"
@@ -88,30 +89,7 @@
       </fieldset>
     </div>
 
-    <div class="form-group">
-      {% if request|is_checking %}
-        <input type="submit" class="button" value="{% trans "Change" %}">
-        <a
-            href="{% url 'publish_dataset' dataset.name %}"
-            class="secondary-button">
-          {% trans "Cancel" %}
-        </a>
-      {% elif request|is_editing %}
-        <input type="submit" class="button" value="{% trans "Change" %}">
-        <a
-            href="{% url 'edit_full_dataset' dataset.name %}"
-            class="secondary-button">
-          {% trans "Cancel" %}
-        </a>
-      {% else %}
-        <input type="submit" class="button" value="{% trans "Save and continue" %}">
-        <a
-            href="{% url 'edit_dataset_frequency' dataset.name %}"
-            class="secondary-button">
-          {% trans "Skip this step" %}
-        </a>
-      {% endif %}
-    </div>
+    {% form_controls request dataset.name %}
 
   </form>
 
