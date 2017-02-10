@@ -13,7 +13,11 @@
   {% include 'datasets/includes/error_box.html' %}
 
   <h1 class="heading-large">
-    {% trans "Choose a geographical area" %}
+    {% if request|is_editing or request|is_checking %}
+      {% trans "Change the geographical area" %}
+    {% else %}
+      {% trans "Choose a geographical area" %}
+    {% endif %}
   </h1>
 
   <form
