@@ -119,10 +119,6 @@ def edit_organisation(request, dataset_name):
     _set_flow_state(request)
 
     organisations = organisations_for_user(request.user)
-    if len(organisations) == 1:
-        dataset.organisation = organisations[0]
-        dataset.save()
-        return _redirect_to(request, 'edit_dataset_licence', [dataset.name])
 
     form = f.OrganisationForm(request.POST or None, instance=dataset)
     form.fields["organisation"].queryset = organisations_for_user(request.user)
