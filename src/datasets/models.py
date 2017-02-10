@@ -55,6 +55,7 @@ class Dataset(models.Model):
     published = models.BooleanField(default=False)
     published_date = models.DateTimeField(null=True, blank=True)
 
+    is_harvested = models.BooleanField(default=False)
     legacy_metadata = models.TextField(null=True, blank=True)
 
     def as_dict(self):

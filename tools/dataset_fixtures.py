@@ -29,6 +29,9 @@ def get_extra(extras, key):
 def get_type(dataset):
     return ''
 
+def is_harvested(dataset):
+    return bool(get_extra(dataset.get('extras'), 'harvest_object_id'))
+
 def get_doc_type(format):
     return format.lower() in ['pdf', 'doc', 'docx']
 
@@ -58,7 +61,8 @@ for line in open(SOURCE, 'r').readlines():
             'licence': dataset.get('license_id') or 'no-licence',
             'dataset_type': get_type(dataset),
             'published': True,
-            'published_date': dataset.get('medadata_created')
+            'published_date': dataset.get('medadata_created'),
+            'is_harvested': is_harvested(dataset)
         }
     }
     results.append(data)
