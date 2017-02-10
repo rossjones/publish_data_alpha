@@ -69,19 +69,26 @@
 
     <div class="form-group">
       {% if request|is_checking or request|is_editing %}
-        <input type="submit" class="button" value="{% trans "Change" %}"/>
+        <p>
+          <input type="submit" class="button" value="{% trans "Change" %}"/>
+        </p>
       {% else %}
-        <input type="submit" class="button" value="{% trans "Save and continue" %}"/>
+        <p>
+          <input type="submit" class="button" value="{% trans "Save and continue" %}"/>
+        </p>
       {% endif %}
       {% if request|is_checking %}
-        <a
-            href="{% url 'publish_dataset' dataset.name %}"
-            class="secondary-button">{% trans "Cancel" %}</a>
-
+        <p>
+          <a
+              href="{% url 'publish_dataset' dataset.name %}"
+              class="secondary-button">{% trans "Cancel" %}</a>
+        </p>
       {% elif request|is_editing %}
-        <a
-            href="{% url 'edit_full_dataset' dataset.name %}"
-            class="secondary-button">{% trans "Cancel" %}</a>
+        <p>
+          <a
+              href="{% url 'edit_full_dataset' dataset.name %}"
+              class="secondary-button">{% trans "Cancel" %}</a>
+        </p>
       {% endif %}
     </div>
 

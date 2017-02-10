@@ -45,22 +45,25 @@
       </tbody>
     </table>
 
-    <a href="{% url addfile_viewname dataset.name %}">
-      {% trans "Add another link" %}
-    </a>
+    <p>
+      <a href="{% url addfile_viewname dataset.name %}">
+        {% trans "Add another link" %}
+      </a>
+    </p>
 
-    <a
-        {% if request|is_checking %}
+    <p>
+      <a
+          {% if request|is_checking %}
           href="{% url 'publish_dataset' dataset.name %}"
-        {% elif request|is_editing %}
+          {% elif request|is_editing %}
           href="{% url 'edit_full_dataset' dataset.name %}"
-        {% else %}
+          {% else %}
           href="{% url 'edit_dataset_adddoc' dataset.name %}"
-        {% endif %}
-        class="button">
-      {% trans "Save and continue" %}
-    </a>
-
+          {% endif %}
+          class="button">
+        {% trans "Save and continue" %}
+      </a>
+    </p>
 
   </main>
 {% endblock %}

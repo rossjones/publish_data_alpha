@@ -178,14 +178,22 @@
     {% csrf_token %}
     <div class="form-group">
       {% if dataset.published %}
-        <input type="submit" class="button" value="{% trans "Done" %}"/>
+        <p>
+          <input type="submit" class="button" value="{% trans "Done" %}"/>
+        </p>
       {% else %}
-        <input type="submit" class="button" value="{% trans "Publish" %}"/>
-        <a
-            href="{% url 'manage_data'%}"
-            class="secondary-button">
-          {% trans "Save for later" %}
-        </a>
+        <p>
+          <p>
+            <input type="submit" class="button" value="{% trans "Publish" %}"/>
+          </p>
+          <p>
+            <a
+                href="{% url 'manage_data'%}"
+                class="secondary-button">
+              {% trans "Save for later" %}
+            </a>
+          </p>
+        </p>
       {% endif %}
     </div>
 

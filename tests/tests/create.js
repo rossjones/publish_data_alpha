@@ -178,7 +178,7 @@ var test_create_omit_licence = function (browser) {
 
 var test_create_blank_other_licence = function (browser) {
   goToCreateLicence(browser)
-    .selectRadioButton('Other:')
+    .selectRadioButton('Other')
     .submitFormAndCheckNextTitle('There was a problem')
     .checkError('Please type the name of your licence')
     .clearSetValue('input[id=id_licence_other]', 'other licence')

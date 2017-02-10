@@ -97,13 +97,13 @@ a.secondary-button, a.secondary-button:visited {
   color: $link-colour;
   cursor: pointer;
   text-decoration: underline;
-  .button + & {
-    padding: .5em 0 .5em 1em;
-    display: inline-block;
-  }
-  label + & {
-    padding: 0 0 0 1em;
-  }
+}
+
+a.remove-button {
+  color: $link-colour;
+  cursor: pointer;
+  text-decoration: underline;
+  padding-left: 1em;
 }
 
 

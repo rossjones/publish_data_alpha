@@ -1,0 +1,20 @@
+{% load static %}
+{% load flow_state %}
+{% load i18n %}
+
+<div class="form-group">
+  {% if primary_text %}
+    <p>
+      <input type="submit" class="button" value="{% trans primary_text %}"/>
+    </p>
+  {% endif %}
+  {% if secondary_link and secondary_text %}
+    <p>
+      <a
+          href="{% url secondary_link dataset_name %}"
+          class="secondary-button">
+        {% trans secondary_text %}
+      </a>
+    </p>
+  {% endif %}
+</div>

@@ -2,6 +2,7 @@
 {% load static %}
 {% load flow_state %}
 {% load i18n %}
+{% load form_controls %}
 
 {% block page_title %}
   {% trans "Add dataset title" %}
@@ -99,9 +100,8 @@
       </div>
     </fieldset>
 
-    <div class="form-group">
-      <input type="submit" class="button" value="{% trans "Save and continue" %}"/>
-    </div>
+    {% form_controls request dataset.name %}
+
   </form>
 
 {% endblock %}
