@@ -52,7 +52,6 @@ class ResetFlowMiddleware(object):
 
     def __call__(self, request):
         path = request.path
-        reset = True
 
         if not (path.startswith(settings.STATIC_URL) or
                 path.startswith('/dataset')):
