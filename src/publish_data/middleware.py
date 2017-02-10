@@ -54,8 +54,8 @@ class ResetFlowMiddleware(object):
         path = request.path
 
         if not (path.startswith(settings.STATIC_URL) or
-                path.startswith('/dataset')):
+                path.startswith('/dataset') or
+                path.startswith('/api')):
             request.session['flow-state'] = None
 
         return self.get_response(request)
-
