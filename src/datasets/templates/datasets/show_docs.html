@@ -30,7 +30,7 @@
             <tr>
               <td>{{ file.title }} </td>
               <td>{{ file.url }} </td>
-              <td>✔</td>
+              <td>{% if not file.is_broken %}✔{% else %}&#x2716;{% endif%}</td>
               <td>
                 <a href="{% url 'edit_dataset_adddoc' dataset.name file.id %}">
                   {% trans "Edit" %}

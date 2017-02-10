@@ -1,3 +1,5 @@
+import requests
+
 from django.utils.translation import ugettext as _
 from django.conf import settings
 
@@ -17,6 +19,8 @@ class Task(models.Model):
     # The short name of the owning organisation.
     owning_organisation = models.CharField(max_length=128)
 
+    related_object_id = models.CharField(max_length=200, blank=True, null=True)
+
     # The name of the permission required to execute this task
     # Users should not be shown the tasks where they don't have
     # the required permission.
@@ -33,7 +37,7 @@ class Task(models.Model):
         """ The info label to display about a task """
         if self.category == "update":
             return _("Overdue")
-        return _("6 days ago")
+        return _("")
 
 
 class UserHiddenTask(models.Model):
