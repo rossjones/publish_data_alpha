@@ -23,8 +23,6 @@ def dashboard(request):
     # Use an actual organisation for this user
     stats = get_stats("cabinet-office", _("Downloads"))
 
-    request.session['flow-state'] = None
-
     return render(request, "dashboard.html", {
         "tasks": tasks,
         "stats": stats
@@ -33,8 +31,6 @@ def dashboard(request):
 
 @login_required()
 def manage_data(request):
-    request.session['flow-state'] = None
-
     q = request.GET.get('q')
     result = request.GET.get('result')
 

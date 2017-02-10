@@ -42,3 +42,21 @@ class BasicAuthenticationMiddleware(object):
             return response
 
         return basic_challenge()
+
+class ResetFlowMiddleware(object):
+    ''' To avoid having to reset the session for the flow state in various
+    places, this will reset it when the request is not to /static or /dataset
+    '''
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        path = request.path
+        reset = True
+
+        if not (path.startswith(settings.STATIC_URL) or
+                path.startswith('/dataset')):
+            request.session['flow-state'] = None
+
+        return self.get_response(request)
+
