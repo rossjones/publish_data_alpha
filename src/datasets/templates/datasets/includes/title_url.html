@@ -1,22 +1,24 @@
+{% load i18n %}
+
 <fieldset>
   <legend class="visuallyhidden">
-    Add a link
+    {% trans "Add a link" %}
   </legend>
 
   <div
       id="url_form_group"
       class="form-group {% if form.url.errors %}error{% endif %}">
-    <label class="form-label-bold" for="id_url">URL</label>
+    <label class="form-label-bold" for="id_url">{% trans "URL" %}</label>
     {% for error in form.url.errors %}
       <span class="error-message">{{ error }}</span>
     {% endfor %}
     <span class="form-hint">
-      Enter a link (beginning with http:// or https://) to the page where
-      your data file has been uploaded.
-      <br/>
-      <br/>
-      This might be your organisation’s website or another website, such
-      as GOV.UK or Amazon Web Services (AWS).
+      {% blocktrans %}
+        Enter a link (beginning with http:// or https://) to point to
+        your data file. The file will usually be uploaded to either
+        your organisation’s website or another website, like GOV.UK or
+        Amazon Web Services (AWS).
+      {% endblocktrans %}
     </span>
     <input
         class="form-control form-control-2-3"
@@ -30,14 +32,16 @@
       id="title_form_group"
       class="form-group {% if form.title.errors %}error{% endif %}">
     <label class="form-label-bold" for="id_title">
-      Title
+      {% trans "Link name" %}
     </label>
     {% for error in form.title.errors %}
       <span class="error-message">{{ error }}</span>
     {% endfor %}
     <span class="form-hint">
-      Give your link a descriptive title to help users understand what
-      data it contains. The title shouldn’t be the same as the URL.
+      {% blocktrans %}
+        The link name mustn’t be the same as the URL. It should clearly
+        describe the data so users can find it easily.
+      {% endblocktrans %}
     </span>
     <input
         class="form-control form-control-2-3"

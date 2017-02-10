@@ -1,3 +1,5 @@
+{% load i18n %}
+
 {% if form.errors %}
   <div
       class="error-summary"
@@ -7,7 +9,7 @@
     <h1
         class="heading-medium error-summary-heading"
         id="error-summary-heading-example-1">
-      There was a problem
+      {% trans "There was a problem" %}
     </h1>
 
     <ul class="error-summary-list">
@@ -18,24 +20,27 @@
         </li>
       {% endfor %}
 
-
-      {% if form.title.errors %}
+      {% if form.files.errors %}
         <li>
-          <a href="#title_form_group">Please provide a valid title</a>
+          <a href="#title_form_group">{{form.files.errors.0}}</a>
           <span class="visuallyhidden">.</span>
         </li>
       {% endif %}
 
-      {% if form.description.errors %}
+      {% if form.title.errors %}
         <li>
-          <a href="#description_form_group">Please provide a description</a>
+          <a href="#title_form_group">
+            {% trans "Please provide a valid title" %}
+          </a>
           <span class="visuallyhidden">.</span>
         </li>
       {% endif %}
 
       {% if form.summary.errors %}
         <li>
-          <a href="#description_form_group">Please provide a summary</a>
+          <a href="#summary_form_group">
+            {% trans "Please provide a summary" %}
+          </a>
           <span class="visuallyhidden">.</span>
         </li>
       {% endif %}
@@ -43,7 +48,7 @@
       {% if form.organisation.errors %}
         <li>
           <a href="#organisation_form_group">
-            Please choose which organisation will own this dataset
+            {% trans "Please choose which organisation will own this dataset" %}
           </a>
           <span class="visuallyhidden">.</span>
         </li>
@@ -52,7 +57,7 @@
       {% if form.licence.errors %}
         <li>
           <a href="#licence_form_group">
-            Please select a licence for your dataset
+            {% trans "Please select a licence for your dataset" %}
           </a>
           <span class="visuallyhidden">.</span>
         </li>
@@ -61,7 +66,7 @@
       {% if form.licence_other.errors %}
         <li>
           <a href="#licence_other_label">
-            Please type the name of your licence
+            {% trans "Please type the name of your licence" %}
           </a>
           <span class="visuallyhidden">.</span>
         </li>
@@ -70,7 +75,7 @@
         {% if form.location1.errors %}
         <li>
           <a href="#location_form_group">
-            Please enter the area that your dataset covers
+            {% trans "Please enter the area that your dataset covers" %}
           </a>
           <span class="visuallyhidden">.</span>
         </li>
@@ -79,7 +84,7 @@
         {% if form.location2.errors %}
         <li>
           <a href="#location_form_group">
-            Please enter the area that your dataset covers
+            {% trans "Please enter the area that your dataset covers" %}
           </a>
           <span class="visuallyhidden">.</span>
         </li>
@@ -88,7 +93,7 @@
         {% if form.location3.errors %}
         <li>
           <a href="#location_form_group">
-            Please enter the area that your dataset covers
+            {% trans "Please enter the area that your dataset covers" %}
           </a>
           <span class="visuallyhidden">.</span>
         </li>
@@ -97,7 +102,7 @@
       {% if form.frequency.errors %}
         <li>
           <a href="#frequency_form_group">
-            Please indicate how often this dataset is updated
+            {% trans "Please indicate how often this dataset is updated" %}
           </a>
           <span class="visuallyhidden">.</span>
         </li>
@@ -106,7 +111,7 @@
       {% if form.url.errors %}
         <li>
           <a href="#url_form_group">
-            Please provide a valid URL
+            {% trans "Please provide a valid URL" %}
           </a>
           <span class="visuallyhidden">.</span>
         </li>
@@ -115,7 +120,7 @@
       {% if form.month.errors %}
         <li>
           <a href="#month_form_group">
-            Please provide a valid month
+            {% trans "Please provide a valid month" %}
           </a>
           <span class="visuallyhidden">.</span>
         </li>
@@ -124,7 +129,7 @@
       {% if form.year.errors %}
         <li>
           <a href="#year_form_group">
-            Please provide a valid year
+            {% trans "Please provide a valid year" %}
           </a>
           <span class="visuallyhidden">.</span>
         </li>
@@ -133,7 +138,7 @@
       {% if form.quarter.errors %}
         <li>
           <a href="#year_form_group">
-            Please select a quarter
+            {% trans "Please select a quarter" %}
           </a>
           <span class="visuallyhidden">.</span>
         </li>
@@ -142,7 +147,7 @@
       {% if form.start_date.errors %}
         <li>
           <a href="#start_date_form_group">
-            Please enter a correct start date
+            {% trans "Please enter a correct start date" %}
           </a>
           <span class="visuallyhidden">.</span>
         </li>
@@ -151,7 +156,16 @@
       {% if form.end_date.errors %}
         <li>
           <a href="#end_date_form_group">
-            Please enter a correct end date
+            {% trans "Please enter a correct end date" %}
+          </a>
+          <span class="visuallyhidden">.</span>
+        </li>
+      {% endif %}
+
+      {% if form.errors.date %}
+        <li>
+          <a href="#date_form_group">
+            {% trans "Please enter a valid date" %}
           </a>
           <span class="visuallyhidden">.</span>
         </li>
@@ -160,12 +174,11 @@
       {% if form.notifications.errors %}
         <li>
           <a href="#notifications_form_group">
-            Please specify if you'd like to receive notifications
+            {% trans "Please specify if you'd like to receive notifications" %}
           </a>
           <span class="visuallyhidden">.</span>
         </li>
       {% endif %}
-
 
     </ul>
   </div>

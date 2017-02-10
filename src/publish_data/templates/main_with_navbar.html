@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load analytics %}
+{% load i18n %}
 
 {% block head %}
   <link rel="stylesheet" href="{% static 'css/main.css' %}"/>
@@ -8,7 +9,7 @@
 {% endblock %}
 
 {% block page_title %}
-  Publish Data
+  {% trans "Publish Data" %}
 {% endblock %}
 
 {% block header_class %}with-proposition{% endblock %}
@@ -19,8 +20,8 @@
 
 {% block cookie_message %}
   <p>
-    data.gov.uk uses cookies to make the site simpler.
-    <a href="{% url 'cookies' %}">Find out more about cookies.</a>
+    {% trans "data.gov.uk uses cookies to make the site simpler." %}
+    <a href="{% url 'cookies' %}">{% trans "Find out more about cookies." %}</a>
   </p>
 {% endblock %}
 
@@ -39,16 +40,16 @@
               {% url 'new_dataset' as new %}
               {% url 'manage_data' as manage %}
               <li class="{% if request.path == dashboard %}bold{% endif %}">
-                <a href="{{ dashboard }}">Dashboard</a>
+                <a href="{{ dashboard }}">{% trans "Dashboard" %}</a>
               </li>
-              <li class="{% if request.path == new %}bold{% endif %}">
-                <a href="{{ new }}">Create a dataset</a>
+              <li class="{% if request.path|slice:":8" == '/dataset' %}bold{% endif %}">
+                <a href="{{ new }}">{% trans "Create a dataset" %}</a>
               </li>
               <li class="{% if request.path == manage %}bold{% endif %}">
-                <a href="{{ manage }}">Manage your data</a>
+                <a href="{{ manage }}">{% trans "Manage your data" %}</a>
               </li>
               <li>
-                <a href="{% url 'signout' %}">Sign out</a>
+                <a href="{% url 'signout' %}">{% trans "Sign out" %}</a>
               </li>
             </ul>
           </nav>

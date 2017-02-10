@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.shortcuts import render
 from django.conf import settings
+from django.utils.translation import ugettext as _
 
 from datasets.logic import dataset_list
 from tasks.logic import get_tasks_for_user
@@ -20,7 +21,9 @@ def home(request):
 def dashboard(request):
     tasks = get_tasks_for_user(request.user)
     # Use an actual organisation for this user
-    stats = get_stats("cabinet-office", "Downloads")
+    stats = get_stats("cabinet-office", _("Downloads"))
+
+    request.session['flow-state'] = None
 
     return render(request, "dashboard.html", {
         "tasks": tasks,
@@ -30,6 +33,7 @@ def dashboard(request):
 
 @login_required()
 def manage_data(request):
+    request.session['flow-state'] = None
 
     q = request.GET.get('q')
     result = request.GET.get('result')

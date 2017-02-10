@@ -1,9 +1,10 @@
 {% extends 'main_with_navbar.html' %}
 {% load static %}
 {% load flow_state %}
+{% load i18n %}
 
 {% block page_title %}
-  Add a link
+  {% trans "Add a link to your data" %}
 {% endblock %}
 
 {% block inner_content %}
@@ -11,7 +12,11 @@
   {% include 'datasets/includes/error_box.html' %}
 
   <h1 class="heading-large">
-    Add a link
+    {% if is_first_file %}
+      {% trans "Add a link to your data" %}
+    {% else %}
+      {% trans "Add another link" %}
+    {% endif %}
   </h1>
 
   <form

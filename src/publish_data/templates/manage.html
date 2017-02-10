@@ -1,8 +1,9 @@
 {% extends 'main_with_navbar.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block page_title %}
-  Manage data
+  {% trans "Manage data" %}
 {% endblock %}
 
 {% block inner_content %}
@@ -10,24 +11,24 @@
 
     {% if result == "created" %}
       <div class="govuk-box-highlight">
-        <h1 class="bold-large">Your dataset has been published</h1>
-        <h2><a href="{{ find_url }}/dataset/{{ datasets.first.name }}">View it</a></h2>
+        <h1 class="bold-large">{% trans "Your dataset has been published" %}</h1>
+        <h2><a href="{{ find_url }}/dataset/{{ datasets.first.name }}">{% trans "View it" %}</a></h2>
       </div>
     {% endif %}
     {% if result == "deleted" %}
       <div class="govuk-box-highlight">
-        <h1 class="bold-large">Your dataset has been deleted</h1>
+        <h1 class="bold-large">{% trans "Your dataset has been deleted" %}</h1>
       </div>
     {% endif %}
     {% if result == "edited" %}
       <div class="govuk-box-highlight">
-        <h1 class="bold-large">Your dataset has been edited</h1>
-        <a href="{{ find_url }}/dataset/{{ datasets.first.name }}">View it</a>
+        <h1 class="bold-large">{% trans "Your dataset has been edited" %}</h1>
+        <a href="{{ find_url }}/dataset/{{ datasets.first.name }}">{% trans "View it" %}</a>
       </div>
     {% endif %}
 
-    <h1 class="heading-large">Manage data</h1>
-    <h2 class="heading-small">Find existing datasets</h2>
+    <h1 class="heading-large">{% trans "Manage data" %}</h1>
+    <h2 class="heading-small">{% trans "Find existing datasets" %}</h2>
 
     <form
         method="GET"
@@ -36,15 +37,15 @@
 
       <fieldset>
         <legend class="visuallyhidden">
-          Filter by name
+          {% trans "Filter by name" %}
         </legend>
 
         <div class="form-group">
-          <label for="name">Filter by name: </label>
+          <label for="name">{% trans "Filter by name:" %} </label>
           <input class="form-control" id="q" name="q" type="text" value="{{ q }}">
           <input class="button" type="submit" value="Filter" >
           {% if q %}
-            <a class="font-xsmall" href="{% url 'manage_data' %}">Reset</a>
+            <a class="font-xsmall" href="{% url 'manage_data' %}">{% trans "Reset" %}</a>
           {% endif %}
         </div>
       </fieldset>
@@ -52,13 +53,15 @@
 
     {% if datasets %}
       <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Status</th>
-            <th class="actions">Actions</th>
-          </tr>
-        </thead>
+        {% blocktrans %}
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Status</th>
+              <th class="actions">Actions</th>
+            </tr>
+          </thead>
+        {% endblocktrans %}
         <tbody>
           {% for dataset in datasets %}
             <tr>
@@ -69,15 +72,29 @@
                   {{ dataset.title }}
                 {% endif %}
               </td>
-              <td>{% if dataset.published %}published{% else %}draft{% endif %}</td>
+              <td>
+                {% if dataset.published %}
+                  {% trans "published" %}
+                {% else %}
+                  {% trans "draft" %}
+                {% endif %}
+              </td>
               <td class="actions">
                 {% if dataset.name %}
-                  <a href="{% url 'edit_dataset_addfile' dataset.name %}">Add&nbsp;Data</a><br/>
-                  <a href="{% url 'edit_full_dataset' dataset.name %}">Edit</a><br/>
+                  <a href="{% url 'edit_dataset_addfile' dataset.name %}">
+                    {% trans "Add&nbsp;Data" %}
+                  </a><br/>
+                  <a href="{% url 'edit_full_dataset' dataset.name %}">
+                    {% trans "Edit" %}
+                  </a><br/>
                   {% if not dataset.published %}
-                      <a href="{% url 'publish_dataset' dataset.name %}">Publish</a><br/>
+                    <a href="{% url 'publish_dataset' dataset.name %}">
+                      {% trans "Publish" %}
+                    </a><br/>
                   {% endif %}
-                        <a href="{% url 'delete_dataset' dataset.name %}">Delete</a>
+                  <a href="{% url 'delete_dataset' dataset.name %}">
+                    {% trans "Delete" %}
+                  </a>
                 {% endif %}
               </td>
             </tr>
@@ -85,7 +102,7 @@
         </tbody>
       </table>
     {% else %}
-      <p>No results found</p>
+      <p>{% trans "No results found" %}</p>
     {% endif %}
 
     <div class="pagination">

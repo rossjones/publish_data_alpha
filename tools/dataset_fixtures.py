@@ -1,7 +1,24 @@
+from calendar import monthrange
+from datetime import datetime
+
 import datetime
 import os
 import json
 
+
+
+def calculate_dates_for_month(month, year):
+    (_, e,) = monthrange(year, month)
+    return (
+        datetime.datetime(year=year, month=month, day=1),
+        datetime.datetime(year=year, month=month, day=e)
+    )
+
+def calculate_dates_for_year(year):
+    return (
+        datetime.datetime(year=year, month=1, day=1),
+        datetime.datetime(year=year, month=12, day=31)
+    )
 
 def get_extra(extras, key):
     for e in extras:
@@ -46,7 +63,30 @@ for line in open(SOURCE, 'r').readlines():
     }
     results.append(data)
 
+    def get_start_end_date(date_string):
+        if not date_string:
+            return '', ''
+
+        if len(date_string) == 4:
+            return calculate_dates_for_year(int(date_string))
+
+        slash_count = date_string.count('/')
+        parts = []
+        if slash_count == 2:
+            parts = date_string.split('/')[1:]
+        elif slash_count == 1:
+            parts = date_string.split('/')
+
+        if parts and len(parts) == 2:
+            return calculate_dates_for_month(int(parts[0]), int(parts[1]))
+
+        return '', ''
+
     for r in dataset.get('resources',[]):
+        start, end = None, None
+        if 'date' in r:
+            start, end = get_start_end_date(r['date'])
+
         f = {
             'model': 'datasets.datafile',
             'pk': r['id'],
@@ -55,15 +95,13 @@ for line in open(SOURCE, 'r').readlines():
                 'url': r.get('url'),
                 'format': r.get('format'),
                 'dataset_id': dataset['id'],
-                # start_date = models.DateField(blank=True, null=True)
-                # end_date = models.DateField(blank=True, null=True)
-                # month = models.IntegerField(blank=True, null=True)
-                # year = models.IntegerField(blank=True, null=True)
-                # quarter = models.IntegerField(blank=True, null=True)
                 'is_documentation': get_doc_type(r.get('format'))
-
             }
         }
+        if start and end:
+            f['fields']['start_date'] = start.date().isoformat()
+            f['fields']['end_date'] = end.date().isoformat()
+
         resources.append(f)
 
 
@@ -74,5 +112,6 @@ with open('../src/datasets/fixtures/datasets.json', 'w') as f:
 
 with open('../src/datasets/fixtures/datafiles.json', 'w') as f:
     json.dump(resources, f)
+
 
 

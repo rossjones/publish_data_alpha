@@ -1,8 +1,9 @@
 {% load static %}
+{% load i18n %}
 
 <div class="header-proposition">
   <div class="content">
-    <a href="{% url 'home' %}" id="proposition-name">Publish data</a>
-    <div class="header-link">Support and feedback</div>
+    <a href="{% url 'home' %}" id="proposition-name">{% trans "Publish data" %}</a>
+    <div class="header-link">{% trans "Support and feedback" %}</div>
   </div>
 </div>

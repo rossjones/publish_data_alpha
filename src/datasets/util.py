@@ -1,6 +1,8 @@
+from django.utils.translation import ugettext as _
 from calendar import monthrange
 from datetime import datetime
 from mimetypes import guess_extension
+from urllib.parse import urlparse
 
 from django.utils.text import slugify
 
@@ -8,14 +10,28 @@ import requests
 
 
 def url_exists(url):
+    ''' Checks whether the provided URL is valid, and returns
+    a tuple containing:
+        a bool - for success/fail
+        a string - the determined format (may be None)
+        a string - an error message
+    '''
+    # Make sure we have a valid proto,
+    obj = urlparse(url)
+    if not obj.scheme.lower() in ['http', 'https', 'ftp', 'ftps']:
+        return False, '', _('The URL should begin with http or https')
+
     fmt = ''
 
     try:
         r = requests.head(url, allow_redirects=True)
     except requests.ConnectionError as ce:
-        return False, ''
+        return False, '', _('Failed to connect to the URL')
     except Exception as e:
-        return False, ''
+        return False, '', _('A problem occurred checking the URL')
+
+    if r.status_code != 200:
+        return False, '', _('The URL caused an error')
 
     content_type = r.headers['Content-Type']
 
@@ -32,7 +48,7 @@ def url_exists(url):
         if fmt in ['HTM', 'SHTML']:
             fmt = 'HTML'
 
-    return True, fmt
+    return True, fmt, None
 
 
 def calculate_dates_for_month(month, year):

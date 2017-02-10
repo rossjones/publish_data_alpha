@@ -2,7 +2,6 @@ from django.utils.translation import ugettext as _
 from django import forms
 import datetime
 
-import datasets.choices as choices
 from datasets.models import Dataset, Datafile
 from datasets.util import url_exists
 
@@ -14,7 +13,7 @@ class DatasetForm(forms.Form):
         label=_('Additional Information'),
         max_length=1024,
         widget=forms.Textarea,
-        required=True
+        required=False
     )
 
     def clean(self):
@@ -41,27 +40,6 @@ class EditDatasetForm(forms.ModelForm):
         fields = ['title', 'summary', 'description']
 
 
-
-class FullDatasetForm(forms.ModelForm):
-    title = forms.CharField(label=_('Title'), max_length=100, required=True)
-    summary = forms.CharField(label=_('Summary'), max_length=200, required=True)
-    description = forms.CharField(
-        label=_('Additional Information'),
-        max_length=1024,
-        widget=forms.Textarea,
-        required=True
-    )
-
-    class Meta:
-        model = Dataset
-        fields = [
-            'title', 'summary', 'description',
-            'licence', 'licence_other', 'organisation',
-            'frequency', 'notifications',
-            'location1', 'location2', 'location3'
-        ]
-
-
 class PublishForm(forms.Form):
     '''
     Used to verify that the required fields are present in the
@@ -75,9 +53,16 @@ class PublishForm(forms.Form):
     licence = forms.CharField(required=True)
     organisation = forms.CharField(required=True)
     frequency = forms.CharField(required=True)
+    files = forms.CharField(required=False)
 
+    def __init__(self, file_count=None, data=None):
+        super(PublishForm, self ).__init__(data)
+        self.file_count = file_count
 
     def clean(self):
+        if self.file_count == 0:
+            self._errors['files'] = [_('You must add at least one link')]
+
         if 'title' in self.cleaned_data:
             title = self.cleaned_data['title']
             length = len(list(filter(lambda x: x.isalpha(), title)))
@@ -91,7 +76,6 @@ class PublishForm(forms.Form):
                     [_('Please type the name of your licence')]
 
         return self.cleaned_data
-
 
 
 class LicenceForm(forms.ModelForm):
@@ -129,6 +113,7 @@ class FrequencyForm(forms.ModelForm):
         model = Dataset
         fields = ['frequency']
 
+
 class CheckedFileForm(forms.ModelForm):
 
     title = forms.CharField(required=True)
@@ -141,10 +126,10 @@ class CheckedFileForm(forms.ModelForm):
             return cleaned
 
         # Check the URL is a valid URL and exists
-        exists, fmt = url_exists(cleaned['url'])
+        exists, fmt, error_msg = url_exists(cleaned['url'])
         if not exists:
             self._errors['url'] = \
-                [_("This URL can't be reached")]
+                [error_msg]
 
             # TODO: Consider uncommenting this
             #if fmt == 'HTML':
@@ -184,11 +169,15 @@ class WeeklyFileForm(CheckedFileForm):
         ]
 
     def clean(self):
+        cleaned = super(CheckedFileForm, self).clean()
+        if self._errors:
+            return cleaned
+
         try:
             frequency_weekly_start = datetime.date(
-                self.cleaned_data['start_year'],
-                self.cleaned_data['start_month'],
-                self.cleaned_data['start_day']
+                cleaned['start_year'],
+                cleaned['start_month'],
+                cleaned['start_day']
             )
         except (KeyError, ValueError):
             self._errors['start_date'] = \
@@ -196,24 +185,37 @@ class WeeklyFileForm(CheckedFileForm):
 
         try:
             frequency_weekly_end = datetime.date(
-                self.cleaned_data['end_year'],
-                self.cleaned_data['end_month'],
-                self.cleaned_data['end_day']
+                cleaned['end_year'],
+                cleaned['end_month'],
+                cleaned['end_day']
             )
         except (KeyError, ValueError):
             self._errors['end_date'] = \
                 [_('Please enter a correct end date')]
 
         if self.errors:
-            return self.cleaned_data
+            return cleaned
+
+        # Check the URL is a valid URL and exists
+        exists, fmt, error_msg = url_exists(cleaned['url'])
+        if not exists:
+            self._errors['url'] = \
+                [error_msg]
+
+            # TODO: Consider uncommenting this
+            #if fmt == 'HTML':
+            #    self._errors['url'] = \
+            #        [_("This appears to be a web page and not a data file")]
 
         return {
-            'title': self.cleaned_data['title'],
-            'url': self.cleaned_data['url'],
+            'is_broken': False,
+            'last_check': datetime.datetime.now(),
+            'format': fmt,
+            'title': cleaned['title'],
+            'url': cleaned['url'],
             'start_date': frequency_weekly_start,
             'end_date': frequency_weekly_end
         }
-
 
 
 class MonthlyFileForm(CheckedFileForm):
@@ -222,6 +224,23 @@ class MonthlyFileForm(CheckedFileForm):
         frequency = 'monthly'
         model = Datafile
         fields = [ 'title', 'url', 'month', 'year' ]
+
+
+    def clean(self):
+        cleaned = super(CheckedFileForm, self).clean()
+        if self._errors:
+            return cleaned
+
+        try:
+            date = datetime.date(
+                cleaned['year'],
+                cleaned['month'],
+                1
+            )
+        except (KeyError, ValueError):
+            self._errors['date'] = [_('Please enter a valid date')]
+
+        return cleaned
 
 
 class QuarterlyFileForm(CheckedFileForm):
@@ -238,6 +257,17 @@ class AnnuallyFileForm(CheckedFileForm):
         frequency = 'annually'
         model = Datafile
         fields = [ 'title', 'url', 'year' ]
+
+    def clean(self):
+        cleaned = super(CheckedFileForm, self).clean()
+        if self._errors:
+            return cleaned
+
+        if cleaned['year'] < 1000 or cleaned['year'] > 3000:
+            self._errors['year'] = [_('Please enter a valid year')]
+
+        return cleaned
+
 
 
 class StubForm(forms.ModelForm):

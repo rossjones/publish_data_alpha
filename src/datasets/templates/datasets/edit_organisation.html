@@ -1,9 +1,10 @@
 {% extends 'main_with_navbar.html' %}
 {% load static %}
 {% load flow_state %}
+{% load i18n %}
 
 {% block page_title %}
-  Choose an organisation
+  {% trans "Choose the organisation you are publishing for" %}
 {% endblock %}
 
 {% block inner_content %}
@@ -11,7 +12,7 @@
   {% include 'datasets/includes/error_box.html' %}
 
   <h1 class="heading-large">
-    Which organisation are you publishing this dataset for?
+    {% trans "Choose the organisation you are publishing for" %}
   </h1>
 
   <form
@@ -24,10 +25,12 @@
         class="form-group {% if form.organisation.errors %}error{% endif %}"
         id="organisation_form_group">
       <fieldset>
-        <legend class="visually-hidden">Choose an organisation</legend>
+        <legend class="visually-hidden">
+          {% trans "Choose an organisation" %}
+        </legend>
         {% if form.organisation.errors %}
           <span class="error-message">
-            Please choose which organisation will own this dataset
+            {% trans "Please choose which organisation will own this dataset" %}
           </span>
         {% endif %}
         {% for organisation in organisations %}
@@ -50,21 +53,26 @@
 
     <div class="form-group">
       {% if request|is_checking %}
-        <input type="submit" class="button" value="Change">
+        <input type="submit" class="button" value="{% trans "Change" %}">
         <a
             href="{% url 'publish_dataset' dataset.name %}"
             class="secondary-button">
-          Cancel
+          {% trans "Cancel" %}
         </a>
       {% elif request|is_editing %}
-        <input type="submit" class="button" value="Change">
+        <input type="submit" class="button" value="{% trans "Change" %}">
         <a
             href="{% url 'edit_full_dataset' dataset.name %}"
             class="secondary-button">
-          Cancel
+          {% trans "Cancel" %}
         </a>
       {% else %}
-        <input type="submit" class="button" value="Save and continue">
+        <input type="submit" class="button" value="{% trans "Save and continue" %}">
+        <a
+            href="{% url 'edit_dataset_licence' dataset.name %}"
+            class="secondary-button">
+          {% trans "Skip this step" %}
+        </a>
       {% endif %}
     </div>
 

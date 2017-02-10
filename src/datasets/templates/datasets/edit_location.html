@@ -1,9 +1,10 @@
 {% extends 'main_with_navbar.html' %}
 {% load static %}
 {% load flow_state %}
+{% load i18n %}
 
 {% block page_title %}
-  Add dataset area
+  {% trans "Choose a geographical area" %}
 {% endblock %}
 
 {% block inner_content %}
@@ -11,12 +12,8 @@
   {% include 'datasets/includes/error_box.html' %}
 
   <h1 class="heading-large">
-    Choose an area
+    {% trans "Choose a geographical area" %}
   </h1>
-
-  <p>
-    Which area does your dataset cover?
-  </p>
 
   <form
       action="{% url 'edit_dataset_location' dataset.name %}"
@@ -28,16 +25,18 @@
         class="form-group {% if form.location1.errors or form.location2.errors or form.location3.errors %}error{% endif %}"
         id="location_form_group">
       <fieldset>
-        <legend class="visually-hidden">Choose a location</legend>
+        <legend class="visually-hidden">
+          {% trans "Choose a location" %}
+        </legend>
         {% if form.location1.errors or form.location2.errors or form.location3.errors %}
         <span class="error-message">
-          Please enter the area that your dataset covers
+          {% trans "Please enter the area covered by your dataset" %}
         </span>
         {% endif %}
 
         <div id="location1">
           <label class="bold" for="id_location1">
-            <span>Area</span>
+            <span>{% trans "Enter the area covered by this dataset" %}</span>
           </label>
           <a id="del1" class="secondary-button" style="display: none" aria-hidden="true">Remove</a>
           <input
@@ -50,13 +49,13 @@
         </div>
         <p>
           <a id="add1" class="secondary-button" style="display: none" aria-hidden="true">
-            Add another area
+            {% trans "Enter another area" %}
           </a>
         </p>
 
         <div id="location2">
           <label class="bold" for="id_location2">
-            <span>Area</span>
+            <span>{% trans "Enter another area" %}</span>
           </label>
           <a id="del2" class="secondary-button" style="display: none" aria-hidden="true">Remove</a>
           <input
@@ -69,13 +68,13 @@
         </div>
         <p>
           <a id="add2" class="secondary-button" style="display: none" aria-hidden="true">
-            Add another area
+            {% trans "Enter another area" %}
           </a>
         </p>
 
         <div id="location3">
           <label class="bold" for="id_location3">
-            <span>Area</span>
+            <span>{% trans "Enter another area" %}</span>
           </label>
           <a id="del3" class="secondary-button" style="display: none" aria-hidden="true">Remove</a>
           <input
@@ -91,21 +90,26 @@
 
     <div class="form-group">
       {% if request|is_checking %}
-        <input type="submit" class="button" value="Change">
+        <input type="submit" class="button" value="{% trans "Change" %}">
         <a
             href="{% url 'publish_dataset' dataset.name %}"
             class="secondary-button">
-          Cancel
+          {% trans "Cancel" %}
         </a>
       {% elif request|is_editing %}
-        <input type="submit" class="button" value="Change">
+        <input type="submit" class="button" value="{% trans "Change" %}">
         <a
             href="{% url 'edit_full_dataset' dataset.name %}"
             class="secondary-button">
-          Cancel
+          {% trans "Cancel" %}
         </a>
       {% else %}
-        <input type="submit" class="button" value="Save and continue">
+        <input type="submit" class="button" value="{% trans "Save and continue" %}">
+        <a
+            href="{% url 'edit_dataset_frequency' dataset.name %}"
+            class="secondary-button">
+          {% trans "Skip this step" %}
+        </a>
       {% endif %}
     </div>
 

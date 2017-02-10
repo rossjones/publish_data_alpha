@@ -1,9 +1,10 @@
 {% extends 'main_with_navbar.html' %}
 {% load static %}
 {% load flow_state %}
+{% load i18n %}
 
 {% block page_title %}
-  Add dataset licence
+  {% trans "Choose a licence" %}
 {% endblock %}
 
 {% block inner_content %}
@@ -11,15 +12,15 @@
   {% include 'datasets/includes/error_box.html' %}
 
   <h1 class="heading-large">
-    Choose a licence
+    {% trans "Choose a licence for this dataset" %}
   </h1>
 
-  <p>Choose the licence that your dataset is published under.</p>
-
-  <p>
-    Most datasets are published under the Open Government Licence (OGL),
-    which means the data within them can be copied and used by anyone.
-  </p>
+  {% blocktrans %}
+    <p>
+      Most datasets are published under the Open Government Licence (OGL),
+      which means the data within them can be copied and used by anyone.
+    </p>
+  {% endblocktrans %}
 
   <form
       action="{% url 'edit_dataset_licence' dataset.name %}"
@@ -31,7 +32,7 @@
         class="form-group {% if form.licence.errors %}error{% endif %}"
         id="licence_form_group">
       <fieldset>
-        <legend class="visually-hidden">Choose a licence</legend>
+        <legend class="visually-hidden">{% trans "Choose a licence" %}</legend>
         {% for error in form.licence.errors %}
           <span class="error-message">{{ error }}</span>
         {% endfor %}
@@ -45,7 +46,7 @@
               {% if form.licence.value == 'uk-ogl' %}
                 checked
               {% endif %} />
-          <span>Open Government Licence</span>
+          <span>{% trans "Open Government Licence" %}</span>
         </label>
         <label
             class="block-label selection-button-radio"
@@ -59,12 +60,12 @@
               {% if form.licence.value == 'other' %}
                 checked
               {% endif %}  />
-          <span>Other:</span>
+          <span>{% trans "Other:" %}</span>
         </label>
         <div class="panel panel-border-narrow js-hidden" id="other-licence">
           <label
               class="form-label"
-              for="id_licence_other">Name of your licence:</label>
+              for="id_licence_other">{% trans "Name of your licence:" %}</label>
           <input
               class="form-control"
               id="id_licence_other"
@@ -78,21 +79,26 @@
 
     <div class="form-group">
       {% if request|is_checking %}
-        <input type="submit" class="button" value="Change">
+        <input type="submit" class="button" value="{% trans "Change" %}">
         <a
             href="{% url 'publish_dataset' dataset.name %}"
             class="secondary-button">
-          Cancel
+          {% trans "Cancel" %}
         </a>
       {% elif request|is_editing %}
-        <input type="submit" class="button" value="Change">
+        <input type="submit" class="button" value="{% trans "Change" %}">
         <a
             href="{% url 'edit_full_dataset' dataset.name %}"
             class="secondary-button">
-          Cancel
+          {% trans "Cancel" %}
         </a>
       {% else %}
-        <input type="submit" class="button" value="Save and continue">
+        <input type="submit" class="button" value="{% trans "Save and continue" %}">
+        <a
+            href="{% url 'edit_dataset_location' dataset.name %}"
+            class="secondary-button">
+          {% trans "Skip this step" %}
+        </a>
       {% endif %}
     </div>
 

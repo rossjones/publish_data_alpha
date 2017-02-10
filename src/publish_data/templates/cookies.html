@@ -1,11 +1,14 @@
 {% extends 'main.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block page_title %}
-  Cookies
+  {% trans "Cookies" %}
 {% endblock %}
 
 {% block inner_content %}
-  <h1 class="heading-large">Cookies on data.gov.uk</h1>
-  <p>To be written</p>
+  {% blocktrans %}
+    <h1 class="heading-large">Cookies on data.gov.uk</h1>
+    <p>To be written</p>
+  {% endblocktrans %}
 {% endblock %}
