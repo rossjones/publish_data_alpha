@@ -447,7 +447,7 @@ def _edit_publish_dataset(request, dataset, state):
             )
 
             # Re-publish if we are editing a published dataset
-            publish(dataset)
+            publish(dataset, request.user)
 
             result = 'edited' if new_state == 'editing' else 'created'
 

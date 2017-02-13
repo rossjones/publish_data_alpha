@@ -11,9 +11,9 @@ def organisations_for_user(user):
         return Organisation.objects.all()
     return user.organisations.all()
 
-def publish(dataset):
+def publish(dataset, user):
     if dataset.published:
-        publish_to_ckan(dataset)
+        publish_to_ckan(dataset, user)
         index_dataset(dataset)
     else:
         unindex_dataset(dataset)
@@ -63,7 +63,7 @@ import hashlib
 import json
 import requests
 
-def get_ckan():
+def get_ckan(user):
     """ Returns a CKAN instance if configuration contains both a host
     and a key.  If not, returns None
     """
@@ -71,11 +71,10 @@ def get_ckan():
     from ckanapi import RemoteCKAN
 
     ckan_host = get_config('ckan.host')
-    ckan_key =  get_config('ckan.apikey')
-    if not (ckan_host and ckan_key):
+    if not (ckan_host and user.apikey):
         return None
 
-    return RemoteCKAN(ckan_host, apikey=ckan_key)
+    return RemoteCKAN(ckan_host, apikey=user.apikey)
 
 
 def make_alpha_id(dataset):
@@ -156,13 +155,16 @@ def find_ckan_dataset(ckan, current_name, alpha_id):
     return None, False
 
 
-def publish_to_ckan(dataset):
+def publish_to_ckan(dataset, user):
     # The dataset MUST have been published.
     if not dataset.published:
         return "Dataset is not published"
 
+    if not user.apikey:
+        return "User has no API key"
+
     # The configuration for where to publish must be available and active
-    ckan = get_ckan()
+    ckan = get_ckan(user)
     if not ckan:
         return "CKAN is not configured"
 
