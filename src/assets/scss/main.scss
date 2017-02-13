@@ -47,6 +47,15 @@ $Helvetica-Regular: $helvetica-regular;
   color: $white;
 }
 
+.form-date .form-group.form-group-month.error {
+  width: 90px;
+}
+
+.form-date .form-group.form-group-year.error {
+  width: 130px;
+}
+
+
 // govuk-* additions
 
 .column-three-quarters {
