@@ -129,6 +129,7 @@ class Datafile(models.Model):
     def as_dict(self):
         start, end = self.start_date, self.end_date
         data = {
+            'id': str(self.id),
             'title': self.title,
             'url': self.url,
             'format': self.format,
