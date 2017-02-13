@@ -1631,6 +1631,12 @@ input[type=number] {
 .govuk-box-highlight a {
   color: #fff; }
 
+.form-date .form-group.form-group-month.error {
+  width: 90px; }
+
+.form-date .form-group.form-group-year.error {
+  width: 130px; }
+
 .column-three-quarters {
   padding: 0 15px;
   -webkit-box-sizing: border-box;
