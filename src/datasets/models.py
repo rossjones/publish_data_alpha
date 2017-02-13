@@ -135,8 +135,7 @@ class Datafile(models.Model):
             'format': self.format,
             'start_date': start.isoformat() if start else '',
             'end_date': end.isoformat() if end else '',
-            'is_broken': self.is_broken,
-            'last_check': self.last_check.isoformat() if self.last_check else ''
+            'is_broken': self.is_broken
         }
 
         return data
