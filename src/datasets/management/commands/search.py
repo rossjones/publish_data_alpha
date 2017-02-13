@@ -50,7 +50,7 @@ class Command(BaseCommand):
         )
 
         previous = 0
-        for end in range(250, count + 250, 250):
+        for end in range(50, count + 50, 50):
             datasets = q.all()[previous:end]
             print("Indexing from {} to {}".format(previous, end))
 
