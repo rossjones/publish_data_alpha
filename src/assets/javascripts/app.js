@@ -117,13 +117,11 @@
       if ($('#id_location2').val()) {
         hs('#add1', '#location2, #add2, #del2');
       } else {
-        hs('#location2', '#add1');
+        hs('', '#add1');
       }
 
       if ($('#id_location3').val()) {
         hs('#add2', '#location3, #del3');
-      } else {
-        hs('#location3');
       }
 
       $('#add1').on('click', this.add1);
