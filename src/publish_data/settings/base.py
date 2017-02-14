@@ -168,6 +168,9 @@ STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, "assets"),
 ]
 
+STATIC_ROOT=os.path.join(PROJECT_DIR, "static")
+
+
 ANALYTICS_ID = os.environ.get('GA_CODE') or ''
 
 ES_HOSTS = os.environ.get('ES_HOSTS')

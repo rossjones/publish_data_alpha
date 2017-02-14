@@ -1,0 +1,14 @@
+{% extends 'main.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block page_title %}
+  {% trans "Permission denied (403)" %}
+{% endblock %}
+
+{% block inner_content %}
+  {% blocktrans %}
+    <h1 class="heading-large">You are not permitted to see this page</h1>
+    <p>This page is restricted to certain users only.</p>
+  {% endblocktrans %}
+{% endblock %}
