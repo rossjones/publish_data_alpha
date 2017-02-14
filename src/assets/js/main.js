@@ -725,10 +725,63 @@ if (!Function.prototype.bind) {
     },
   };
 
+  var dashboardStats = {
+
+    fetchStats: function() {
+      $.get(this.endpoint + 'stats/?orgs=' + this.orgs.join())
+        .done($.proxy(this.makeStatsMarkup, this))
+        .fail(function(xhr, text, error) {
+          console.log('fail: ', text, error);
+        })
+    },
+
+    statText: function(stat) {
+      switch(stat.statistic) {
+        // TODO: make it easier to translate the text
+        case 'view': return 'Views: ' + stat.total;
+        case 'download': return 'Downloads: ' + stat.total;
+        case 'search': return 'Searched: ' + stat.total;
+        default: return '';
+      }
+    },
+
+    makeStatsMarkup: function(data) {
+      var $tbody = this.$statsSection.find('table tbody');
+      var $rowTemplate = $('#row-template');
+      $.each(data, function(index, datum) {
+        var $newRow = $rowTemplate.clone().removeAttr('id style');
+        var statText = dashboardStats.statText(datum);
+        if (datum.dataset_title && statText) {
+          $newRow
+            .find('.stats-title')
+            .text(datum.dataset_title);
+          $newRow
+            .find('.stats-downloads')
+            .text(statText);
+          $tbody.append($newRow);
+        }
+      });
+      this.$statsSection.removeClass('js-hidden');
+    },
+
+    init: function(selector) {
+      this.$statsSection = $(selector);
+      if (this.$statsSection) {
+        this.endpoint = $('#api-endpoint').text();
+        this.orgs = JSON.parse($('#orgs').text());
+        if (this.endpoint.length && this.orgs.length) {
+          this.fetchStats();
+        }
+      }
+    }
+  };
+
+
 
   $(document).ready(function() {
     tableShowHide.init({ rowLimit: 3});
     typeAhead.init({ selector: '.location-input' });
+    dashboardStats.init('#dashboard-stats');
   });
 
 })();

@@ -64,8 +64,10 @@
       </table>
     </section>
 
-    <h2 class="heading-medium">{% trans "Most popular" %}</h2>
-    <div>
+    <div id="dashboard-stats" class="js-hidden">
+      <div id="orgs" style="display: none">{{ orgs }}</div>
+      <div id="api-endpoint" style="display: none">{{ api_endpoint }}</div>
+      <h2 class="heading-medium">{% trans "Most popular" %}</h2>
       <table>
         <thead>
           <tr>
@@ -74,23 +76,15 @@
           </tr>
         </thead>
         <tbody>
-          {% for stat in stats %}
-            <tr class="clickable-row">
-              <td>{{ stat.dataset_title}}</td>
-              <td>
-                <span class="nb-downloads">{{ stat.value }}</span>
-                <div class="text-supporting">
-                  <span class="data-neutral-arrow">
-                    {% if stat.direction == "up"%}&#9650;{%endif%}
-                    {% if stat.direction == "down"%}&#9660;{%endif%}
-                  </span>
-                  {{ stat.since }}
-                </div>
-              </td>
-            </tr>
-          {% endfor %}
+          <tr id="row-template" style="display: none">
+            <td class="stats-title"></td>
+            <td>
+              <span class="stats-downloads"></span>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
+
   </div>
 {% endblock %}
