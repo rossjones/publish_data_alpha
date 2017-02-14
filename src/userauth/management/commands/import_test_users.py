@@ -21,6 +21,7 @@ class Command(BaseCommand):
 
         self.co = Organisation.objects.get(name='cabinet-office')
         self.gps = Organisation.objects.get(name='government-procurement-service')
+        self.beis = Organisation.objects.get(name='department-for-business-energy-and-industrial-strategy')
 
         if filename:
             if not os.path.exists(filename):
@@ -43,6 +44,9 @@ class Command(BaseCommand):
                 )
                 user.set_password(password)
                 user.save()
+
+                if 'beis' in user_details['email']:
+                    self.beis.users.add(user)
 
                 self.co.users.add(user)
                 self.gps.users.add(user)
