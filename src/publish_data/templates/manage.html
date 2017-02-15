@@ -66,7 +66,7 @@
           {% for dataset in datasets %}
             <tr>
               <td>
-                {% if find_url %}
+                {% if find_url and dataset.published %}
                   <a href="{{ find_url }}/dataset/{{ dataset.name }}">{{ dataset.title }}</a>
                 {% else %}
                   {{ dataset.title }}
@@ -81,20 +81,12 @@
               </td>
               <td class="actions">
                 {% if dataset.name %}
-                  <a href="{% url 'edit_dataset_addfile' dataset.name %}">
-                    {% trans "Add&nbsp;Data" %}
-                  </a><br/>
-                  <a href="{% url 'edit_full_dataset' dataset.name %}">
-                    {% trans "Edit" %}
-                  </a><br/>
+                  <a href="{% url 'edit_dataset_addfile' dataset.name %}">{% trans "Add&nbsp;Data" %}</a><br/>
+                  <a href="{% url 'edit_full_dataset' dataset.name %}">{% trans "Edit" %}</a><br/>
                   {% if not dataset.published %}
-                    <a href="{% url 'publish_dataset' dataset.name %}">
-                      {% trans "Publish" %}
-                    </a><br/>
+                    <a href="{% url 'publish_dataset' dataset.name %}">{% trans "Publish" %}</a><br/>
                   {% endif %}
-                  <a href="{% url 'delete_dataset' dataset.name %}">
-                    {% trans "Delete" %}
-                  </a>
+                  <a href="{% url 'delete_dataset' dataset.name %}">{% trans "Delete" %}</a>
                 {% endif %}
               </td>
             </tr>
