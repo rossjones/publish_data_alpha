@@ -8,7 +8,7 @@ def get_extra(extras, key):
             return e['value']
     return ''
 
-SOURCE = os.path.abspath('../data/organizations.jsonl')
+SOURCE = os.path.abspath('../../data/organizations.jsonl')
 
 results = []
 for line in open(SOURCE, 'r').readlines():
@@ -37,7 +37,7 @@ for line in open(SOURCE, 'r').readlines():
     results.append(data)
     print(data)
 
-with open('../src/organisations/fixtures/organisations.json', 'w') as f:
+with open('../src/datasets/fixtures/organisations.json', 'w') as f:
     json.dump(results, f)
 
 
