@@ -93,6 +93,33 @@ class Dataset(models.Model):
     def __str__(self):
         return u"{}:{}".format(self.name, self.title)
 
+class InspireDataset(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    bbox_east_long = models.CharField(max_length=64, null=True, blank=True)
+    bbox_west_long = models.CharField(max_length=64, null=True, blank=True)
+    bbox_north_lat = models.CharField(max_length=64, null=True, blank=True)
+    bbox_south_lat = models.CharField(max_length=64, null=True, blank=True)
+
+    coupled_resource = models.TextField(null=True, blank=True)
+    dataset_reference_date = models.TextField(null=True, blank=True)
+    frequency_of_update = models.CharField(max_length=64, null=True, blank=True)
+    guid = models.CharField(max_length=128, blank=True, null=True)
+    harvest_object_id = models.TextField(null=True, blank=True)
+    harvest_source_reference = models.TextField(null=True, blank=True)
+    import_source = models.TextField(null=True, blank=True)
+    metadata_date = models.CharField(max_length=64, null=True, blank=True)
+    metadata_language = models.CharField(max_length=64, null=True, blank=True)
+    provider = models.TextField(null=True, blank=True)
+    resource_type = models.CharField(max_length=64, null=True, blank=True)
+    responsible_party = models.TextField(null=True, blank=True)
+
+    spatial = models.TextField(null=True, blank=True)
+    spatial_data_service_type = models.CharField(max_length=64, null=True, blank=True)
+    spatial_reference_system = models.CharField(max_length=128, null=True, blank=True)
+
+    dataset = models.OneToOneField(Dataset, related_name='inspire')
+
 
 class Datafile(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
