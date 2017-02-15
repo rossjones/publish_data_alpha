@@ -175,7 +175,7 @@
 
     init: function(selector) {
       this.$statsSection = $(selector);
-      if (this.$statsSection) {
+      if (this.$statsSection.length) {
         this.endpoint = $('#api-endpoint').text();
         this.orgs = JSON.parse($('#orgs').text());
         if (this.endpoint.length && this.orgs.length) {
