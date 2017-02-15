@@ -1,11 +1,10 @@
+import uuid
 from calendar import monthrange
 from datetime import datetime
 
 import datetime
 import os
 import json
-
-
 
 def calculate_dates_for_month(month, year):
     (_, e,) = monthrange(year, month)
@@ -27,6 +26,8 @@ def get_extra(extras, key):
     return ''
 
 def get_type(dataset):
+    if get_extra(dataset['extras'], 'UKLP') == 'True':
+        return 'inspire'
     return ''
 
 def is_harvested(dataset):
@@ -35,10 +36,44 @@ def is_harvested(dataset):
 def get_doc_type(format):
     return format.lower() in ['pdf', 'doc', 'docx']
 
+def process_inspire(dataset):
+    extras = dataset['extras']
+    data = {
+        'model': 'datasets.inspiredataset',
+        'pk': str(uuid.uuid4()),
+        'fields': {
+            'dataset_id': dataset['id'],
+            'bbox_east_long': get_extra(extras, 'bbox-east-long'),
+            'bbox_north_lat': get_extra(extras, 'bbox-north-lat'),
+            'bbox_south_lat': get_extra(extras, 'bbox-south-lat'),
+            'bbox_west_long': get_extra(extras, 'bbox-west-long'),
+            'coupled_resource': get_extra(extras, 'coupled-resource'),
+            'dataset_reference_date': get_extra(extras, 'dataset-reference-date'),
+            'frequency_of_update': get_extra(extras, 'frequency-of-update'),
+            'harvest_object_id': get_extra(extras, 'harvest_object_id'),
+            'harvest_source_reference': get_extra(extras, 'harvest_source_reference'),
+            'import_source': get_extra(extras, 'import_source'),
+            'metadata_date': get_extra(extras, 'metadata-date'),
+            'metadata_language': get_extra(extras, 'metadata-language'),
+            'provider': get_extra(extras, 'provider'),
+            'resource_type': get_extra(extras, 'resource-type'),
+            'responsible_party': get_extra(extras, 'responsible-party'),
+            'spatial': get_extra(extras, 'spatial'),
+            'spatial_data_service_type': get_extra(extras, 'spatial-data-service-type'),
+            'spatial_reference_system': get_extra(extras, 'spatial-reference-system'),
+        }
+    }
+
+
+
+    return data
+
 SOURCE = os.path.abspath('../../data/datasets.jsonl')
 
 resources = []
 results = []
+inspire = []
+
 for line in open(SOURCE, 'r').readlines():
     dataset = json.loads(line)
 
@@ -66,6 +101,10 @@ for line in open(SOURCE, 'r').readlines():
         }
     }
     results.append(data)
+
+    if data['fields']['dataset_type'] == 'inspire':
+        inspire.append(process_inspire(dataset))
+
 
     def get_start_end_date(date_string):
         if not date_string:
@@ -109,7 +148,8 @@ for line in open(SOURCE, 'r').readlines():
         resources.append(f)
 
 
-
+with open('../src/datasets/fixtures/inspire.json', 'w') as f:
+    json.dump(inspire, f)
 
 with open('../src/datasets/fixtures/datasets.json', 'w') as f:
     json.dump(results, f)

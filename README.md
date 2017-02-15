@@ -41,6 +41,9 @@ export FIND_URL='http://find-data.some-serve.com'  # where the dataset pages are
 ./manage.py loaddata locations
 ./manage.py loaddata tasks
 ./manage.py loaddata stats
+./manage.py loaddata datasets
+./manage.py loaddata datafiles
+./manage.py loaddata inspire
 ./manage.py runserver
 ```
 

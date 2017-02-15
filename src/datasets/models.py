@@ -1,5 +1,5 @@
-import ast
 import uuid
+import json
 
 from django.db import models
 from django.forms.models import model_to_dict
@@ -86,12 +86,48 @@ class Dataset(models.Model):
             'organisation': self.organisation.as_dict(),
             'resources': [f.as_dict() for f in self.files.filter(is_documentation=False).all()],
             'documentation': [f.as_dict() for f in self.files.filter(is_documentation=True).all()],
+            'inspire': {}
         }
+
+        if self.dataset_type == 'inspire':
+            inspire = getattr(self, 'inspire')
+            data['inspire'] = inspire.as_dict()
+
 
         return data
 
     def __str__(self):
         return u"{}:{}".format(self.name, self.title)
+
+class InspireDataset(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    bbox_east_long = models.CharField(max_length=64, null=True, blank=True)
+    bbox_west_long = models.CharField(max_length=64, null=True, blank=True)
+    bbox_north_lat = models.CharField(max_length=64, null=True, blank=True)
+    bbox_south_lat = models.CharField(max_length=64, null=True, blank=True)
+
+    coupled_resource = models.TextField(null=True, blank=True)
+    dataset_reference_date = models.TextField(null=True, blank=True)
+    frequency_of_update = models.CharField(max_length=64, null=True, blank=True)
+    guid = models.CharField(max_length=128, blank=True, null=True)
+    harvest_object_id = models.TextField(null=True, blank=True)
+    harvest_source_reference = models.TextField(null=True, blank=True)
+    import_source = models.TextField(null=True, blank=True)
+    metadata_date = models.CharField(max_length=64, null=True, blank=True)
+    metadata_language = models.CharField(max_length=64, null=True, blank=True)
+    provider = models.TextField(null=True, blank=True)
+    resource_type = models.CharField(max_length=64, null=True, blank=True)
+    responsible_party = models.TextField(null=True, blank=True)
+
+    spatial = models.TextField(null=True, blank=True)
+    spatial_data_service_type = models.CharField(max_length=64, null=True, blank=True)
+    spatial_reference_system = models.CharField(max_length=128, null=True, blank=True)
+
+    dataset = models.OneToOneField(Dataset, related_name='inspire')
+
+    def as_dict(self):
+        return model_to_dict(self)
 
 
 class Datafile(models.Model):
@@ -174,7 +210,14 @@ class Organisation(models.Model):
             'name': self.name,
             'title': self.title,
             'description': self.description,
-            'abbreviation': self.abbreviation or ''
+            'abbreviation': self.abbreviation or '',
+            'contact_email': self.contact_email or '',
+            'contact_name': self.contact_name or '',
+            'contact_phone': self.contact_phone or '',
+            'foi_email': self.foi_email or '',
+            'foi_name': self.foi_name or '',
+            'foi_phone': self.foi_phone or '',
+            'foi_web': self.foi_web or '',
         }
 
         return data
