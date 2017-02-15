@@ -23,7 +23,6 @@ After a few minutes you should see the site at http://192.168.99.99:8000
 
 Alternatively to just run on your machine with Postgres and Elastic search (v5)
 
-
 ``` bash
 # Make and active a virtualenv for Python 3
 git clone <REPO>
