@@ -1,5 +1,5 @@
-import ast
 import uuid
+import json
 
 from django.db import models
 from django.forms.models import model_to_dict
@@ -86,7 +86,13 @@ class Dataset(models.Model):
             'organisation': self.organisation.as_dict(),
             'resources': [f.as_dict() for f in self.files.filter(is_documentation=False).all()],
             'documentation': [f.as_dict() for f in self.files.filter(is_documentation=True).all()],
+            'inspire': {}
         }
+
+        if self.dataset_type == 'inspire':
+            inspire = getattr(self, 'inspire')
+            data['inspire'] = inspire.as_dict()
+
 
         return data
 
@@ -119,6 +125,9 @@ class InspireDataset(models.Model):
     spatial_reference_system = models.CharField(max_length=128, null=True, blank=True)
 
     dataset = models.OneToOneField(Dataset, related_name='inspire')
+
+    def as_dict(self):
+        return model_to_dict(self)
 
 
 class Datafile(models.Model):
@@ -201,7 +210,14 @@ class Organisation(models.Model):
             'name': self.name,
             'title': self.title,
             'description': self.description,
-            'abbreviation': self.abbreviation or ''
+            'abbreviation': self.abbreviation or '',
+            'contact_email': self.contact_email or '',
+            'contact_name': self.contact_name or '',
+            'contact_phone': self.contact_phone or '',
+            'foi_email': self.foi_email or '',
+            'foi_name': self.foi_name or '',
+            'foi_phone': self.foi_phone or '',
+            'foi_web': self.foi_web or '',
         }
 
         return data
