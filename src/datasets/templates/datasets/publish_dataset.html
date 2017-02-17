@@ -54,19 +54,19 @@
           {{ dataset.description|truncatechars:250 }}
         </td>
       </tr>
-      {% if not single_organisation %}
         <tr>
           <td class="dataset-item">
             {% trans "Organisation" %}<br/>
-            <a class="font-xsmall" href="{% url 'edit_dataset_organisation' dataset.name %}">
-              {% trans "Change <span class='visuallyhidden'>description</span>" %}
-            </a>
+            {% if not single_organisation %}
+              <a class="font-xsmall" href="{% url 'edit_dataset_organisation' dataset.name %}">
+                {% trans "Change <span class='visuallyhidden'>description</span>" %}
+              </a>
+            {% endif %}
           </td>
           <td>
             {{ organisation.title }}
           </td>
         </tr>
-      {% endif %}
       <tr>
         <td class="dataset-item">
           {% trans "Links" %}<br/>
