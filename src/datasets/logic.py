@@ -19,7 +19,7 @@ def publish(dataset, user):
         unindex_dataset(dataset)
 
 
-def dataset_list(user, page=1, filter_query=None):
+def dataset_list(user, page=1, filter_query=None, sort=None):
     """
     For the given user returns a tuple containing total number of datasets
     both draft and published, and the 20 most recent.
@@ -35,7 +35,10 @@ def dataset_list(user, page=1, filter_query=None):
     if filter_query:
         q = q.filter(title__icontains=filter_query)
 
-    q = q.order_by('-last_edit_date')
+    if not sort:
+        q = q.order_by('-last_edit_date')
+    else:
+        q = q.order_by(sort)
 
     start = (per_page * page) - per_page
     datasets = q.all()[start:start+per_page]
