@@ -5,7 +5,11 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 from datasets.models import Dataset, Datafile
 
-
+from .factories import (GoodUserFactory,
+                        NaughtyUserFactory,
+                        OrganisationFactory,
+                        DatasetFactory,
+                        DatafileFactory)
 
 class DatafileDatesTestCase(TestCase):
     """ Test that when we save the start/end dates are set
@@ -13,10 +17,7 @@ class DatafileDatesTestCase(TestCase):
     """
 
     def setUp(self):
-        self.dataset = Dataset.objects.create(
-            title='a test dataset'
-        )
-
+        self.dataset = DatasetFactory.create()
 
     def skeleton(self):
         return Datafile(

@@ -7,22 +7,20 @@ from django.urls import reverse
 from datasets.models import Organisation
 from datasets.logic import organisations_for_user
 
+from .factories import (GoodUserFactory,
+                        NaughtyUserFactory,
+                        OrganisationFactory,
+                        DatasetFactory,
+                        DatafileFactory)
+
 class OrganisationTestCase(TestCase):
 
     def setUp(self):
-        self.test_user = get_user_model().objects.create(
-            email="test-signin@localhost",
-            username="Test User Signin",
-            apikey=str(uuid.uuid4())
-        )
+        self.test_user = GoodUserFactory.create()
         self.test_user.set_password("password")
         self.test_user.save()
 
-        self.organisation = Organisation.objects.create(
-            name='cabinet-office',
-            title='Cabinet Office',
-            description='Description'
-        )
+        self.organisation = OrganisationFactory.create()
         self.organisation.users.add(self.test_user)
 
 

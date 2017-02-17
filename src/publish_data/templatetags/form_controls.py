@@ -8,7 +8,7 @@ register = template.Library()
 def form_controls(request, dataset_name):
 
     page = request.resolver_match.url_name
-    state = request.session['flow-state']
+    state = request.session.get('flow-state')
 
     if state in ['checking', 'editing']:
         params = {

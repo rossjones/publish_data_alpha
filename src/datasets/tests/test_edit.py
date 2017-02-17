@@ -5,40 +5,28 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 from datasets.models import Dataset
 
+from .factories import (GoodUserFactory,
+                        NaughtyUserFactory,
+                        OrganisationFactory,
+                        DatasetFactory,
+                        DatafileFactory)
 
 class DatasetEditTestCase(TestCase):
 
     def setUp(self):
-        self.test_user = get_user_model().objects.create(
-            email="test-signin@localhost",
-            username="test-signin@localhost",
-            apikey=str(uuid.uuid4())
-        )
+        self.test_user = GoodUserFactory()
         self.test_user.set_password("password")
         self.test_user.save()
 
-        # Log the user in
-        success = self.client.login(username='test-signin@localhost', password='password')
+        success = self.client.login(username=self.test_user.email, password='password')
 
-        # Both test the initial dataset creation, and get a name we can
-        # use for the remaining tests.
-        self.dataset_name = self._create_new_dataset()
+        self.dataset = DatasetFactory.create(creator=self.test_user)
 
-    def _create_new_dataset(self):
-        response = self.client.post(reverse('new_dataset', args=[]), {
-                'title': 'A test dataset for edit',
-                'description': 'A test description',
-                'summary': 'A test summary',
-        })
-        assert response.status_code == 302
-        parts = response.url.split('/')
-
-        return parts[2]
 
     def _edit_dataset(self, name=None):
         response = self.client.get(
             reverse('edit_full_dataset',
-            args=[name or self.dataset_name]))
+            args=[name or self.dataset.name]))
         return response
 
     def test_bad_doesnotexist(self):
@@ -46,17 +34,17 @@ class DatasetEditTestCase(TestCase):
         assert r.status_code == 404
 
     def test_edit_get(self):
-        r = self._edit_dataset(self.dataset_name)
+        r = self._edit_dataset(self.dataset.name)
         assert r.status_code == 200
-        assert b'A test dataset for edit' in r.content
+        assert bytes(self.dataset.title, encoding='utf-8') in r.content
 
 
     def test_edit_update(self):
         response = self.client.post(
             reverse('edit_full_dataset',
-            args=[self.dataset_name]),
+            args=[self.dataset.name]),
             {
-                'name': self.dataset_name,
+                'name': self.dataset.name,
                 'title': 'A test dataset for edit',
                 'description': 'A test description',
                 'summary': 'Updated summary',
@@ -64,5 +52,5 @@ class DatasetEditTestCase(TestCase):
                 'notifications': 'no'
             })
 
-        ds = Dataset.objects.get(name=self.dataset_name)
+        ds = Dataset.objects.get(name=self.dataset.name)
 
