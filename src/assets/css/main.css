@@ -1688,6 +1688,9 @@ a.remove-button {
 .location-input {
   display: block; }
 
+.dot-separator {
+  color: #6f777b; }
+
 .twitter-typeahead {
   width: 100%; }
   .twitter-typeahead .tt-menu.tt-open {

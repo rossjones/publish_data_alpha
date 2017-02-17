@@ -115,9 +115,12 @@ a.remove-button {
   padding-left: 1em;
 }
 
-
 .location-input {
   display: block;
+}
+
+.dot-separator {
+  color: $grey-1;
 }
 
 .twitter-typeahead {
