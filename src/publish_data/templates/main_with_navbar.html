@@ -28,8 +28,12 @@
 
 {% block content %}
   <main id="content" role="main" tabindex="-1">
-    {% if user.email %}
-      <h2 class="user-bar">{{ user.email }}</h2>
+    {% if user.email and user.organisations %}
+      <h2 class="user-bar">
+        {{ user.organisations.first.title }}
+        <span class="dot-separator">&#xb7;</span>
+        {{ user.email }}
+      </h2>
     {% endif %}
     <div class="grid-row">
       <div class="column-one-quarter">
