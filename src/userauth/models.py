@@ -9,6 +9,9 @@ class PublishingUser(AbstractUser):
     apikey = models.CharField(max_length=64, null=True, blank=True)
     USERNAME_FIELD = "email"
 
+    def primary_organisation(self):
+        return self.organisations.first()
+
     def __repr__(self):
         return self.email
 
