@@ -40,6 +40,7 @@ def dashboard(request):
 def manage_data(request):
     q = request.GET.get('q')
     result = request.GET.get('result')
+    sort = request.GET.get('sort')
 
     page = 1
     try:
@@ -47,8 +48,11 @@ def manage_data(request):
     except:
         page = 1
 
+    if sort and not sort in ['name', 'published', '-name', '-published']:
+        sort = None
+
     total, page_count, datasets = dataset_list(
-        request.user, page, filter_query=q
+        request.user, page, filter_query=q, sort=sort
     )
 
     ckan_host = get_config('ckan.host') or ''
