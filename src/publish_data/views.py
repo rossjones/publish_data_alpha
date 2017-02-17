@@ -48,6 +48,17 @@ def manage_data(request):
     except:
         page = 1
 
+
+    if sort == 'name':
+        sort_name_next = '-name'
+        sort_published_next = 'published'
+    elif sort == 'published':
+        sort_name_next = 'name'
+        sort_published_next = '-published'
+    else:
+        sort_name_next = 'name'
+        sort_published_next = 'published'
+
     if sort and not sort in ['name', 'published', '-name', '-published']:
         sort = None
 
@@ -65,4 +76,7 @@ def manage_data(request):
         "q": q or "",
         "result": result or "",
         "find_url": settings.FIND_URL or ckan_host,
+        "sort": sort,
+        "sort_name_next": sort_name_next,
+        "sort_published_next": sort_published_next
     })
