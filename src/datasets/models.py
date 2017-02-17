@@ -4,11 +4,13 @@ import json
 from django.db import models
 from django.forms.models import model_to_dict
 from django.conf import settings
+from django.utils.translation import ugettext as _
+from autoslug import AutoSlugField
 
 from datasets.util import (calculate_dates_for_month,
                            calculate_dates_for_quarter,
                            calculate_dates_for_year)
-from autoslug import AutoSlugField
+
 
 
 class Location(models.Model):
@@ -57,6 +59,19 @@ class Dataset(models.Model):
 
     is_harvested = models.BooleanField(default=False)
     legacy_metadata = models.TextField(null=True, blank=True)
+
+
+    def noun(self):
+        if self.published:
+            return _('Dataset')
+        return _('Draft')
+
+
+    def status_text(self):
+        if self.published:
+            return _('Published')
+        return _('Draft')
+
 
     def as_dict(self):
         def _strip_location(loc):
