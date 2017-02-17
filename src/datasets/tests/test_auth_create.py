@@ -5,63 +5,35 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 from datasets.models import Dataset, Organisation
 
+from .factories import (GoodUserFactory,
+                        NaughtyUserFactory,
+                        OrganisationFactory,
+                        DatasetFactory,
+                        DatafileFactory)
 
 
 class DatasetsCreateAuthTestCase(TestCase):
 
     def setUp(self):
-        self.test_user = get_user_model().objects.create(
-            email="test-signin@localhost",
-            username="test-signin@localhost",
-            apikey=str(uuid.uuid4())
-        )
+        self.test_user = GoodUserFactory.create()
         self.test_user.set_password("password")
         self.test_user.save()
 
-        self.organisation = Organisation.objects.create(
-            name='test-org',
-            title='Test Organisation',
-            description='Test Organisation Description'
-        )
+        self.organisation = OrganisationFactory.create()
         self.organisation.users.add(self.test_user)
 
         self.client.login(username='test-signin@localhost', password='password')
-        self.dataset_name = self._create_new_dataset()
+        self.dataset = DatasetFactory.create()
         self.client.logout()
 
-        self.random_user = get_user_model().objects.create(
-            email="random_user@localhost",
-            username="test-random_user@localhost",
-            apikey=str(uuid.uuid4())
-        )
+        self.random_user = NaughtyUserFactory.create()
         self.random_user.set_password("password")
         self.random_user.save()
-        self.client.login(username='random_user@localhost', password='password')
+        self.client.login(username=self.random_user.email, password='password')
 
-    def _create_new_dataset(self):
-        response = self.client.post(reverse('new_dataset', args=[]), {
-                'title': 'A test dataset for create',
-                'description': 'A test description',
-                'summary': 'A test summary',
-        })
-        assert response.status_code == 302
-
-        parts = response.url.split('/')
-        name = parts[2]
-
-        # Set frequency
-        response = self.client.post(reverse('edit_dataset_frequency', args=[name]), {
-                'frequency': 'weekly',
-        })
-        assert response.status_code == 302
-
-        return name
-
-    def _get_dataset(self):
-        return Dataset.objects.get(name=self.dataset_name)
 
     def test_location(self):
-        u = reverse('edit_dataset_location', args=[self.dataset_name])
+        u = reverse('edit_dataset_location', args=[self.dataset.name])
         response = self.client.get(u)
         assert response.status_code == 403
 
@@ -76,7 +48,7 @@ class DatasetsCreateAuthTestCase(TestCase):
         assert response.status_code == 403
 
     def test_licence(self):
-        u = reverse('edit_dataset_licence', args=[self.dataset_name])
+        u = reverse('edit_dataset_licence', args=[self.dataset.name])
         response = self.client.get(u)
         assert response.status_code == 403
 
@@ -98,12 +70,11 @@ class DatasetsCreateAuthTestCase(TestCase):
             }
         )
         assert response.status_code == 403
-        obj = self._get_dataset()
-        assert obj.licence == ""
-        assert obj.licence_other == ""
+        assert self.dataset.licence == ""
+        assert self.dataset.licence_other == ""
 
     def test_frequency(self):
-        u = reverse('edit_dataset_frequency', args=[self.dataset_name])
+        u = reverse('edit_dataset_frequency', args=[self.dataset.name])
         response = self.client.get(u)
         assert response.status_code == 403
 
@@ -120,7 +91,7 @@ class DatasetsCreateAuthTestCase(TestCase):
     def test_organisation(self):
         u = reverse(
             'edit_dataset_organisation',
-            args=[self.dataset_name]
+            args=[self.dataset.name]
         )
         # With only a single organisation, we expect a redirect
         response = self.client.get(u)
@@ -140,12 +111,12 @@ class DatasetsCreateAuthTestCase(TestCase):
 
 
     def test_redirect_adding_extra_file(self):
-        u = reverse('edit_dataset_files', args=[self.dataset_name])
+        u = reverse('edit_dataset_files', args=[self.dataset.name])
         response = self.client.get(u)
         assert response.status_code == 403
 
     def test_frequency_details(self):
-        u = reverse('edit_dataset_frequency', args=[self.dataset_name])
+        u = reverse('edit_dataset_frequency', args=[self.dataset.name])
         response = self.client.post(
             u,
             {'frequency': 'weekly'}
@@ -173,7 +144,7 @@ class DatasetsCreateAuthTestCase(TestCase):
     def test_adddoc(self):
         u = reverse(
             'edit_dataset_adddoc',
-            args=[self.dataset_name]
+            args=[self.dataset.name]
         )
         response = self.client.get(u)
         assert response.status_code == 403
@@ -194,7 +165,7 @@ class DatasetsCreateAuthTestCase(TestCase):
     def test_notifications(self):
         u = reverse(
             'edit_dataset_notifications',
-            args=[self.dataset_name]
+            args=[self.dataset.name]
         )
         response = self.client.get(u)
         assert response.status_code == 403
@@ -214,7 +185,7 @@ class DatasetsCreateAuthTestCase(TestCase):
     def test_check(self):
         u = reverse(
             'publish_dataset',
-            args=[self.dataset_name]
+            args=[self.dataset.name]
         )
         response = self.client.get(u)
         assert response.status_code == 403
@@ -223,7 +194,7 @@ class DatasetsCreateAuthTestCase(TestCase):
     def test_addfile(self):
         u = reverse(
             'edit_dataset_addfile_weekly',
-            args=[self.dataset_name]
+            args=[self.dataset.name]
         )
         response = self.client.get(u)
         assert response.status_code == 403
@@ -254,6 +225,6 @@ class DatasetsCreateAuthTestCase(TestCase):
 
 
     def test_showfiles(self):
-        u = reverse('edit_dataset_files', args=[self.dataset_name])
+        u = reverse('edit_dataset_files', args=[self.dataset.name])
         response = self.client.get(u)
         assert response.status_code == 403, response.status_code

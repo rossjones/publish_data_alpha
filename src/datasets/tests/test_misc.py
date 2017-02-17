@@ -7,7 +7,7 @@ class MiscTestCase(TestCase):
 
 
     def test_url_exists_ok(self):
-        exists, fmt, error = url_exists('https://data.gov.uk')
+        exists, fmt, error = url_exists('https://google.com')
         assert exists
         assert fmt == 'HTML', fmt
         assert not error

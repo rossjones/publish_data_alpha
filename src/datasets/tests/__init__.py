@@ -10,3 +10,5 @@ import datasets.views as v
 v.show_weekly_frequency = _show_weekly_for_test
 
 
+def setup():
+    print("Setting up test data for 'datasets'")

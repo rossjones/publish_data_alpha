@@ -5,66 +5,43 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 from datasets.models import Dataset
 
+from .factories import (GoodUserFactory,
+                        NaughtyUserFactory,
+                        OrganisationFactory,
+                        DatasetFactory,
+                        DatafileFactory)
+
 
 class DatasetAuthEditTestCase(TestCase):
 
     def setUp(self):
-        self.test_user = get_user_model().objects.create(
-            email="test-signin@localhost",
-            username="test-signin@localhost",
-            apikey=str(uuid.uuid4())
-        )
-        self.test_user.set_password("password")
-        self.test_user.save()
+        self.dataset = DatasetFactory.create()
 
-        # Log the user in
-        self.client.login(username='test-signin@localhost', password='password')
-        self.dataset_name = self._create_new_dataset()
-        self.client.logout()
-
-        self.random_user = get_user_model().objects.create(
-            email="random_user@localhost",
-            username="random_user@localhost",
-            apikey=str(uuid.uuid4())
-        )
-        self.test_user.set_password("password")
-        self.test_user.save()
-        self.client.login(username='random_user@localhost', password='password')
-
-
-    def _create_new_dataset(self):
-        response = self.client.post(reverse('new_dataset', args=[]), {
-                'title': 'A test dataset for edit',
-                'description': 'A test description',
-                'summary': 'A test summary',
-        })
-        assert response.status_code == 302
-        parts = response.url.split('/')
-
-        return parts[2]
+        self.random_user = NaughtyUserFactory.create()
+        self.random_user.set_password("password")
+        self.random_user.save()
+        self.client.login(username=self.random_user.email, password='password')
 
     def _edit_dataset(self, name=None):
         response = self.client.get(
             reverse('edit_full_dataset',
-            args=[name or self.dataset_name]))
+            args=[name or self.dataset.name]))
         return response
 
     def test_bad_doesnotexist(self):
         r = self._edit_dataset('nope')
-        assert r.status_code == 302, r.status_code
-        assert r.url == reverse('signin') + "?next=/dataset/edit/nope"
+        assert r.status_code == 404, r.status_code
 
-    def test_edit_get(self):
-        r = self._edit_dataset(self.dataset_name)
-        assert r.status_code == 302
-        assert r.url == reverse('signin') + "?next=/dataset/edit/" + self.dataset_name
+    def test_edit_get_fail(self):
+        r = self._edit_dataset(self.dataset.name)
+        assert r.status_code == 403, r.status_code
 
     def test_edit_update(self):
         r = self.client.post(
             reverse('edit_full_dataset',
-            args=[self.dataset_name]),
+            args=[self.dataset.name]),
             {
-                'name': self.dataset_name,
+                'name': self.dataset.name,
                 'title': 'A test dataset for edit',
                 'description': 'A test description',
                 'summary': 'Updated summary',
@@ -72,5 +49,5 @@ class DatasetAuthEditTestCase(TestCase):
                 'notifications': 'no'
             })
 
-        assert r.status_code == 302
+        assert r.status_code == 403
 
