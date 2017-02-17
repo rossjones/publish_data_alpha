@@ -26,7 +26,6 @@ class OrganisationTestCase(TestCase):
         self.organisation2 = OrganisationFactory.create(name='two')
         self.organisation2.users.add(self.test_user)
 
-
     def test_user_in_org(self):
         assert self.organisation.users.first() == self.test_user
 
@@ -38,4 +37,4 @@ class OrganisationTestCase(TestCase):
 
     def test_primary_organisation(self):
         organisation = self.test_user.primary_organisation()
-        assert organisation.name == self.organisation.name, organisation
+        assert organisation.name == self.organisation.name, organisation.name

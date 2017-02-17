@@ -10,7 +10,7 @@ class PublishingUser(AbstractUser):
     USERNAME_FIELD = "email"
 
     def primary_organisation(self):
-        return self.organisations.first()
+        return self.organisations.order_by('name').first()
 
     def __repr__(self):
         return self.email
