@@ -233,6 +233,8 @@ class Organisation(models.Model):
             'foi_name': self.foi_name or '',
             'foi_phone': self.foi_phone or '',
             'foi_web': self.foi_web or '',
+            'closed': self.closed,
+            'replaced_by': self.replaced_by,
         }
 
         return data
