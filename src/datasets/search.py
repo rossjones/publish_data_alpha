@@ -17,7 +17,7 @@ es.indices.create(
             "datasets" : {
                 "properties" : {
                     "name" : { "type": "string", "index" : "not_analyzed" },
-                    "organisation.name" : { "type": "string", "index" : "not_analyzed" }
+                    "organisation_name" : { "type": "string", "index" : "not_analyzed" }
                 }
             }
           },
