@@ -47,7 +47,7 @@ var extended = function(browser) {
 
   browser.deleteLastCreatedDataset = function() {
     return this
-      .clickOnLink('Manage your data')
+      .clickOnLink('Manage your datasets')
       .clickOnLink('Delete')
   };
 
