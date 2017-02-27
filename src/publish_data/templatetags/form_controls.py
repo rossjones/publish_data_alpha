@@ -29,6 +29,8 @@ def form_controls(request, dataset_name):
             params['secondary_link'] = 'edit_dataset_organisation'
         elif page == 'edit_dataset_organisation':
             params['secondary_link'] = 'edit_dataset_licence'
+        elif page == 'edit_dataset_licence':
+            params['secondary_link'] = 'edit_dataset_location'
         elif page == 'edit_dataset_location':
             params['secondary_link'] = 'edit_dataset_frequency'
         elif page.startswith('edit_dataset_addfile'):
