@@ -1,3 +1,10 @@
+from django.conf import settings
+settings.ES_INDEX = 'data_discovery_test'
+
+# Reset any existing test index before use
+from datasets.search import reset_index
+reset_index()
+
 """
 Because some views are dependent on the presence of values from previous form
 submissions, we need to fake the function called at runtime to say we always
