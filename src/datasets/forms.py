@@ -49,7 +49,7 @@ class PublishForm(forms.Form):
 
     title = forms.CharField(required=True)
     summary = forms.CharField(required=True)
-    description = forms.CharField(required=True)
+    description = forms.CharField(required=False)
     licence = forms.CharField(required=True)
     organisation = forms.CharField(required=True)
     frequency = forms.CharField(required=True)
