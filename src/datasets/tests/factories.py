@@ -9,7 +9,7 @@ class OrganisationFactory(DjangoModelFactory):
         model = 'datasets.organisation'
         django_get_or_create = ('name',)
 
-    name='test-org',
+    name='test-org'
     title='Test Organisation',
     description='Test Organisation Description'
 

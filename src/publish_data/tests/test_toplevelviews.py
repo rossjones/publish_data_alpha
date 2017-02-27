@@ -47,4 +47,4 @@ class TopLevelViewsCase(TestCase):
 
         response = self.client.get('/manage')
         assert response.status_code == 200
-        assert 'Manage data' in str(response.content)
+        assert 'Manage your datasets' in str(response.content)

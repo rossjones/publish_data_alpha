@@ -98,6 +98,7 @@ class Dataset(models.Model):
             'update_frequency': self.frequency,
             'last_edit_date': self.last_edit_date.isoformat(),
             'published_date': self.published_date.isoformat() if self.published_date else '',
+            'organisation_name': self.organisation.name,
             'organisation': self.organisation.as_dict(),
             'resources': [f.as_dict() for f in self.files.filter(is_documentation=False).all()],
             'documentation': [f.as_dict() for f in self.files.filter(is_documentation=True).all()],
@@ -184,8 +185,8 @@ class Datafile(models.Model):
             'title': self.title,
             'url': self.url,
             'format': self.format,
-            'start_date': start.isoformat() if start else '',
-            'end_date': end.isoformat() if end else '',
+            'start_date': start.isoformat() if start else None,
+            'end_date': end.isoformat() if end else None,
             'is_broken': self.is_broken
         }
 
@@ -233,6 +234,8 @@ class Organisation(models.Model):
             'foi_name': self.foi_name or '',
             'foi_phone': self.foi_phone or '',
             'foi_web': self.foi_web or '',
+            'closed': self.closed,
+            'replaced_by': self.replaced_by,
         }
 
         return data

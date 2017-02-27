@@ -16,7 +16,8 @@ es.indices.create(
     body={"mappings" : {
             "datasets" : {
                 "properties" : {
-                    "name" : { "type": "string", "index" : "not_analyzed" }
+                    "name" : { "type": "string", "index" : "not_analyzed" },
+                    "organisation_name" : { "type": "string", "index" : "not_analyzed" }
                 }
             }
           },
