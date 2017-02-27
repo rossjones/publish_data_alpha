@@ -100,7 +100,6 @@ WSGI_APPLICATION = 'publish_data.wsgi.application'
 
 db_url = os.environ.get('DATABASE_URL')
 if db_url:
-    print("Warning: DATABASE_URL is already set. Value is %s." % db_url)
     import dj_database_url
     DATABASES = {}
     DATABASES['default'] = dj_database_url.config(conn_max_age=600)
