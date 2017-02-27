@@ -169,6 +169,13 @@ var test_create_missing_org = function (browser) {
     .end();
 };
 
+var test_create_skip_licence = function (browser) {
+  goToCreateLicence(browser)
+    .clickAndCheckNextTitle('Skip this step', 'Choose a geographical area')
+    .deleteLastCreatedDataset()
+    .end();
+};
+
 var test_create_omit_licence = function (browser) {
   goToCreateLicence(browser)
     .submitFormAndCheckNextTitle('Choose a geographical area')
@@ -479,6 +486,7 @@ module.exports = {
   'Create a dataset, missing description': test_create_missing_description,
   'Create a dataset, missing summary': test_create_missing_summary,
   'Create a dataset, omit organisation': test_create_missing_org,
+  'Create a dataset, skip licence': test_create_skip_licence,
   'Create a dataset, omit licence': test_create_omit_licence,
   'Create a dataset, blank other licence': test_create_blank_other_licence,
   'Create a dataset, omit region': test_create_omit_region,
