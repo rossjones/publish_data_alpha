@@ -1,4 +1,4 @@
-{% extends 'main.html' %}
+{% extends 'main_with_navbar.html' %}
 {% load static %}
 {% load i18n %}
 
@@ -56,7 +56,7 @@
                 {{ task.description }}
               </td>
               <td><div class="overdue">{{ task.label_text }}</div></td>
-              <td>
+              <td class="actions">
                 <a class="update" href="{% url 'edit_dataset_files' task.related_object_id %}">{% trans "Update" %}</a>
                 {% if can_skip %}
                   <a href="{% url 'skip_task' task.id %}">{% trans "Skip" %}</a>
