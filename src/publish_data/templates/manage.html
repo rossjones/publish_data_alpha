@@ -40,13 +40,15 @@
         </legend>
 
         <div class="form-group wide-search-bar">
-          <input
-              class="form-control"
-              placeholder="{% trans "Search all datasets by name" %}"
-              id="q"
-              name="q"
-              type="text"
-              value="{{ q }}"/>
+          <label for="q">
+            <span>{% trans "Search all datasets by name" %}</span>
+            <input
+                class="form-control"
+                id="q"
+                name="q"
+                type="text"
+                value="{{ q }}"/>
+          </label>
           <input class="button" type="submit" value="{% trans "Search" %}"/>
         </div>
         {% if q %}
