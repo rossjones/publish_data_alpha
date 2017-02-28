@@ -1,0 +1,7 @@
+{% extends "tasks/base.html" %}
+{% load i18n %}
+
+{%block tasks_title %}
+    <a href="{% url 'my_tasks' %}">{% trans "My tasks" %}</a>
+    {{ organisation.title }}{% trans " tasks" %}
+{% endblock %}

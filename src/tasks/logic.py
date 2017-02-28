@@ -25,6 +25,22 @@ def get_tasks_for_user(user):
 
     return tasks
 
+def get_tasks_for_organisation(organisation):
+    """ For the given organisation name, find the tasks that
+        they have in each category
+    """
+    orgs = [organisation]
+    user_permissions = [""]
+    task_objs = Task.objects\
+        .filter(owning_organisation__in=orgs)\
+        .filter(required_permission_name__in=user_permissions)\
+        .all()
+
+    tasks = {}
+    for entry in TASK_CATEGORIES:
+        tasks[entry[0]] = [t for t in task_objs if t.category == entry[0]]
+
+    return tasks
 
 def user_ignore_task(user, task):
     """

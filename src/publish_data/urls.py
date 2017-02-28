@@ -14,7 +14,7 @@ urlpatterns = [
     url(r'manage$', views.manage_data, name='manage_data'),
     url(r'^accounts/', include('userauth.urls')),
     url(r'^dataset/',  include('datasets.urls')),
-    url(r'^task/',  include('tasks.urls')),
+    url(r'^tasks/',  include('tasks.urls')),
     url(r'^api/',  include('api.urls')),
 
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),

@@ -1,0 +1,94 @@
+{% extends 'main.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block page_title %}
+  {% trans "Tasks" %}
+{% endblock %}
+
+{% block inner_content %}
+  <div class="dashboard">
+    <h1 class="heading-medium">{%block tasks_title %}{% trans "My tasks" %}{% endblock %}</h1>
+
+    <section class="table-show-hide">
+      <div class="table-title">
+        <h2 class="heading-medium">
+          <span class="bignum">{{tasks.update|length}}</span> {% trans "Update datasets" %}
+        </h2>
+        <div>
+          <a class="font-xsmall toggle" style="display:none">{% trans "Show all" %}</a>
+        </div>
+      </div>
+      <table>
+        <tbody>
+          {% for task in tasks.update %}
+            <tr>
+              <td>
+                {{ task.description }}
+              </td>
+              <td><div class="overdue">{{ task.label_text }}</div></td>
+              <td class="actions">
+                <a class="update" href="{% url 'edit_dataset_files' task.related_object_id %}">{% trans "Update" %}</a>
+                {% if can_skip %}
+                  <a href="{% url 'skip_task' task.id %}">{% trans "Skip" %}</a>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+
+    <section class="table-show-hide">
+      <div class="table-title">
+        <h2 class="heading-medium">
+          <span class="bignum">{{tasks.fix|length}}</span> {% trans "Fix datasets" %}
+        </h2>
+        <div>
+          <a class="font-xsmall toggle" style="display:none">{% trans "Show all" %}</a>
+        </div>
+      </div>
+      <table>
+        <tbody>
+          {% for task in tasks.fix %}
+            <tr>
+              <td>
+                {{ task.description }}
+              </td>
+              <td><div class="overdue">{{ task.label_text }}</div></td>
+              <td>
+                <a class="update" href="{% url 'edit_dataset_files' task.related_object_id %}">{% trans "Update" %}</a>
+                {% if can_skip %}
+                  <a href="{% url 'skip_task' task.id %}">{% trans "Skip" %}</a>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+
+    <div id="dashboard-stats" class="js-hidden">
+      <div id="orgs" style="display: none">{{ orgs }}</div>
+      <div id="api-endpoint" style="display: none">{{ api_endpoint }}</div>
+      <h2 class="heading-medium">{% trans "Most popular" %}</h2>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">{% trans "Name" %}</th>
+            <th scope="col">{% trans "Downloads" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="row-template" style="display: none">
+            <td class="stats-title"></td>
+            <td>
+              <span class="stats-downloads"></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+{% endblock %}

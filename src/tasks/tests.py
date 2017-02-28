@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 
 from tasks.models import Task
-from tasks.logic import get_tasks_for_user, user_ignore_task
+from tasks.logic import get_tasks_for_user, user_ignore_task, get_tasks_for_organisation
 
 from datasets.logic import organisations_for_user
 from datasets.models import Organisation
@@ -71,3 +71,25 @@ class TasksTestCase(TestCase):
                                args=[tasks['update'][0].id]))
         assert resp.status_code == 302
         assert resp.url == "/", resp.url
+
+    def test_my_tasks(self):
+        response = self.client.post(reverse('signin'), {
+            "email": "test-signin@localhost",
+            "password": "password"
+        })
+        assert response.status_code == 302
+
+        tasks = get_tasks_for_organisation('test-org')
+        assert len(tasks['update']) == 1
+
+        tasks = get_tasks_for_user(self.test_user)
+        assert len(tasks['update']) == 1
+
+        resp = self.client.get(reverse('skip_task',
+                               args=[tasks['update'][0].id]))
+
+        tasks = get_tasks_for_user(self.test_user)
+        assert len(tasks['update']) == 0
+
+        tasks = get_tasks_for_organisation('test-org')
+        assert len(tasks['update']) == 1
