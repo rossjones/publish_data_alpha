@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.contrib import messages
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
@@ -85,8 +86,11 @@ def delete_dataset(request, dataset_name):
     unindex_dataset(dataset)
     dataset.delete()
 
+    msg = _('The dataset &#8220;%(title)s&#8221; has been deleted.') % {'title': dataset.title}
+    messages.add_message(request, messages.INFO, msg)
+
     return HttpResponseRedirect(
-        reverse('manage_data') + "?result=deleted"
+        reverse('manage_data')
     )
 
 
@@ -451,10 +455,17 @@ def _edit_publish_dataset(request, dataset, state):
 
             result = 'edited' if new_state == 'editing' else 'created'
 
+            if result == 'edited':
+                msg = _('Your dataset has been edited')
+                messages.add_message(request, messages.INFO, msg, extra_tags=dataset.name)
+            elif result == 'created':
+                msg = _('Your dataset has been published')
+                messages.add_message(request, messages.INFO, msg, extra_tags=dataset.name)
+
             request.session['flow-state'] = None
 
             return HttpResponseRedirect(
-                reverse('manage_data') + "?result=" + result
+                reverse('manage_data')
             )
     else:
         form = f.PublishForm()
