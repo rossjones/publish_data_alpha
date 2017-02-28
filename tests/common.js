@@ -45,12 +45,6 @@ var extended = function(browser) {
       .clearValue(selector).setValue(selector, value);
   };
 
-  browser.deleteLastCreatedDataset = function() {
-    return this
-      .clickOnLink('Manage your datasets')
-      .clickOnLink('Delete')
-  };
-
   return browser;
 }
 
@@ -72,5 +66,10 @@ module.exports = {
   waitTimeout: waitTimeout,
   validDataUrl: validDataUrl,
   extended: extended,
-  login: login
+  login: login,
+  datasetTitle: process.env.TEST_TITLE_PREFIX + ' some dataset',
+  datasetTitle2: process.env.TEST_TITLE_PREFIX + ' some other dataset',
+  datafileTitle: process.env.TEST_TITLE_PREFIX + ' some datafile',
+  datafileTitle2: process.env.TEST_TITLE_PREFIX + ' some other datafile',
+  docTitle: process.env.TEST_TITLE_PREFIX + ' some doc'
 };

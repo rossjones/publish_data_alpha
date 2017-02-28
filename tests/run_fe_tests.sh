@@ -16,6 +16,19 @@ export BROWSER_NAME=phantomjs
 
 export DJANGO_SETTINGS_MODULE=publish_data.settings.test
 
+# Prefix for all test titles
+export TEST_TITLE_PREFIX='TEST-'
+
+
+trap kill_server SIGINT
+
+function kill_server() {
+    # kill test server
+    echo Stopping test server
+    pkill -TERM -P $PID
+}
+
+
 # start test server
 cd ../src
 echo Starting test server at $APP_SERVER_URL
@@ -27,9 +40,8 @@ cd ../tests
 nightwatch || true
 
 # flush db
-#cd ../src
-#./manage.py flush --no-input # FIXME - flush only datasets
+cd ../src
+./manage.py delete_datasets --yes $TEST_TITLE_PREFIX
 
-# kill test server
-echo Stopping test server
-pkill -TERM -P $PID
+kill_server
+exit 0

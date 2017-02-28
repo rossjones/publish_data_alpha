@@ -9,7 +9,7 @@ var goToCreateTitle = function(browser) {
 
 var goToCreateOrg = function(browser) {
   return goToCreateTitle(browser)
-    .clearSetValue('input[name=title]', 'Title of my dataset')
+    .clearSetValue('input[name=title]', common.datasetTitle)
     .clearSetValue('textarea[name=summary]', 'Summary of my dataset')
     .clearSetValue('textarea[name=description]', 'Description of my dataset')
     .submitFormAndCheckNextTitle(
@@ -41,7 +41,7 @@ var goToDocumentation = function(browser) {
     .selectRadioButton('Annually (January to December)')
     .submitFormAndCheckNextTitle('Add a link')
     .clearSetValue('input[id=id_url]', common.validDataUrl)
-    .clearSetValue('input[id=id_title]', 'First link')
+    .clearSetValue('input[id=id_title]', common.datafileTitle)
     .clearSetValue('input[id=period_year]', '2013')
     .submitFormAndCheckNextTitle('Links to your data')
     .clickAndCheckNextTitle(
@@ -52,7 +52,7 @@ var goToDocumentation = function(browser) {
 
 var goToNotifications = function(browser) {
   return goToDocumentation(browser)
-    .clearSetValue('input[id=id_title]', 'A document')
+    .clearSetValue('input[id=id_title]', common.docTitle)
     .clearSetValue('input[id=id_url]', common.validDataUrl)
     .submitFormAndCheckNextTitle('Links to supporting documents')
     .clickAndCheckNextTitle('Save and continue', 'Get notifications')
@@ -74,10 +74,9 @@ var createDataset = function(browser) {
 
 
 var test_create_happy_path = function (browser) {
-  var dataSetTitle = 'Test dataset ' + new Date();
   common.login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
-    .clearSetValue('input[name=title]', dataSetTitle)
+    .clearSetValue('input[name=title]', common.datasetTitle)
     .clearSetValue('textarea[name=summary]', 'Summary of my dataset')
     .clearSetValue('textarea[name=description]', 'Description of my dataset')
     .submitFormAndCheckNextTitle(
@@ -92,20 +91,19 @@ var test_create_happy_path = function (browser) {
     .selectRadioButton('Monthly')
     .submitFormAndCheckNextTitle('Add a link')
     .clearSetValue('input[id=id_url]', common.validDataUrl)
-    .clearSetValue('input[id=id_title]', 'Title of this link')
+    .clearSetValue('input[id=id_title]', common.datafileTitle)
     .clearSetValue('input[id=period_month]', '12')
     .clearSetValue('input[id=period_year]', '2016')
     .submitFormAndCheckNextTitle('Links to your data')
     .clickAndCheckNextTitle('Save and continue', 'Add a link to supporting documents')
     .clearSetValue('input[id=id_url]', common.validDataUrl)
-    .clearSetValue('input[id=id_title]', 'Title of this link')
+    .clearSetValue('input[id=id_title]', common.docTitle)
     .submitFormAndCheckNextTitle('Links to supporting documents')
     .clickAndCheckNextTitle('Save and continue', 'Get notifications')
     .selectRadioButton('Yes')
     .submitFormAndCheckNextTitle('Check your dataset')
     .assert.containsText('table', 'Open Government Licence')
     .submitFormAndCheckNextTitle('Your dataset has been published')
-    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -115,7 +113,7 @@ var test_create_missing_title = function (browser) {
     .clearSetValue('textarea[name=description]', 'Description of my dataset')
     .submitFormAndCheckNextTitle('There was a problem')
     .checkError('Please provide a valid title')
-    .clearSetValue('input[name=title]', 'Title of my dataset')
+    .clearSetValue('input[name=title]', common.datasetTitle)
     .submitFormAndCheckNextTitle(
       'Choose the organisation you are publishing for'
     )
@@ -129,7 +127,7 @@ var test_create_invalid_title = function (browser) {
     .clearSetValue('textarea[name=description]', 'Description of my dataset')
     .submitFormAndCheckNextTitle('There was a problem')
     .checkError('Please provide a valid title')
-    .clearSetValue('input[name=title]', 'Title of my dataset')
+    .clearSetValue('input[name=title]', common.datasetTitle)
     .submitFormAndCheckNextTitle(
       'Choose the organisation you are publishing for'
     )
@@ -139,7 +137,7 @@ var test_create_invalid_title = function (browser) {
 var test_create_missing_description = function (browser) {
   goToCreateTitle(browser)
     .clearSetValue('textarea[name=summary]', 'Summary of my dataset')
-    .clearSetValue('input[name=title]', 'Title of my dataset')
+    .clearSetValue('input[name=title]', common.datasetTitle)
     .submitFormAndCheckNextTitle(
       'Choose the organisation you are publishing for'
     )
@@ -149,7 +147,7 @@ var test_create_missing_description = function (browser) {
 var test_create_missing_summary = function (browser) {
   goToCreateTitle(browser)
     .clearSetValue('textarea[name=description]', 'Description of my dataset')
-    .clearSetValue('input[name=title]', 'Title of my dataset')
+    .clearSetValue('input[name=title]', common.datasetTitle)
     .submitFormAndCheckNextTitle('There was a problem')
     .checkError('Please provide a summary')
     .clearSetValue('textarea[name=summary]', 'Summary of my dataset')
@@ -165,21 +163,18 @@ var test_create_missing_org = function (browser) {
     .checkError('Please choose which organisation will own this dataset')
     .selectRadioButton('Cabinet Office')
     .submitFormAndCheckNextTitle('Choose a licence')
-    .deleteLastCreatedDataset()
     .end();
 };
 
 var test_create_skip_licence = function (browser) {
   goToCreateLicence(browser)
     .clickAndCheckNextTitle('Skip this step', 'Choose a geographical area')
-    .deleteLastCreatedDataset()
     .end();
 };
 
 var test_create_omit_licence = function (browser) {
   goToCreateLicence(browser)
     .submitFormAndCheckNextTitle('Choose a geographical area')
-    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -190,14 +185,12 @@ var test_create_blank_other_licence = function (browser) {
     .checkError('Please type the name of your licence')
     .clearSetValue('input[id=id_licence_other]', 'other licence')
     .submitFormAndCheckNextTitle('Choose a geographical area')
-    .deleteLastCreatedDataset()
     .end();
 };
 
 var test_create_omit_region = function (browser) {
   goToCreateRegion(browser)
     .submitFormAndCheckNextTitle('How frequently is this dataset updated?')
-    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -206,7 +199,6 @@ var test_create_region_autocomplete = function (browser) {
     .clearSetValue('input[id=id_location1]', 'Swa')
     .waitForElementVisible('div[role=listbox]', 5000)
     .assert.containsText('div[role=listbox]', 'Swansea (local authority)')
-    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -214,7 +206,6 @@ var test_create_region_autocomplete = function (browser) {
 var test_create_omit_frequency = function (browser) {
   goToCreateFrequency(browser)
     .submitFormAndCheckNextTitle('Add a link to supporting documents')
-    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -223,9 +214,8 @@ var test_create_daily = function (browser) {
     .selectRadioButton('Daily')
     .submitFormAndCheckNextTitle('Add a link')
     .clearSetValue('input[id=id_url]', common.validDataUrl)
-    .clearSetValue('input[id=id_title]', 'First link')
+    .clearSetValue('input[id=id_title]', common.datafileTitle)
     .submitFormAndCheckNextTitle('Links to your data')
-    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -233,9 +223,8 @@ var test_create_daily_omit_link = function (browser) {
   goToCreateFrequency(browser)
     .selectRadioButton('Daily')
     .submitFormAndCheckNextTitle('Add a link')
-    .clearSetValue('input[id=id_title]', 'First link')
+    .clearSetValue('input[id=id_title]', common.datafileTitle)
     .submitFormAndCheckNextTitle('There was a problem')
-    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -244,7 +233,7 @@ var test_create_weekly = function (browser) {
     .selectRadioButton('Weekly')
     .submitFormAndCheckNextTitle('Add a link')
     .clearSetValue('input[id=id_url]', common.validDataUrl)
-    .clearSetValue('input[id=id_title]', 'First link')
+    .clearSetValue('input[id=id_title]', common.datafileTitle)
     .clearSetValue('input[id=start_day]', '30')
     .clearSetValue('input[id=start_month]', '01')
     .clearSetValue('input[id=start_year]', '2012')
@@ -254,7 +243,7 @@ var test_create_weekly = function (browser) {
     .submitFormAndCheckNextTitle('Links to your data')
     .clickOnLink('Add another link')
     .clearSetValue('input[id=id_url]', common.validDataUrl)
-    .clearSetValue('input[id=id_title]', 'Second link')
+    .clearSetValue('input[id=id_title]', common.datafileTitle2)
     .clearSetValue('input[id=start_day]', '30')
     .clearSetValue('input[id=start_month]', '01')
     .clearSetValue('input[id=start_year]', '2013')
@@ -262,9 +251,8 @@ var test_create_weekly = function (browser) {
     .clearSetValue('input[id=end_month]', '01')
     .clearSetValue('input[id=end_year]', '2014')
     .submitFormAndCheckNextTitle('Links to your data')
-    .assert.containsText('table', 'First link')
-    .assert.containsText('table', 'Second link')
-    .deleteLastCreatedDataset()
+    .assert.containsText('table', common.datafileTitle)
+    .assert.containsText('table', common.datafileTitle2)
     .end();
 };
 
@@ -274,7 +262,7 @@ var test_create_monthly_bad_month = function (browser) {
     .selectRadioButton('Monthly')
     .submitFormAndCheckNextTitle('Add a link')
     .clearSetValue('input[id=id_url]', common.validDataUrl)
-    .clearSetValue('input[id=id_title]', 'Title of this link')
+    .clearSetValue('input[id=id_title]', common.datafileTitle)
     .clearSetValue('input[id=period_month]', 'Movember')
     .clearSetValue('input[id=period_year]', '2016')
     .submitFormAndCheckNextTitle('There was a problem')
@@ -282,7 +270,6 @@ var test_create_monthly_bad_month = function (browser) {
     .clearSetValue('input[id=period_month]', '13')
     .submitFormAndCheckNextTitle('There was a problem')
     .checkError('Please enter a valid date')
-    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -291,12 +278,11 @@ var test_create_monthly_bad_year = function (browser) {
     .selectRadioButton('Monthly')
     .submitFormAndCheckNextTitle('Add a link')
     .clearSetValue('input[id=id_url]', common.validDataUrl)
-    .clearSetValue('input[id=id_title]', 'Title of this link')
+    .clearSetValue('input[id=id_title]', common.datafileTitle)
     .clearSetValue('input[id=period_month]', '11')
     .clearSetValue('input[id=period_year]', '123203')
     .submitFormAndCheckNextTitle('There was a problem')
     .checkError('Please enter a valid date')
-    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -308,7 +294,6 @@ var test_create_yearly_bad_year = function (browser) {
     .clearSetValue('input[id=period_year]', '123203')
     .submitFormAndCheckNextTitle('There was a problem')
     .checkError('Please enter a valid date')
-    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -317,19 +302,18 @@ var test_create_monthly = function (browser) {
     .selectRadioButton('Monthly')
     .submitFormAndCheckNextTitle('Add a link')
     .clearSetValue('input[id=id_url]', common.validDataUrl)
-    .clearSetValue('input[id=id_title]', 'First link')
+    .clearSetValue('input[id=id_title]', common.datafileTitle)
     .clearSetValue('input[id=period_month]', '12')
     .clearSetValue('input[id=period_year]', '2012')
     .submitFormAndCheckNextTitle('Links to your data')
     .clickOnLink('Add another link')
     .clearSetValue('input[id=id_url]', common.validDataUrl)
-    .clearSetValue('input[id=id_title]', 'Second link')
+    .clearSetValue('input[id=id_title]', common.datafileTitle2)
     .clearSetValue('input[id=period_month]', '12')
     .clearSetValue('input[id=period_year]', '2013')
     .submitFormAndCheckNextTitle('Links to your data')
-    .assert.containsText('table', 'First link')
-    .assert.containsText('table', 'Second link')
-    .deleteLastCreatedDataset()
+    .assert.containsText('table', common.datafileTitle)
+    .assert.containsText('table', common.datafileTitle2)
     .end();
 };
 
@@ -338,18 +322,17 @@ var test_create_quarterly = function (browser) {
     .selectRadioButton('Quarterly')
     .submitFormAndCheckNextTitle('Add a link')
     .clearSetValue('input[id=id_url]', common.validDataUrl)
-    .clearSetValue('input[id=id_title]', 'First link')
+    .clearSetValue('input[id=id_title]', common.datafileTitle)
     .selectRadioButton('Q2 (July to September)')
     .submitFormAndCheckNextTitle('Links to your data')
     .clickOnLink('Add another link')
     .clearSetValue('input[id=id_url]', common.validDataUrl)
-    .clearSetValue('input[id=id_title]', 'Second link')
+    .clearSetValue('input[id=id_title]', common.datafileTitle2)
     .selectRadioButton('Q3 (October to December)')
     .clearSetValue('input[id=period_year]', '1984')
     .submitFormAndCheckNextTitle('Links to your data')
-    .assert.containsText('table', 'First link')
-    .assert.containsText('table', 'Second link')
-    .deleteLastCreatedDataset()
+    .assert.containsText('table', common.datafileTitle)
+    .assert.containsText('table', common.datafileTitle2)
     .end();
 };
 
@@ -357,7 +340,6 @@ var test_create_never = function (browser) {
   goToCreateFrequency(browser)
     .selectRadioButton('One-off')
     .submitFormAndCheckNextTitle('Add a link')
-    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -366,17 +348,16 @@ var test_create_yearly = function (browser) {
     .selectRadioButton('Annually (January to December)')
     .submitFormAndCheckNextTitle('Add a link')
     .clearSetValue('input[id=id_url]', common.validDataUrl)
-    .clearSetValue('input[id=id_title]', 'First link')
+    .clearSetValue('input[id=id_title]', common.datafileTitle)
     .clearSetValue('input[id=period_year]', '2012')
     .submitFormAndCheckNextTitle('Links to your data')
     .clickOnLink('Add another link')
     .clearSetValue('input[id=id_url]', common.validDataUrl)
-    .clearSetValue('input[id=id_title]', 'Second link')
+    .clearSetValue('input[id=id_title]', common.datafileTitle2)
     .clearSetValue('input[id=period_year]', '2013')
     .submitFormAndCheckNextTitle('Links to your data')
-    .assert.containsText('table', 'First link')
-    .assert.containsText('table', 'Second link')
-    .deleteLastCreatedDataset()
+    .assert.containsText('table', common.datafileTitle)
+    .assert.containsText('table', common.datafileTitle2)
     .end();
 };
 
@@ -388,7 +369,6 @@ var test_create_financial_yearly = function (browser) {
     .clearSetValue('input[id=id_url]', common.validDataUrl)
     .clearSetValue('input[id=period_year]', '1984')
     .submitFormAndCheckNextTitle('Links to your data')
-    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -397,7 +377,7 @@ var test_create_yearly_bad_year = function (browser) {
     .selectRadioButton('Annually (financial year April to March)')
     .submitFormAndCheckNextTitle('Add a link')
     .clearSetValue('input[id=id_url]', common.validDataUrl)
-    .clearSetValue('input[id=id_title]', 'Title of this link')
+    .clearSetValue('input[id=id_title]', common.datafileTitle)
     .clearSetValue('input[id=period_year]', 'meh')
     .submitFormAndCheckNextTitle('There was a problem')
     .checkError('Please provide a valid year')
@@ -409,14 +389,12 @@ var test_create_yearly_bad_year = function (browser) {
     .checkError('Please provide a valid year')
     .clearSetValue('input[id=period_year]', '2010')
     .submitFormAndCheckNextTitle('Links to your data')
-    .deleteLastCreatedDataset()
     .end();
 };
 
 var test_create_omit_notifications = function (browser) {
   goToNotifications(browser)
     .submitFormAndCheckNextTitle('Check your dataset')
-    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -427,7 +405,6 @@ var test_create_omit_url = function (browser) {
     .submitFormAndCheckNextTitle('There was a problem')
     .checkError('Please provide a valid title')
     .checkError('Please provide a valid URL')
-    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -439,7 +416,6 @@ var test_create_modify_title = function (browser) {
     .clearSetValue('input[name=title]', 'modified name')
     .submitFormAndCheckNextTitle('Check your dataset')
     .assert.containsText('body', 'modified name')
-    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -453,7 +429,6 @@ var test_create_modify_licence = function (browser) {
     .submitFormAndCheckNextTitle('Check your dataset')
     .waitForElementVisible('body', common.waitTimeout)
     .assert.containsText('body', 'my licence')
-    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -464,7 +439,6 @@ var test_create_remove_link = function (browser) {
     .assert.containsText('h1', 'Links to your data')
     .clickAndCheckNextTitle('Delete', 'Links to your data')
     .clickAndCheckNextTitle('Save and continue', 'Check your dataset')
-    .deleteLastCreatedDataset()
     .end();
 };
 
@@ -475,7 +449,6 @@ var test_create_remove_doc = function (browser) {
     .assert.containsText('h1', 'Links to supporting documents')
     .clickAndCheckNextTitle('Delete', 'Links to supporting documents')
     .clickAndCheckNextTitle('Save and continue', 'Check your dataset')
-    .deleteLastCreatedDataset()
     .end();
 };
 

@@ -8,7 +8,7 @@ var createDataset = function (browser) {
       process.env.USER_EMAIL, process.env.USER_PASSWORD
   )
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
-    .clearSetValue('input[name=title]', 'My dataset')
+    .clearSetValue('input[name=title]', common.datasetTitle)
     .clearSetValue('textarea[name=summary]', 'Summary of my dataset')
     .clearSetValue('textarea[name=description]', 'Description of my dataset')
     .submitFormAndCheckNextTitle(
@@ -27,7 +27,7 @@ var createDataset = function (browser) {
       'input[id=id_url]',
       'https://data.gov.uk/data/site-usage/data_all.csv'
     )
-    .setValue('input[id=id_title]', 'Title of this link')
+    .setValue('input[id=id_title]', common.datafileTitle)
     .setValue('input[id=period_month]', '12')
     .setValue('input[id=period_year]', '2016')
     .submitFormAndCheckNextTitle('Links to your data')
@@ -39,7 +39,7 @@ var createDataset = function (browser) {
       'input[id=id_url]',
       'https://data.gov.uk/data/site-usage/data_all.csv'
     )
-    .setValue('input[id=id_title]', 'Title of this link')
+    .setValue('input[id=id_title]', common.datafiletitle)
     .submitFormAndCheckNextTitle('Links to supporting documents')
     .clickAndCheckNextTitle('Save and continue', 'Get notifications')
     .selectRadioButton('Yes')
@@ -52,19 +52,18 @@ var createDataset = function (browser) {
 
 var test_edit_title = function (browser) {
   createDataset(browser)
-    .clickAndCheckNextTitle('Edit', 'Edit ‘My dataset’')
+    .clickAndCheckNextTitle('Edit', 'Edit ‘' + common.datasetTitle + '’')
     .click('a[href*="edit"]')
-    .clearSetValue('input[name=title]', 'Corrected title')
-    .submitFormAndCheckNextTitle('Edit ‘Corrected title’')
+    .clearSetValue('input[name=title]', common.datasetTitle2)
+    .submitFormAndCheckNextTitle('Edit ‘' + common.datasetTitle2 + '’')
     .submitFormAndCheckNextTitle('Your dataset has been edited')
-    .assert.containsText('td', 'Corrected title')
-    .deleteLastCreatedDataset()
+    .assert.containsText('td', common.datasetTitle2)
     .end();
 };
 
 var test_edit_location = function (browser) {
   createDataset(browser)
-    .clickAndCheckNextTitle('Edit', 'Edit ‘My dataset’')
+    .clickAndCheckNextTitle('Edit', 'Edit ‘' + common.datasetTitle + '’')
     .click('a[href*="location"]')
     .assert.visible('#add1')
     .assert.hidden('#add2')
@@ -76,7 +75,7 @@ var test_edit_location = function (browser) {
     .clickOnLink('Remove')
     .clickOnLink('Enter another area')
     .clearSetValue('input[id=id_location2]', 'Berlin')
-    .submitFormAndCheckNextTitle('Edit ‘My dataset’')
+    .submitFormAndCheckNextTitle('Edit ‘' + common.datasetTitle + '’')
     .submitFormAndCheckNextTitle('Your dataset has been edited')
     .clickOnLink('Edit')
     .click('a[href*="location"]')
@@ -84,7 +83,6 @@ var test_edit_location = function (browser) {
     .assert.valueContains('input[id=id_location2]', 'Berlin')
     .assert.valueContains('input[id=id_location3]', '')
     .assert.hidden('#id_location3')
-    .deleteLastCreatedDataset()
     .end();
 };
 
