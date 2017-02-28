@@ -28,7 +28,7 @@ class Command(BaseCommand):
         time.sleep(0.5)
 
         try:
-            r = requests.head(url)
+            r = requests.head(url, timeout=(3.0, 3.0,), verify=False)
             ok = (r.status_code != 404)
         except Exception as e:
             print(str(e))
