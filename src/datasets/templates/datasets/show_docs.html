@@ -32,12 +32,8 @@
               <td>{{ file.url }} </td>
               <td>{% if not file.is_broken %}✔{% else %}&#x2716;{% endif%}</td>
               <td>
-                <a href="{% url 'edit_dataset_adddoc' dataset.name file.id %}">
-                  {% trans "Edit" %}
-                </a>
-                <a href="{% url 'edit_dataset_deletefile' dataset.name file.id %}">
-                  {% trans "Delete" %}
-                </a>
+                <a href="{% url 'edit_dataset_adddoc' dataset.name file.id %}">{% trans "Edit" %}</a>
+                <a href="{% url 'edit_dataset_deletefile' dataset.name file.id %}">{% trans "Delete" %}</a>
               </td>
             </tr>
           {% endif %}
