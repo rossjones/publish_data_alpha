@@ -1657,14 +1657,18 @@ h2.user-bar {
   padding-top: 2.4em; }
 
 table.check-your-answers {
+  margin-top: 1em;
   table-layout: fixed; }
   table.check-your-answers td.dataset-item {
     width: 22%; }
-  table.check-your-answers td {
-    vertical-align: top;
+  table.check-your-answers th, table.check-your-answers td {
+    vertical-align: top; }
+  table.check-your-answers td.file-list {
     overflow-x: hidden; }
-  table.check-your-answers ul {
-    width: 2000px; }
+    table.check-your-answers td.file-list ul {
+      width: 2000px; }
+  table.check-your-answers td.actions {
+    width: 5em; }
 
 .table-show-hide a.toggle {
   color: #005ea5;
