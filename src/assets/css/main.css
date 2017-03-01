@@ -1728,6 +1728,8 @@ a.remove-button {
 
 th.sortable-heading {
   position: relative; }
+  th.sortable-heading a:visited {
+    color: #005ea5; }
 
 .sort-ascending::after {
   content: "\00a0\00a0\25BC";
@@ -1740,6 +1742,9 @@ th.sortable-heading {
   position: absolute;
   font-size: 12px;
   top: 1.6em; }
+
+.pagination span a:visited {
+  color: #005ea5; }
 
 .product-header {
   background-color: #128400;

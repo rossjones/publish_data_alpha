@@ -2,7 +2,6 @@
 {% load static %}
 {% load flow_state %}
 {% load i18n %}
-{% load form_controls %}
 
 {% block page_title %}
   {% trans "Supporting documents" %}
@@ -33,12 +32,8 @@
               <td>{{ file.url }} </td>
               <td>{% if not file.is_broken %}✔{% else %}&#x2716;{% endif%}</td>
               <td>
-                <a href="{% url 'edit_dataset_adddoc' dataset.name file.id %}">
-                  {% trans "Edit" %}
-                </a>
-                <a href="{% url 'edit_dataset_deletefile' dataset.name file.id %}">
-                  {% trans "Delete" %}
-                </a>
+                <a href="{% url 'edit_dataset_adddoc' dataset.name file.id %}">{% trans "Edit" %}</a>
+                <a href="{% url 'edit_dataset_deletefile' dataset.name file.id %}">{% trans "Delete" %}</a>
               </td>
             </tr>
           {% endif %}
@@ -46,21 +41,24 @@
       </tbody>
     </table>
 
-    <a href="{% url 'edit_dataset_adddoc' dataset.name %}">
-      {% trans "Add another link" %}
-    </a>
-
-    <a
-      {% if request|is_checking %}
-        href="{% url 'publish_dataset' dataset.name %}"
-      {% elif request|is_editing %}
-        href="{% url 'edit_full_dataset' dataset.name %}"
-      {% else %}
-        href="{% url 'edit_dataset_notifications' dataset.name %}"
-      {% endif %}
-      class="button">
-      {% trans "Save and continue" %}
-    </a>
+    <p>
+      <a href="{% url 'edit_dataset_adddoc' dataset.name %}">
+        {% trans "Add another link" %}
+      </a>
+    </p>
+    <p>
+      <a
+          {% if request|is_checking %}
+          href="{% url 'publish_dataset' dataset.name %}"
+          {% elif request|is_editing %}
+          href="{% url 'edit_full_dataset' dataset.name %}"
+          {% else %}
+          href="{% url 'edit_dataset_notifications' dataset.name %}"
+          {% endif %}
+          class="button">
+        {% trans "Save and continue" %}
+      </a>
+    </p>
 
   </main>
 {% endblock %}
