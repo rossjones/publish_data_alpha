@@ -1750,6 +1750,9 @@ th.sortable-heading {
 .pagination span a:visited {
   color: #005ea5; }
 
+a.danger, a.danger:visited {
+  color: #b10e1e; }
+
 .product-header {
   background-color: #128400;
   color: #fff;

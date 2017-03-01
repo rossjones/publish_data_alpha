@@ -202,6 +202,11 @@ th.sortable-heading {
   color: $link-colour;
 }
 
+a.danger, a.danger:visited {
+  color: $error-colour;
+}
+
+
 // start page
 
 $alpine-fresh: #128400;

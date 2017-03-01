@@ -95,7 +95,6 @@
                   {% if not dataset.published %}
                     <a href="{% url 'publish_dataset' dataset.name %}">{% trans "Publish" %}</a><br/>
                   {% endif %}
-                  <a href="{% url 'delete_dataset' dataset.name %}">{% trans "Delete" %}</a>
                 {% endif %}
               </td>
             </tr>

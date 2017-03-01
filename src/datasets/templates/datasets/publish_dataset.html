@@ -195,24 +195,23 @@
       method="POST">
     {% csrf_token %}
     <div class="form-group">
-      {% if dataset.published %}
-        <p>
-          <input type="submit" class="button" value="{% trans "Done" %}"/>
-        </p>
-      {% else %}
-        <p>
-          <p>
-            <input type="submit" class="button" value="{% trans "Publish" %}"/>
-          </p>
-          <p>
-            <a
-                href="{% url 'manage_data'%}"
-                class="secondary-button">
-              {% trans "Save for later" %}
-            </a>
-          </p>
-        </p>
-      {% endif %}
+      <p>
+        <input type="submit" class="button" value="{% trans "Publish" %}"/>
+      </p>
+      <p>
+        <a
+            href="{% url 'delete_dataset' dataset.name %}"
+            class="secondary-button danger">
+          {% trans "Delete " %}{% if not dataset.published %}this draft{% endif %}
+        </a>
+      </p>
+      <p>
+        <a
+            href="{% url 'manage_data' %}"
+            class="secondary-button">
+          {% trans "Back to manage your data" %}
+        </a>
+      </p>
     </div>
 
   </form>
