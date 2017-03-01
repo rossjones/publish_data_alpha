@@ -9,21 +9,14 @@
 {% block inner_content %}
   <main id="content" role="main" tabindex="-1">
 
-    {% if result == "created" %}
+    {% if messages %}
       <div class="govuk-box-highlight">
-        <h1 class="bold-large">{% trans "Your dataset has been published" %}</h1>
-        <h2><a href="{{ find_url }}/dataset/{{ datasets.first.name }}">{% trans "View it" %}</a></h2>
-      </div>
-    {% endif %}
-    {% if result == "deleted" %}
-      <div class="govuk-box-highlight">
-        <h1 class="bold-large">{% trans "Your dataset has been deleted" %}</h1>
-      </div>
-    {% endif %}
-    {% if result == "edited" %}
-      <div class="govuk-box-highlight">
-        <h1 class="bold-large">{% trans "Your dataset has been edited" %}</h1>
-        <a href="{{ find_url }}/dataset/{{ datasets.first.name }}">{% trans "View it" %}</a>
+        {% for message in messages %}
+          <h1 class="bold-large"> {{ message|safe }}</h1>
+          {% if message.extra_tags %}
+            <h2><a href="{{ find_url }}/dataset/{{ message.extra_tags }}">{% trans "View it" %}</a></h2>
+          {% endif %}
+        {% endfor %}
       </div>
     {% endif %}
 
