@@ -12,7 +12,7 @@ def form_controls(request, dataset_name):
 
     if state in ['checking', 'editing']:
         params = {
-            'primary_text': 'Change',
+            'primary_text': 'Save changes',
             'secondary_text': 'Cancel',
             'secondary_link': 'edit_full_dataset',
             'dataset_name': dataset_name,
