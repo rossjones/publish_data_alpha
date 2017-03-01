@@ -111,7 +111,7 @@
         {% if page == current_page %}
           <span>{{ current_page }}</span>
         {% else %}
-          <span><a href="?page={{ page }}{% if q %}&q={{ q }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}">{{ page }}</a><span>
+          <span><a href="?page={{ page }}{% if q %}&q={{ q }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}">{{ page }}</a></span>
         {% endif %}
       {% endfor %}
     </div>

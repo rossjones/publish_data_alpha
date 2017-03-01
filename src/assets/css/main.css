@@ -1743,6 +1743,9 @@ th.sortable-heading {
   font-size: 12px;
   top: 1.6em; }
 
+.pagination span a:visited {
+  color: #005ea5; }
+
 .product-header {
   background-color: #128400;
   color: #fff;
