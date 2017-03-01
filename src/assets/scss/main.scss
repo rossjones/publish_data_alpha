@@ -78,16 +78,22 @@ h2.user-bar {
 }
 
 table.check-your-answers {
+  margin-top: 1em;
   table-layout: fixed;
   td.dataset-item {
     width: 22%;
   }
-  td {
+  th, td {
     vertical-align: top;
-    overflow-x: hidden;
   }
-  ul {
-    width: 2000px;
+  td.file-list {
+    overflow-x: hidden;
+    ul {
+      width: 2000px;
+    }
+  }
+  td.actions {
+    width: 5em;
   }
 }
 
@@ -195,6 +201,11 @@ th.sortable-heading {
 .pagination span a:visited {
   color: $link-colour;
 }
+
+a.danger, a.danger:visited {
+  color: $error-colour;
+}
+
 
 // start page
 

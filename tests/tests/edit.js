@@ -43,7 +43,7 @@ var createDataset = function (browser) {
     .submitFormAndCheckNextTitle('Links to supporting documents')
     .clickAndCheckNextTitle('Save and continue', 'Get notifications')
     .selectRadioButton('Yes')
-    .submitFormAndCheckNextTitle('Check your dataset')
+    .submitFormAndCheckNextTitle('Publish ‘' + common.datasetTitle + '’')
     .submitFormAndCheckNextTitle('Your dataset has been published')
 };
 
