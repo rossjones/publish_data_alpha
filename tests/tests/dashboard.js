@@ -13,7 +13,6 @@ var test_dashboard = function(browser) {
 
 var test_dashboard_show_hide = function(browser) {
   browser
-    .saveScreenshot('/home/mf/ss.png')
     .assert.visible('section:first-of-type table tr:nth-of-type(3)')
     .assert.hidden('section:first-of-type table tr:nth-of-type(5)')
     .click('section:first-of-type a.toggle')

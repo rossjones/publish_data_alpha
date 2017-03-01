@@ -60,7 +60,7 @@ var goToNotifications = function(browser) {
 
 var goToCheckPage = function(browser) {
   return goToNotifications(browser)
-    .submitFormAndCheckNextTitle('Check your dataset');
+    .submitFormAndCheckNextTitle('Publish ‘' + common.datasetTitle  + '’');
 };
 
 var createDataset = function(browser) {
@@ -101,7 +101,7 @@ var test_create_happy_path = function (browser) {
     .submitFormAndCheckNextTitle('Links to supporting documents')
     .clickAndCheckNextTitle('Save and continue', 'Get notifications')
     .selectRadioButton('Yes')
-    .submitFormAndCheckNextTitle('Check your dataset')
+    .submitFormAndCheckNextTitle('Publish ‘' + common.datasetTitle  + '’')
     .assert.containsText('table', 'Open Government Licence')
     .submitFormAndCheckNextTitle('Your dataset has been published')
     .end();
@@ -394,7 +394,7 @@ var test_create_yearly_bad_year = function (browser) {
 
 var test_create_omit_notifications = function (browser) {
   goToNotifications(browser)
-    .submitFormAndCheckNextTitle('Check your dataset')
+    .submitFormAndCheckNextTitle('Publish ‘' + common.datasetTitle  + '’')
     .end();
 };
 
@@ -410,12 +410,11 @@ var test_create_omit_url = function (browser) {
 
 var test_create_modify_title = function (browser) {
   goToCheckPage(browser)
-    .clickOnLink('Change')
+    .click('td.actions a')
     .waitForElementVisible('h1', common.waitTimeout)
     .assert.containsText('h1', 'Change your dataset\'s details')
-    .clearSetValue('input[name=title]', 'modified name')
-    .submitFormAndCheckNextTitle('Check your dataset')
-    .assert.containsText('body', 'modified name')
+    .clearSetValue('input[name=title]', common.datasetTitle2)
+    .submitFormAndCheckNextTitle('Publish ‘' + common.datasetTitle2 + '’')
     .end();
 };
 
@@ -426,7 +425,7 @@ var test_create_modify_licence = function (browser) {
     .assert.containsText('h1', 'Choose a licence')
     .selectRadioButton('Other')
     .clearSetValue('input[id=id_licence_other]', 'my licence')
-    .submitFormAndCheckNextTitle('Check your dataset')
+    .submitFormAndCheckNextTitle('Publish ‘' + common.datasetTitle  + '’')
     .waitForElementVisible('body', common.waitTimeout)
     .assert.containsText('body', 'my licence')
     .end();
@@ -438,7 +437,7 @@ var test_create_remove_link = function (browser) {
     .waitForElementVisible('h1', common.waitTimeout)
     .assert.containsText('h1', 'Links to your data')
     .clickAndCheckNextTitle('Delete', 'Links to your data')
-    .clickAndCheckNextTitle('Save and continue', 'Check your dataset')
+    .clickAndCheckNextTitle('Save and continue', 'Publish ‘' + common.datasetTitle  + '’')
     .end();
 };
 
@@ -448,7 +447,7 @@ var test_create_remove_doc = function (browser) {
     .waitForElementVisible('h1', common.waitTimeout)
     .assert.containsText('h1', 'Links to supporting documents')
     .clickAndCheckNextTitle('Delete', 'Links to supporting documents')
-    .clickAndCheckNextTitle('Save and continue', 'Check your dataset')
+    .clickAndCheckNextTitle('Save and continue', 'Publish ‘' + common.datasetTitle  + '’')
     .end();
 };
 
