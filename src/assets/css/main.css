@@ -1728,6 +1728,8 @@ a.remove-button {
 
 th.sortable-heading {
   position: relative; }
+  th.sortable-heading a:visited {
+    color: #005ea5; }
 
 .sort-ascending::after {
   content: "\00a0\00a0\25BC";

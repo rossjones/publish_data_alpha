@@ -172,6 +172,9 @@ a.remove-button {
 
 th.sortable-heading {
   position: relative;
+  a:visited {
+    color: $link-colour;
+  }
 }
 
 .sort-ascending::after {
