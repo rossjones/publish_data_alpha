@@ -214,13 +214,15 @@
       <p>
         <input type="submit" class="button" value="{% trans "Publish" %}"/>
       </p>
-      <p>
-        <a
-            href="{% url 'delete_dataset' dataset.name %}"
-            class="secondary-button danger">
-          {% trans "Delete " %}{% if not dataset.published %}this draft{% endif %}
-        </a>
-      </p>
+      {% if not dataset.published %}
+        <p>
+          <a
+              href="{% url 'delete_dataset' dataset.name %}"
+              class="secondary-button danger">
+            {% trans "Delete this draft" %}
+          </a>
+        </p>
+      {% endif %}
       <p>
         <a
             href="{% url 'manage_data' %}"
