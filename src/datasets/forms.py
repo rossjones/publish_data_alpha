@@ -32,7 +32,7 @@ class EditDatasetForm(forms.ModelForm):
         label=_('Additional Information'),
         max_length=1024,
         widget=forms.Textarea,
-        required=True
+        required=False
     )
 
     class Meta:
