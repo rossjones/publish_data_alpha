@@ -207,6 +207,12 @@ def edit_frequency(request, dataset_name):
     })
 
 
+def _file_already_added(dataset, title, url):
+    for file in dataset.files.all():
+        if file.url == url and file.title == title:
+            return True
+
+
 def edit_addfile(request, dataset_name, datafile_id=None):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
@@ -225,9 +231,10 @@ def edit_addfile(request, dataset_name, datafile_id=None):
             if datafile:
                 form.save()
             else:
-                data['dataset'] = dataset
-                obj = Datafile.objects.create(**data)
-                obj.save()
+                if not _file_already_added(dataset, data['title'], data['url']):
+                    data['dataset'] = dataset
+                    obj = Datafile.objects.create(**data)
+                    obj.save()
 
             return HttpResponseRedirect(
                 reverse('edit_dataset_files', args=[dataset_name])
@@ -277,9 +284,10 @@ def _addfile(request, dataset_name, form_class, template, datafile_id=None):
             if datafile:
                 form.save()
             else:
-                data['dataset'] = dataset
-                obj = Datafile.objects.create(**data)
-                obj.save()
+                if not _file_already_added(dataset, data['title'], data['url']):
+                    data['dataset'] = dataset
+                    obj = Datafile.objects.create(**data)
+                    obj.save()
 
             return HttpResponseRedirect(
                 reverse('edit_dataset_files', args=[dataset.name])
@@ -343,10 +351,11 @@ def edit_add_doc(request, dataset_name, datafile_id=None):
             if datafile:
                 form.save()
             else:
-                data['dataset'] = dataset
-                data['is_documentation'] = True
-                obj = Datafile.objects.create(**data)
-                obj.save()
+                if not _file_already_added(dataset, data['title'], data['url']):
+                    data['dataset'] = dataset
+                    data['is_documentation'] = True
+                    obj = Datafile.objects.create(**data)
+                    obj.save()
 
             return HttpResponseRedirect(
                 reverse('edit_dataset_documents', args=[dataset_name])

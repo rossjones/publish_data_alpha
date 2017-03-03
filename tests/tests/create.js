@@ -451,6 +451,15 @@ var test_create_remove_doc = function (browser) {
     .end();
 };
 
+var test_create_add_file_twice = function (browser) {
+  goToDocumentation(browser)
+    .back()
+    .back()
+    .submitFormAndCheckNextTitle('Links to your data')
+    .assert.elementNotPresent('#file_2')
+    .end();
+};
+
 module.exports = {
   'Create a dataset, happy path': test_create_happy_path,
   'Create a dataset, missing title': test_create_missing_title,
@@ -480,5 +489,6 @@ module.exports = {
   'Create a dataset, modify title': test_create_modify_title,
   'Create a dataset, modify licence': test_create_modify_licence,
   'Create a dataset, remove link after check': test_create_remove_link,
-  'Create a dataset, remove doc after check': test_create_remove_doc
+  'Create a dataset, remove doc after check': test_create_remove_doc,
+  'Create a dataset, add file twice': test_create_add_file_twice
 };
