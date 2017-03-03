@@ -72,6 +72,9 @@ def delete_dataset(request, dataset_name):
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
 
+    if (dataset.published == True) and not request.user.is_staff:
+        return HttpResponseForbidden()
+
     papertrail.log(
         'delete-dataset',
         '{} deleted "{}"'.format(request.user.username, dataset.title),
