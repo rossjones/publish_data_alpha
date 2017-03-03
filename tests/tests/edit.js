@@ -2,11 +2,9 @@ var common = require('../common.js')
 
 // ============ shortcut functions =============================================
 
-var createDataset = function (browser) {
-  return common.login(
-      browser,
-      process.env.USER_EMAIL, process.env.USER_PASSWORD
-  )
+var createDataset = function (browser, is_admin) {
+  var username = is_admin ? process.env.ADMIN_USER_EMAIL : process.env.USER_EMAIL;
+  return common.login(browser, username, process.env.USER_PASSWORD)
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
     .clearSetValue('input[name=title]', common.datasetTitle)
     .clearSetValue('textarea[name=summary]', 'Summary of my dataset')
@@ -86,8 +84,23 @@ var test_edit_location = function (browser) {
     .end();
 };
 
+var test_cant_delete_published = function (browser) {
+  createDataset(browser)
+    .clickAndCheckNextTitle('Edit', 'Edit ‘' + common.datasetTitle + '’')
+    .assert.elementNotPresent('a.danger:contains("Delete")')
+    .end();
+};
+
+var test_admin_can_delete_published = function (browser) {
+  createDataset(browser, true)
+    .clickAndCheckNextTitle('Edit', 'Edit ‘' + common.datasetTitle + '’')
+    .assert.containsText('a.danger', 'Delete')
+    .end();
+};
 
 module.exports = {
   'Edit a dataset title ': test_edit_title,
-  'Edit a dataset location, ': test_edit_location
+  'Edit a dataset location': test_edit_location,
+  'User cannot delete a published dataset': test_cant_delete_published,
+  'Admin can delete a published dataset': test_admin_can_delete_published
 };
