@@ -27,7 +27,7 @@
       <tbody>
         {% for file in dataset.files.all %}
           {% if not file.is_documentation %}
-            <tr>
+            <tr id="file_{{ forloop.counter }}">
               <td>{{ file.title }} </td>
               <td>{{ file.url }} </td>
               <td>{% if not file.is_broken %}✔{% else %}&#x2716;{% endif%}</td>
