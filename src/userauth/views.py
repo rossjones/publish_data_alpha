@@ -14,7 +14,7 @@ def login_view(request):
     form = SigninForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
-            email = form.cleaned_data["email"]
+            email = form.cleaned_data["email"].lower()
             password = form.cleaned_data["password"]
             user = authenticate(username=email, password=password)
             if user is not None:
