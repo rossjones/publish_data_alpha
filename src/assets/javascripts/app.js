@@ -52,7 +52,7 @@
     options: {
       hint: true,
       highlight: true,
-      minLength: 3,
+      minLength: 2,
       classNames: {
         input: 'form-control tt-input',
         hint: 'form-control tt-hint'

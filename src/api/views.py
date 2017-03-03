@@ -11,10 +11,12 @@ from datasets.models import Location
 def gazeteer_lookup(request):
     q = request.GET.get('q')
     data = []
-
     if q:
-        data = ["{} ({})".format(l['name'], l['location_type'])
-            for l in Location.objects.filter(name__icontains=q).values()]
+        for l in Location.objects.filter(name__icontains=q).values():
+            location_string = l['name']
+            if l['location_type']:
+                location_string += " ({})".format(l['location_type'])
+            data.append(location_string)
 
     return JsonResponse(data, safe=False)
 
