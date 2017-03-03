@@ -3,6 +3,7 @@
 # Where to find the app, and how to log in
 export APP_SERVER_URL=http://localhost:8010
 export USER_EMAIL=test-co@localhost
+export ADMIN_USER_EMAIL=test-admin@localhost
 export USER_PASSWORD=password
 
 # Various executables needed to run tests
