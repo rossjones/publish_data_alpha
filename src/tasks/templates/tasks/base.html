@@ -10,7 +10,7 @@
 
   <h1 class="heading-large">{%trans "Task list" %}</h1>
 
-  <div class="dashboard">
+  <div class="tasks">
     <div class="tabs">{%block tasks_title %}{% trans "My tasks" %}{% endblock %}</div>
     <div class="tabs-content">
       <section class="table-show-hide">
@@ -65,7 +65,7 @@
         </table>
       </section>
 
-      <div id="dashboard-stats" class="js-hidden">
+      <div id="stats" class="js-hidden">
         <div id="orgs" style="display: none">{{ orgs }}</div>
         <div id="api-endpoint" style="display: none">{{ api_endpoint }}</div>
         <h2 class="heading-medium">{% trans "Most popular" %}</h2>

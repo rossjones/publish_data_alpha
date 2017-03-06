@@ -10,7 +10,7 @@ var test_login = function(browser) {
     .assert.containsText('h1', 'Sign in')
     .clearSetValue('input[name=email]', process.env.USER_EMAIL)
     .clearSetValue('input[name=password]', process.env.USER_PASSWORD)
-    .submitFormAndCheckNextTitle('Dashboard')
+    .submitFormAndCheckNextTitle('Tasks')
     .end();
 };
 
@@ -38,7 +38,7 @@ var test_logout = function(browser) {
     .assert.containsText('h1', 'Sign in')
     .clearSetValue('input[name=email]', process.env.USER_EMAIL)
     .clearSetValue('input[name=password]', process.env.USER_PASSWORD)
-    .submitFormAndCheckNextTitle('Dashboard')
+    .submitFormAndCheckNextTitle('Tasks')
     .clickOnLink('Sign out')
     .assert.containsText('h1', 'Publish and update data')
     .end();

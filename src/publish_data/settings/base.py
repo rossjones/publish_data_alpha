@@ -151,7 +151,7 @@ USE_L10N = True
 USE_TZ = False
 
 LOGIN_URL = '/accounts/signin'
-LOGIN_REDIRECT_URL = '/dashboard'
+LOGIN_REDIRECT_URL = '/tasks'
 
 HOMEPAGE_URL = '/'
 LOGO_LINK_TITLE = 'Go to the data.gov.uk homepage'

@@ -21,16 +21,16 @@ class TopLevelViewsCase(TestCase):
         assert 'You must create an account to use this service' in \
             str(response.content)
 
-    def test_homepage_redirects_to_dashboard_when_logged_in(self):
+    def test_homepage_redirects_to_tasks_when_logged_in(self):
         response = self.client.post('/accounts/signin', {
             'email': self.test_user.email,
             'password': 'password'
         })
         assert response.status_code == 302
-        assert response.url == '/dashboard', response.url
+        assert response.url == '/tasks', response.url
 
-        response = self.client.get('/dashboard')
-        assert 'Dashboard' in str(response.content)
+        response = self.client.get('/tasks/')
+        assert 'Task list' in str(response.content)
 
     def test_manage_redirects(self):
         response = self.client.get(reverse('manage_data'))
@@ -43,7 +43,7 @@ class TopLevelViewsCase(TestCase):
             'password': 'password'
         })
         assert response.status_code == 302
-        assert response.url == '/dashboard'
+        assert response.url == '/tasks'
 
         response = self.client.get('/manage')
         assert response.status_code == 200

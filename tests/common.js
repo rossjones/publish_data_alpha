@@ -58,7 +58,7 @@ var login = function(browser, email, password) {
     .assert.containsText('h1', 'Sign in')
     .clearSetValue('input[name=email]', email)
     .clearSetValue('input[name=password]', password)
-    .submitFormAndCheckNextTitle('Dashboard');
+    .submitFormAndCheckNextTitle('Tasks');
   return browser;
 };
 

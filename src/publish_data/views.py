@@ -15,25 +15,9 @@ from runtime_config.logic import get_config
 
 def home(request):
     if request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('dashboard'))
+        return HttpResponseRedirect(reverse('my_tasks'))
 
     return render(request, "home.html", {})
-
-
-@login_required()
-def dashboard(request):
-    tasks = get_tasks_for_user(request.user)
-    organisations = organisations_for_user(request.user)
-
-    # Use an actual organisation for this user
-    stats = get_stats("cabinet-office", _("Downloads"))
-
-    return render(request, "dashboard.html", {
-        "orgs": json.dumps([str(o.id) for o in organisations]),
-        "api_endpoint": os.environ.get('FIND_URL') or '',
-        "tasks": tasks,
-        "stats": stats
-    })
 
 
 @login_required()

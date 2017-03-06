@@ -32,7 +32,7 @@ def login_view(request):
 
                 # Before assuming that ?next is valid to redirect
                 # to after login, check it. If not valid, just
-                # redirect to dashboard as usual
+                # redirect as usual
                 redirect_to = settings.LOGIN_REDIRECT_URL
                 next_url = request.POST.get('next', '')
                 if next_url:

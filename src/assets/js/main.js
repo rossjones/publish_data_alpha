@@ -725,7 +725,7 @@ if (!Function.prototype.bind) {
     },
   };
 
-  var dashboardStats = {
+  var stats = {
 
     fetchStats: function() {
       $.get(this.endpoint + 'stats/?orgs=' + this.orgs.join())
@@ -750,7 +750,7 @@ if (!Function.prototype.bind) {
       var $rowTemplate = $('#row-template');
       $.each(data, function(index, datum) {
         var $newRow = $rowTemplate.clone().removeAttr('id style');
-        var statText = dashboardStats.statText(datum);
+        var statText = stats.statText(datum);
         if (datum.dataset_title && statText) {
           $newRow
             .find('.stats-title')
@@ -781,7 +781,7 @@ if (!Function.prototype.bind) {
   $(document).ready(function() {
     tableShowHide.init({ rowLimit: 3});
     typeAhead.init({ selector: '.location-input' });
-    dashboardStats.init('#dashboard-stats');
+    stats.init('#stats');
   });
 
 })();
