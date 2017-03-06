@@ -22,7 +22,7 @@ class SigninTestCase(TestCase):
             "password": "password"
         })
         assert response.status_code == 302
-        assert response.url == '/dashboard'
+        assert response.url == '/tasks'
 
     def test_signin_with_ok_redirect(self):
         response = self.client.post(reverse('signin'), {
@@ -40,7 +40,7 @@ class SigninTestCase(TestCase):
             "next": "https://google.com"
         })
         assert response.status_code == 302
-        assert response.url == '/dashboard'
+        assert response.url == '/tasks'
 
     def test_signin_fail(self):
         response = self.client.post(reverse('signin'), {
