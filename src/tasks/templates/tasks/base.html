@@ -32,9 +32,6 @@
                 <td><div class="overdue">{{ task.label_text }}</div></td>
                 <td class="actions">
                   <a class="update" href="{% url 'edit_dataset_files' task.related_object_id %}">{% trans "Update" %}</a>
-                  {% if can_skip %}
-                    <a href="{% url 'skip_task' task.id %}">{% trans "Skip" %}</a>
-                  {% endif %}
                 </td>
               </tr>
             {% endfor %}
@@ -61,9 +58,6 @@
                 <td><div class="overdue">{{ task.label_text }}</div></td>
                 <td class="actions">
                   <a class="update" href="{% url 'edit_dataset_files' task.related_object_id %}">{% trans "Update" %}</a>
-                  {% if can_skip %}
-                    <a href="{% url 'skip_task' task.id %}">{% trans "Skip" %}</a>
-                  {% endif %}
                 </td>
               </tr>
             {% endfor %}
