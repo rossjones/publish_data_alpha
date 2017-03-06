@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 
 from tasks.models import Task
-from tasks.logic import get_tasks_for_user, user_ignore_task, get_tasks_for_organisation
+from tasks.logic import get_tasks_for_user, get_tasks_for_organisation
 
 from datasets.logic import organisations_for_user
 from datasets.models import Organisation, Dataset

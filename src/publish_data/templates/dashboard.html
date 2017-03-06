@@ -29,7 +29,6 @@
               <td><div class="overdue">{{ task.label_text }}</div></td>
               <td class="actions">
                 <a href="#">{% trans "Update" %}</a>
-                <a href="{% url 'skip_task' task.id %}">{% trans "Skip" %}</a>
               </td>
             </tr>
           {% endfor %}
@@ -56,7 +55,6 @@
               <td><div class="overdue">{{ task.label_text }}</div></td>
               <td class="actions">
                 <a class="update" href="{% url 'edit_dataset_files' task.related_object_id %}">{% trans "Update" %}</a>
-                <a href="{% url 'skip_task' task.id %}">{% trans "Skip" %}</a>
               </td>
             </tr>
           {% endfor %}

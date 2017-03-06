@@ -39,7 +39,3 @@ class Task(models.Model):
             return _("Overdue")
         return _("")
 
-
-class UserHiddenTask(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    task = models.ForeignKey(Task)

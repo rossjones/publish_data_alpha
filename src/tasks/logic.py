@@ -1,5 +1,5 @@
 
-from tasks.models import Task, UserHiddenTask, TASK_CATEGORIES
+from tasks.models import Task, TASK_CATEGORIES
 from datasets.models import Dataset
 from datasets.logic import organisations_for_user
 
@@ -45,10 +45,3 @@ def get_tasks_for_organisation(organisation):
 
     return tasks
 
-def user_ignore_task(user, task):
-    """
-    Set the user to ignore the task. We *could* check whether they've
-    actually got permission to view the task, but if they chose to ignore
-    a task they can't actually see then it doesn't make much difference.
-    """
-    UserHiddenTask.objects.create(user=user, task=task)
