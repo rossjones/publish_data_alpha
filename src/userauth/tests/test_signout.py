@@ -23,7 +23,7 @@ class SignoutTestCase(TestCase):
             "password": "password"
         })
         assert response.status_code == 302
-        assert response.url == '/dashboard'
+        assert response.url == '/tasks'
 
         response = self.client.post(reverse('signout'), {})
         assert response.status_code == 302
