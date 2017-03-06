@@ -29,9 +29,6 @@ class TopLevelViewsCase(TestCase):
         assert response.status_code == 302
         assert response.url == '/tasks', response.url
 
-        response = self.client.get('/tasks/')
-        assert 'Task list' in str(response.content)
-
     def test_manage_redirects(self):
         response = self.client.get(reverse('manage_data'))
         assert response.status_code == 302
