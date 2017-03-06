@@ -1,9 +1,41 @@
 {% load static %}
 {% load i18n %}
 
+{% url 'new_dataset' as new %}
+{% url 'manage_data' as manage %}
+{% url 'signout' as signout %}
+{% url 'my_tasks' as my_tasks %}
+{% url 'organisation_tasks' as org_tasks %}
+
 <div class="header-proposition">
   <div class="content">
-    <a href="{% url 'home' %}" id="proposition-name">{% trans "Publish data" %}</a>
-    <div class="header-link">{% trans "Support and feedback" %}</div>
+    <div class="header-link">
+      <a href="{{ signout }}">{% trans "Sign out" %}</a>
+    </div>
+    <div class="header-link">{{ user.email }}</div>
+    <div class="header-link">
+      <a href="">{% trans "Performance" %}</a>
+    </div>
+    <div class="header-link">
+      <a
+          class="{% if request.path == manage %}bold{% endif %}"
+          href="{{ manage }}">
+        {% trans "Manage datasets" %}
+      </a>
+    </div>
+    <div class="header-link">
+      <a
+          href="{{ new }}"
+          class="{% if request.path|slice:":8" == '/dataset' %}bold{% endif %}">
+        {% trans "Create a dataset" %}
+      </a>
+    </div>
+    <div class="header-link">
+      <a
+          href="{{ my_tasks }}"
+          class="{% if request.path == my_tasks or request.path == org_tasks %}bold{% endif %}">
+        {% trans "Task list" %}
+      </a>
+    </div>
   </div>
 </div>

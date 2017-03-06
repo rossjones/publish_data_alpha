@@ -8,11 +8,22 @@ $NTA-Light: $helvetica-regular;
 $NTA-Light-Tabular: $helvetica-regular;
 $Helvetica-Regular: $helvetica-regular;
 
+$alpine-fresh: #128400;
+
+
 @import 'govuk-elements';
 
 // govuk-* overrides
 
 #global-header {
+  #logo {
+    font-size: 26px;
+    line-height: 1.3;
+  }
+  .header-wrapper {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
   #logo {
     font-weight: normal;
     background: none;
@@ -27,16 +38,27 @@ $Helvetica-Regular: $helvetica-regular;
   .header-proposition {
     padding-top: 4px;
     .header-link {
-      font-weight: bold;
+      margin-left: .7em;
       line-height: 2em;
       color: $page-colour;
       float: right;
+      a:visited { color: $page-colour };
     }
   }
 }
 
-#global-header-bar {
-  display: none;
+@media (min-width: 769px) {
+  #global-header.with-proposition .header-wrapper .header-global {
+    width: 31%;
+  }
+  #global-header.with-proposition .header-wrapper .header-proposition {
+    width: 69%;
+  }
+}
+
+
+div#global-header-bar {
+  background-color: $alpine-fresh;
 }
 
 #global-cookie-message p {
@@ -55,13 +77,16 @@ $Helvetica-Regular: $helvetica-regular;
   width: 130px;
 }
 
-
 // govuk-* additions
 
 .column-three-quarters {
   @include grid-column(3 / 4);
 }
 
+span.separator::before {
+  content: " | ";
+  color: $grey-1;
+}
 
 
 // Components
@@ -234,8 +259,6 @@ div.tabs-content {
 }
 
 // start page
-
-$alpine-fresh: #128400;
 
 .product-header {
   background-color: $alpine-fresh;

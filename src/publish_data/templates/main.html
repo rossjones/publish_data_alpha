@@ -29,13 +29,12 @@
 
 {% block content %}
   <main id="content" role="main" tabindex="-1">
-    {% if user.email and user.organisations %}
-      <h2 class="user-bar">
-        {{ user.organisations.first.title }}
-        <span class="dot-separator">&#xb7;</span>
-        {{ user.email }}
-      </h2>
-    {% endif %}
+    <div class="phase-banner">
+      <p>
+        <strong class="phase-tag">ALPHA</strong>
+        <span>This is a new service – your <a href="#">feedback</a> will help us to improve it.</span>
+      </p>
+    </div>
     {% block inner_content %}{% endblock %}
   </main>
 {% endblock %}

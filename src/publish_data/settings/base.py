@@ -155,7 +155,6 @@ LOGIN_REDIRECT_URL = '/dashboard'
 
 HOMEPAGE_URL = '/'
 LOGO_LINK_TITLE = 'Go to the data.gov.uk homepage'
-GLOBAL_HEADER_TEXT = 'data.gov.uk'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
