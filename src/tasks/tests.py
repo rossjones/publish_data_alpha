@@ -8,7 +8,7 @@ from tasks.models import Task
 from tasks.logic import get_tasks_for_user, user_ignore_task, get_tasks_for_organisation
 
 from datasets.logic import organisations_for_user
-from datasets.models import Organisation
+from datasets.models import Organisation, Dataset
 
 
 class TasksTestCase(TestCase):
@@ -31,46 +31,28 @@ class TasksTestCase(TestCase):
 
         self.org_names = [self.organisation.name]
 
+        self.dataset = Dataset.objects.create(name='test', title='Test',
+            creator=self.test_user)
+
         self.simple_task_update = Task.objects.create(
             owning_organisation=self.org_names[0],
             required_permission_name="",
             description="Task description",
-            category="update"
+            category="update",
+            related_object_id='test'
         )
         self.simple_task_fix = Task.objects.create(
             owning_organisation=self.org_names[0],
             required_permission_name="",
             description="Task description",
-            category="fix"
+            category="fix",
+            related_object_id='test'
         )
 
     def test_ok(self):
         tasks = get_tasks_for_user(self.test_user)
         assert len(tasks['update']) == 1
 
-    def test_hide(self):
-        tasks = get_tasks_for_user(self.test_user)
-        assert len(tasks['fix']) == 1
-
-        user_ignore_task(self.test_user, self.simple_task_fix)
-
-        tasks = get_tasks_for_user(self.test_user)
-        assert len(tasks['fix']) == 0, tasks['fix']
-
-    def test_hide_web(self):
-        response = self.client.post(reverse('signin'), {
-            "email": "test-signin@localhost",
-            "password": "password"
-        })
-        assert response.status_code == 302
-
-        tasks = get_tasks_for_user(self.test_user)
-        assert len(tasks['update']) == 1
-
-        resp = self.client.get(reverse('skip_task',
-                               args=[tasks['update'][0].id]))
-        assert resp.status_code == 302
-        assert resp.url == "/", resp.url
 
     def test_my_tasks(self):
         response = self.client.post(reverse('signin'), {
@@ -85,11 +67,3 @@ class TasksTestCase(TestCase):
         tasks = get_tasks_for_user(self.test_user)
         assert len(tasks['update']) == 1
 
-        resp = self.client.get(reverse('skip_task',
-                               args=[tasks['update'][0].id]))
-
-        tasks = get_tasks_for_user(self.test_user)
-        assert len(tasks['update']) == 0
-
-        tasks = get_tasks_for_organisation('test-org')
-        assert len(tasks['update']) == 1
