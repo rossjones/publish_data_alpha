@@ -1,4 +1,6 @@
+
 from tasks.models import Task, UserHiddenTask, TASK_CATEGORIES
+from datasets.models import Dataset
 from datasets.logic import organisations_for_user
 
 
@@ -11,12 +13,13 @@ def get_tasks_for_user(user):
     """
     orgs = [o.name for o in organisations_for_user(user)]
     user_permissions = [""]
-    ignored_task_ids = UserHiddenTask.objects\
-        .values_list('task__id', flat=True)
+
+    user_datasets = Dataset.objects.filter(creator=user).values_list('name', flat=True)
+
     task_objs = Task.objects\
         .filter(owning_organisation__in=orgs)\
         .filter(required_permission_name__in=user_permissions)\
-        .exclude(id__in=ignored_task_ids)\
+        .filter(related_object_id__in=user_datasets)\
         .all()
 
     tasks = {}
