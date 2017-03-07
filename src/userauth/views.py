@@ -58,3 +58,7 @@ def logout_view(request):
     """ Logs out the user and clears the session """
     logout(request)
     return redirect("/")
+
+
+def user_view(request, username):
+    return render(request, "userauth/user.html")

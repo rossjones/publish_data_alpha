@@ -12,9 +12,20 @@
     <div class="header-link">
       <a href="{{ signout }}">{% trans "Sign out" %}</a>
     </div>
-    <div class="header-link">{{ user.email }}</div>
     <div class="header-link">
-      <a href="">{% trans "Performance" %}</a>
+      <a
+          class="{% if request.path|slice:":14" == '/accounts/user' %}bold{% endif %}"
+          href="{% url 'user' user.username %}"
+      >
+        {{ user.username }}
+      </a>
+    </div>
+    <div class="header-link">
+      <a
+          class="{% if request.path == performance %}bold{% endif %}"
+          href="#">
+        {% trans "Performance" %}
+      </a>
     </div>
     <div class="header-link">
       <a

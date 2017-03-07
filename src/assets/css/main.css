@@ -1878,3 +1878,12 @@ table {
     min-width: 3em; }
   .tasks table td .text-supporting {
     color: #6f777b; }
+
+ul.user-details li {
+  margin-bottom: 1em;
+  border-bottom: 1px solid #bfc1c3; }
+
+ul.user-details div.label {
+  display: inline-block;
+  font-weight: bold;
+  width: 8em; }
