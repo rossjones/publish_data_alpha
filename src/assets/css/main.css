@@ -1778,6 +1778,18 @@ th.sortable-heading {
 a.danger, a.danger:visited {
   color: #b10e1e; }
 
+.confirm-box {
+  margin-top: 2em;
+  border: 5px solid #b10e1e;
+  padding: 1em; }
+  .confirm-box h1 {
+    margin-top: 0; }
+  .confirm-box .confirm-box-actions a {
+    vertical-align: baseline; }
+  .confirm-box .button {
+    background: #b10e1e;
+    margin-right: 1.5em; }
+
 div.tabs > h2 {
   display: inline-block;
   position: relative;
