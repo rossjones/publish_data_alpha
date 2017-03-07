@@ -44,9 +44,18 @@ var test_logout = function(browser) {
     .end();
 };
 
+var test_userpage = function(browser) {
+  common.login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
+    .click('a[href^="/accounts/user/"]')
+    .waitForElementVisible('h1', common.waitTimeout)
+    .assert.containsText('h1', 'Your account')
+    .assert.containsText('ul', process.env.USER_EMAIL)
+    .end()
+};
 
 module.exports = {
   'Successful login': test_login,
   'Successful logout': test_logout,
-  'Failed login': test_failed_login
+  'Failed login': test_failed_login,
+  'User account page': test_userpage
 }

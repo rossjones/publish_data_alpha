@@ -54,6 +54,10 @@ urlpatterns = [
         login_required(v.edit_deletefile),
         name='edit_dataset_deletefile'),
 
+    url(r'^(?P<dataset_name>[\w-]+)/confirmdeletefile/(?P<datafile_id>[a-z\d-]+)$',
+        login_required(v.edit_confirmdeletefile),
+        name='edit_dataset_confirmdeletefile'),
+
     url(r'^(?P<dataset_name>[\w-]+)/files$',
         login_required(v.edit_files),
         name='edit_dataset_files'),

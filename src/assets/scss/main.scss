@@ -122,6 +122,15 @@ table.check-your-answers {
   }
 }
 
+table.manage-data {
+  td.actions {
+    width: 8em;
+    a + a {
+      margin-left: .7em;
+    }
+  }
+}
+
 .table-show-hide a.toggle {
   color: $link-colour;
   cursor: pointer;
@@ -230,6 +239,26 @@ th.sortable-heading {
 a.danger, a.danger:visited {
   color: $error-colour;
 }
+
+
+// confirmation box
+
+.confirm-box {
+  margin-top: 2em;
+  border: 5px solid $error-colour;
+  padding: 1em;
+  h1 {
+    margin-top: 0;
+  }
+  .confirm-box-actions a {
+    vertical-align: baseline;
+  }
+  .button {
+    background: $error-colour;
+    margin-right: 1.5em;
+  }
+}
+
 
 // Tabs
 

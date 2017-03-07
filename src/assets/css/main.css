@@ -1690,6 +1690,11 @@ table.check-your-answers {
   table.check-your-answers td.actions {
     width: 5em; }
 
+table.manage-data td.actions {
+  width: 8em; }
+  table.manage-data td.actions a + a {
+    margin-left: .7em; }
+
 .table-show-hide a.toggle {
   color: #005ea5;
   cursor: pointer; }
@@ -1772,6 +1777,18 @@ th.sortable-heading {
 
 a.danger, a.danger:visited {
   color: #b10e1e; }
+
+.confirm-box {
+  margin-top: 2em;
+  border: 5px solid #b10e1e;
+  padding: 1em; }
+  .confirm-box h1 {
+    margin-top: 0; }
+  .confirm-box .confirm-box-actions a {
+    vertical-align: baseline; }
+  .confirm-box .button {
+    background: #b10e1e;
+    margin-right: 1.5em; }
 
 div.tabs > h2 {
   display: inline-block;

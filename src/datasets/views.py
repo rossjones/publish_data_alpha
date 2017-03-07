@@ -263,6 +263,27 @@ def edit_deletefile(request, dataset_name, datafile_id):
     )
 
 
+def edit_confirmdeletefile(request, dataset_name, datafile_id):
+    dataset = get_object_or_404(Dataset, name=dataset_name)
+    datafile = get_object_or_404(Datafile, id=datafile_id) \
+        if datafile_id else None
+    url = _frequency_addfile_viewname(dataset)
+    flow = request.session.get('flow-state', '')
+    template = 'datasets/show_docs.html' if datafile.is_documentation \
+        else 'datasets/show_files.html'
+
+    if not user_can_edit_dataset(request.user, dataset):
+        return HttpResponseForbidden()
+
+    _set_flow_state(request)
+
+    return render(request, template, {
+        'addfile_viewname': url,
+        'dataset': dataset,
+        'file_to_delete': datafile_id,
+    })
+
+
 def _addfile(request, dataset_name, form_class, template, datafile_id=None):
     ''' Handler function for all of the 'period' datafile additions
     that vary only by template and form class '''

@@ -51,7 +51,7 @@
     </form>
 
     {% if datasets %}
-      <table>
+      <table class="manage-data">
         <thead>
           <tr>
             <th class="sortable-heading">
@@ -90,11 +90,8 @@
               </td>
               <td class="actions">
                 {% if dataset.name %}
-                  <a href="{% url 'edit_dataset_addfile' dataset.name %}">{% trans "Add&nbsp;Data" %}</a><br/>
+                  <a href="{% url 'edit_dataset_addfile' dataset.name %}">{% trans "Add&nbsp;Data" %}</a>
                   <a href="{% url 'edit_full_dataset' dataset.name %}">{% trans "Edit" %}</a><br/>
-                  {% if not dataset.published %}
-                    <a href="{% url 'publish_dataset' dataset.name %}">{% trans "Publish" %}</a><br/>
-                  {% endif %}
                 {% endif %}
               </td>
             </tr>
