@@ -122,6 +122,15 @@ table.check-your-answers {
   }
 }
 
+table.manage-data {
+  td.actions {
+    width: 8em;
+    a + a {
+      margin-left: .7em;
+    }
+  }
+}
+
 .table-show-hide a.toggle {
   color: $link-colour;
   cursor: pointer;

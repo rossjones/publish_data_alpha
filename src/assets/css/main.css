@@ -1690,6 +1690,11 @@ table.check-your-answers {
   table.check-your-answers td.actions {
     width: 5em; }
 
+table.manage-data td.actions {
+  width: 8em; }
+  table.manage-data td.actions a + a {
+    margin-left: .7em; }
+
 .table-show-hide a.toggle {
   color: #005ea5;
   cursor: pointer; }
