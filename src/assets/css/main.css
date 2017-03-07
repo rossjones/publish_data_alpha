@@ -1840,41 +1840,50 @@ nav ul {
 table {
   margin-bottom: 1em; }
 
-.dashboard a:visited {
+.tasks a:visited {
   color: #005ea5; }
 
-.dashboard .bignum {
+.tasks .bignum {
   font-size: 200%;
   padding-right: .5em; }
 
-.dashboard .table-title > h2 {
+.tasks .table-title > h2 {
   display: table-cell;
   width: 100%;
   vertical-align: baseline; }
 
-.dashboard .table-title > div {
+.tasks .table-title > div {
   display: table-cell;
   min-width: 10em;
   vertical-align: baseline;
   text-align: right; }
 
-.dashboard .overdue {
+.tasks .overdue {
   color: #b10e1e;
   border-left: 4px solid #b10e1e;
   padding-left: 4px; }
 
-.dashboard .passed {
+.tasks .passed {
   color: #6f777b; }
 
-.dashboard h2 {
+.tasks h2 {
   margin-bottom: 0; }
 
-.dashboard table {
+.tasks table {
   margin-bottom: 2em; }
-  .dashboard table.todos {
+  .tasks table.todos {
     border-top: 1px solid #bfc1c3; }
-  .dashboard table td .nb-downloads {
+  .tasks table td .nb-downloads {
     display: inline-block;
     min-width: 3em; }
-  .dashboard table td .text-supporting {
+  .tasks table td .text-supporting {
     color: #6f777b; }
+
+ul.user-details li {
+  margin-bottom: 1em;
+  border-bottom: 1px solid #bfc1c3; }
+
+ul.user-details div.label {
+  display: inline-block;
+  font-weight: bold;
+  width: 8em; }

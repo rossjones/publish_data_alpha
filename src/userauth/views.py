@@ -32,7 +32,7 @@ def login_view(request):
 
                 # Before assuming that ?next is valid to redirect
                 # to after login, check it. If not valid, just
-                # redirect to dashboard as usual
+                # redirect as usual
                 redirect_to = settings.LOGIN_REDIRECT_URL
                 next_url = request.POST.get('next', '')
                 if next_url:
@@ -58,3 +58,7 @@ def logout_view(request):
     """ Logs out the user and clears the session """
     logout(request)
     return redirect("/")
+
+
+def user_view(request, username):
+    return render(request, "userauth/user.html")

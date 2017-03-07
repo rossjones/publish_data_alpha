@@ -16,8 +16,11 @@
 {% block header_class %}with-proposition{% endblock %}
 
 {% block proposition_header %}
-  {% include 'includes/proposition_header.html' %}
+  {% if user and user.is_authenticated %}
+    {% include 'includes/proposition_header.html' %}
+  {% endif %}
 {% endblock %}
+
 
 {% block cookie_message %}
   <p>

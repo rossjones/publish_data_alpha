@@ -317,9 +317,9 @@ table {
   margin-bottom: 1em;
 }
 
-// dashboard
+// tasks pages
 
-.dashboard {
+.tasks {
   a:visited {
     color: $link-colour;
   }
@@ -367,5 +367,19 @@ table {
         color: $grey-1;
       }
     }
+  }
+}
+
+// user page
+
+ul.user-details {
+  li {
+    margin-bottom: 1em;
+    border-bottom: 1px solid $grey-2;
+  }
+  div.label {
+    display: inline-block;
+    font-weight: bold;
+    width: 8em;
   }
 }
