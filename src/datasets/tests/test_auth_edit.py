@@ -45,9 +45,7 @@ class DatasetAuthEditTestCase(TestCase):
                 'title': 'A test dataset for edit',
                 'description': 'A test description',
                 'summary': 'Updated summary',
-                'licence': 'uk-ogl',
-                'notifications': 'no'
+                'licence': 'uk-ogl'
             })
 
         assert r.status_code == 403
-

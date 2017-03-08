@@ -39,8 +39,6 @@ var createDataset = function (browser, is_admin) {
     )
     .setValue('input[id=id_title]', common.datafiletitle)
     .submitFormAndCheckNextTitle('Links to supporting documents')
-    .clickAndCheckNextTitle('Save and continue', 'Get notifications')
-    .selectRadioButton('Yes')
     .submitFormAndCheckNextTitle('Publish ‘' + common.datasetTitle + '’')
     .submitFormAndCheckNextTitle('Your dataset has been published')
 };
