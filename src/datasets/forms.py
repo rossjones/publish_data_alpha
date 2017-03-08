@@ -279,12 +279,6 @@ class StubForm(forms.ModelForm):
         fields = []
 
 
-class NotificationsForm(forms.ModelForm):
-
-    class Meta:
-        model = Dataset
-        fields = ['notifications']
-
 
 class DateForm(forms.Form):
     start_date = forms.CharField(required=False)

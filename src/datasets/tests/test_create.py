@@ -206,27 +206,6 @@ class DatasetsTestCase(TestCase):
             args=[self.dataset.name]
         )
 
-    def test_notifications(self):
-        u = reverse(
-            'edit_dataset_notifications',
-            args=[self.dataset.name]
-        )
-        response = self.client.get(u)
-        assert response.status_code == 200
-
-        response = self.client.post(u, {})
-        assert response.status_code == 200
-
-        response = self.client.post(
-            u,
-            {
-                'notifications': 'yes'
-            }
-        )
-        assert response.status_code == 302
-        assert self._get_dataset().notifications == "yes", \
-            self._get_dataset().notifications
-
     def test_check(self):
         u = reverse(
             'publish_dataset',
