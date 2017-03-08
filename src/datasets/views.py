@@ -403,6 +403,41 @@ def edit_documents(request, dataset_name):
     })
 
 
+def edit_notifications(request, dataset_name):
+    dataset = get_object_or_404(Dataset, name=dataset_name)
+    flow = request.session.get('flow-state', '')
+
+    if not user_can_edit_dataset(request.user, dataset):
+        return HttpResponseForbidden()
+
+    _set_flow_state(request)
+
+    if dataset.frequency in ['daily', 'never']:
+        dataset.notifications = 'no'
+        dataset.save()
+
+        return _redirect_to(
+            request,
+            'publish_dataset',
+            [dataset.name]
+        )
+
+    form = f.NotificationsForm(request.POST or None, instance=dataset)
+    if request.method == 'POST':
+        if form.is_valid():
+            obj = form.save()
+            return _redirect_to(
+                request,
+                'publish_dataset',
+                [obj.name]
+            )
+
+    return render(request, "datasets/edit_notifications.html", {
+        'form': form,
+        'dataset': dataset,
+    })
+
+
 def _edit_publish_dataset(request, dataset, state):
     ''' Handles the editing or publishing of a dataset, where
     the primary difference is just the state that we handle '''

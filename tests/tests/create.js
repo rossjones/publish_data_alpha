@@ -50,15 +50,17 @@ var goToDocumentation = function(browser) {
     );
 };
 
-var gotoCheckPage = function(browser) {
+var goToNotifications = function(browser) {
   return goToDocumentation(browser)
     .clearSetValue('input[id=id_title]', common.docTitle)
     .clearSetValue('input[id=id_url]', common.validDataUrl)
     .submitFormAndCheckNextTitle('Links to supporting documents')
-    .clickAndCheckNextTitle(
-      'Save and continue',
-      'Publish ‘' + common.datasetTitle  + '’'
-    );
+    .clickAndCheckNextTitle('Save and continue', 'Get notifications')
+};
+
+var goToCheckPage = function(browser) {
+  return goToNotifications(browser)
+    .submitFormAndCheckNextTitle('Publish ‘' + common.datasetTitle  + '’');
 };
 
 var createDataset = function(browser) {
@@ -97,6 +99,8 @@ var test_create_happy_path = function (browser) {
     .clearSetValue('input[id=id_url]', common.validDataUrl)
     .clearSetValue('input[id=id_title]', common.docTitle)
     .submitFormAndCheckNextTitle('Links to supporting documents')
+    .clickAndCheckNextTitle('Save and continue', 'Get notifications')
+    .selectRadioButton('Yes')
     .submitFormAndCheckNextTitle('Publish ‘' + common.datasetTitle  + '’')
     .assert.containsText('table', 'Open Government Licence')
     .submitFormAndCheckNextTitle('Your dataset has been published')
@@ -388,6 +392,12 @@ var test_create_yearly_bad_year = function (browser) {
     .end();
 };
 
+var test_create_omit_notifications = function (browser) {
+  goToNotifications(browser)
+    .submitFormAndCheckNextTitle('Publish ‘' + common.datasetTitle  + '’')
+    .end();
+};
+
 var test_create_omit_url = function (browser) {
   goToCreateFrequency(browser)
     .selectRadioButton('Annually (January to December)')
@@ -476,6 +486,7 @@ module.exports = {
   // 'Create a dataset, frequency never': test_create_never,
   // 'Create a dataset, frequency yearly': test_create_yearly,
   // 'Create a dataset, frequency financial yearly': test_create_financial_yearly,
+  // 'Create a dataset, omit notifications': test_create_omit_notifications,
   // 'Create a dataset, omit url': test_create_omit_url,
   // 'Create a dataset, modify title': test_create_modify_title,
   // 'Create a dataset, modify licence': test_create_modify_licence,

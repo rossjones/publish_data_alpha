@@ -75,10 +75,12 @@
     </p>
     <p>
       <a
-          {% if request|is_editing %}
+          {% if request|is_checking %}
+          href="{% url 'publish_dataset' dataset.name %}"
+          {% elif request|is_editing %}
           href="{% url 'edit_full_dataset' dataset.name %}"
           {% else %}
-          href="{% url 'publish_dataset' dataset.name %}"
+          href="{% url 'edit_dataset_notifications' dataset.name %}"
           {% endif %}
           class="button">
         {% trans "Save and continue" %}
