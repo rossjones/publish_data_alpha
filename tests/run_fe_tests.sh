@@ -7,7 +7,7 @@ export ADMIN_USER_EMAIL=test-admin@localhost
 export USER_PASSWORD=password
 
 # Various executables needed to run tests
-export SELENIUM=${HOME}/bin/selenium-server-standalone-3.0.1.jar
+export SELENIUM=${HOME}/bin/selenium-server-standalone-3.2.0.jar
 export GECKO_DRIVER=${HOME}/bin/geckodriver
 export PHANTOM_JS=${HOME}/bin/phantomjs
 export CHROME_DRIVER=${HOME}/bin/chromedriver

@@ -71,10 +71,6 @@ urlpatterns = [
         login_required(v.edit_documents),
         name='edit_dataset_documents'),
 
-    url(r'^(?P<dataset_name>[\w-]+)/notifications$',
-        login_required(v.edit_notifications),
-        name='edit_dataset_notifications'),
-
     url(r'^(?P<dataset_name>[\w-]+)/publish$',
         login_required(v.publish_dataset),
         name='publish_dataset'),
