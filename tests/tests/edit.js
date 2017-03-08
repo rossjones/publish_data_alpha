@@ -37,11 +37,11 @@ var createDataset = function (browser, is_admin) {
       'input[id=id_url]',
       'https://data.gov.uk/data/site-usage/data_all.csv'
     )
-    .setValue('input[id=id_title]', common.datafiletitle)
+    .setValue('input[id=id_title]', common.datafileTitle)
     .submitFormAndCheckNextTitle('Links to supporting documents')
-    .clickAndCheckNextTitle('Save and continue', 'Get notifications')
-    .selectRadioButton('Yes')
-    .submitFormAndCheckNextTitle('Publish ‘' + common.datasetTitle + '’')
+    .clickAndCheckNextTitle(
+      'Save and continue',
+      'Publish ‘' + common.datasetTitle + '’')
     .submitFormAndCheckNextTitle('Your dataset has been published')
 };
 
