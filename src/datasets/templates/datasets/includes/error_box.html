@@ -171,6 +171,15 @@
         </li>
       {% endif %}
 
+      {% if form.notifications.errors %}
+        <li>
+          <a href="#notifications_form_group">
+            {% trans "Please specify if you'd like to receive notifications" %}
+          </a>
+          <span class="visuallyhidden">.</span>
+        </li>
+      {% endif %}
+
     </ul>
   </div>
 {% endif %}

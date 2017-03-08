@@ -46,6 +46,8 @@ class Dataset(models.Model):
 
     frequency = models.TextField(default="", blank=True, null=True)
 
+    notifications = models.TextField(default="", blank=True)
+
     last_edit_date = models.DateTimeField(auto_now=True)
 
     creator = models.ForeignKey(settings.AUTH_USER_MODEL,
