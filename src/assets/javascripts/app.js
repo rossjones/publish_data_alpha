@@ -188,7 +188,7 @@
 
 
   $(document).ready(function() {
-    tableShowHide.init({ rowLimit: 3});
+    tableShowHide.init({ rowLimit: 5 });
     typeAhead.init({ selector: '.location-input' });
     stats.init('#stats');
   });
