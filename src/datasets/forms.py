@@ -109,6 +109,8 @@ class OrganisationForm(forms.ModelForm):
 
 class FrequencyForm(forms.ModelForm):
 
+    frequency = forms.CharField(required=True)
+
     class Meta:
         model = Dataset
         fields = ['frequency']
