@@ -42,7 +42,7 @@ $alpine-fresh: #128400;
       line-height: 2em;
       color: $page-colour;
       float: right;
-      a:visited { color: $page-colour };
+      a:visited, a:link { color: $page-colour };
     }
   }
 }
