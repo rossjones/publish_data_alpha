@@ -44,7 +44,7 @@
                 type="radio"
                 id="q1"
                 name="{{ form.quarter.html_name }}"
-                {% if form.quarter.value == "1" %}checked="1"{% endif %}
+                {% if form.quarter.value == 1 %}checked="1"{% endif %}
                 value="1"/>
             <span>{% trans "Q1 (April to June)" %}</span>
           </label>
@@ -53,7 +53,7 @@
                 type="radio"
                 id="q2"
                 name="{{ form.quarter.html_name }}"
-                {% if form.quarter.value == "2" %}checked="1"{% endif %}
+                {% if form.quarter.value == 2 %}checked="1"{% endif %}
                 value="2"/>
             <span>{% trans "Q2 (July to September)" %}</span>
           </label>
@@ -62,7 +62,7 @@
                 type="radio"
                 id="q3"
                 name="{{ form.quarter.html_name }}"
-                {% if form.quarter.value == "3" %}checked="1"{% endif %}
+                {% if form.quarter.value == 3 %}checked="1"{% endif %}
                 value="3"/>
             <span>{% trans "Q3 (October to December)" %}</span>
           </label>
@@ -71,7 +71,7 @@
                 type="radio"
                 id="q4"
                 name="{{ form.quarter.html_name }}"
-                {% if form.quarter.value == "4" %}checked="1"{% endif %}
+                {% if form.quarter.value == 4 %}checked="1"{% endif %}
                 value="4"/>
             <span>{% trans "Q4 (January to March)" %}</span>
           </label>
