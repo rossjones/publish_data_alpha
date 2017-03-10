@@ -1649,11 +1649,20 @@ div#global-header-bar {
 .govuk-box-highlight a {
   color: #fff; }
 
+.form-date .form-group.form-group-day.error {
+  width: 130px; }
+  .form-date .form-group.form-group-day.error input {
+    width: 50px; }
+
 .form-date .form-group.form-group-month.error {
-  width: 90px; }
+  width: 130px; }
+  .form-date .form-group.form-group-month.error input {
+    width: 50px; }
 
 .form-date .form-group.form-group-year.error {
   width: 130px; }
+  .form-date .form-group.form-group-year.error input {
+    width: 70px; }
 
 .column-three-quarters {
   padding: 0 15px;
