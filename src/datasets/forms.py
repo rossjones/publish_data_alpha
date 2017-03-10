@@ -172,28 +172,55 @@ class WeeklyFileForm(CheckedFileForm):
 
     def clean(self):
         cleaned = super(CheckedFileForm, self).clean()
+
         if self._errors:
             return cleaned
 
-        try:
-            frequency_weekly_start = datetime.date(
-                cleaned['start_year'],
-                cleaned['start_month'],
-                cleaned['start_day']
-            )
-        except (KeyError, ValueError):
-            self._errors['start_date'] = \
-                [_('Please enter a correct start date')]
+        if not 'start_year' in cleaned or \
+            cleaned['start_year'] < 1000 or cleaned['start_year'] > 3000:
+            self._errors['start_year'] = \
+                [_('Please enter a correct year')]
+        elif not 'start_month' in cleaned or \
+            cleaned['start_month'] < 1 or cleaned['start_month'] > 12:
+            self._errors['start_month'] = \
+                [_('Please enter a correct month')]
+        elif not 'start_day' in cleaned or \
+            cleaned['start_day'] < 1 or cleaned['start_day'] > 31:
+            self._errors['start_day'] = \
+                [_('Please enter a correct day')]
+        else:
+            try:
+                frequency_weekly_start = datetime.date(
+                    cleaned['start_year'],
+                    cleaned['start_month'],
+                    cleaned['start_day']
+                )
+            except (KeyError, ValueError):
+                self._errors['start_date'] = \
+                    [_('Please enter a correct start date')]
 
-        try:
-            frequency_weekly_end = datetime.date(
-                cleaned['end_year'],
-                cleaned['end_month'],
-                cleaned['end_day']
-            )
-        except (KeyError, ValueError):
-            self._errors['end_date'] = \
-                [_('Please enter a correct end date')]
+        if not 'end_year' in cleaned or \
+            cleaned['end_year'] < 1000 or cleaned['end_year'] > 3000:
+            self._errors['end_year'] = \
+                [_('Please enter a correct year')]
+        elif not 'end_month' in cleaned or \
+            cleaned['end_month'] < 1 or cleaned['end_month'] > 12:
+            self._errors['end_month'] = \
+                [_('Please enter a correct month')]
+        elif not 'end_day' in cleaned or \
+            cleaned['end_day'] < 1 or cleaned['end_day'] > 31:
+            self._errors['end_day'] = \
+                [_('Please enter a correct day')]
+        else:
+            try:
+                frequency_weekly_end = datetime.date(
+                    cleaned['end_year'],
+                    cleaned['end_month'],
+                    cleaned['end_day']
+                )
+            except (KeyError, ValueError):
+                self._errors['end_date'] = \
+                    [_('Please enter a correct end date')]
 
         if self.errors:
             return cleaned
@@ -247,10 +274,22 @@ class MonthlyFileForm(CheckedFileForm):
 
 class QuarterlyFileForm(CheckedFileForm):
 
+    quarter = forms.IntegerField(required=True)
+
     class Meta:
         frequency = 'quarterly'
         model = Datafile
         fields = [ 'title', 'url', 'quarter', 'year' ]
+
+    def clean(self):
+        cleaned = super(CheckedFileForm, self).clean()
+
+        if not cleaned['year'] or \
+           cleaned['year'] < 1000 or \
+           cleaned['year'] > 3000:
+            self._errors['year'] = [_('Please enter a valid year')]
+
+        return cleaned
 
 
 class AnnuallyFileForm(CheckedFileForm):
@@ -265,7 +304,7 @@ class AnnuallyFileForm(CheckedFileForm):
         if self._errors:
             return cleaned
 
-        if not cleaned['year'] or \
+        if cleaned['year'] or \
            cleaned['year'] < 1000 or \
            cleaned['year'] > 3000:
             self._errors['year'] = [_('Please enter a valid year')]
