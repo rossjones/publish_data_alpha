@@ -1685,6 +1685,8 @@ table.check-your-answers {
     width: 22%; }
   table.check-your-answers th, table.check-your-answers td {
     vertical-align: top; }
+  table.check-your-answers th {
+    width: 12em; }
   table.check-your-answers td.file-list {
     overflow-x: hidden; }
     table.check-your-answers td.file-list ul {
