@@ -1631,7 +1631,7 @@ input[type=number] {
     line-height: 2em;
     color: #fff;
     float: right; }
-    #global-header .header-proposition .header-link a:visited {
+    #global-header .header-proposition .header-link a:visited, #global-header .header-proposition .header-link a:link {
       color: #fff; }
 
 @media (min-width: 769px) {
