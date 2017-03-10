@@ -107,28 +107,27 @@ class DatasetsTestCase(TestCase):
         assert self._get_dataset().frequency == "never", \
             self._get_dataset().frequency
 
-    def test_organisation(self):
-        u = reverse(
-            'edit_dataset_organisation',
-            args=[self.dataset.name]
-        )
-        # With only a single organisation, we expect a redirect
-        response = self.client.get(u)
-        assert response.status_code == 302, response.content
+    # def test_organisation(self):
+    #     u = reverse(
+    #         'edit_dataset_organisation',
+    #         args=[self.dataset.name]
+    #     )
+    #     # With only a single organisation, we expect a redirect
+    #     response = self.client.get(u)
+    #     assert response.status_code == 302, response.content
 
-        # User in a single organisation so will be redirected
-        response = self.client.post(u, {})
-        assert response.status_code == 302
+    #     # User in a single organisation so will be redirected
+    #     response = self.client.post(u, {})
+    #     assert response.status_code == 302
 
-        response = self.client.post(
-            u,
-            {
-                'organisation': self.organisation.id
-            }
-        )
-        assert response.status_code == 302
-        assert self._get_dataset().organisation.id == self.organisation.id
-
+    #     response = self.client.post(
+    #         u,
+    #         {
+    #             'organisation': self.organisation.id
+    #         }
+    #     )
+    #     assert response.status_code == 302
+    #     assert self._get_dataset().organisation.id == self.organisation.id
 
     def test_redirect_adding_extra_file(self):
         u = reverse('edit_dataset_files', args=[self.dataset.name])

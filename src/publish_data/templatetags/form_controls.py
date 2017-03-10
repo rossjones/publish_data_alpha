@@ -26,8 +26,6 @@ def form_controls(request, dataset_name):
 
     if page not in ['checking', 'editing']:
         if page == 'edit_dataset_title':
-            params['secondary_link'] = 'edit_dataset_organisation'
-        elif page == 'edit_dataset_organisation':
             params['secondary_link'] = 'edit_dataset_licence'
         elif page == 'edit_dataset_licence':
             params['secondary_link'] = 'edit_dataset_location'

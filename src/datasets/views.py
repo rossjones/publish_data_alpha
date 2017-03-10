@@ -36,11 +36,16 @@ def new_dataset(request):
     form = f.DatasetForm(request.POST or None)
     if request.method == 'POST':
         if form.is_valid():
+            try:
+                user_org = organisations_for_user(request.user)[0]
+            except:
+                user_org = None
             obj = Dataset.objects.create(
                 title=form.cleaned_data['title'],
                 description=form.cleaned_data['description'],
                 summary=form.cleaned_data['summary'],
-                creator=request.user
+                creator=request.user,
+                organisation=user_org
             )
 
             papertrail.log(
@@ -56,7 +61,7 @@ def new_dataset(request):
             )
 
             return HttpResponseRedirect(
-                reverse('edit_dataset_organisation', args=[obj.name])
+                reverse('edit_dataset_licence', args=[obj.name])
             )
 
 
@@ -109,7 +114,7 @@ def edit_dataset_details(request, dataset_name):
     if request.method == 'POST':
         if form.is_valid():
             obj = form.save()
-            return _redirect_to(request, 'edit_dataset_organisation', [obj.name])
+            return _redirect_to(request, 'edit_dataset_licence', [obj.name])
 
     return render(request, 'datasets/edit_title.html', {
         'form': form,
@@ -117,33 +122,33 @@ def edit_dataset_details(request, dataset_name):
     })
 
 
-def edit_organisation(request, dataset_name):
-    dataset = get_object_or_404(Dataset, name=dataset_name)
+# def edit_organisation(request, dataset_name):
+#     dataset = get_object_or_404(Dataset, name=dataset_name)
 
-    if not user_can_edit_dataset(request.user, dataset):
-        return HttpResponseForbidden()
+#     if not user_can_edit_dataset(request.user, dataset):
+#         return HttpResponseForbidden()
 
-    _set_flow_state(request)
+#     _set_flow_state(request)
 
-    organisations = organisations_for_user(request.user)
-    if len(organisations) == 1:
-        dataset.organisation = organisations[0]
-        dataset.save()
-        return _redirect_to(request, 'edit_dataset_licence', [dataset.name])
+#     organisations = organisations_for_user(request.user)
+#     if len(organisations) == 1:
+#         dataset.organisation = organisations[0]
+#         dataset.save()
+#         return _redirect_to(request, 'edit_dataset_licence', [dataset.name])
 
-    form = f.OrganisationForm(request.POST or None, instance=dataset)
-    form.fields["organisation"].queryset = organisations_for_user(request.user)
+#     form = f.OrganisationForm(request.POST or None, instance=dataset)
+#     form.fields["organisation"].queryset = organisations_for_user(request.user)
 
-    if request.method == 'POST':
-        if form.is_valid():
-            obj = form.save()
-            return _redirect_to(request, 'edit_dataset_licence', [obj.name])
+#     if request.method == 'POST':
+#         if form.is_valid():
+#             obj = form.save()
+#             return _redirect_to(request, 'edit_dataset_licence', [obj.name])
 
-    return render(request, "datasets/edit_organisation.html", {
-        'form': form,
-        'dataset': dataset,
-        'organisations': organisations,
-    })
+#     return render(request, "datasets/edit_organisation.html", {
+#         'form': form,
+#         'dataset': dataset,
+#         'organisations': organisations,
+#     })
 
 
 def edit_licence(request, dataset_name):

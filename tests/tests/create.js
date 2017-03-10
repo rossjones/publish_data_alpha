@@ -7,19 +7,11 @@ var goToCreateTitle = function(browser) {
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset');
 };
 
-var goToCreateOrg = function(browser) {
+var goToCreateLicence = function(browser) {
   return goToCreateTitle(browser)
     .clearSetValue('input[name=title]', common.datasetTitle)
     .clearSetValue('textarea[name=summary]', 'Summary of my dataset')
     .clearSetValue('textarea[name=description]', 'Description of my dataset')
-    .submitFormAndCheckNextTitle(
-      'Choose the organisation you are publishing for'
-    );
-};
-
-var goToCreateLicence = function(browser) {
-  return goToCreateOrg(browser)
-    .selectRadioButton('Cabinet Office')
     .submitFormAndCheckNextTitle('Choose a licence');
 };
 
@@ -77,10 +69,6 @@ var test_create_happy_path = function (browser) {
     .clearSetValue('input[name=title]', common.datasetTitle)
     .clearSetValue('textarea[name=summary]', 'Summary of my dataset')
     .clearSetValue('textarea[name=description]', 'Description of my dataset')
-    .submitFormAndCheckNextTitle(
-      'Choose the organisation you are publishing for'
-    )
-    .selectRadioButton('Cabinet Office')
     .submitFormAndCheckNextTitle('Choose a licence')
     .selectRadioButton('Open Government Licence')
     .submitFormAndCheckNextTitle('Choose a geographical area')
@@ -97,7 +85,7 @@ var test_create_happy_path = function (browser) {
     .clearSetValue('input[id=id_url]', common.validDataUrl)
     .clearSetValue('input[id=id_title]', common.docTitle)
     .submitFormAndCheckNextTitle('Links to supporting documents')
-    .submitFormAndCheckNextTitle('Publish ‘' + common.datasetTitle  + '’')
+    .clickAndCheckNextTitle('Save and continue', 'Publish ‘' + common.datasetTitle  + '’')
     .assert.containsText('table', 'Open Government Licence')
     .submitFormAndCheckNextTitle('Your dataset has been published')
     .end();
@@ -110,9 +98,7 @@ var test_create_missing_title = function (browser) {
     .submitFormAndCheckNextTitle('There was a problem')
     .checkError('Please provide a valid title')
     .clearSetValue('input[name=title]', common.datasetTitle)
-    .submitFormAndCheckNextTitle(
-      'Choose the organisation you are publishing for'
-    )
+    .submitFormAndCheckNextTitle('Choose a licence')
     .end();
 };
 
@@ -124,9 +110,7 @@ var test_create_invalid_title = function (browser) {
     .submitFormAndCheckNextTitle('There was a problem')
     .checkError('Please provide a valid title')
     .clearSetValue('input[name=title]', common.datasetTitle)
-    .submitFormAndCheckNextTitle(
-      'Choose the organisation you are publishing for'
-    )
+    .submitFormAndCheckNextTitle('Choose a licence')
     .end();
 };
 
@@ -134,9 +118,7 @@ var test_create_missing_description = function (browser) {
   goToCreateTitle(browser)
     .clearSetValue('textarea[name=summary]', 'Summary of my dataset')
     .clearSetValue('input[name=title]', common.datasetTitle)
-    .submitFormAndCheckNextTitle(
-      'Choose the organisation you are publishing for'
-    )
+    .submitFormAndCheckNextTitle('Choose a licence')
     .end();
 };
 
@@ -147,17 +129,6 @@ var test_create_missing_summary = function (browser) {
     .submitFormAndCheckNextTitle('There was a problem')
     .checkError('Please provide a summary')
     .clearSetValue('textarea[name=summary]', 'Summary of my dataset')
-    .submitFormAndCheckNextTitle(
-      'Choose the organisation you are publishing for'
-    )
-    .end();
-};
-
-var test_create_missing_org = function (browser) {
-  goToCreateOrg(browser)
-    .submitFormAndCheckNextTitle('There was a problem')
-    .checkError('Please choose which organisation will own this dataset')
-    .selectRadioButton('Cabinet Office')
     .submitFormAndCheckNextTitle('Choose a licence')
     .end();
 };
@@ -453,32 +424,31 @@ var test_create_add_file_twice = function (browser) {
 };
 
 module.exports = {
-  // 'Create a dataset, happy path': test_create_happy_path,
-  // 'Create a dataset, missing title': test_create_missing_title,
-  // 'Create a dataset, invalid title': test_create_invalid_title,
-  // 'Create a dataset, missing description': test_create_missing_description,
-  // 'Create a dataset, missing summary': test_create_missing_summary,
-  // 'Create a dataset, omit organisation': test_create_missing_org,
-  // 'Create a dataset, skip licence': test_create_skip_licence,
-  // 'Create a dataset, omit licence': test_create_omit_licence,
-  // 'Create a dataset, blank other licence': test_create_blank_other_licence,
-  // 'Create a dataset, omit region': test_create_omit_region,
-  // 'Create a dataset, region autocomplete': test_create_region_autocomplete,
-  // 'Create a dataset, omit frequency': test_create_omit_frequency,
-  // 'Create a dataset, frequency daily': test_create_daily,
-  // 'Create a dataset, frequency daily, omit link': test_create_daily_omit_link,
-  // 'Create a dataset, frequency weekly': test_create_weekly,
-  // 'Create a dataset, frequency monthly': test_create_monthly,
-  // 'Create a dataset, monthly, bad month': test_create_monthly_bad_month,
-  // 'Create a dataset, monthly, bad year': test_create_monthly_bad_year,
-  // 'Create a dataset, yearly, bad year': test_create_yearly_bad_year,
-  // 'Create a dataset, frequency quarterly': test_create_quarterly,
-  // 'Create a dataset, frequency never': test_create_never,
-  // 'Create a dataset, frequency yearly': test_create_yearly,
-  // 'Create a dataset, frequency financial yearly': test_create_financial_yearly,
-  // 'Create a dataset, omit url': test_create_omit_url,
-  // 'Create a dataset, modify title': test_create_modify_title,
-  // 'Create a dataset, modify licence': test_create_modify_licence,
+  'Create a dataset, happy path': test_create_happy_path,
+  'Create a dataset, missing title': test_create_missing_title,
+  'Create a dataset, invalid title': test_create_invalid_title,
+  'Create a dataset, missing description': test_create_missing_description,
+  'Create a dataset, missing summary': test_create_missing_summary,
+  'Create a dataset, skip licence': test_create_skip_licence,
+  'Create a dataset, omit licence': test_create_omit_licence,
+  'Create a dataset, blank other licence': test_create_blank_other_licence,
+  'Create a dataset, omit region': test_create_omit_region,
+  'Create a dataset, region autocomplete': test_create_region_autocomplete,
+  'Create a dataset, omit frequency': test_create_omit_frequency,
+  'Create a dataset, frequency daily': test_create_daily,
+  'Create a dataset, frequency daily, omit link': test_create_daily_omit_link,
+  'Create a dataset, frequency weekly': test_create_weekly,
+  'Create a dataset, frequency monthly': test_create_monthly,
+  'Create a dataset, monthly, bad month': test_create_monthly_bad_month,
+  'Create a dataset, monthly, bad year': test_create_monthly_bad_year,
+  'Create a dataset, yearly, bad year': test_create_yearly_bad_year,
+  'Create a dataset, frequency quarterly': test_create_quarterly,
+  'Create a dataset, frequency never': test_create_never,
+  'Create a dataset, frequency yearly': test_create_yearly,
+  'Create a dataset, frequency financial yearly': test_create_financial_yearly,
+  'Create a dataset, omit url': test_create_omit_url,
+  'Create a dataset, modify title': test_create_modify_title,
+  'Create a dataset, modify licence': test_create_modify_licence,
   'Create a dataset, remove link after check': test_create_remove_link,
   'Create a dataset, remove doc after check': test_create_remove_doc,
   'Create a dataset, add file twice': test_create_add_file_twice

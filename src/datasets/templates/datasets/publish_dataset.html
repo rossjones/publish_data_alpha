@@ -22,13 +22,7 @@
   <ul>
     <li>Last updated: {{ dataset.last_edit_date | date:"d M Y" }}</li>
     <li>Status: {% if dataset.published %}{% trans 'Published' %}{% else %}Draft{% endif %}</li>
-    <li>Published by: {{ organisation.title|default:"?" }}
-      {% if not single_organisation %}
-        <a href="{% url 'edit_dataset_organisation' dataset.name %}">
-          {% trans "Change <span class='visuallyhidden'>organisation</span>" %}
-        </a>
-      {% endif %}
-    </li>
+    <li>Published by: {{ organisation.title|default:"?" }}</li>
   </ul>
 
 
@@ -71,21 +65,6 @@
           <a href="{% url 'edit_dataset' dataset.name %}">
             {% trans "Change <span class='visuallyhidden'>description</span>" %}
           </a>
-        </td>
-      </tr>
-      <tr>
-        <th class="dataset-item">
-          {% trans "Organisation" %}
-        </th>
-        <td>
-          {{ organisation.title|default:"" }}
-        </td>
-        <td class="actions">
-          {% if not single_organisation %}
-            <a href="{% url 'edit_dataset_organisation' dataset.name %}">
-              {% trans "Change <span class='visuallyhidden'>organisation</span>" %}
-            </a>
-          {% endif %}
         </td>
       </tr>
       <tr>
