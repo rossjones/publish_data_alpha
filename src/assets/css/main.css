@@ -1655,6 +1655,12 @@ div#global-header-bar {
 .form-date .form-group.form-group-year.error {
   width: 130px; }
 
+.form-hint {
+  width: 100%; }
+  @media (min-width: 641px) {
+    .form-hint {
+      width: 66.66%; } }
+
 .column-three-quarters {
   padding: 0 15px;
   -webkit-box-sizing: border-box;

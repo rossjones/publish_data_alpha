@@ -77,6 +77,14 @@ div#global-header-bar {
   width: 130px;
 }
 
+.form-hint {
+  width: 100%;
+
+  @include media(tablet) {
+    width: 66.66%;
+  }
+}
+
 // govuk-* additions
 
 .column-three-quarters {
