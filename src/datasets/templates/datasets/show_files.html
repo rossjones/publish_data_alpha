@@ -48,29 +48,31 @@
         </thead>
       {% endblocktrans %}
       <tbody>
-        {% for file in dataset.files.all %}
-          {% if not file.is_documentation %}
-            <tr id="file_{{ forloop.counter }}">
-              <td>{{ file.title }} </td>
-              <td>{{ file.url }} </td>
-              <td>{% if not file.is_broken %}✔{% else %}&#x2716;{% endif%}</td>
-              <td>
-                <a href="{% url addfile_viewname dataset.name file.id %}">
-                  {% trans "Edit" %}
-                </a>
-                <a href="{% url 'edit_dataset_confirmdeletefile' dataset.name file.id %}">
-                  {% trans "Delete" %}
-                </a>
-              </td>
-            </tr>
-          {% endif %}
+        {% for file in files %}
+          <tr id="file_{{ forloop.counter }}">
+            <td>{{ file.title }} </td>
+            <td>{{ file.url }} </td>
+            <td>{% if not file.is_broken %}✔{% else %}&#x2716;{% endif%}</td>
+            <td>
+              <a href="{% url addfile_viewname dataset.name file.id %}">
+                {% trans "Edit" %}
+              </a>
+              <a href="{% url 'edit_dataset_confirmdeletefile' dataset.name file.id %}">
+                {% trans "Delete" %}
+              </a>
+            </td>
+          </tr>
         {% endfor %}
       </tbody>
     </table>
 
     <p>
       <a href="{% url addfile_viewname dataset.name %}">
-        {% trans "Add another link" %}
+        {% if files|length == 0 %}
+          {% trans "Add a link" %}
+        {% else %}
+          {% trans "Add another link" %}
+        {% endif %}
       </a>
     </p>
 
