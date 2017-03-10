@@ -30,7 +30,7 @@
       {% if form.title.errors %}
         <li>
           <a href="#title_form_group">
-            {% trans "Please provide a valid title" %}
+            {% trans "Please enter a valid title" %}
           </a>
           <span class="visuallyhidden">.</span>
         </li>
@@ -39,7 +39,7 @@
       {% if form.summary.errors %}
         <li>
           <a href="#summary_form_group">
-            {% trans "Please provide a summary" %}
+            {% trans "Please enter a summary" %}
           </a>
           <span class="visuallyhidden">.</span>
         </li>
@@ -111,7 +111,7 @@
       {% if form.url.errors %}
         <li>
           <a href="#url_form_group">
-            {% trans "Please provide a valid URL" %}
+            {% trans "Please enter a valid URL" %}
           </a>
           <span class="visuallyhidden">.</span>
         </li>
@@ -120,7 +120,7 @@
       {% if form.month.errors %}
         <li>
           <a href="#month_form_group">
-            {% trans "Please provide a valid month" %}
+            {% trans "Please enter a valid month" %}
           </a>
           <span class="visuallyhidden">.</span>
         </li>
@@ -129,7 +129,7 @@
       {% if form.year.errors %}
         <li>
           <a href="#year_form_group">
-            {% trans "Please provide a valid year" %}
+            {% trans "Please enter a valid year" %}
           </a>
           <span class="visuallyhidden">.</span>
         </li>
@@ -144,10 +144,55 @@
         </li>
       {% endif %}
 
-      {% if form.start_date.errors %}
+      {% if form.start_day.errors %}
         <li>
           <a href="#start_date_form_group">
-            {% trans "Please enter a correct start date" %}
+            {% trans "Please enter a correct start day" %}
+          </a>
+          <span class="visuallyhidden">.</span>
+        </li>
+      {% endif %}
+
+      {% if form.start_month.errors %}
+        <li>
+          <a href="#start_date_form_group">
+            {% trans "Please enter a correct start month" %}
+          </a>
+          <span class="visuallyhidden">.</span>
+        </li>
+      {% endif %}
+
+      {% if form.start_year.errors %}
+        <li>
+          <a href="#start_date_form_group">
+            {% trans "Please enter a correct start year" %}
+          </a>
+          <span class="visuallyhidden">.</span>
+        </li>
+      {% endif %}
+
+      {% if form.end_day.errors %}
+        <li>
+          <a href="#end_date_form_group">
+            {% trans "Please enter a correct end day" %}
+          </a>
+          <span class="visuallyhidden">.</span>
+        </li>
+      {% endif %}
+
+      {% if form.end_month.errors %}
+        <li>
+          <a href="#end_date_form_group">
+            {% trans "Please enter a correct end month" %}
+          </a>
+          <span class="visuallyhidden">.</span>
+        </li>
+      {% endif %}
+
+      {% if form.end_year.errors %}
+        <li>
+          <a href="#end_date_form_group">
+            {% trans "Please enter a correct end year" %}
           </a>
           <span class="visuallyhidden">.</span>
         </li>
@@ -157,6 +202,33 @@
         <li>
           <a href="#end_date_form_group">
             {% trans "Please enter a correct end date" %}
+          </a>
+          <span class="visuallyhidden">.</span>
+        </li>
+      {% endif %}
+
+      {% if form.end_date.errors %}
+        <li>
+          <a href="#end_date_form_group">
+            {% trans "Please enter a correct end date" %}
+          </a>
+          <span class="visuallyhidden">.</span>
+        </li>
+      {% endif %}
+
+      {% if form.errors.start_date %}
+        <li>
+          <a href="#start_date_form_group">
+            {% trans "Please enter a valid start date" %}
+          </a>
+          <span class="visuallyhidden">.</span>
+        </li>
+      {% endif %}
+
+      {% if form.errors.end_date %}
+        <li>
+          <a href="#end_date_form_group">
+            {% trans "Please enter a valid end date" %}
           </a>
           <span class="visuallyhidden">.</span>
         </li>
