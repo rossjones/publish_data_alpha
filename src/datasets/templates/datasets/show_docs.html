@@ -40,8 +40,7 @@
       {% blocktrans %}
         <thead>
           <tr>
-            <th>Link name</th>
-            <th>URL</th>
+            <th>File</th>
             <th>Valid</th>
             <th><span class="visuallyhidden">Actions</span></th>
           </tr>
@@ -50,16 +49,11 @@
       <tbody>
         {% for file in files %}
           <tr>
-            <td>{{ file.title }} </td>
-            <td>{{ file.url }} </td>
+            <td><a href="{{ file.url }}">{{ file.title }}</a></td>
             <td>{% if not file.is_broken %}✔{% else %}&#x2716;{% endif%}</td>
-            <td>
-              <a href="{% url 'edit_dataset_adddoc' dataset.name file.id %}">
-                {% trans "Edit" %}
-              </a>
-              <a href="{% url 'edit_dataset_confirmdeletefile' dataset.name file.id %}">
-                {% trans "Delete" %}
-              </a>
+            <td class="actions">
+              <a href="{% url 'edit_dataset_adddoc' dataset.name file.id %}">{% trans "Edit" %}</a>
+              <a href="{% url 'edit_dataset_confirmdeletefile' dataset.name file.id %}">{% trans "Delete" %}</a>
             </td>
           </tr>
         {% endfor %}
