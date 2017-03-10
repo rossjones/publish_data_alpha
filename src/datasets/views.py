@@ -353,9 +353,12 @@ def edit_files(request, dataset_name):
 
     _set_flow_state(request)
 
+    files = [f for f in dataset.files.all() if not f.is_documentation]
+
     return render(request, "datasets/show_files.html", {
         'addfile_viewname': url,
         'dataset': dataset,
+        'files': files
     })
 
 
@@ -403,8 +406,11 @@ def edit_documents(request, dataset_name):
 
     _set_flow_state(request)
 
+    files = [f for f in dataset.files.all() if f.is_documentation]
+
     return render(request, "datasets/show_docs.html", {
         'dataset': dataset,
+        'files': files,
     })
 
 
