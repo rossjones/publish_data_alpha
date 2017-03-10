@@ -265,7 +265,9 @@ class AnnuallyFileForm(CheckedFileForm):
         if self._errors:
             return cleaned
 
-        if cleaned['year'] < 1000 or cleaned['year'] > 3000:
+        if not cleaned['year'] or \
+           cleaned['year'] < 1000 or \
+           cleaned['year'] > 3000:
             self._errors['year'] = [_('Please enter a valid year')]
 
         return cleaned
