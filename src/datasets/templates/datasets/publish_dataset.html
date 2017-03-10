@@ -137,7 +137,7 @@
           {% for link in datafiles %}
             {% if forloop.counter < 6 %}
               <li>
-                {{ link.title }}&nbsp;-&nbsp;{{ link.url }}
+                <a href="{{ link.url }}">{{ link.title }}</a>
               </li>
             {% endif %}
             {% if forloop.counter == 6 %}
@@ -164,7 +164,7 @@
             {% for link in docfiles %}
               {% if forloop.counter < 6 %}
                 <li>
-                  {{ link.title }}&nbsp;-&nbsp;{{ link.url }}
+                  <a href="{{ link.url }}">{{ link.title }}</a>
                 </li>
               {% endif %}
               {% if forloop.counter == 6 %}

@@ -40,8 +40,7 @@
       {% blocktrans %}
         <thead>
           <tr>
-            <th>Link name</th>
-            <th>URL</th>
+            <th>Link</th>
             <th>Valid</th>
             <th><span class="visuallyhidden">Actions</span></th>
           </tr>
@@ -50,8 +49,7 @@
       <tbody>
         {% for file in files %}
           <tr id="file_{{ forloop.counter }}">
-            <td>{{ file.title }} </td>
-            <td>{{ file.url }} </td>
+            <td><a href="{{ file.url }}">{{ file.title }}</a></td>
             <td>{% if not file.is_broken %}✔{% else %}&#x2716;{% endif%}</td>
             <td>
               <a href="{% url addfile_viewname dataset.name file.id %}">
