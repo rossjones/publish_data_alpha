@@ -87,28 +87,26 @@ class DatasetsCreateAuthTestCase(TestCase):
         )
         assert response.status_code == 403
 
+    # def test_organisation(self):
+    #     u = reverse(
+    #         'edit_dataset_organisation',
+    #         args=[self.dataset.name]
+    #     )
+    #     # With only a single organisation, we expect a redirect
+    #     response = self.client.get(u)
+    #     assert response.status_code == 403, response.content
 
-    def test_organisation(self):
-        u = reverse(
-            'edit_dataset_organisation',
-            args=[self.dataset.name]
-        )
-        # With only a single organisation, we expect a redirect
-        response = self.client.get(u)
-        assert response.status_code == 403, response.content
+    #     # User in a single organisation so will be redirected
+    #     response = self.client.post(u, {})
+    #     assert response.status_code == 403
 
-        # User in a single organisation so will be redirected
-        response = self.client.post(u, {})
-        assert response.status_code == 403
-
-        response = self.client.post(
-            u,
-            {
-                'organisation': self.organisation.id
-            }
-        )
-        assert response.status_code == 403
-
+    #     response = self.client.post(
+    #         u,
+    #         {
+    #             'organisation': self.organisation.id
+    #         }
+    #     )
+    #     assert response.status_code == 403
 
     def test_redirect_adding_extra_file(self):
         u = reverse('edit_dataset_files', args=[self.dataset.name])

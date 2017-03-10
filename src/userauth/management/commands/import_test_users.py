@@ -31,7 +31,6 @@ class Command(BaseCommand):
             data = json.load(sys.stdin)
 
         for user_details in data:
-
             try:
                 user = get_user_model().objects.get(
                     email=user_details['email']

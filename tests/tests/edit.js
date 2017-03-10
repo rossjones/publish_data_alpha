@@ -9,10 +9,6 @@ var createDataset = function (browser, is_admin) {
     .clearSetValue('input[name=title]', common.datasetTitle)
     .clearSetValue('textarea[name=summary]', 'Summary of my dataset')
     .clearSetValue('textarea[name=description]', 'Description of my dataset')
-    .submitFormAndCheckNextTitle(
-      'Choose the organisation you are publishing for'
-    )
-    .selectRadioButton('Cabinet Office')
     .submitFormAndCheckNextTitle('Choose a licence')
     .selectRadioButton('Open Government Licence')
     .submitFormAndCheckNextTitle('Choose a geographical area')
