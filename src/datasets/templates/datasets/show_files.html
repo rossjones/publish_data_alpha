@@ -51,13 +51,9 @@
           <tr id="file_{{ forloop.counter }}">
             <td><a href="{{ file.url }}">{{ file.title }}</a></td>
             <td>{% if not file.is_broken %}✔{% else %}&#x2716;{% endif%}</td>
-            <td>
-              <a href="{% url addfile_viewname dataset.name file.id %}">
-                {% trans "Edit" %}
-              </a>
-              <a href="{% url 'edit_dataset_confirmdeletefile' dataset.name file.id %}">
-                {% trans "Delete" %}
-              </a>
+            <td class="actions">
+              <a href="{% url addfile_viewname dataset.name file.id %}">{% trans "Edit" %}</a>
+              <a href="{% url 'edit_dataset_confirmdeletefile' dataset.name file.id %}">{% trans "Delete" %}</a>
             </td>
           </tr>
         {% endfor %}
