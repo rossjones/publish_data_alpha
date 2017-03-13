@@ -63,7 +63,11 @@
         </td>
         <td class="actions">
           <a href="{% url 'edit_dataset' dataset.name %}">
-            {% trans "Change <span class='visuallyhidden'>description</span>" %}
+            {% if dataset.description %}
+              {% trans "Change <span class='visuallyhidden'>description</span>" %}
+            {% else %}
+              {% trans "Add <span class='visuallyhidden'>description</span>" %}
+            {% endif %}
           </a>
         </td>
       </tr>
@@ -80,7 +84,11 @@
         </td>
         <td class="actions">
           <a href="{% url 'edit_dataset_licence' dataset.name %}">
-            {% trans "Change <span class='visuallyhidden'>licence</span>" %}
+            {% if dataset.licence %}
+              {% trans "Change <span class='visuallyhidden'>licence</span>" %}
+            {% else %}
+              {% trans "Add <span class='visuallyhidden'>licence</span>" %}
+            {% endif %}
           </a>
         </td>
       </tr>
@@ -97,7 +105,11 @@
         </td>
         <td class="actions">
           <a href="{% url 'edit_dataset_location' dataset.name %}">
-            {% trans "Change <span class='visuallyhidden'>location</span>" %}
+            {% if dataset.location1 or dataset.location2 or dataset.location3 %}
+              {% trans "Change <span class='visuallyhidden'>location</span>" %}
+            {% else %}
+              {% trans "Add <span class='visuallyhidden'>location</span>" %}
+            {% endif %}
           </a>
         </td>
       </tr>
@@ -151,7 +163,11 @@
         </td>
         <td class="actions">
           <a href="{% url 'edit_dataset_files' dataset.name %}">
-            {% trans "Change <span class='visuallyhidden'>datafiles</span>" %}
+            {% if datafiles|length == 0  %}
+              {% trans "Add <span class='visuallyhidden'>datafiles</span>" %}
+            {% else %}
+              {% trans "Change <span class='visuallyhidden'>datafiles</span>" %}
+            {% endif %}
           </a>
         </td>
       </tr>
@@ -178,7 +194,11 @@
         </td>
         <td class="actions">
           <a href="{% url 'edit_dataset_documents' dataset.name %}">
-            {% trans "Change <span class='visuallyhidden'>documents</span>" %}
+            {% if docfiles|length == 0 %}
+              {% trans "Add <span class='visuallyhidden'>documents</span>" %}
+            {% else %}
+              {% trans "Change <span class='visuallyhidden'>documents</span>" %}
+            {% endif %}
           </a>
         </td>
       </tr>
