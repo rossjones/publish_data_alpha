@@ -29,12 +29,12 @@
   </div>
 
   <div
-      id="title_form_group"
-      class="form-group {% if form.title.errors %}error{% endif %}">
-    <label class="form-label-bold" for="id_title">
+      id="name_form_group"
+      class="form-group {% if form.name.errors %}error{% endif %}">
+    <label class="form-label-bold" for="id_name">
       {% trans "Link name" %}
     </label>
-    {% for error in form.title.errors %}
+    {% for error in form.name.errors %}
       <span class="error-message">{{ error }}</span>
     {% endfor %}
     <span class="form-hint">
@@ -45,9 +45,9 @@
     </span>
     <input
         class="form-control form-control-2-3"
-        id="id_title"
-        name="{{ form.title.html_name }}"
+        id="id_name"
+        name="{{ form.name.html_name }}"
         type="text"
-        value="{{ form.title.value|default:'' }}"/>
+        value="{{ form.name.value|default:'' }}"/>
   </div>
 </fieldset>

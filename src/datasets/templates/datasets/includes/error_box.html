@@ -27,6 +27,24 @@
         </li>
       {% endif %}
 
+      {% if form.url.errors %}
+        <li>
+          <a href="#url_form_group">
+            {% trans "Please enter a valid URL" %}
+          </a>
+          <span class="visuallyhidden">.</span>
+        </li>
+      {% endif %}
+
+      {% if form.name.errors %}
+        <li>
+          <a href="#name_form_group">
+            {% trans "Please enter a valid name" %}
+          </a>
+          <span class="visuallyhidden">.</span>
+        </li>
+      {% endif %}
+
       {% if form.title.errors %}
         <li>
           <a href="#title_form_group">
@@ -39,7 +57,7 @@
       {% if form.summary.errors %}
         <li>
           <a href="#summary_form_group">
-            {% trans "Please enter a summary" %}
+            {% trans "Please provide a summary" %}
           </a>
           <span class="visuallyhidden">.</span>
         </li>
@@ -103,15 +121,6 @@
         <li>
           <a href="#frequency_form_group">
             {% trans "Please indicate how often this dataset is updated" %}
-          </a>
-          <span class="visuallyhidden">.</span>
-        </li>
-      {% endif %}
-
-      {% if form.url.errors %}
-        <li>
-          <a href="#url_form_group">
-            {% trans "Please enter a valid URL" %}
           </a>
           <span class="visuallyhidden">.</span>
         </li>

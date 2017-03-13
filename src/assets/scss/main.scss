@@ -69,12 +69,19 @@ div#global-header-bar {
   color: $white;
 }
 
+.form-date .form-group.form-group-day.error {
+  width: 130px;
+  input { width: 50px; }
+}
+
 .form-date .form-group.form-group-month.error {
-  width: 90px;
+  width: 130px;
+  input { width: 50px; }
 }
 
 .form-date .form-group.form-group-year.error {
   width: 130px;
+  input { width: 70px; }
 }
 
 .form-hint {

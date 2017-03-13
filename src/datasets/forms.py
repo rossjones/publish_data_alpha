@@ -118,8 +118,14 @@ class FrequencyForm(forms.ModelForm):
 
 class CheckedFileForm(forms.ModelForm):
 
-    title = forms.CharField(required=True)
-    url = forms.CharField(required=True)
+    name = forms.CharField(
+        required=True,
+        error_messages={'required': 'Please enter a valid name'}
+    )
+    url = forms.CharField(
+        required=True,
+        error_messages={'required': 'Please enter a valid URL'}
+    )
     is_broken = forms.BooleanField(required=False)
 
     def clean(self):
@@ -149,7 +155,7 @@ class FileForm(CheckedFileForm):
 
     class Meta:
         model = Datafile
-        fields = [ 'title', 'url' ]
+        fields = [ 'name', 'url' ]
 
 
 class WeeklyFileForm(CheckedFileForm):
@@ -165,14 +171,13 @@ class WeeklyFileForm(CheckedFileForm):
         frequency = 'weekly'
         model = Datafile
         fields = [
-            'title', 'url',
+            'name', 'url',
             'start_day', 'start_month', 'start_year',
             'end_day', 'end_month', 'end_year'
         ]
 
     def clean(self):
         cleaned = super(CheckedFileForm, self).clean()
-
         if self._errors:
             return cleaned
 
@@ -240,7 +245,7 @@ class WeeklyFileForm(CheckedFileForm):
             'is_broken': False,
             'last_check': datetime.datetime.now(),
             'format': fmt,
-            'title': cleaned['title'],
+            'name': cleaned['name'],
             'url': cleaned['url'],
             'start_date': frequency_weekly_start,
             'end_date': frequency_weekly_end
@@ -249,10 +254,21 @@ class WeeklyFileForm(CheckedFileForm):
 
 class MonthlyFileForm(CheckedFileForm):
 
+    month = forms.IntegerField(
+        required=True,
+        error_messages={'required': 'Please enter a valid month'}
+    )
+
+    year = forms.IntegerField(
+        required=True,
+        error_messages={'required': 'Please enter a valid year'}
+    )
+
+
     class Meta:
         frequency = 'monthly'
         model = Datafile
-        fields = [ 'title', 'url', 'month', 'year' ]
+        fields = [ 'name', 'url', 'month', 'year' ]
 
 
     def clean(self):
@@ -273,13 +289,15 @@ class MonthlyFileForm(CheckedFileForm):
 
 
 class QuarterlyFileForm(CheckedFileForm):
-
-    quarter = forms.IntegerField(required=True)
+    quarter = forms.IntegerField(
+        required=True,
+        error_messages={'required': 'Please select a quarter'}
+    )
 
     class Meta:
         frequency = 'quarterly'
         model = Datafile
-        fields = [ 'title', 'url', 'quarter', 'year' ]
+        fields = [ 'name', 'url', 'quarter', 'year' ]
 
     def clean(self):
         cleaned = super(CheckedFileForm, self).clean()
@@ -294,19 +312,22 @@ class QuarterlyFileForm(CheckedFileForm):
 
 class AnnuallyFileForm(CheckedFileForm):
 
+    year = forms.IntegerField(
+        required=True,
+        error_messages={'required': 'Please enter a valid year'}
+    )
+
     class Meta:
         frequency = 'annually'
         model = Datafile
-        fields = [ 'title', 'url', 'year' ]
+        fields = [ 'name', 'url', 'year' ]
 
     def clean(self):
         cleaned = super(CheckedFileForm, self).clean()
         if self._errors:
             return cleaned
 
-        if cleaned['year'] or \
-           cleaned['year'] < 1000 or \
-           cleaned['year'] > 3000:
+        if cleaned['year'] < 1000 or cleaned['year'] > 3000:
             self._errors['year'] = [_('Please enter a valid year')]
 
         return cleaned
