@@ -17,14 +17,14 @@ def form_controls(request, dataset_name):
             'secondary_link': 'edit_full_dataset',
             'dataset_name': dataset_name,
         }
+        if page.startswith('edit_dataset_addfile'):
+            params['primary_text'] = 'Save'
     else:
         params = {
             'primary_text': 'Save and continue',
             'secondary_text': 'Skip this step',
             'dataset_name': dataset_name,
         }
-
-    if page not in ['checking', 'editing']:
         if page == 'edit_dataset_title':
             params['secondary_link'] = 'edit_dataset_licence'
         elif page == 'edit_dataset_licence':
@@ -35,9 +35,5 @@ def form_controls(request, dataset_name):
             params['secondary_link'] = 'edit_dataset_adddoc'
         elif page.startswith('edit_dataset_adddoc'):
             params['secondary_link'] = 'publish_dataset'
-
-    else:
-        if page.startswith('edit_dataset_addfile'):
-            params['primary_text'] = 'Save'
 
     return params
