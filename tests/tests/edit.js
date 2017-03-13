@@ -80,6 +80,15 @@ var test_edit_location = function (browser) {
     .end();
 };
 
+var test_edit_location_cancel = function (browser) {
+  createDataset(browser)
+    .clickAndCheckNextTitle('Edit', 'Edit ‘' + common.datasetTitle + '’')
+    .click('a[href*="location"]')
+    .assert.visible('#add1')
+    .clickAndCheckNextTitle('Cancel', 'Edit ‘' + common.datasetTitle + '’')
+    .end();
+};
+
 var test_cant_delete_published = function (browser) {
   createDataset(browser)
     .clickAndCheckNextTitle('Edit', 'Edit ‘' + common.datasetTitle + '’')
@@ -97,6 +106,7 @@ var test_admin_can_delete_published = function (browser) {
 module.exports = {
   'Edit a dataset title ': test_edit_title,
   'Edit a dataset location': test_edit_location,
+  'Cancel editing a dataset location': test_edit_location_cancel,
   'User cannot delete a published dataset': test_cant_delete_published,
   'Admin can delete a published dataset': test_admin_can_delete_published
 };
