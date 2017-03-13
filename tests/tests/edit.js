@@ -21,7 +21,7 @@ var createDataset = function (browser, is_admin) {
       'input[id=id_url]',
       'https://data.gov.uk/data/site-usage/data_all.csv'
     )
-    .setValue('input[id=id_title]', common.datafileTitle)
+    .setValue('input[id=id_name]', common.datafileTitle)
     .setValue('input[id=period_month]', '12')
     .setValue('input[id=period_year]', '2016')
     .submitFormAndCheckNextTitle('Links to your data')
@@ -33,7 +33,7 @@ var createDataset = function (browser, is_admin) {
       'input[id=id_url]',
       'https://data.gov.uk/data/site-usage/data_all.csv'
     )
-    .setValue('input[id=id_title]', common.datafileTitle)
+    .setValue('input[id=id_name]', common.datafileTitle)
     .submitFormAndCheckNextTitle('Links to supporting documents')
     .clickAndCheckNextTitle(
       'Save and continue',

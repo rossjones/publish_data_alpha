@@ -195,7 +195,7 @@ class DatasetsTestCase(TestCase):
         response = self.client.post(
             u,
             {
-                'title': 'A title',
+                'name': 'A title',
                 'url': 'https://data.gov.uk'
             }
         )

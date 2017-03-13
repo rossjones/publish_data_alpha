@@ -236,8 +236,10 @@ def edit_addfile(request, dataset_name, datafile_id=None):
             if datafile:
                 form.save()
             else:
-                if not _file_already_added(dataset, data['title'], data['url']):
+                if not _file_already_added(dataset, data['name'], data['url']):
                     data['dataset'] = dataset
+                    data['title'] = data['name']
+                    del data['name']
                     obj = Datafile.objects.create(**data)
                     obj.save()
 
@@ -310,8 +312,10 @@ def _addfile(request, dataset_name, form_class, template, datafile_id=None):
             if datafile:
                 form.save()
             else:
-                if not _file_already_added(dataset, data['title'], data['url']):
+                if not _file_already_added(dataset, data['name'], data['url']):
                     data['dataset'] = dataset
+                    data['title'] = data['name']
+                    del data['name']
                     obj = Datafile.objects.create(**data)
                     obj.save()
 
@@ -380,9 +384,11 @@ def edit_add_doc(request, dataset_name, datafile_id=None):
             if datafile:
                 form.save()
             else:
-                if not _file_already_added(dataset, data['title'], data['url']):
+                if not _file_already_added(dataset, data['name'], data['url']):
                     data['dataset'] = dataset
                     data['is_documentation'] = True
+                    data['title'] = data['name']
+                    del data['name']
                     obj = Datafile.objects.create(**data)
                     obj.save()
 
