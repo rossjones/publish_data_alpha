@@ -271,12 +271,10 @@ class DatasetsTestCase(TestCase):
         'Change'.
         '''
         u = reverse('publish_dataset', args=[self.dataset.name])
-        response = self.client.get(u)
         self.assertContains(
-            response,
-            '<a href="/dataset/a-test-dataset/location">Add '
-            '<span class=\'visuallyhidden\'>location</span></a>',
-            1, 200, html=True
+            self.client.get(u),
+            'Add <span class=\'visuallyhidden\'>location</span>',
+            1, 200
         )
         u = reverse(
             'edit_dataset_location',
@@ -286,7 +284,6 @@ class DatasetsTestCase(TestCase):
         u = reverse('publish_dataset', args=[self.dataset.name])
         self.assertContains(
             self.client.get(u),
-            '<a href="/dataset/a-test-dataset/location">Change '
-            '<span class=\'visuallyhidden\'>location</span></a>',
-            1, 200, html=True
+            'Change <span class=\'visuallyhidden\'>location</span>',
+            1, 200
         )
