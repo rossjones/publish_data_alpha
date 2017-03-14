@@ -33,6 +33,9 @@
         <legend class="form-label-bold">
           {% trans "Time period of this link" %}
         </legend>
+        <label class="form-label">
+          {% trans "Quarter" %}
+        </label>
         {% for error in form.quarter.errors %}
           <span class="error-message">{{ error }}</span>
         {% endfor %}
