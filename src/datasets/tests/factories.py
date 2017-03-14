@@ -53,4 +53,3 @@ class NaughtyUserFactory(DjangoModelFactory):
 
     username="Naughty Test User Signin",
     email="naughty-user@localhost",
-
