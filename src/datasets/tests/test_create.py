@@ -249,3 +249,29 @@ class DatasetsTestCase(TestCase):
         u = reverse('edit_dataset_files', args=[self.dataset.name])
         response = self.client.get(u)
         assert response.status_code == 200
+
+    def test_publish_page_add_change(self):
+        ''' Check that when no location is specified the publish
+        screen says 'Add' and when there is a location it says
+        'Change'.
+        '''
+        u = reverse('publish_dataset', args=[self.dataset.name])
+        response = self.client.get(u)
+        self.assertContains(
+            response,
+            '<a href="/dataset/a-test-dataset/location">Add '
+            '<span class=\'visuallyhidden\'>location</span></a>',
+            1, 200, html=True
+        )
+        u = reverse(
+            'edit_dataset_location',
+            args=[self.dataset.name]
+        )
+        self.client.post(u, {'location1': 'Paris'}),
+        u = reverse('publish_dataset', args=[self.dataset.name])
+        self.assertContains(
+            self.client.get(u),
+            '<a href="/dataset/a-test-dataset/location">Change '
+            '<span class=\'visuallyhidden\'>location</span></a>',
+            1, 200, html=True
+        )
