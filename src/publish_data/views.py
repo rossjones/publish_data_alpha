@@ -1,6 +1,7 @@
 import os
 import json
 
+from urllib.parse import urlencode
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
@@ -19,6 +20,16 @@ def home(request):
 
     return render(request, "home.html", {})
 
+def query_string(q, sort):
+    qsp = {}
+    if sort:
+        qsp['sort'] = sort
+    if q:
+        qsp['q'] = q
+    qs = urlencode(qsp)
+    if qs != '':
+        qs = '?' + qs
+    return qs
 
 @login_required()
 def manage_data(request):
@@ -36,9 +47,15 @@ def manage_data(request):
     if sort == 'name':
         sort_name_next = '-name'
         sort_published_next = 'published'
+    elif sort == '-name':
+        sort_name_next = ''
+        sort_published_next = 'published'
     elif sort == 'published':
         sort_name_next = 'name'
         sort_published_next = '-published'
+    elif sort == '-published':
+        sort_name_next = 'name'
+        sort_published_next = ''
     else:
         sort_name_next = 'name'
         sort_published_next = 'published'
@@ -61,6 +78,6 @@ def manage_data(request):
         "result": result or "",
         "find_url": settings.FIND_URL or ckan_host,
         "sort": sort,
-        "sort_name_next": sort_name_next,
-        "sort_published_next": sort_published_next
+        "qs_name_next": reverse("manage_data") + query_string(q, sort_name_next),
+        "qs_published_next": reverse("manage_data") + query_string(q, sort_published_next)
     })
