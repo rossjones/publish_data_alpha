@@ -63,7 +63,14 @@
               {% endif %}  />
           <span>{% trans "Other" %}</span>
         </label>
-        <div class="panel panel-border-narrow js-hidden" id="other-licence">
+        <div
+            class="panel panel-border-narrow js-hidden {% if form.licence_other.errors %}error{% endif %}"
+            id="other-licence">
+          {% if form.licence_other.errors %}
+            <span class="error-message">
+              {% trans "Please type the name of your licence" %}
+            </span>
+          {% endif %}
           <label
               class="form-label"
               for="id_licence_other">{% trans "Name of your licence:" %}</label>

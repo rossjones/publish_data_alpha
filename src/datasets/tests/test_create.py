@@ -67,7 +67,7 @@ class DatasetsTestCase(TestCase):
         response = self.client.get(u)
         assert response.status_code == 200
 
-        # No selected countries, expect a fail
+        # No selected licence, expect a fail
         response = self.client.post(u, {})
         assert response.status_code == 200
 
@@ -79,6 +79,21 @@ class DatasetsTestCase(TestCase):
         assert self._get_dataset().licence == "ogl", \
             self._get_dataset().licence
 
+        # No other licence specified
+        response = self.client.post(
+            u,
+            {
+                'licence': 'other',
+                'licence_other': ''
+            }
+        )
+        self.assertContains(
+            response,
+            'Please type the name of your licence',
+            2, 200
+        )
+
+        # Correct other licence
         response = self.client.post(
             u,
             {
