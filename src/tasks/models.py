@@ -8,6 +8,7 @@ from django.db import models
 TASK_CATEGORIES = (
     ("update",   _("Update datasets"), ),
     ("fix",      _("Fix datasets"), ),
+    ("missing",  _("Missing data"), ),
 )
 
 
@@ -20,6 +21,9 @@ class Task(models.Model):
     owning_organisation = models.CharField(max_length=128)
 
     related_object_id = models.CharField(max_length=200, blank=True, null=True)
+
+    # Used to represent how many broken links, how many days late etc.
+    quantity = models.IntegerField(default=0)
 
     # The name of the permission required to execute this task
     # Users should not be shown the tasks where they don't have
