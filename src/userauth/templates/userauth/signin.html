@@ -53,6 +53,11 @@
           name="password"
           type="password">
     </div>
-    <input class="button" type="submit" value="{% trans "Sign in" %}"/>
+    <p>
+      <input class="button" type="submit" value="{% trans "Sign in" %}"/>
+    </p>
+    <p>
+      <a class="secondary-button" href="{% url 'password_reset' %}">Forgot your password?</a>
+    </p>
   </form>
 {% endblock %}
