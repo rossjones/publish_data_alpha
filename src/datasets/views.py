@@ -538,7 +538,7 @@ def _frequency_addfile_viewname(dataset):
     elif frequency in ['annually', 'financial-year']:
         url = 'edit_dataset_addfile_annually'
     else:
-        url = 'edit_dataset_adddoc'
+        url = 'edit_dataset_addfile'
 
     return url
 
