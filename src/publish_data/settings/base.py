@@ -173,6 +173,8 @@ ES_INDEX = os.environ.get('ES_INDEX')
 
 FIND_URL = os.environ.get('FIND_URL')
 
+NOTIFY_APIKEY = os.environ.get('NOTIFY_APIKEY')
+
 try:
     from .local_settings import *
 except:
@@ -189,3 +191,6 @@ if isinstance(ES_HOSTS, str):
 
 if not FIND_URL:
     print("You should set FIND_URL to link your datasets to the find-data app")
+
+if not NOTIFY_APIKEY:
+    print("No emails will be sent as NOTIFY_APIKEY is not defined")
