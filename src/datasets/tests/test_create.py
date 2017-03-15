@@ -3,6 +3,7 @@ import uuid
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse
+from django.utils.translation import ugettext as _
 from datasets.models import Dataset, Organisation
 
 from .factories import (GoodUserFactory,
@@ -89,7 +90,7 @@ class DatasetsTestCase(TestCase):
         )
         self.assertContains(
             response,
-            'Please type the name of your licence',
+            _('Please type the name of your licence'),
             2, 200
         )
 
