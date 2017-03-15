@@ -9,19 +9,21 @@
 
 {% block inner_content %}
   <main id="content" role="main" tabindex="-1">
-    {% if file_to_delete %}
+    {% if file_to_delete_id %}
       <div
           class="confirm-box"
           role="group"
           aria-labelledby="confirm-heading"
           tabindex="-1">
         <h1 id="confirm-heading" class="heading-medium">
-          {% trans 'Are you sure you want to delete this link?' %}
+          {% blocktrans %}
+            Are you sure you want to delete ‘{{ file_to_delete_title }}’?
+          {% endblocktrans %}
         </h1>
         <div class="confirm-box-actions">
           <a
               class="button"
-              href="{% url 'edit_dataset_deletefile' dataset.name file_to_delete %}">
+              href="{% url 'edit_dataset_deletefile' dataset.name file_to_delete_id %}">
             {% trans 'Yes, delete this link' %}</a>
           <a
               class="secondary-button"

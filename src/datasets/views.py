@@ -265,7 +265,7 @@ def edit_deletefile(request, dataset_name, datafile_id):
 
     datafile.delete();
 
-    msg = _('Your link has been deleted')
+    msg = _('Your link ‘{}’ has been deleted'.format(datafile.title))
     messages.add_message(request, messages.INFO, msg)
 
     return HttpResponseRedirect(
@@ -290,7 +290,8 @@ def edit_confirmdeletefile(request, dataset_name, datafile_id):
     return render(request, template, {
         'addfile_viewname': url,
         'dataset': dataset,
-        'file_to_delete': datafile_id,
+        'file_to_delete_id': datafile_id,
+        'file_to_delete_title': datafile.title,
     })
 
 
