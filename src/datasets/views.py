@@ -265,6 +265,9 @@ def edit_deletefile(request, dataset_name, datafile_id):
 
     datafile.delete();
 
+    msg = _('Your link has been deleted')
+    messages.add_message(request, messages.INFO, msg)
+
     return HttpResponseRedirect(
         reverse(next_view, args=[dataset_name])
     )

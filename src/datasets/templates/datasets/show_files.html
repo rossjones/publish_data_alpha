@@ -32,6 +32,14 @@
       </div>
     {% endif %}
 
+    {% if messages %}
+      <div class="confirm-box">
+        {% for message in messages %}
+          <h1 class="heading-medium"> {{ message|safe }}</h1>
+        {% endfor %}
+      </div>
+    {% endif %}
+
     <h1 class="heading-large">
       {% trans "Links to your data" %}
     </h1>
