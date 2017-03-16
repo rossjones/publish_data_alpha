@@ -145,13 +145,18 @@
           {% trans "Data" %}
         </th>
         <td class="file-list">
-          <ul>
-          {% for link in datafiles %}
-            <li>
-              <a href="{{ link.url }}">{{ link.title }}</a>
-            </li>
-          {% endfor %}
-          </ul>
+          <div class="show-hide">
+            <div>
+              <a class="font-xsmall toggle" style="display:none">{% trans "Show all" %}</a>
+            </div>
+            <ul>
+              {% for link in datafiles %}
+                <li class="show-hide-item">
+                  <a href="{{ link.url }}">{{ link.title }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
         </td>
         <td class="actions">
           <a href="{% url 'edit_dataset_files' dataset.name %}">
@@ -168,13 +173,18 @@
           {% trans "Documentation" %}
         </th>
         <td class="file-list">
-          <ul>
-            {% for link in docfiles %}
-              <li>
-                <a href="{{ link.url }}">{{ link.title }}</a>
-              </li>
-            {% endfor %}
-          </ul>
+          <div class="show-hide">
+            <div>
+              <a class="font-xsmall toggle" style="display:none">{% trans "Show all" %}</a>
+            </div>
+            <ul>
+              {% for link in docfiles %}
+                <li class="show-hide-item">
+                  <a href="{{ link.url }}">{{ link.title }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
         </td>
         <td class="actions">
           <a href="{% url 'edit_dataset_documents' dataset.name %}">

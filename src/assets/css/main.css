@@ -1714,7 +1714,7 @@ table.manage-data td.actions {
   table.manage-data td.actions a + a {
     margin-left: .7em; }
 
-.table-show-hide a.toggle {
+.show-hide a.toggle {
   color: #005ea5;
   cursor: pointer; }
 
