@@ -147,17 +147,9 @@
         <td class="file-list">
           <ul>
           {% for link in datafiles %}
-            {% if forloop.counter < 6 %}
-              <li>
-                <a href="{{ link.url }}">{{ link.title }}</a>
-              </li>
-            {% endif %}
-            {% if forloop.counter == 6 %}
-              <li>
-                <a href="{% url 'edit_dataset_files' dataset.name %}">
-                  {% trans "View all <span class='visuallyhidden'>datafiles</span>" %}
-                </a>
-            {% endif %}
+            <li>
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            </li>
           {% endfor %}
           </ul>
         </td>
@@ -178,17 +170,9 @@
         <td class="file-list">
           <ul>
             {% for link in docfiles %}
-              {% if forloop.counter < 6 %}
-                <li>
-                  <a href="{{ link.url }}">{{ link.title }}</a>
-                </li>
-              {% endif %}
-              {% if forloop.counter == 6 %}
-                <li>
-                  <a href="{% url 'edit_dataset_documents' dataset.name %}">
-                    {% trans "View all <span class='visuallyhidden'>documents</span>" %}
-                  </a>
-              {% endif %}
+              <li>
+                <a href="{{ link.url }}">{{ link.title }}</a>
+              </li>
             {% endfor %}
           </ul>
         </td>
