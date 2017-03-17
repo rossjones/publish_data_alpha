@@ -1709,9 +1709,16 @@ table.check-your-answers {
   table.check-your-answers td.actions {
     width: 5em; }
 
-table.manage-data td.actions {
+table.manage-data td {
+  padding-left: .3em;
+  padding-right: .3em; }
+
+table.manage-data tbody tr:hover {
+  background-color: #dee0e2; }
+
+table.manage-data tr td.actions {
   width: 8em; }
-  table.manage-data td.actions a + a {
+  table.manage-data tr td.actions a + a {
     margin-left: .7em; }
 
 .show-hide a.toggle {
@@ -1719,8 +1726,7 @@ table.manage-data td.actions {
   cursor: pointer; }
 
 table tr .actions {
-  text-align: right;
-  padding-right: 0; }
+  text-align: right; }
 
 a.secondary-button, a.secondary-button:visited {
   color: #005ea5;
@@ -1909,9 +1915,14 @@ table {
   margin-bottom: 2em; }
   .tasks table.todos {
     border-top: 1px solid #bfc1c3; }
-  .tasks table td .nb-downloads {
-    display: inline-block;
-    min-width: 3em; }
+  .tasks table tr:hover {
+    background-color: #dee0e2; }
+  .tasks table td {
+    padding-left: .3em;
+    padding-right: .3em; }
+    .tasks table td .nb-downloads {
+      display: inline-block;
+      min-width: 3em; }
   .tasks table td .text-supporting {
     color: #6f777b; }
 
