@@ -30,16 +30,40 @@ class ManageTestCase(TestCase):
             title='B dataset'
         )
 
+
     def test_manage_sorting(self):
         ''' Check sorting order types '''
-        manage_page = self.client.get(reverse('manage_data'))
+        manage_page = self.client.get(reverse('manage_org_data'))
         self.assertContains(
             manage_page,
             '<h1 class="heading-large">Manage your datasets</h1>',
             1, 200, html=True
         )
         assert re.match(r'.*B dataset.+A dataset.*', str(manage_page.content))
-        manage_page = self.client.get(reverse('manage_data')+'?sort=name')
+        manage_page = self.client.get(reverse('manage_org_data')+'?sort=name')
         assert re.match(r'.*A dataset.+B dataset.*', str(manage_page.content))
-        manage_page = self.client.get(reverse('manage_data')+'?sort=-name')
+        manage_page = self.client.get(reverse('manage_org_data')+'?sort=-name')
         assert re.match(r'.*B dataset.+A dataset.*', str(manage_page.content))
+
+
+    def test_manage_tabs(self):
+        test_user2 = GoodUserFactory.create(name='bleh')
+        test_user2.save()
+        dataset_c = DatasetFactory.create(
+            organisation_id = self.organisation.id,
+            name='c-dataset',
+            title='C dataset',
+            creator=test_user2
+        )
+
+        # self.test_user's own datasets are self.dataset_c
+        response = self.client.get(reverse('manage_my_data'))
+        self.assertContains(response, 'C dataset', 1, 200)
+        self.assertNotContains(response, 'B dataset', status_code = 200)
+        self.assertNotContains(response, 'A dataset', status_code = 200)
+
+        # self.test_user's org datasets are self.dataset_a|b|c
+        response = self.client.get(reverse('manage_org_data'))
+        self.assertContains(response, 'C dataset', 1, 200)
+        self.assertContains(response, 'B dataset', 1, 200)
+        self.assertContains(response, 'A dataset', 1, 200)

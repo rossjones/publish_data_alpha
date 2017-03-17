@@ -1,0 +1,8 @@
+{% extends "manage/base.html" %}
+{% load i18n %}
+
+{%block manage_title %}
+  <div class="heading-medium">
+    <a href="{% url 'manage_my_data' %}">{% trans "My datasets" %}</a>
+  </div><h2 class="heading-medium">{{ organisation.title }}{% trans " datasets" %}</h2>
+{% endblock %}

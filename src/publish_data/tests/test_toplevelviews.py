@@ -30,9 +30,9 @@ class TopLevelViewsCase(TestCase):
         assert response.url == '/tasks', response.url
 
     def test_manage_redirects(self):
-        response = self.client.get(reverse('manage_data'))
+        response = self.client.get(reverse('manage_my_data'))
         assert response.status_code == 302
-        assert response.url == '/accounts/signin?next=/manage'
+        assert response.url == '/accounts/signin?next=/manage/'
 
     def test_manage_ok_when_logged_in(self):
         response = self.client.post('/accounts/signin', {
@@ -42,6 +42,6 @@ class TopLevelViewsCase(TestCase):
         assert response.status_code == 302
         assert response.url == '/tasks'
 
-        response = self.client.get('/manage')
+        response = self.client.get(reverse('manage_my_data'))
         assert response.status_code == 200
         assert 'Manage your datasets' in str(response.content)

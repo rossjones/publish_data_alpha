@@ -98,7 +98,7 @@ def delete_dataset(request, dataset_name):
     messages.add_message(request, messages.INFO, msg)
 
     return HttpResponseRedirect(
-        reverse('manage_data')
+        reverse('manage_my_data')
     )
 
 
@@ -484,7 +484,7 @@ def _edit_publish_dataset(request, dataset, state):
             request.session['flow-state'] = None
 
             return HttpResponseRedirect(
-                reverse('manage_data')
+                reverse('manage_my_data')
             )
     else:
         form = f.PublishForm()
