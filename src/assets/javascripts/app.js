@@ -12,13 +12,13 @@
 
   // Components
 
-  var tableShowHide = {
-    selector: '.table-show-hide ',
+  var showHide = {
+    selector: '.show-hide',
 
     init: function(params) {
       var that = this;
       $.each($(this.selector), function(index, showHide) {
-        var rows = $(showHide).find('table tr');
+        var rows = $(showHide).find('.show-hide-item');
         rows.each(function() {
           if ($(this).index() >= params.rowLimit) {
             $(this).hide();
@@ -34,7 +34,7 @@
 
     callback: function(event) {
       var a = $(this);
-      var rows = $(this).parents('section').first().find('tr');
+      var rows = $(this).parents('.show-hide').first().find('.show-hide-item');
       a.toggleClass('expanded');
       if (a.hasClass('expanded')) {
         a.text('Close');
@@ -188,7 +188,7 @@
 
 
   $(document).ready(function() {
-    tableShowHide.init({ rowLimit: 5 });
+    showHide.init({ rowLimit: 5 });
     typeAhead.init({ selector: '.location-input' });
     stats.init('#stats');
   });

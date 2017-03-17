@@ -145,21 +145,18 @@
           {% trans "Data" %}
         </th>
         <td class="file-list">
-          <ul>
-          {% for link in datafiles %}
-            {% if forloop.counter < 6 %}
-              <li>
-                <a href="{{ link.url }}">{{ link.title }}</a>
-              </li>
-            {% endif %}
-            {% if forloop.counter == 6 %}
-              <li>
-                <a href="{% url 'edit_dataset_files' dataset.name %}">
-                  {% trans "View all <span class='visuallyhidden'>datafiles</span>" %}
-                </a>
-            {% endif %}
-          {% endfor %}
-          </ul>
+          <div class="show-hide">
+            <div>
+              <a class="font-xsmall toggle" style="display:none">{% trans "Show all" %}</a>
+            </div>
+            <ul>
+              {% for link in datafiles %}
+                <li class="show-hide-item">
+                  <a href="{{ link.url }}">{{ link.title }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
         </td>
         <td class="actions">
           <a href="{% url 'edit_dataset_files' dataset.name %}">
@@ -176,21 +173,18 @@
           {% trans "Documentation" %}
         </th>
         <td class="file-list">
-          <ul>
-            {% for link in docfiles %}
-              {% if forloop.counter < 6 %}
-                <li>
+          <div class="show-hide">
+            <div>
+              <a class="font-xsmall toggle" style="display:none">{% trans "Show all" %}</a>
+            </div>
+            <ul>
+              {% for link in docfiles %}
+                <li class="show-hide-item">
                   <a href="{{ link.url }}">{{ link.title }}</a>
                 </li>
-              {% endif %}
-              {% if forloop.counter == 6 %}
-                <li>
-                  <a href="{% url 'edit_dataset_documents' dataset.name %}">
-                    {% trans "View all <span class='visuallyhidden'>documents</span>" %}
-                  </a>
-              {% endif %}
-            {% endfor %}
-          </ul>
+              {% endfor %}
+            </ul>
+          </div>
         </td>
         <td class="actions">
           <a href="{% url 'edit_dataset_documents' dataset.name %}">

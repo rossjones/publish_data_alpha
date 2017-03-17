@@ -13,7 +13,7 @@
   <div class="tasks">
     <div class="tabs">{%block tasks_title %}{% trans "My tasks" %}{% endblock %}</div>
     <div class="tabs-content">
-      <section class="table-show-hide">
+      <section class="show-hide">
         <div class="table-title">
           <h2 class="heading-medium">
             <span class="bignum">{{tasks.update|length}}</span> {% trans "datasets need to be updated" %}
@@ -25,7 +25,7 @@
         <table>
           <tbody>
             {% for task in tasks.update %}
-              <tr>
+              <tr class="show-hide-item">
                 <td>
                   {{ task.description }}
                 </td>
