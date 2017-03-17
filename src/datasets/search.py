@@ -61,7 +61,10 @@ def delete_dataset(dataset):
         logger.exception("Failed to remove dataset '' from index".format(dataset.id))
 
 def bulk_import(data):
-    bulk(es, data)
+    return bulk(es, data, stats_only=True, raise_on_error=True)
+
+def flush_index():
+    es.indices.flush(index=settings.ES_INDEX)
 
 def reset_index():
     es.indices.delete(index=settings.ES_INDEX, ignore=400)
@@ -83,9 +86,3 @@ def reset_index():
         ignore=400
     )
 
-
-# TODO: Provide a query function like ....
-#res = es.search(index="test-index", body={"query": {"match_all": {}}})
-#print("Got %d Hits:" % res['hits']['total'])
-#for hit in res['hits']['hits']:
-#    print("%(timestamp)s %(author)s: %(text)s" % hit["_source"])

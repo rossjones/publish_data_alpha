@@ -104,9 +104,11 @@ class Dataset(models.Model):
         }
 
         if self.dataset_type == 'inspire':
-            inspire = getattr(self, 'inspire')
-            data['inspire'] = inspire.as_dict()
-
+            try:
+                inspire = getattr(self, 'inspire')
+                data['inspire'] = inspire.as_dict()
+            except:
+                pass
 
         return data
 
