@@ -19,7 +19,7 @@ def publish(dataset, user):
         unindex_dataset(dataset)
 
 
-def dataset_list(user, page=1, filter_query=None, sort=None):
+def dataset_list(user, page=1, filter_query=None, sort=None, only_user = False):
     """
     For the given user returns a tuple containing total number of datasets
     both draft and published, and the 20 most recent.
@@ -28,9 +28,11 @@ def dataset_list(user, page=1, filter_query=None, sort=None):
     max_fetch = per_page * page
 
     organisations = organisations_for_user(user)
-    sub_query = Q(organisation__in=organisations) | Q(owner=user)
-    q = Dataset.objects\
-        .filter(sub_query)
+
+    sub_query = Q(organisation__in=organisations) & Q(owner=user) \
+        if only_user else Q(organisation__in=organisations)
+
+    q = Dataset.objects.filter(sub_query)
 
     if filter_query:
         q = q.filter(title__icontains=filter_query)
@@ -195,11 +197,3 @@ def publish_to_ckan(dataset, user):
         return str(e)
 
     return ""
-
-
-
-
-
-
-
-
