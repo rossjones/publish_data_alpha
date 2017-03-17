@@ -45,6 +45,7 @@ def new_dataset(request):
                 description=form.cleaned_data['description'],
                 summary=form.cleaned_data['summary'],
                 creator=request.user,
+                owner=request.user, # Initial owner = creator
                 organisation=user_org
             )
 

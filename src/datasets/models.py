@@ -51,6 +51,9 @@ class Dataset(models.Model):
     creator = models.ForeignKey(settings.AUTH_USER_MODEL,
                                 on_delete=models.SET_NULL,
                                 null=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                on_delete=models.SET_NULL,
+                                null=True, related_name='owned_datasets')
 
     published = models.BooleanField(default=False)
     published_date = models.DateTimeField(null=True, blank=True)
@@ -58,6 +61,11 @@ class Dataset(models.Model):
     is_harvested = models.BooleanField(default=False)
     legacy_metadata = models.TextField(null=True, blank=True)
 
+    def save(self, *args, **kwargs):
+        if not self.owner:
+            self.owner = self.creator
+
+        super(Dataset, self).save(*args, **kwargs)
 
     def noun(self):
         if self.published:

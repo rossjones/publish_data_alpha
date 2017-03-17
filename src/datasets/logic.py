@@ -29,7 +29,7 @@ def dataset_list(user, page=1, filter_query=None, sort=None, only_user = False):
 
     organisations = organisations_for_user(user)
 
-    sub_query = Q(organisation__in=organisations) & Q(creator=user) \
+    sub_query = Q(organisation__in=organisations) & Q(owner=user) \
         if only_user else Q(organisation__in=organisations)
 
     q = Dataset.objects.filter(sub_query)
