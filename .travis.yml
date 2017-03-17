@@ -2,6 +2,7 @@ language: python
 python:
   - "3.5"
 install: "pip install -r requirements.txt"
+cache: pip
 before_script:
     - sleep 10
     - psql -c 'create database travis_ci_test;' -U postgres
