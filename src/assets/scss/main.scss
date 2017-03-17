@@ -139,7 +139,14 @@ table.check-your-answers {
 }
 
 table.manage-data {
-  td.actions {
+  td {
+    padding-left: .3em;
+    padding-right: .3em
+  }
+  tbody tr:hover {
+    background-color: $panel-colour;
+  }
+  tr td.actions {
     width: 8em;
     a + a {
       margin-left: .7em;
@@ -154,7 +161,6 @@ table.manage-data {
 
 table tr .actions {
   text-align: right;
-  padding-right: 0;
 }
 
 
@@ -401,7 +407,12 @@ table {
     &.todos {
       border-top: 1px solid $grey-2;
     }
+    tr:hover {
+      background-color: $panel-colour;
+    }
     td {
+      padding-left: .3em;
+      padding-right: .3em;
       .nb-downloads {
         display: inline-block;
         min-width: 3em;
