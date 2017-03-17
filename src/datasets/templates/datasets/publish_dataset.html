@@ -20,7 +20,9 @@
   </h1>
 
   <ul>
-    <li>Last updated: {{ dataset.last_edit_date | date:"d M Y" }}</li>
+    {% if not request|is_checking %}
+      <li>Last updated: {{ dataset.last_edit_date | date:"d M Y" }}</li>
+    {% endif %}
     <li>Status: {% if dataset.published %}{% trans 'Published' %}{% else %}Draft{% endif %}</li>
     <li>Published by: {{ organisation.title|default:"?" }}</li>
   </ul>

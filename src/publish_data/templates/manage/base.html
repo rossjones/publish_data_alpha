@@ -23,11 +23,21 @@
     <h1 class="heading-large">{% trans "Manage your datasets" %}</h1>
 
     <div class="tabs">{%block manage_title %}{% endblock %}</div>
+
     <div class="tabs-content">
+
+      <p>
+        <a
+          href="{% url 'new_dataset' %}"
+          class="button-secondary">
+        {% trans "Create a dataset" %}
+        </a>
+      </p>
+
       <form
-          method="GET"
-          action="{% url 'manage_my_data' %}"
-          class="form">
+            method="GET"
+            action="{% url 'manage_my_data' %}"
+            class="form">
 
         <fieldset>
           <legend class="visuallyhidden">
@@ -36,7 +46,7 @@
 
           <div class="form-group wide-search-bar">
             <label for="q">
-              <span>{% trans "Search all datasets by name" %}</span>
+              <span>{% trans "Search all datasets" %}</span>
               <input
                   class="form-control"
                   id="q"
@@ -60,7 +70,7 @@
                 <a
                     href="{{ qs_name_next }}"
                     class="{% if sort == 'name' %}sort-ascending{% elif sort == '-name' %}sort-descending{% endif %}">
-                  {% trans 'Name' %}
+                  {% trans 'Dataset name' %}
                 </a>
               </th>
               <th class="sortable-heading">
