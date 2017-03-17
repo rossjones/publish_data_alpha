@@ -28,7 +28,7 @@ def dataset_list(user, page=1, filter_query=None, sort=None):
     max_fetch = per_page * page
 
     organisations = organisations_for_user(user)
-    sub_query = Q(organisation__in=organisations) | Q(creator=user)
+    sub_query = Q(organisation__in=organisations) | Q(owner=user)
     q = Dataset.objects\
         .filter(sub_query)
 
