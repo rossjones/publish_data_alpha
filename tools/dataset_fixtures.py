@@ -19,6 +19,17 @@ def calculate_dates_for_year(year):
         datetime.datetime(year=year, month=12, day=31)
     )
 
+def convert_frequency(freq):
+    if not freq:
+        return ''
+
+    return {
+        'annual': 'annually',
+        'quarterly': 'quarterly',
+        'monthly': 'monthly'
+    }.get(freq, 'never')
+
+
 def get_extra(extras, key):
     for e in extras:
         if e['key'] == key:
@@ -97,6 +108,7 @@ for line in open(SOURCE, 'r').readlines():
             'dataset_type': get_type(dataset),
             'published': True,
             'published_date': dataset.get('medadata_created'),
+            'frequency': convert_frequency(dataset.get('update_frequency')),
             'is_harvested': is_harvested(dataset)
         }
     }
@@ -146,7 +158,6 @@ for line in open(SOURCE, 'r').readlines():
             f['fields']['end_date'] = end.date().isoformat()
 
         resources.append(f)
-
 
 with open('../src/datasets/fixtures/inspire.json', 'w') as f:
     json.dump(inspire, f)

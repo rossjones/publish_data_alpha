@@ -7,7 +7,7 @@ from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
 
 from datasets.models import Dataset
-from datasets.search import bulk_import, reset_index
+from datasets.search import bulk_import, reset_index, flush_index
 
 class Command(BaseCommand):
     help = 'Interacts with the configured search index'
@@ -42,6 +42,7 @@ class Command(BaseCommand):
 
 
     def do_rebuild(self):
+        ok, failed = 0, 0
         q = Dataset.objects.filter(published=True)
         count = q.count()
 
@@ -52,7 +53,7 @@ class Command(BaseCommand):
         previous = 0
         for end in range(50, count + 50, 50):
             datasets = q.all()[previous:end]
-            print("Indexing from {} to {}".format(previous, end))
+            print("Indexing from {} to {} ({} datasets)".format(previous, end, len(datasets)))
 
             k = [
                 {
@@ -62,9 +63,13 @@ class Command(BaseCommand):
                 "_source": d.as_dict(),
                 } for d in datasets]
 
-            bulk_import(k)
+            s, f = bulk_import(k)
+            ok += s
+            failed += f
             previous = end
 
+        flush_index()
+        print("{} successfully added, {} not".format(ok, failed))
 
 
     def do_reset(self):
