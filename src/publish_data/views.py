@@ -66,6 +66,7 @@ def _manage_context(request, only_user, view_name):
     organisation = request.user.primary_organisation()
 
     return {
+        "current_view": view_name,
         "datasets": datasets,
         "organisation": organisation,
         "total": total,
