@@ -29,7 +29,6 @@ def _query_string(q, sort):
 
 def _manage_context(request, only_user, view_name):
     q = request.GET.get('q')
-    result = request.GET.get('result')
     sort = request.GET.get('sort')
 
     page = 1
@@ -73,7 +72,6 @@ def _manage_context(request, only_user, view_name):
         "page_range": range(1, page_count),
         "current_page": page,
         "q": q or "",
-        "result": result or "",
         "find_url": settings.FIND_URL or ckan_host,
         "sort": sort,
         "qs_name_next": reverse(view_name) + \
