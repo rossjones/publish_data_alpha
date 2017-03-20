@@ -222,15 +222,6 @@ a.remove-button {
   }
 }
 
-@media (min-width: 640px) {
-  .wide-search-bar {
-    input[type=text] { width: 82% }
-    input[type=submit] {
-      float: right;
-      width: 17%
-    }
-  }
-}
 
 th.sortable-heading {
   position: relative;
