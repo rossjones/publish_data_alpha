@@ -95,7 +95,7 @@ def delete_dataset(request, dataset_name):
     unindex_dataset(dataset)
     dataset.delete()
 
-    msg = _('The dataset &#8220;%(title)s&#8221; has been deleted.') % {'title': dataset.title}
+    msg = _('The dataset ‘%(title)s’ has been deleted.') % {'title': dataset.title}
     messages.add_message(request, messages.INFO, msg)
 
     return HttpResponseRedirect(
