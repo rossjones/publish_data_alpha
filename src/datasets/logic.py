@@ -1,4 +1,5 @@
 import math
+from datetime import datetime, timedelta
 
 from django.db.models import Q
 from datasets.models import Dataset, Organisation
@@ -54,6 +55,32 @@ def dataset_list(user, page=1, filter_query=None, sort=None, only_user=False, fi
     offset = (page * per_page) - per_page
     return (total, page_count, datasets,)
 
+def is_dataset_overdue(dataset):
+    recent_date = most_recent_datafile(dataset)
+    if not recent_date:
+        return False
+
+    num_days = number_days_for_frequency(dataset.frequency)
+    diff = recent_date + timedelta(days=num_days)
+    return datetime.now().date() > diff
+
+def most_recent_datafile(dataset):
+    ''' Iterates through the files in the dataset, and find the
+    one with the most recent start-date, returning the start date '''
+    dates = [f.start_date for f in dataset.files.all() if f.start_date]
+    dates.sort(reverse=True)
+    return dates[0] if dates else None
+
+def number_days_for_frequency(frequency):
+    if frequency == 'annually':
+        return 365
+    elif frequency == 'monthly':
+        return 30
+    elif frequency == 'weekly':
+        return 7
+    elif frequency == 'quarterly':
+        return 90
+    return 0
 
 ###########################################################################
 # The functions below are intended only for use in Alpha, until a working
