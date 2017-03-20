@@ -27,15 +27,10 @@ def dataset_lookup(request):
     sort = request.GET.get('sort', 'name')
     only_user = True if request.GET.get('only_user') == '1' else False
     total, page_count, datasets = dataset_list(
-        request.user, filter_query=q, sort=sort, only_user=only_user
+        request.user, filter_query=q, sort=sort,
+        only_user=only_user, fields=['title', 'name', 'published']
     )
-    datasets_as_dicts = [{
-        'title': dataset.title,
-        'name': dataset.name,
-        'published': dataset.published
-    } for dataset in datasets]
-
-    return JsonResponse(datasets_as_dicts, safe=False)
+    return JsonResponse(list(datasets), safe=False)
 
 
 class StatusEndpoint(ProtectedResourceView):
