@@ -5,7 +5,8 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import render
 
-from datasets.models import Location
+from datasets.models import Location, Dataset
+from datasets.logic import dataset_list, organisations_for_user
 
 
 def gazeteer_lookup(request):
@@ -19,6 +20,21 @@ def gazeteer_lookup(request):
             data.append(location_string)
 
     return JsonResponse(data, safe=False)
+
+
+def dataset_lookup(request):
+    q = request.GET.get('q')
+    sort = request.GET.get('sort', 'name')
+    only_user = True if request.GET.get('only_user') == '1' else False
+    total, page_count, datasets = dataset_list(
+        request.user, filter_query=q, sort=sort, only_user=only_user
+    )
+    datasets_as_dicts = [{
+        'title': dataset.title,
+        'name': dataset.name
+    } for dataset in datasets]
+
+    return JsonResponse(datasets_as_dicts, safe=False)
 
 
 class StatusEndpoint(ProtectedResourceView):
