@@ -9,6 +9,12 @@
     if (stuffToShowSelector) $(stuffToShowSelector).attr('aria-hidden', 'false').show();
   };
 
+  // escape strings injected into the DOM
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
 
   // Components
 
@@ -186,11 +192,42 @@
   };
 
 
+  var searchDatasetsAsYouType = {
+
+    init: function() {
+      $('#filter-dataset-form #q').on('keyup', function(event) {
+        $.get('/api/datasets?q=' + this.value)
+        .success(function(searchResults) {
+          if (searchResults.length) {
+            $('#dataset-list').html('');
+            searchResults.forEach(function(item) {
+              var safeName = escapeHtml(item.name);
+              var safeTitle = escapeHtml(item.title);
+              var markup = '<tr><td><a href="http://localhost:8001/dataset/'+
+                    safeName + '">' + safeTitle +
+                    '</a></td><td>' +
+                    (item.published ? 'Published' : 'Draft') +
+                    '</td><td class="actions">' +
+                    '<a href="/dataset/' +
+                    safeName +
+                    '/addfile/">Add&nbsp;Data</a>' +
+                    '<a href="/dataset/edit/' +
+                    safeName +
+                    '">Edit</a></td></tr>';
+              $('#dataset-list').append(markup);
+            });
+          }
+        });
+      });
+    }
+  };
+
 
   $(document).ready(function() {
     showHide.init({ rowLimit: 5 });
     typeAhead.init({ selector: '.location-input' });
     stats.init('#stats');
+    searchDatasetsAsYouType.init('#filter-dataset-form');
   });
 
 })();

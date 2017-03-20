@@ -35,13 +35,14 @@
       </p>
 
       <form
-            method="GET"
-            action="{% url 'manage_my_data' %}"
-            class="form">
+          method="GET"
+          action="{% url current_view %}"
+          id="filter-dataset-form"
+          class="form">
 
         <fieldset>
           <legend class="visuallyhidden">
-            {% trans "Filter by name" %}
+            {% trans "Filter datasets by name" %}
           </legend>
 
           <div class="form-group wide-search-bar">
@@ -54,7 +55,6 @@
                   type="text"
                   value="{{ q }}"/>
             </label>
-            <input class="button" type="submit" value="{% trans "Search" %}"/>
           </div>
           {% if q %}
             <a class="font-xsmall" href="{% url 'manage_my_data' %}">{% trans "Reset search" %}</a>
@@ -83,7 +83,7 @@
               <th><span class="visuallyhidden">{% trans 'Actions' %}</span></th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="dataset-list">
             {% for dataset in datasets %}
               <tr>
                 <td>
