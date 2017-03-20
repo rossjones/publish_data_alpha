@@ -31,7 +31,8 @@ def dataset_lookup(request):
     )
     datasets_as_dicts = [{
         'title': dataset.title,
-        'name': dataset.name
+        'name': dataset.name,
+        'published': dataset.published
     } for dataset in datasets]
 
     return JsonResponse(datasets_as_dicts, safe=False)

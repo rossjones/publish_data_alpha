@@ -37,6 +37,7 @@
       <form
           method="GET"
           action="{% url current_view %}"
+          id="filter-dataset-form"
           class="form">
 
         <fieldset>
@@ -82,7 +83,7 @@
               <th><span class="visuallyhidden">{% trans 'Actions' %}</span></th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="dataset-list">
             {% for dataset in datasets %}
               <tr>
                 <td>
