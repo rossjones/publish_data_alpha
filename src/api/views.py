@@ -30,7 +30,11 @@ def dataset_lookup(request):
         request.user, filter_query=q, sort=sort,
         only_user=only_user, fields=['title', 'name', 'published']
     )
-    return JsonResponse(list(datasets), safe=False)
+    return JsonResponse(
+        { 'total': total,
+          'datasets': list(datasets)
+        }, safe=False
+    )
 
 
 class StatusEndpoint(ProtectedResourceView):

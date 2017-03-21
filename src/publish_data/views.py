@@ -69,7 +69,7 @@ def _manage_context(request, only_user, view_name):
         "datasets": datasets,
         "organisation": organisation,
         "total": total,
-        "page_range": range(1, page_count),
+        "page_range": range(1, page_count + 1),
         "current_page": page,
         "q": q or "",
         "find_url": settings.FIND_URL or ckan_host,
