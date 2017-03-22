@@ -267,7 +267,14 @@
     init: function() {
       var self = this;
       $('#filter-dataset-form #q').on('keyup', function(event) {
-        console.log(event.keyCode)
+        if (event.which === 0 ||
+            event.which === 9 || // tab
+            event.which === 16 || // shift-tab
+            event.ctrlKey ||
+            event.metaKey ||
+            event.altKey) {
+          return;
+        }
         var safeSearchQuery = encodeURIComponent(this.value);
         $.get('/api/datasets?q=' + this.value)
           .success(function(response) {
