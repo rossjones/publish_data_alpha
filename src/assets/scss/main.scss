@@ -35,14 +35,18 @@ $alpine-fresh: #128400;
     @include phase-tag();
     margin-top: 7px;
   }
-  .header-proposition {
+  .header-proposition .content {
     padding-top: 4px;
-    .header-link {
-      margin-left: .7em;
-      line-height: 2em;
-      color: $page-colour;
-      float: right;
-      a:visited, a:link { color: $page-colour };
+  }
+  .header-proposition #proposition-links li a {
+    font-weight: normal;
+    &.bold {
+      font-weight: 700;
+    }
+  }
+  @media (min-width: 769px) {
+    .header-proposition #proposition-links li {
+      padding-right: 13px;
     }
   }
 }
@@ -58,7 +62,7 @@ $alpine-fresh: #128400;
 
 
 div#global-header-bar {
-  background-color: $alpine-fresh;
+  display: none;
 }
 
 #global-cookie-message p {
