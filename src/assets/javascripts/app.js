@@ -228,7 +228,7 @@
         var safeName = encodeURIComponent(item.name);
         var safeTitle = safeText(item.title);
         var findUrl = $('#find-url').text();
-        var markup = '<tr><td><a href="'+findUrl+
+        var markup = '<tr><td><a href="'+findUrl+'/dataset/'+
           safeName + '">' + safeTitle +
           '</a></td><td>' +
           (item.published ? 'Published' : 'Draft') +
@@ -267,6 +267,7 @@
     init: function() {
       var self = this;
       $('#filter-dataset-form #q').on('keyup', function(event) {
+        console.log(event.keyCode)
         var safeSearchQuery = encodeURIComponent(this.value);
         $.get('/api/datasets?q=' + this.value)
           .success(function(response) {
