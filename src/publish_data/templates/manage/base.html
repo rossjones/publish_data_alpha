@@ -7,6 +7,8 @@
 {% endblock %}
 
 {% block inner_content %}
+  <div style="display:none" id="find-url">{{ find_url }}</div>
+
   <main id="content" role="main" tabindex="-1">
 
     {% if messages %}
@@ -53,75 +55,79 @@
                   id="q"
                   name="q"
                   type="text"
+                  autocomplete="off"
                   value="{{ q }}"/>
             </label>
           </div>
-          {% if q %}
-            <a class="font-xsmall" href="{% url 'manage_my_data' %}">{% trans "Reset search" %}</a>
-          {% endif %}
         </fieldset>
       </form>
 
-      {% if datasets %}
-        <table class="manage-data">
-          <thead>
+      <table
+          class="manage-data"
+          {% if not datasets %}style="display:none"{% endif %}>
+        <thead>
+          <tr>
+            <th class="sortable-heading">
+              <a
+                  href="{{ qs_name_next }}"
+                  class="{% if sort == 'name' %}sort-ascending{% elif sort == '-name' %}sort-descending{% endif %}">
+                {% trans 'Dataset name' %}
+              </a>
+            </th>
+            <th class="sortable-heading">
+              <a
+                  href="{{ qs_published_next }}"
+                  class="{% if sort == 'published' %}sort-ascending{% elif sort == '-published' %}sort-descending{% endif %}">
+                {% trans 'Status' %}
+              </a>
+            </th>
+            <th><span class="visuallyhidden">{% trans 'Actions' %}</span></th>
+          </tr>
+        </thead>
+        <tbody id="dataset-list">
+          {% for dataset in datasets %}
             <tr>
-              <th class="sortable-heading">
-                <a
-                    href="{{ qs_name_next }}"
-                    class="{% if sort == 'name' %}sort-ascending{% elif sort == '-name' %}sort-descending{% endif %}">
-                  {% trans 'Dataset name' %}
-                </a>
-              </th>
-              <th class="sortable-heading">
-                <a
-                    href="{{ qs_published_next }}"
-                    class="{% if sort == 'published' %}sort-ascending{% elif sort == '-published' %}sort-descending{% endif %}">
-                  {% trans 'Status' %}
-                </a>
-              </th>
-              <th><span class="visuallyhidden">{% trans 'Actions' %}</span></th>
+              <td>
+                {% if find_url and dataset.published %}
+                  <a href="{{ find_url }}/dataset/{{ dataset.name }}">{{ dataset.title }}</a>
+                {% else %}
+                  {{ dataset.title }}
+                {% endif %}
+              </td>
+              <td>
+                {% if dataset.published %}
+                  {% trans "Published" %}
+                {% else %}
+                  {% trans "Draft" %}
+                {% endif %}
+              </td>
+              <td class="actions">
+                {% if dataset.name %}
+                  <a href="{% url 'edit_dataset_addfile' dataset.name %}">{% trans "Add&nbsp;Data" %}</a>
+                  <a href="{% url 'edit_full_dataset' dataset.name %}">{% trans "Edit" %}</a><br/>
+                {% endif %}
+              </td>
             </tr>
-          </thead>
-          <tbody id="dataset-list">
-            {% for dataset in datasets %}
-              <tr>
-                <td>
-                  {% if find_url and dataset.published %}
-                    <a href="{{ find_url }}/dataset/{{ dataset.name }}">{{ dataset.title }}</a>
-                  {% else %}
-                    {{ dataset.title }}
-                  {% endif %}
-                </td>
-                <td>
-                  {% if dataset.published %}
-                    {% trans "Published" %}
-                  {% else %}
-                    {% trans "Draft" %}
-                  {% endif %}
-                </td>
-                <td class="actions">
-                  {% if dataset.name %}
-                    <a href="{% url 'edit_dataset_addfile' dataset.name %}">{% trans "Add&nbsp;Data" %}</a>
-                    <a href="{% url 'edit_full_dataset' dataset.name %}">{% trans "Edit" %}</a><br/>
-                  {% endif %}
-                </td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      {% else %}
-        <p>{% trans "No results found" %}</p>
-      {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+      <p
+          class="noresults"
+          style="display:{% if not datasets %}block{% else %}none{% endif %}">
+        {% trans "No results found" %}
+      </p>
+
 
       <div class="pagination">
-        {% for page in page_range %}
-          {% if page == current_page %}
-            <span>{{ current_page }}</span>
-          {% else %}
-            <span><a href="?page={{ page }}{% if q %}&q={{ q }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}">{{ page }}</a></span>
-          {% endif %}
-        {% endfor %}
+        {% if page_range|length > 1 %}
+          {% for page in page_range %}
+            {% if page == current_page %}
+              <span>{{ current_page }}</span>
+            {% else %}
+              <span><a href="?page={{ page }}{% if q %}&q={{ q }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}">{{ page }}</a></span>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
       </div>
     </div>
   </main>

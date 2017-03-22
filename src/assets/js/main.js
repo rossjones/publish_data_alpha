@@ -601,10 +601,38 @@ if (!Function.prototype.bind) {
   };
 
   // escape strings injected into the DOM
-  function escapeHtml(str) {
+  function safeText(str) {
     var div = document.createElement('div');
     div.appendChild(document.createTextNode(str));
     return div.innerHTML;
+  }
+
+  // query string management
+  function splitUrl(url) {
+    var match;
+    var pl     = /\+/g;  // Regex for replacing addition symbol with a space
+    var search = /([^&=]+)=?([^&]*)/g;
+    var decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); };
+    var query  = window.location.search.substring(1);
+    var urlParams = {
+      base: window.location.origin + window.location.pathname,
+      params: {}
+    };
+
+    while (match = search.exec(query)) {
+     urlParams.params[decode(match[1])] = decode(match[2]);
+    }
+    return urlParams;
+  }
+
+  function buildUrl(urlObj) {
+    var queryString = '';
+    for (var param in urlObj.params) {
+      queryString +=
+        (queryString == '' ? '?' : '&') +
+        param + '=' + urlObj.params[param];
+    }
+    return urlObj.base + queryString;
   }
 
   // Components
@@ -785,30 +813,78 @@ if (!Function.prototype.bind) {
 
   var searchDatasetsAsYouType = {
 
+    buildResultsTable: function(results) {
+      $('#dataset-list').html('');
+      results.forEach(function(item) {
+        var safeName = encodeURIComponent(item.name);
+        var safeTitle = safeText(item.title);
+        var findUrl = $('#find-url').text();
+        var markup = '<tr><td><a href="'+findUrl+
+          safeName + '">' + safeTitle +
+          '</a></td><td>' +
+          (item.published ? 'Published' : 'Draft') +
+          '</td><td class="actions">' +
+          '<a href="/dataset/' +
+          safeName +
+          '/addfile/">Add&nbsp;Data</a>' +
+          '<a href="/dataset/edit/' +
+          safeName +
+          '">Edit</a></td></tr>';
+        $('#dataset-list').append(markup);
+      });
+    },
+
+    buildPagination: function($paginationSection, numResults, searchQuery) {
+      $paginationSection.html('');
+      if (numResults>20) {
+        for (var i=1; i <= Math.ceil(numResults/20); i++) {
+          $paginationSection.append(
+            '<span><a href="?page='+i+'&amp;q='+searchQuery+'">' +
+              i + '</a> </span>'
+                );
+        }
+      }
+    },
+
+    changeSortLinks: function(searchQuery) {
+      $('.sortable-heading').each(function() {
+        var link =$(this).find('a');
+        var hrefObj = splitUrl(link.attr('href'));
+        hrefObj.params.q = searchQuery;
+        link.attr('href', buildUrl(hrefObj));
+      });
+    },
+
     init: function() {
+      var self = this;
       $('#filter-dataset-form #q').on('keyup', function(event) {
+        var safeSearchQuery = encodeURIComponent(this.value);
         $.get('/api/datasets?q=' + this.value)
-        .success(function(searchResults) {
-          if (searchResults.length) {
-            $('#dataset-list').html('');
-            searchResults.forEach(function(item) {
-              var safeName = escapeHtml(item.name);
-              var safeTitle = escapeHtml(item.title);
-              var markup = '<tr><td><a href="http://localhost:8001/dataset/'+
-                    safeName + '">' + safeTitle +
-                    '</a></td><td>' +
-                    (item.published ? 'Published' : 'Draft') +
-                    '</td><td class="actions">' +
-                    '<a href="/dataset/' +
-                    safeName +
-                    '/addfile/">Add&nbsp;Data</a>' +
-                    '<a href="/dataset/edit/' +
-                    safeName +
-                    '">Edit</a></td></tr>';
-              $('#dataset-list').append(markup);
-            });
-          }
-        });
+          .success(function(response) {
+            var numResults = response.total;
+            var $paginationSection = $('.pagination');
+
+            if (numResults == 0) {
+              $('.manage-data').hide();
+              $('.noresults').show();
+            } else {
+              var searchResults = response.datasets;
+
+              $('.manage-data').show();
+              $('.noresults').hide();
+
+              // rebuild the table with results
+              self.buildResultsTable(searchResults);
+              self.changeSortLinks(safeSearchQuery);
+            }
+
+            self.buildPagination(
+              $paginationSection,
+              numResults,
+              safeSearchQuery
+            );
+
+          });
       });
     }
   };
