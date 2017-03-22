@@ -819,7 +819,7 @@ if (!Function.prototype.bind) {
         var safeName = encodeURIComponent(item.name);
         var safeTitle = safeText(item.title);
         var findUrl = $('#find-url').text();
-        var markup = '<tr><td><a href="'+findUrl+
+        var markup = '<tr><td><a href="'+findUrl+'/dataset/'+
           safeName + '">' + safeTitle +
           '</a></td><td>' +
           (item.published ? 'Published' : 'Draft') +
