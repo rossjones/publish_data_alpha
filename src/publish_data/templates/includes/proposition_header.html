@@ -9,44 +9,49 @@
 
 <div class="header-proposition">
   <div class="content">
-    <div class="header-link">
-      <a href="{{ signout }}">{% trans "Sign out" %}</a>
-    </div>
-    <div class="header-link">
-      <a
-          class="{% if request.path|slice:":14" == '/accounts/user' %}bold{% endif %}"
-          href="{% url 'user' user.username %}"
-      >
-        {{ user.username }}
-      </a>
-    </div>
-    <div class="header-link">
-      <a
-          class="{% if request.path == performance %}bold{% endif %}"
-          href="#">
-        {% trans "Performance" %}
-      </a>
-    </div>
-    <div class="header-link">
-      <a
-          class="{% if request.path == manage %}bold{% endif %}"
-          href="{{ manage }}">
-        {% trans "Manage datasets" %}
-      </a>
-    </div>
-    <div class="header-link">
-      <a
-          href="{{ new }}"
-          class="{% if request.path|slice:":8" == '/dataset' %}bold{% endif %}">
-        {% trans "Create a dataset" %}
-      </a>
-    </div>
-    <div class="header-link">
-      <a
-          href="{{ my_tasks }}"
-          class="{% if request.path == my_tasks or request.path == org_tasks %}bold{% endif %}">
-        {% trans "Task list" %}
-      </a>
-    </div>
+    <a href="#proposition-links" class="js-header-toggle menu">Menu</a>
+    <nav id="proposition-menu">
+      <ul id="proposition-links">
+        <li>
+          <a
+              href="{{ my_tasks }}"
+              class="{% if request.path == my_tasks or request.path == org_tasks %}bold{% endif %}">
+            {% trans "Task list" %}
+          </a>
+        </li>
+        <li>
+          <a
+              href="{{ new }}"
+              class="{% if request.path|slice:":8" == '/dataset' %}bold{% endif %}">
+            {% trans "Create a dataset" %}
+          </a>
+        </li>
+        <li>
+          <a
+              class="{% if request.path == manage %}bold{% endif %}"
+              href="{{ manage }}">
+            {% trans "Manage datasets" %}
+          </a>
+        </li>
+        <li>
+          <a
+              class="{% if request.path == performance %}bold{% endif %}"
+              href="#">
+            {% trans "Performance" %}
+          </a>
+        </li>
+        <li>
+          <a
+              class="{% if request.path|slice:":14" == '/accounts/user' %}bold{% endif %}"
+              href="{% url 'user' user.username %}"
+          >
+            {{ user.username }}
+          </a>
+        </li>
+        <li>
+          <a href="{{ signout }}">{% trans "Sign out" %}</a>
+        </li>
+      </ul>
+    </nav>
   </div>
 </div>

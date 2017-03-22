@@ -1624,15 +1624,17 @@ input[type=number] {
       font-size: 16px;
       line-height: 1.25; } }
 
-#global-header .header-proposition {
+#global-header .header-proposition .content {
   padding-top: 4px; }
-  #global-header .header-proposition .header-link {
-    margin-left: .7em;
-    line-height: 2em;
-    color: #fff;
-    float: right; }
-    #global-header .header-proposition .header-link a:visited, #global-header .header-proposition .header-link a:link {
-      color: #fff; }
+
+#global-header .header-proposition #proposition-links li a {
+  font-weight: normal; }
+  #global-header .header-proposition #proposition-links li a.bold {
+    font-weight: 700; }
+
+@media (min-width: 769px) {
+  #global-header .header-proposition #proposition-links li {
+    padding-right: 13px; } }
 
 @media (min-width: 769px) {
   #global-header.with-proposition .header-wrapper .header-global {
@@ -1641,7 +1643,7 @@ input[type=number] {
     width: 69%; } }
 
 div#global-header-bar {
-  background-color: #128400; }
+  display: none; }
 
 #global-cookie-message p {
   max-width: 960px; }
