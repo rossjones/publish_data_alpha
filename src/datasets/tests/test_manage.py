@@ -58,12 +58,12 @@ class ManageTestCase(TestCase):
 
         # self.test_user's own datasets are self.dataset_c
         response = self.client.get(reverse('manage_my_data'))
-        self.assertContains(response, 'C dataset', 1, 200)
+        self.assertContains(response, 'C dataset', 3, 200)
         self.assertNotContains(response, 'B dataset', status_code = 200)
         self.assertNotContains(response, 'A dataset', status_code = 200)
 
         # self.test_user's org datasets are self.dataset_a|b|c
         response = self.client.get(reverse('manage_org_data'))
-        self.assertContains(response, 'C dataset', 1, 200)
-        self.assertContains(response, 'B dataset', 1, 200)
-        self.assertContains(response, 'A dataset', 1, 200)
+        self.assertContains(response, 'C dataset', 3, 200)
+        self.assertContains(response, 'B dataset', 3, 200)
+        self.assertContains(response, 'A dataset', 3, 200)

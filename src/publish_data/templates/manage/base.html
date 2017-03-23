@@ -87,13 +87,13 @@
         <tbody id="dataset-list">
           {% for dataset in datasets %}
             <tr>
-              <td>
+              <th>
                 {% if find_url and dataset.published %}
                   <a href="{{ find_url }}/dataset/{{ dataset.name }}">{{ dataset.title }}</a>
                 {% else %}
                   {{ dataset.title }}
                 {% endif %}
-              </td>
+              </th>
               <td>
                 {% if dataset.published %}
                   {% trans "Published" %}
@@ -103,8 +103,8 @@
               </td>
               <td class="actions">
                 {% if dataset.name %}
-                  <a href="{% url 'edit_dataset_addfile' dataset.name %}">{% trans "Add&nbsp;Data" %}</a>
-                  <a href="{% url 'edit_full_dataset' dataset.name %}">{% trans "Edit" %}</a><br/>
+                  <a href="{% url 'edit_dataset_addfile' dataset.name %}">{% trans "Add&nbsp;Data" %}<span class="visuallyhidden"> {% trans 'to' %} {{ dataset.title }}</span></a>
+                  <a href="{% url 'edit_full_dataset' dataset.name %}">{% trans "Edit" %}<span class="visuallyhidden"> {{ dataset.title }}</span></a><br/>
                 {% endif %}
               </td>
             </tr>
