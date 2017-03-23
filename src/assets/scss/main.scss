@@ -297,6 +297,15 @@ div.tabs {
     padding: 15px;
     padding-bottom: 14px;
   }
+  div.ie-fix {
+    // We need to add this in order to make up for IE's box model accuracy errors
+    position:absolute;
+    top: 2em;
+    left: 0px;
+    width: 100%;
+    height: 20px;
+    background: $page-colour;
+  }
 }
 
 div.tabs-content {
