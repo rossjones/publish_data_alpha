@@ -759,6 +759,7 @@ if (!Function.prototype.bind) {
     },
   };
 
+/*
   var stats = {
 
     fetchStats: function() {
@@ -809,7 +810,7 @@ if (!Function.prototype.bind) {
       }
     }
   };
-
+*/
 
   var searchDatasetsAsYouType = {
 
@@ -897,12 +898,23 @@ if (!Function.prototype.bind) {
     }
   };
 
+  var analytics = {
+    init: function() {
+      var action = $('[data-ga-action]').data('ga-action');
+      if (action && ga) {
+        // send a GA event now
+        var actionParams = action.split(',')
+        ga('send', 'event', 'dataset', actionParams[0], actionParams[1]);
+      }
+    }
+  }
 
   $(document).ready(function() {
     showHide.init({ rowLimit: 5 });
     typeAhead.init({ selector: '.location-input' });
-    stats.init('#stats');
+//    stats.init('#stats');
     searchDatasetsAsYouType.init('#filter-dataset-form');
+    analytics.init();
   });
 
 })();

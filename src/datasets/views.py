@@ -477,10 +477,18 @@ def _edit_publish_dataset(request, dataset, state):
 
             if result == 'edited':
                 msg = _('Your dataset has been edited')
-                messages.add_message(request, messages.INFO, msg, extra_tags=dataset.name)
-            elif result == 'created':
-                msg = _('Your dataset has been published')
-                messages.add_message(request, messages.INFO, msg, extra_tags=dataset.name)
+            else:
+                msg = _('Your dataset has been created')
+
+            messages.add_message(
+                request,
+                messages.INFO,
+                msg,
+                extra_tags='{},{}'.format(
+                    'edit' if result=='edited' else 'publ',
+                    dataset.name,
+                )
+            )
 
             request.session['flow-state'] = None
 
