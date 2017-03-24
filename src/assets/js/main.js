@@ -759,6 +759,7 @@ if (!Function.prototype.bind) {
     },
   };
 
+/*
   var stats = {
 
     fetchStats: function() {
@@ -809,7 +810,7 @@ if (!Function.prototype.bind) {
       }
     }
   };
-
+*/
 
   var searchDatasetsAsYouType = {
 
@@ -901,7 +902,7 @@ if (!Function.prototype.bind) {
   $(document).ready(function() {
     showHide.init({ rowLimit: 5 });
     typeAhead.init({ selector: '.location-input' });
-    stats.init('#stats');
+//    stats.init('#stats');
     searchDatasetsAsYouType.init('#filter-dataset-form');
   });
 
