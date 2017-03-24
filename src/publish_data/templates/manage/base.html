@@ -16,7 +16,12 @@
         {% for message in messages %}
           <h1 class="bold-large"> {{ message|safe }}</h1>
           {% if message.extra_tags %}
-            <h2><a href="{{ find_url }}/dataset/{{ message.extra_tags }}">{% trans "View it" %}</a></h2>
+            <h2 data-ga-action="{{ message.extra_tags }}">
+              <a href="{{ find_url }}/dataset/{{ message.extra_tags|slice:"5:" }}">
+
+                {% trans "View it" %}
+              </a>
+            </h2>
           {% endif %}
         {% endfor %}
       </div>
