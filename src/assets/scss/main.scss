@@ -107,6 +107,14 @@ span.separator::before {
   color: $grey-1;
 }
 
+ul.classic {
+  margin: 0 0 1em 2em;
+  list-style-type: disc;
+}
+
+table.with-margin {
+  margin: 2em 0 3em 0;
+}
 
 // Components
 

@@ -42,6 +42,16 @@
   </main>
 {% endblock %}
 
+{% block footer_support_links %}
+  <h2 class="visuallyhidden">Support links</h2>
+  <ul>
+    <li>
+      <a href="{% url 'cookies' %}">Cookies</a>
+    </li>
+  </ul>
+{% endblock %}
+
+
 {% block body_end %}
   <script src="{% static 'js/main.js' %}"></script>
 {% endblock %}

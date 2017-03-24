@@ -1686,6 +1686,13 @@ span.separator::before {
   content: " | ";
   color: #6f777b; }
 
+ul.classic {
+  margin: 0 0 1em 2em;
+  list-style-type: disc; }
+
+table.with-margin {
+  margin: 2em 0 3em 0; }
+
 h2.user-bar {
   font-weight: bold;
   margin-top: 1em;
