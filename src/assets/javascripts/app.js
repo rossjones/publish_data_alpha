@@ -309,12 +309,14 @@
 
   var analytics = {
     init: function() {
-      var action = $('[data-ga-action]').data('ga-action');
-      if (action && ga) {
-        // send a GA event now
-        var actionParams = action.split(',')
-        ga('send', 'event', 'dataset', actionParams[0], actionParams[1]);
-      }
+      if (!window.ga) return;
+      $('[data-ga-action]').each(function(i, el) {
+        var action = $(el).data('ga-action');
+        if (action) {
+          var actionParams = ['send', 'event', 'dataset'].concat(action.split(','));
+          window.ga.apply(this, actionParams);
+        }
+      });
     }
   }
 
