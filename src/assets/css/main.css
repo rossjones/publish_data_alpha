@@ -1693,6 +1693,12 @@ ul.classic {
 table.with-margin {
   margin: 2em 0 3em 0; }
 
+table tbody th {
+  font-weight: normal; }
+
+table tfoot td {
+  border: 0; }
+
 h2.user-bar {
   font-weight: bold;
   margin-top: 1em;
@@ -1925,12 +1931,12 @@ table {
   margin-bottom: 2em; }
   .tasks table.todos {
     border-top: 1px solid #bfc1c3; }
-  .tasks table tr:hover {
+  .tasks table thead tr:hover, .tasks table tbody tr:hover {
     background-color: #dee0e2; }
-  .tasks table td {
+  .tasks table thead td, .tasks table tbody td {
     padding-left: .3em;
     padding-right: .3em; }
-    .tasks table td .nb-downloads {
+    .tasks table thead td .nb-downloads, .tasks table tbody td .nb-downloads {
       display: inline-block;
       min-width: 3em; }
   .tasks table td .text-supporting {

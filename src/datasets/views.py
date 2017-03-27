@@ -502,6 +502,7 @@ def _edit_publish_dataset(request, dataset, state):
     datafiles = filter(lambda x: not x.is_documentation, all_files)
     docfiles = filter(lambda x: x.is_documentation, all_files)
     return render(request, "datasets/publish_dataset.html", {
+        'addfile_viewname': _frequency_addfile_viewname(dataset),
         "dataset": dataset,
         'organisation': organisation,
         'single_organisation': single_organisation,

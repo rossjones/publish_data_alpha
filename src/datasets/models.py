@@ -195,13 +195,18 @@ class Datafile(models.Model):
             'format': self.format,
             'start_date': start.isoformat() if start else None,
             'end_date': end.isoformat() if end else None,
-            'is_broken': self.is_broken
+            'is_broken': self.is_broken,
+            'is_documentation': self.is_documentation
         }
 
         return data
 
     def __str__(self):
-        return u"{}/{}".format(self.title, self.url)
+        return u"{}/{} ({})".format(
+            self.title,
+            self.url,
+            "documentation" if self.is_documentation else "data"
+        )
 
 
 class Organisation(models.Model):

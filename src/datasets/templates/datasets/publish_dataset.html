@@ -148,9 +148,6 @@
         </th>
         <td class="file-list">
           <div class="show-hide">
-            <div>
-              <a class="font-xsmall toggle" style="display:none">{% trans "Show all" %}</a>
-            </div>
             <ul>
               {% for link in datafiles %}
                 <li class="show-hide-item">
@@ -158,16 +155,21 @@
                 </li>
               {% endfor %}
             </ul>
+            <div>
+              <a class="toggle" style="display:none">{% trans "Show all" %}</a>
+            </div>
           </div>
         </td>
         <td class="actions">
-          <a href="{% url 'edit_dataset_files' dataset.name %}">
-            {% if datafiles|length == 0  %}
+          {% if datafiles|length == 0  %}
+            <a href="{% url addfile_viewname dataset.name %}">
               {% trans "Add <span class='visuallyhidden'>datafiles</span>" %}
-            {% else %}
+            </a>
+          {% else %}
+            <a href="{% url 'edit_dataset_files' dataset.name %}">
               {% trans "Change <span class='visuallyhidden'>datafiles</span>" %}
-            {% endif %}
-          </a>
+            </a>
+          {% endif %}
         </td>
       </tr>
       <tr>
@@ -176,9 +178,6 @@
         </th>
         <td class="file-list">
           <div class="show-hide">
-            <div>
-              <a class="font-xsmall toggle" style="display:none">{% trans "Show all" %}</a>
-            </div>
             <ul>
               {% for link in docfiles %}
                 <li class="show-hide-item">
@@ -186,16 +185,21 @@
                 </li>
               {% endfor %}
             </ul>
+            <div>
+              <a class="toggle" style="display:none">{% trans "Show all" %}</a>
+            </div>
           </div>
         </td>
         <td class="actions">
-          <a href="{% url 'edit_dataset_documents' dataset.name %}">
-            {% if docfiles|length == 0 %}
+          {% if docfiles|length == 0 %}
+            <a href="{% url 'edit_dataset_adddoc' dataset.name %}">
               {% trans "Add <span class='visuallyhidden'>documents</span>" %}
-            {% else %}
+            </a>
+          {% else %}
+            <a href="{% url 'edit_dataset_documents' dataset.name %}">
               {% trans "Change <span class='visuallyhidden'>documents</span>" %}
-            {% endif %}
-          </a>
+            </a>
+          {% endif %}
         </td>
       </tr>
     </tbody>
