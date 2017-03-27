@@ -19,11 +19,6 @@ class OrganisationSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class DatasetSerializer(serializers.HyperlinkedModelSerializer):
-    #organisation = serializers.SlugRelatedField(
-    #    many=False,
-    #    read_only=True,
-    #    slug_field='name'
-    # )
     organisation = OrganisationSerializer(many=False, read_only=True)
     files = DatafileSerializer(many=True, read_only=False)
 
