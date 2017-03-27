@@ -112,9 +112,20 @@ ul.classic {
   list-style-type: disc;
 }
 
-table.with-margin {
-  margin: 2em 0 3em 0;
+
+table {
+  &.with-margin {
+    margin: 2em 0 3em 0;
+  }
+  tbody th {
+    font-weight: normal;
+  }
+  tfoot td {
+    border: 0
+  }
 }
+
+
 
 // Components
 
@@ -419,10 +430,12 @@ table {
     &.todos {
       border-top: 1px solid $grey-2;
     }
-    tr:hover {
-      background-color: $panel-colour;
+    thead, tbody {
+      tr:hover {
+        background-color: $panel-colour;
+      }
     }
-    td {
+    thead td, tbody td {
       padding-left: .3em;
       padding-right: .3em;
       .nb-downloads {

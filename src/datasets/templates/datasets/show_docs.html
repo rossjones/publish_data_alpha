@@ -59,7 +59,7 @@
       <tbody>
         {% for file in files %}
           <tr>
-            <td><a href="{{ file.url }}">{{ file.title }}</a></td>
+            <th><a href="{{ file.url }}">{{ file.title }}</a></th>
             <td>{% if not file.is_broken %}✔{% else %}&#x2716;{% endif%}</td>
             <td class="actions">
               <a href="{% url 'edit_dataset_adddoc' dataset.name file.id %}">{% trans "Edit" %}</a>
