@@ -62,7 +62,7 @@ class Command(BaseCommand):
         for file in dataset.files.all():
             d['distribution'].append({
                 '@type': 'dcat:Distribution',
-                'title': file.title,
+                'name': file.name,
                 'accessURL': file.url,
                 #'format': "Web page",
                 #'mediaType': file.format,
@@ -97,5 +97,3 @@ class Command(BaseCommand):
         # TODO: Upload 'path' to known location on S3
 
         os.unlink(path)
-
-
