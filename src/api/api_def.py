@@ -1,6 +1,10 @@
 from django.conf.urls import url, include
-from datasets.models import Dataset, Organisation, Datafile
+
 from rest_framework import serializers, viewsets
+from django_filters.rest_framework import DjangoFilterBackend
+
+from datasets.models import Dataset, Organisation, Datafile
+
 
 class DatafileSerializer(serializers.HyperlinkedModelSerializer):
 
@@ -34,8 +38,13 @@ class DatasetViewSet(viewsets.ModelViewSet):
     queryset = Dataset.objects.all()
     serializer_class = DatasetSerializer
     lookup_field = 'name'
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('name', 'title',)
 
 class OrganisationViewSet(viewsets.ModelViewSet):
     queryset = Organisation.objects.all()
     serializer_class = OrganisationSerializer
     lookup_field = 'name'
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('name', 'title',)
+
