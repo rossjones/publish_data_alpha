@@ -26,7 +26,7 @@ class Command(BaseCommand):
         )
 
         datafiles_to_delete = Datafile.objects.filter(
-            title__contains = substring
+            name__contains = substring
         )
 
         print("About to delete %d datasets and %d datafiles matching '%s'" %
