@@ -67,7 +67,7 @@ class DatasetEditTestCase(TestCase):
         self.assertContains(
             response,
             _('Are you sure you want to delete ‘{}’?'.format(
-                self.datafile.title)
+                self.datafile.name)
             ),
             1, 200
         )
@@ -80,7 +80,7 @@ class DatasetEditTestCase(TestCase):
         response = self.client.post(url, follow=True)
         self.assertContains(
             response,
-            _('Your link ‘{}’ has been deleted'.format(self.datafile.title)),
+            _('Your link ‘{}’ has been deleted'.format(self.datafile.name)),
             1, 200
         )
 

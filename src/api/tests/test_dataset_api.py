@@ -53,7 +53,7 @@ class DatasetTestCase(TestCase):
             'description': 'Dataset',
             'files': [{
                 'url': 'http://localhost',
-                'title': 'Test file'
+                'name': 'Test file'
             }]
         }
         res = self.client.post('/api/1/datasets',
