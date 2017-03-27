@@ -1,10 +1,12 @@
 from django.conf.urls import url, include
 
-from rest_framework import serializers, viewsets
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import serializers, viewsets, generics
 from django_filters.rest_framework import DjangoFilterBackend
 
 from datasets.models import Dataset, Organisation, Datafile
-
+from .permissions import IsAdminOrReadOnly, IsAuthenticatedOrReadOnly
 
 class DatafileSerializer(serializers.HyperlinkedModelSerializer):
 
@@ -33,18 +35,42 @@ class DatasetSerializer(serializers.HyperlinkedModelSerializer):
             'url': {'lookup_field': 'name'}
         }
 
+    def create(self, validated_data):
+        resources = validated_data.pop('files')
+        dataset = Dataset.objects.create(**validated_data)
+        for r in resources:
+            r['dataset_id'] = dataset.id
+            Datafile.objects.create(**r)
 
-class DatasetViewSet(viewsets.ModelViewSet):
+        return dataset
+
+
+class DatasetList(generics.ListCreateAPIView):
     queryset = Dataset.objects.all()
     serializer_class = DatasetSerializer
     lookup_field = 'name'
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('name', 'title',)
+    permission_classes = (IsAuthenticatedOrReadOnly, )
 
-class OrganisationViewSet(viewsets.ModelViewSet):
+class OrganisationList(generics.ListCreateAPIView):
     queryset = Organisation.objects.all()
     serializer_class = OrganisationSerializer
     lookup_field = 'name'
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('name', 'title',)
+    permission_classes = (IsAuthenticatedOrReadOnly, )
 
+
+class DatasetDetail(generics.RetrieveUpdateDestroyAPIView):
+    lookup_field = 'name'
+    queryset = Dataset.objects.all()
+    serializer_class = DatasetSerializer
+    permission_classes = (IsAdminOrReadOnly, )
+
+
+class OrganisationDetail(generics.RetrieveUpdateDestroyAPIView):
+    lookup_field = 'name'
+    queryset = Organisation.objects.all()
+    serializer_class = OrganisationSerializer
+    permission_classes = (IsAdminOrReadOnly, )
