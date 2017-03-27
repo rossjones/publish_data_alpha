@@ -7,8 +7,7 @@ from django.db import models
 
 TASK_CATEGORIES = (
     ("update",   _("Update datasets"), ),
-    ("fix",      _("Fix datasets"), ),
-    ("missing",  _("Missing data"), ),
+    ("fix",      _("Fix datasets"), )
 )
 
 
