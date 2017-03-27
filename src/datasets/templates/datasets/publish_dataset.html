@@ -161,13 +161,15 @@
           </div>
         </td>
         <td class="actions">
-          <a href="{% url 'edit_dataset_files' dataset.name %}">
-            {% if datafiles|length == 0  %}
+          {% if datafiles|length == 0  %}
+            <a href="{% url addfile_viewname dataset.name %}">
               {% trans "Add <span class='visuallyhidden'>datafiles</span>" %}
-            {% else %}
+            </a>
+          {% else %}
+            <a href="{% url 'edit_dataset_files' dataset.name %}">
               {% trans "Change <span class='visuallyhidden'>datafiles</span>" %}
-            {% endif %}
-          </a>
+            </a>
+          {% endif %}
         </td>
       </tr>
       <tr>
@@ -189,13 +191,15 @@
           </div>
         </td>
         <td class="actions">
-          <a href="{% url 'edit_dataset_documents' dataset.name %}">
-            {% if docfiles|length == 0 %}
+          {% if docfiles|length == 0 %}
+            <a href="{% url 'edit_dataset_adddoc' dataset.name %}">
               {% trans "Add <span class='visuallyhidden'>documents</span>" %}
-            {% else %}
+            </a>
+          {% else %}
+            <a href="{% url 'edit_dataset_documents' dataset.name %}">
               {% trans "Change <span class='visuallyhidden'>documents</span>" %}
-            {% endif %}
-          </a>
+            </a>
+          {% endif %}
         </td>
       </tr>
     </tbody>
