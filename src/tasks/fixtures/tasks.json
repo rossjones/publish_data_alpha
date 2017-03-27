@@ -56,28 +56,6 @@
   },
   {
     "model": "tasks.task",
-    "pk": 18,
-    "fields": {
-      "owning_organisation": "cabinet-office",
-      "required_permission_name" : "",
-      "quantity": 0,
-      "description": "Delete Maria Izquierdo’s account",
-      "category": "update"
-    }
-  },
-  {
-    "model": "tasks.task",
-    "pk": 19,
-    "fields": {
-      "owning_organisation": "cabinet-office",
-      "required_permission_name" : "",
-      "quantity": 0,
-      "description": "Give ‘editor’ permissions to Max Froumentin",
-      "category": "update"
-    }
-  },
-  {
-    "model": "tasks.task",
     "pk": 20,
     "fields": {
       "owning_organisation": "cabinet-office",

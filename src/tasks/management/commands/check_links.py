@@ -47,7 +47,7 @@ class Command(BaseCommand):
             print('+ Dataset {} has {} links'.format(dataset.name, dataset.files.count()))
 
             # If this dataset has an existing task, then skip it.
-            task_count = Task.objects.filter(related_object_id=dataset.name).count()
+            task_count = Task.objects.filter(related_object_id=dataset.name, category='fix').count()
             if task_count > 0:
                 print('- Skipping {}, task exists'.format(dataset.name))
                 continue
