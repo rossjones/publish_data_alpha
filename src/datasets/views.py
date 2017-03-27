@@ -406,7 +406,6 @@ def edit_add_doc(request, dataset_name, datafile_id=None):
         if form.is_valid():
             data = dict(**form.cleaned_data)
             if datafile:
-                print(data)
                 form.save()
             else:
                 if not _file_already_added(dataset, data['name'], data['url']):
