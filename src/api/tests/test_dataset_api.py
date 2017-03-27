@@ -43,8 +43,8 @@ class DatasetTestCase(TestCase):
             HTTP_AUTHORIZATION='Bearer {}'.format(TOKEN))
         assert res.status_code == 200
         data = json.loads(res.content.decode('utf-8'))
-        assert data['total'] == 1
-        assert data['datasets'][0]['name'] == 'my-test-dataset'
+        assert data['count'] == 1
+        assert data['results'][0]['name'] == 'my-test-dataset'
 
 
     def test_successful_get(self):
