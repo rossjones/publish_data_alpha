@@ -6,11 +6,11 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 
-from oauth2_provider.models import Application, AccessToken
+from .util import new_app_and_token
 
 TOKEN = 'tokenstring'
 
-class OAuthTestCase(TestCase):
+class AuthorisationTestCase(TestCase):
 
     def setUp(self):
         self.test_user = get_user_model().objects.create(
@@ -18,22 +18,8 @@ class OAuthTestCase(TestCase):
             username="test-signin@localhost",
             apikey=str(uuid.uuid4())
         )
-        self.app = Application.objects.create(
-            user=self.test_user,
-            redirect_uris='',
-            client_type='confidential',
-            authorization_grant_type='password',
-            name='test app',
-            skip_authorization=True
-        )
 
-        self.access_token = AccessToken.objects.create(
-            user=self.test_user,
-            token=TOKEN,
-            application=self.app,
-            expires=datetime.utcnow() + timedelta(days=1),
-            scope='',
-        )
+        self.app, self.access_token = new_app_and_token(self.test_user, TOKEN)
 
 
     def test_forbidden_no_token(self):

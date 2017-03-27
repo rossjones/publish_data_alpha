@@ -52,6 +52,7 @@ PROJECT_APPS = [
     'api',
     'runtime_config',
     'oauth2_provider',
+    'rest_framework'
 ]
 
 INSTALLED_APPS = REQUIRED_APPS + PROJECT_APPS
@@ -155,6 +156,13 @@ LOGIN_REDIRECT_URL = '/tasks'
 
 HOMEPAGE_URL = '/'
 LOGO_LINK_TITLE = 'Go to the data.gov.uk homepage'
+
+# API Settings
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 50
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
