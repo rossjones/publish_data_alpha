@@ -72,6 +72,23 @@ def new_dataset(request):
     })
 
 
+def confirm_delete_dataset(request, dataset_name):
+    dataset = get_object_or_404(Dataset, name=dataset_name)
+
+    if not user_can_edit_dataset(request.user, dataset):
+        return HttpResponseForbidden()
+
+    if (dataset.published == True) and not request.user.is_staff:
+        return HttpResponseForbidden()
+
+    return _edit_publish_dataset(
+        request,
+        dataset,
+        'editing',
+        deleting=True
+    )
+
+
 def delete_dataset(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
@@ -95,7 +112,8 @@ def delete_dataset(request, dataset_name):
     unindex_dataset(dataset)
     dataset.delete()
 
-    msg = _('The dataset ‘%(title)s’ has been deleted.') % {'title': dataset.title}
+    msg = _('The dataset ‘%(title)s’ has been deleted') % \
+          {'title': dataset.title}
     messages.add_message(request, messages.INFO, msg)
 
     return HttpResponseRedirect(
@@ -425,7 +443,7 @@ def edit_documents(request, dataset_name):
     })
 
 
-def _edit_publish_dataset(request, dataset, state):
+def _edit_publish_dataset(request, dataset, state, deleting=False):
     ''' Handles the editing or publishing of a dataset, where
     the primary difference is just the state that we handle '''
 
@@ -502,6 +520,7 @@ def _edit_publish_dataset(request, dataset, state):
     datafiles = filter(lambda x: not x.is_documentation, all_files)
     docfiles = filter(lambda x: x.is_documentation, all_files)
     return render(request, "datasets/publish_dataset.html", {
+        'deleting': deleting,
         'addfile_viewname': _frequency_addfile_viewname(dataset),
         "dataset": dataset,
         'organisation': organisation,
