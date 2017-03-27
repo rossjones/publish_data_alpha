@@ -63,5 +63,5 @@ class DatasetDetail(generics.RetrieveUpdateDestroyAPIView):
 class OrganisationDetail(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'name'
     queryset = Organisation.objects.all()
-    serializer_class = DatasetSerializer
+    serializer_class = OrganisationSerializer
     permission_classes = (IsAdminOrReadOnly, )
