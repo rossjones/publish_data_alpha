@@ -35,7 +35,7 @@ def index_dataset(dataset):
     try:
         res = es.index(
             index=settings.ES_INDEX,
-            doc_type='dataset',
+            doc_type='datasets',
             id=dataset.id,
             body=dataset.as_dict(),
             refresh=True # Make sure it shows straight away
@@ -50,7 +50,7 @@ def delete_dataset(dataset):
     try:
         es.delete(
             index=settings.ES_INDEX,
-            doc_type='dataset',
+            doc_type='datasets',
             id=dataset.id,
             refresh=True  # Make sure it is removed straight away
         )
