@@ -35,6 +35,15 @@ class DatasetSerializer(serializers.HyperlinkedModelSerializer):
             'url': {'lookup_field': 'name'}
         }
 
+    def create(self, validated_data):
+        resources = validated_data.pop('files')
+        dataset = Dataset.objects.create(**validated_data)
+        for r in resources:
+            r['dataset_id'] = dataset.id
+            Datafile.objects.create(**r)
+
+        return dataset
+
 
 class DatasetList(generics.ListCreateAPIView):
     queryset = Dataset.objects.all()

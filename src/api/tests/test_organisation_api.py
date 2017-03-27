@@ -47,7 +47,19 @@ class OrganisationTestCase(TestCase):
             HTTP_AUTHORIZATION='Bearer {}'.format(TOKEN))
         assert res.status_code == 200
         data = json.loads(res.content.decode('utf-8'))
-        assert data['count'] == 2
+        assert data['count'] >= 2
+
+    def test_successful_create(self):
+        org_dict = {
+            'name': 'created-org',
+            'title': 'Created org',
+            'description': 'Created'
+        }
+        res = self.client.post('/api/1/organisations',
+            json.dumps(org_dict),
+            content_type="application/json",
+            HTTP_AUTHORIZATION='Bearer {}'.format(TOKEN))
+        assert res.status_code == 201, res.status_code
 
 
     def test_successful_get(self):
