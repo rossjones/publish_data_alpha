@@ -79,6 +79,10 @@ urlpatterns = [
         login_required(v.edit_dataset_details),
         name='edit_dataset'),
 
+    url(r'^(?P<dataset_name>[\w-]+)/confirmdelete$',
+        login_required(v.confirm_delete_dataset),
+        name='confirm_delete_dataset'),
+
     url(r'^(?P<dataset_name>[\w-]+)/delete$',
         login_required(v.delete_dataset),
         name='delete_dataset'),

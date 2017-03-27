@@ -83,3 +83,31 @@ class DatasetEditTestCase(TestCase):
             _('Your link ‘{}’ has been deleted'.format(self.datafile.title)),
             1, 200
         )
+
+
+    def test_delete_dataset(self):
+        ''' Check dataset delete confirmation and final message '''
+
+        # Confirm
+        url = reverse(
+            'confirm_delete_dataset',
+            args=[self.dataset.name]
+        )
+        response = self.client.post(url)
+        self.assertContains(
+            response,
+            _('Are you sure you want to delete this dataset?'),
+            1, 200
+        )
+
+        # Delete
+        url = reverse(
+            'delete_dataset',
+            args=[self.dataset.name]
+        )
+        response = self.client.get(url, follow=True)
+        self.assertContains(
+            response,
+            _('The dataset ‘{}’ has been deleted'.format(self.dataset.title)),
+            1, 200
+        )
