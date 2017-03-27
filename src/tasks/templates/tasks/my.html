@@ -2,10 +2,10 @@
 {% load i18n %}
 
 {%block tasks_title %}
-  <h2 class="heading-medium">
+  <h2 class="heading-small">
     {% trans "My tasks" %}
     <div class="ie-fix"></div>
-  </h2><div class="heading-medium">
+  </h2><div class="heading-small">
     <a href="{% url 'organisation_tasks' %}">{{ organisation.title }}{% trans " tasks" %}</a>
   </div>
 {% endblock %}
