@@ -1,10 +1,12 @@
 from django.conf.urls import url, include
 
-from rest_framework import serializers, viewsets
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import serializers, viewsets, generics
 from django_filters.rest_framework import DjangoFilterBackend
 
 from datasets.models import Dataset, Organisation, Datafile
-
+from .permissions import IsAdminOrReadOnly, IsAuthenticatedOrReadOnly
 
 class DatafileSerializer(serializers.HyperlinkedModelSerializer):
 
@@ -34,17 +36,32 @@ class DatasetSerializer(serializers.HyperlinkedModelSerializer):
         }
 
 
-class DatasetViewSet(viewsets.ModelViewSet):
+class DatasetList(generics.ListCreateAPIView):
     queryset = Dataset.objects.all()
     serializer_class = DatasetSerializer
     lookup_field = 'name'
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('name', 'title',)
+    permission_classes = (IsAuthenticatedOrReadOnly, )
 
-class OrganisationViewSet(viewsets.ModelViewSet):
+class OrganisationList(generics.ListCreateAPIView):
     queryset = Organisation.objects.all()
     serializer_class = OrganisationSerializer
     lookup_field = 'name'
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('name', 'title',)
+    permission_classes = (IsAuthenticatedOrReadOnly, )
 
+
+class DatasetDetail(generics.RetrieveUpdateDestroyAPIView):
+    lookup_field = 'name'
+    queryset = Dataset.objects.all()
+    serializer_class = DatasetSerializer
+    permission_classes = (IsAdminOrReadOnly, )
+
+
+class OrganisationDetail(generics.RetrieveUpdateDestroyAPIView):
+    lookup_field = 'name'
+    queryset = Organisation.objects.all()
+    serializer_class = DatasetSerializer
+    permission_classes = (IsAdminOrReadOnly, )
