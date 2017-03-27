@@ -30,7 +30,7 @@ class DatafileFactory(DjangoModelFactory):
         model = 'datasets.datafile'
         django_get_or_create = ('url', 'dataset')
 
-    title = 'A test file'
+    name = 'A test file'
     url = 'https://data.gov.uk'
     format = 'HTML'
     dataset = None

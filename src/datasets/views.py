@@ -231,9 +231,9 @@ def edit_frequency(request, dataset_name):
     })
 
 
-def _file_already_added(dataset, title, url):
+def _file_already_added(dataset, name, url):
     for file in dataset.files.all():
-        if file.url == url and file.title == title:
+        if file.url == url and file.name == name:
             return True
 
 
@@ -284,7 +284,7 @@ def edit_deletefile(request, dataset_name, datafile_id):
 
     datafile.delete();
 
-    msg = _('Your link ‘{}’ has been deleted'.format(datafile.title))
+    msg = _('Your link ‘{}’ has been deleted'.format(datafile.name))
     messages.add_message(request, messages.INFO, msg)
 
     return HttpResponseRedirect(
@@ -310,7 +310,7 @@ def edit_confirmdeletefile(request, dataset_name, datafile_id):
         'addfile_viewname': url,
         'dataset': dataset,
         'file_to_delete_id': datafile_id,
-        'file_to_delete_title': datafile.title,
+        'file_to_delete_title': datafile.name,
     })
 
 
@@ -333,12 +333,13 @@ def _addfile(request, dataset_name, form_class, template, datafile_id=None):
         if form.is_valid():
             data = dict(**form.cleaned_data)
             if datafile:
-                form.save()
+                data['dataset'] = dataset
+                for k, v in data.items():
+                    setattr(datafile,k, v)
+                datafile.save()
             else:
                 if not _file_already_added(dataset, data['name'], data['url']):
                     data['dataset'] = dataset
-                    data['title'] = data['name']
-                    del data['name']
                     obj = Datafile.objects.create(**data)
                     obj.save()
 
@@ -397,7 +398,7 @@ def edit_add_doc(request, dataset_name, datafile_id=None):
 
     datafile = get_object_or_404(Datafile, id=datafile_id) \
         if datafile_id else None
-    form = f.FileForm(request.POST or None)
+    form = f.FileForm(request.POST or None, instance=datafile)
 
     _set_flow_state(request)
 
@@ -405,13 +406,12 @@ def edit_add_doc(request, dataset_name, datafile_id=None):
         if form.is_valid():
             data = dict(**form.cleaned_data)
             if datafile:
+                print(data)
                 form.save()
             else:
                 if not _file_already_added(dataset, data['name'], data['url']):
                     data['dataset'] = dataset
                     data['is_documentation'] = True
-                    data['title'] = data['name']
-                    del data['name']
                     obj = Datafile.objects.create(**data)
                     obj.save()
 

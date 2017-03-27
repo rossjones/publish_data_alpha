@@ -144,7 +144,7 @@ def convert_to_ckan(dataset, alpha_id):
 
     for file in dataset.files.all():
         r = {
-            'description': file.title,
+            'description': file.name,
             'url': file.url,
             'format': file.format or '',
             'is_broken': file.is_broken,

@@ -23,7 +23,7 @@ class DatafileDatesTestCase(TestCase):
         return Datafile(
             format='HTML',
             url='https://data.gov.uk',
-            title='A datafile',
+            name='A datafile',
             dataset=self.dataset
         )
 

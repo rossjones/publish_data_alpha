@@ -157,7 +157,7 @@ class InspireDataset(models.Model):
 class Datafile(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    title = models.CharField(max_length=64)
+    name = models.CharField(max_length=64)
     url = models.URLField(max_length=2048)
     format = models.CharField(max_length=32, blank=True)
     dataset = models.ForeignKey(Dataset, related_name="files")
@@ -190,7 +190,7 @@ class Datafile(models.Model):
         start, end = self.start_date, self.end_date
         data = {
             'id': str(self.id),
-            'title': self.title,
+            'name': self.name,
             'url': self.url,
             'format': self.format,
             'start_date': start.isoformat() if start else None,
