@@ -148,6 +148,12 @@
     },
 
     init: function(params) {
+
+      // Removing Enter key as submit, as it makes
+      // it confusing to use with a screen reader
+      $('#id_location1, #id_location2, #id_location3')
+        .on('keypress', function(e) { return e.which !== 13; });
+
       if ($('#id_location2').val()) {
         hs('#add1', '#location2, #add2, #del2');
       } else {
