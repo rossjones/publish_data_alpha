@@ -306,9 +306,12 @@ def edit_confirmdeletefile(request, dataset_name, datafile_id):
 
     _set_flow_state(request)
 
+    files = [f for f in dataset.files.all() if not f.is_documentation]
+
     return render(request, template, {
         'addfile_viewname': url,
         'dataset': dataset,
+        'files': files,
         'file_to_delete_id': datafile_id,
         'file_to_delete_title': datafile.name,
     })
