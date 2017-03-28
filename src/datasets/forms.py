@@ -134,7 +134,7 @@ class CheckedFileForm(forms.ModelForm):
             return cleaned
 
         # Check the URL is a valid URL and exists
-        exists, fmt, error_msg = url_exists(cleaned['url'])
+        exists, fmt, size, error_msg = url_exists(cleaned['url'])
         if not exists:
             self._errors['url'] = \
                 [error_msg]
@@ -147,6 +147,7 @@ class CheckedFileForm(forms.ModelForm):
         cleaned['is_broken'] = False
         cleaned['last_check'] = datetime.datetime.now()
         cleaned['format'] = fmt
+        cleaned['size'] = size
 
         return cleaned
 
@@ -177,9 +178,7 @@ class WeeklyFileForm(CheckedFileForm):
         ]
 
     def clean(self):
-        cleaned = super(CheckedFileForm, self).clean()
-        if self._errors:
-            return cleaned
+        cleaned = CheckedFileForm.clean(self)
 
         if not 'start_year' in cleaned or \
             cleaned['start_year'] < 1000 or cleaned['start_year'] > 3000:
@@ -230,21 +229,12 @@ class WeeklyFileForm(CheckedFileForm):
         if self.errors:
             return cleaned
 
-        # Check the URL is a valid URL and exists
-        exists, fmt, error_msg = url_exists(cleaned['url'])
-        if not exists:
-            self._errors['url'] = \
-                [error_msg]
-
-            # TODO: Consider uncommenting this
-            #if fmt == 'HTML':
-            #    self._errors['url'] = \
-            #        [_("This appears to be a web page and not a data file")]
 
         return {
             'is_broken': False,
             'last_check': datetime.datetime.now(),
             'format': fmt,
+            'size': cleaned['size'],
             'name': cleaned['name'],
             'url': cleaned['url'],
             'start_date': frequency_weekly_start,
@@ -272,7 +262,7 @@ class MonthlyFileForm(CheckedFileForm):
 
 
     def clean(self):
-        cleaned = super(CheckedFileForm, self).clean()
+        cleaned = CheckedFileForm.clean(self)
         if self._errors:
             return cleaned
 
@@ -285,6 +275,7 @@ class MonthlyFileForm(CheckedFileForm):
         except (KeyError, ValueError):
             self._errors['date'] = [_('Please enter a valid date')]
 
+        print(cleaned)
         return cleaned
 
 
@@ -300,7 +291,7 @@ class QuarterlyFileForm(CheckedFileForm):
         fields = [ 'name', 'url', 'quarter', 'year' ]
 
     def clean(self):
-        cleaned = super(CheckedFileForm, self).clean()
+        cleaned = CheckedFileForm.clean(self)
 
         if not cleaned['year'] or \
            cleaned['year'] < 1000 or \
@@ -323,7 +314,7 @@ class AnnuallyFileForm(CheckedFileForm):
         fields = [ 'name', 'url', 'year' ]
 
     def clean(self):
-        cleaned = super(CheckedFileForm, self).clean()
+        cleaned = CheckedFileForm.clean(self)
         if self._errors:
             return cleaned
 

@@ -258,6 +258,8 @@ def edit_addfile(request, dataset_name, datafile_id=None):
                 if not _file_already_added(dataset, data['name'], data['url']):
                     data['dataset'] = dataset
                     data['title'] = data['name']
+                    if 'size' in data:
+                        data['size'] = data['size']
                     del data['name']
                     obj = Datafile.objects.create(**data)
                     obj.save()
