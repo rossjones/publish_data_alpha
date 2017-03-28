@@ -45,7 +45,7 @@ class Command(BaseCommand):
 
             if is_dataset_overdue(dataset):
                 print('+ Dataset {} is overdue'.format(dataset.name))
-                msg = 'Add missing data to {}'.format(dataset.title)
+                msg = "Add missing data to '{}'".format(dataset.title)
                 Task.objects.create(
                     owning_organisation=organisation.name,
                     related_object_id=dataset.name,
