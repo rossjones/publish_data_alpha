@@ -1,6 +1,16 @@
 {% extends "manage/base.html" %}
 {% load i18n %}
 
+
+{% block page_title %}
+  {% blocktrans %}Manage {{ organisation }} datasets {% endblocktrans %}
+{% endblock %}
+
+{% block page_inner_title %}
+  <span>{% trans 'Manage your datasets' %}</span>
+  <span class="visuallyhidden"> ({{ organisation }})</span>
+{% endblock %}
+
 {%block manage_title %}
   <div class="heading-small">
     <a href="{% url 'manage_my_data' %}">{% trans "My datasets" %}</a>

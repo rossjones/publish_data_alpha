@@ -1,6 +1,16 @@
 {% extends "tasks/base.html" %}
 {% load i18n %}
 
+{% block page_title %}
+  {% blocktrans %}{{ organisation }} tasks {% endblocktrans %}
+{% endblock %}
+
+{% block page_inner_title %}
+  <span>{% trans 'Task list' %}</span>
+  <span class="visuallyhidden"> ({{ organisation }})</span>
+{% endblock %}
+
+
 {%block tasks_title %}
   <div class="heading-small">
     <a href="{% url 'my_tasks' %}">{% trans "My tasks" %}</a>

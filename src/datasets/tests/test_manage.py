@@ -36,7 +36,7 @@ class ManageTestCase(TestCase):
         manage_page = self.client.get(reverse('manage_org_data'))
         self.assertContains(
             manage_page,
-            '<h1 class="heading-large">Manage your datasets</h1>',
+            '<span>Manage your datasets</span>',
             1, 200, html=True
         )
         assert re.match(r'.*B dataset.+A dataset.*', str(manage_page.content))

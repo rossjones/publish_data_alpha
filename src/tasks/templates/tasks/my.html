@@ -1,6 +1,14 @@
 {% extends "tasks/base.html" %}
 {% load i18n %}
 
+{% block page_title %}
+  {% trans "Task list" %}
+{% endblock %}
+
+{% block page_inner_title %}
+  <span>{% trans 'Task list' %}</span>
+{% endblock %}
+
 {%block tasks_title %}
   <h2 class="heading-small">
     {% trans "My tasks" %}
