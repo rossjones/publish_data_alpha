@@ -25,3 +25,4 @@ factory_boy==2.8.1
 notifications_python_client==4.2.0
 djangorestframework==3.6.2
 django-filter==1.0.1
+requests-cache==0.4.13
