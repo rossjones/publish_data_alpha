@@ -1748,11 +1748,13 @@ a.secondary-button, a.secondary-button:visited {
   cursor: pointer;
   text-decoration: underline; }
 
-a.remove-button {
+input.linky-button {
+  background: #fff;
+  border: none;
+  padding: 0;
   color: #005ea5;
   cursor: pointer;
-  text-decoration: underline;
-  padding-left: 1em; }
+  text-decoration: underline; }
 
 .location-input {
   display: block; }

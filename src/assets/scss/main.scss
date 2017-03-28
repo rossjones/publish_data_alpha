@@ -193,11 +193,13 @@ a.secondary-button, a.secondary-button:visited {
   text-decoration: underline;
 }
 
-a.remove-button {
+input.linky-button {
+  background: $page-colour;
+  border: none;
+  padding: 0;
   color: $link-colour;
   cursor: pointer;
   text-decoration: underline;
-  padding-left: 1em;
 }
 
 .location-input {

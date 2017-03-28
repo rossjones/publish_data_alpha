@@ -43,7 +43,13 @@
           <label class="form-label-bold" for="id_location1">
             <span>{% trans "Enter the area covered by this dataset" %}</span>
           </label>
-          <a id="del1" class="remove-button" style="display: none" aria-hidden="true">Remove</a>
+          <input
+              type="button"
+              id="del1"
+              class="linky-button"
+              style="display: none"
+              aria-hidden="true"
+              value="{% trans 'Remove' %}"/>
           <input
               class="location-input form-control form-control-2-3"
               id="id_location1"
@@ -53,9 +59,13 @@
               value="{{ form.location1.value|default:'' }}" />
         </div>
         <p>
-          <a id="add1" class="secondary-button" style="display: none" aria-hidden="true">
-            {% trans "Enter another area" %}
-          </a>
+          <input
+              type="button"
+              id="add1"
+              class="linky-button"
+              style="display: none"
+              aria-hidden="true"
+              value="{% trans 'Enter another area' %}" />
         </p>
 
         <div id="location2">
@@ -63,7 +73,13 @@
           <label class="form-label-bold" for="id_location2">
             <span>{% trans "Enter another area" %}</span>
           </label>
-          <a id="del2" class="remove-button" style="display: none" aria-hidden="true">Remove</a>
+          <input
+              type="button"
+              id="del2"
+              class="linky-button"
+              style="display: none"
+              aria-hidden="true"
+              value="{% trans "Remove" %}" />
           <input
               class="location-input form-control form-control-2-3"
               id="id_location2"
@@ -73,9 +89,14 @@
               value="{{ form.location2.value|default:'' }}" />
         </div>
         <p>
-          <a id="add2" class="secondary-button" style="display: none" aria-hidden="true">
-            {% trans "Enter another area" %}
-          </a>
+          <input
+              type="button"
+              id="add2"
+              class="linky-button"
+              style="display: none"
+              aria-hidden="true"
+              value="{% trans "Enter another area" %}" />
+          </button>
         </p>
 
         <div id="location3">
@@ -83,7 +104,13 @@
           <label class="form-label-bold" for="id_location3">
             <span>{% trans "Enter another area" %}</span>
           </label>
-          <a id="del3" class="remove-button" style="display: none" aria-hidden="true">Remove</a>
+          <input
+              type="button"
+              id="del3"
+              class="linky-button"
+              style="display: none"
+              aria-hidden="true"
+              value="{% trans 'Remove' %}" />
           <input
               class="location-input form-control form-control-2-3"
               id="id_location3"
