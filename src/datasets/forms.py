@@ -55,12 +55,12 @@ class PublishForm(forms.Form):
     frequency = forms.CharField(required=True)
     files = forms.CharField(required=False)
 
-    def __init__(self, file_count=None, data=None):
+    def __init__(self, datafile_count=None, data=None):
         super(PublishForm, self ).__init__(data)
-        self.file_count = file_count
+        self.datafile_count = datafile_count
 
     def clean(self):
-        if self.file_count == 0:
+        if self.datafile_count == 0:
             self._errors['files'] = [_('You must add at least one link')]
 
         if 'title' in self.cleaned_data:
