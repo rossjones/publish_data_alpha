@@ -20,13 +20,6 @@
         </li>
       {% endfor %}
 
-      {% if form.files.errors %}
-        <li>
-          <a href="#title_form_group">{{form.files.errors.0}}</a>
-          <span class="visuallyhidden">.</span>
-        </li>
-      {% endif %}
-
       {% if form.url.errors %}
         <li>
           <a href="#url_form_group">
@@ -90,32 +83,32 @@
         </li>
       {% endif %}
 
-        {% if form.location1.errors %}
+      {% if form.location1.errors %}
         <li>
           <a href="#location_form_group">
             {% trans "Please enter the area that your dataset covers" %}
           </a>
           <span class="visuallyhidden">.</span>
         </li>
-        {% endif %}
+      {% endif %}
 
-        {% if form.location2.errors %}
+      {% if form.location2.errors %}
         <li>
           <a href="#location_form_group">
             {% trans "Please enter the area that your dataset covers" %}
           </a>
           <span class="visuallyhidden">.</span>
         </li>
-        {% endif %}
+      {% endif %}
 
-        {% if form.location3.errors %}
+      {% if form.location3.errors %}
         <li>
           <a href="#location_form_group">
             {% trans "Please enter the area that your dataset covers" %}
           </a>
           <span class="visuallyhidden">.</span>
         </li>
-        {% endif %}
+      {% endif %}
 
       {% if form.frequency.errors %}
         <li>
@@ -248,6 +241,13 @@
           <a href="#date_form_group">
             {% trans "Please enter a valid date" %}
           </a>
+          <span class="visuallyhidden">.</span>
+        </li>
+      {% endif %}
+
+      {% if form.files.errors %}
+        <li>
+          <a href="#file_form_group">{{form.files.errors.0}}</a>
           <span class="visuallyhidden">.</span>
         </li>
       {% endif %}

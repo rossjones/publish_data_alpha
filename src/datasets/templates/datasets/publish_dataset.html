@@ -102,7 +102,12 @@
         <th class="dataset-item">
           {% trans "Licence" %}
         </th>
-        <td>
+        <td
+            id="licence_form_group"
+            {% if form.licence.errors %}class="error"{% endif %}>
+          {% if form.licence.errors %}
+            <span class="error-message">{% trans "Please select a licence for your dataset" %}</span>
+          {% endif %}
           {% if dataset.licence == "uk-ogl" %}
             {% trans "Open Government Licence" %}
           {% else %}
@@ -114,7 +119,7 @@
             {% if dataset.licence %}
               {% trans "Change <span class='visuallyhidden'>licence</span>" %}
             {% else %}
-              {% trans "Add <span class='visuallyhidden'>licence</span>" %}
+              {% trans "Select <span class='visuallyhidden'>licence</span>" %}
             {% endif %}
           </a>
         </td>
@@ -171,7 +176,12 @@
         <th class="dataset-item">
           {% trans "Data" %}
         </th>
-        <td class="file-list">
+        <td
+            id="file_form_group"
+            class="file-list {% if form.files.errors %}error{% endif %}">
+          {% if form.files.errors %}
+            <span class="error-message">{{ form.files.errors.0 }}</span>
+          {% endif %}
           <div class="show-hide">
             <ul>
               {% for link in datafiles %}
