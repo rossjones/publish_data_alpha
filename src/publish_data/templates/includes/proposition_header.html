@@ -21,13 +21,6 @@
         </li>
         <li>
           <a
-              href="{{ new }}"
-              class="{% if request.path|slice:":8" == '/dataset' %}bold{% endif %}">
-            {% trans "Create a dataset" %}
-          </a>
-        </li>
-        <li>
-          <a
               class="{% if request.path == manage %}bold{% endif %}"
               href="{{ manage }}">
             {% trans "Manage datasets" %}
