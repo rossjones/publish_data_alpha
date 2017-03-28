@@ -1,6 +1,14 @@
 {% extends "manage/base.html" %}
 {% load i18n %}
 
+{% block page_title %}
+  {% trans "Manage your datasets" %}
+{% endblock %}
+
+{% block page_inner_title %}
+  <span>{% trans 'Manage your datasets' %}</span>
+{% endblock %}
+
 {%block manage_title %}
   <h2 class="heading-small">
     {% trans "My datasets" %}

@@ -2,13 +2,9 @@
 {% load static %}
 {% load i18n %}
 
-{% block page_title %}
-  {% trans "Tasks" %}
-{% endblock %}
-
 {% block inner_content %}
 
-  <h1 class="heading-large">{%trans "Task list" %}</h1>
+  <h1 class="heading-large">{% block page_inner_title %}{% endblock %}</h1>
 
   <div class="tasks">
     <div class="tabs">{%block tasks_title %}{% trans "My tasks" %}{% endblock %}</div>
