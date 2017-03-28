@@ -1672,6 +1672,10 @@ div#global-header-bar {
     .form-hint {
       width: 66.66%; } }
 
+span.error.error-message {
+  display: inline-block;
+  padding-left: .5em; }
+
 .column-three-quarters {
   padding: 0 15px;
   -webkit-box-sizing: border-box;

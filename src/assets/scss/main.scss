@@ -98,6 +98,11 @@ div#global-header-bar {
 
 // govuk-* additions
 
+span.error.error-message {
+  display: inline-block;
+  padding-left: .5em;
+}
+
 .column-three-quarters {
   @include grid-column(3 / 4);
 }
