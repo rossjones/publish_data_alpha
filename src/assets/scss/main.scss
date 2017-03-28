@@ -35,13 +35,18 @@ $alpine-fresh: #128400;
     @include phase-tag();
     margin-top: 7px;
   }
-  .header-proposition .content {
-    padding-top: 4px;
-  }
-  .header-proposition #proposition-links li a {
-    font-weight: normal;
-    &.bold {
-      font-weight: 700;
+  .header-proposition {
+    .content {
+      padding-top: 4px;
+    }
+    #proposition-links {
+      float: right;
+      li a {
+        font-weight: normal;
+        &.bold {
+          font-weight: 700;
+        }
+      }
     }
   }
   @media (min-width: 769px) {

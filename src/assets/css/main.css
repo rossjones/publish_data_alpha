@@ -1627,10 +1627,12 @@ input[type=number] {
 #global-header .header-proposition .content {
   padding-top: 4px; }
 
-#global-header .header-proposition #proposition-links li a {
-  font-weight: normal; }
-  #global-header .header-proposition #proposition-links li a.bold {
-    font-weight: 700; }
+#global-header .header-proposition #proposition-links {
+  float: right; }
+  #global-header .header-proposition #proposition-links li a {
+    font-weight: normal; }
+    #global-header .header-proposition #proposition-links li a.bold {
+      font-weight: 700; }
 
 @media (min-width: 769px) {
   #global-header .header-proposition #proposition-links li {
