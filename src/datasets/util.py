@@ -14,30 +14,35 @@ def url_exists(url):
     a tuple containing:
         a bool - for success/fail
         a string - the determined format (may be None)
+        an integer - the size of the resource
         a string - an error message
     '''
     # Make sure we have a valid proto,
     obj = urlparse(url)
     if not obj.scheme.lower() in ['http', 'https', 'ftp', 'ftps']:
-        return False, '', _('The URL should begin with http or https')
+        return False, '', 0,  _('The URL should begin with http or https')
 
     fmt = ''
+    size = 0
 
     try:
         r = requests.head(url, allow_redirects=True)
     except requests.ConnectionError as ce:
-        return False, '', _('Failed to connect to the URL')
+        return False, '', 0, _('Failed to connect to the URL')
     except Exception as e:
-        return False, '', _('A problem occurred checking the URL')
+        return False, '', 0, _('A problem occurred checking the URL')
 
     if r.status_code != 200:
-        return False, '', _('The URL caused an error')
+        return False, '', 0, _('The URL caused an error')
 
     content_type = r.headers['Content-Type']
 
     if ';' in content_type:
         # TODO: Let's not through away encoding information
         content_type = content_type[0:content_type.index(';')]
+
+    if 'Content-Length' in r.headers:
+        size = int(r.headers['Content-Length'])
 
     extension = guess_extension(content_type)
     if extension:
@@ -48,7 +53,7 @@ def url_exists(url):
         if fmt in ['HTM', 'SHTML']:
             fmt = 'HTML'
 
-    return True, fmt, None
+    return True, fmt, size, None
 
 
 def calculate_dates_for_month(month, year):

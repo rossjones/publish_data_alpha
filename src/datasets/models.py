@@ -160,6 +160,8 @@ class Datafile(models.Model):
     name = models.CharField(max_length=64)
     url = models.URLField(max_length=2048)
     format = models.CharField(max_length=32, blank=True)
+    size = models.IntegerField(default=0)
+
     dataset = models.ForeignKey(Dataset, related_name="files")
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
@@ -193,6 +195,7 @@ class Datafile(models.Model):
             'name': self.name,
             'url': self.url,
             'format': self.format,
+            'size': self.size,
             'start_date': start.isoformat() if start else None,
             'end_date': end.isoformat() if end else None,
             'is_broken': self.is_broken,
