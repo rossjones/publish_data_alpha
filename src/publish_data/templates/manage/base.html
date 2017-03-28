@@ -21,43 +21,44 @@
 
     <h1 class="heading-large">{% trans "Manage your datasets" %}</h1>
 
-    <div class="tabs">{%block manage_title %}{% endblock %}</div>
-
-    <div class="tabs-content">
-
-      <p>
-        <a
+    <p>
+      <a
           href="{% url 'new_dataset' %}"
           class="secondary-button">
         {% trans "Create a dataset" %}
-        </a>
-      </p>
+      </a>
+    </p>
 
-      <form
-          method="GET"
-          action="{% url current_view %}"
-          id="filter-dataset-form"
-          class="form">
+    <form
+        method="GET"
+        action="{% url current_view %}"
+        id="filter-dataset-form"
+        class="form">
 
-        <fieldset>
-          <legend class="visuallyhidden">
-            {% trans "Filter datasets by name" %}
-          </legend>
+      <fieldset>
+        <legend class="visuallyhidden">
+          {% trans "Filter datasets by name" %}
+        </legend>
 
-          <div class="form-group wide-search-bar">
-            <label for="q">
-              <div>{% trans "Search all datasets" %}</div>
-              <input
-                  class="form-control"
-                  id="q"
-                  name="q"
-                  type="text"
-                  autocomplete="off"
-                  value="{{ q }}"/>
-            </label>
-          </div>
-        </fieldset>
-      </form>
+        <div class="form-group wide-search-bar">
+          <label for="q">
+            <div>{% trans "Search all datasets" %}</div>
+            <input
+                class="form-control"
+                id="q"
+                name="q"
+                type="text"
+                autocomplete="off"
+                value="{{ q }}"/>
+          </label>
+        </div>
+      </fieldset>
+    </form>
+
+
+    <div class="tabs">{%block manage_title %}{% endblock %}</div>
+
+    <div class="tabs-content">
 
       <table
           class="manage-data"
