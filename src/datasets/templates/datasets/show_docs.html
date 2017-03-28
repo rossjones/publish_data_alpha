@@ -70,26 +70,27 @@
       </tbody>
     </table>
 
-    <p>
-      <a href="{% url 'edit_dataset_adddoc' dataset.name %}">
-        {% if files|length == 0 %}
-          {% trans "Add a link" %}
-        {% else %}
-          {% trans "Add another link" %}
-        {% endif %}
-      </a>
-    </p>
-    <p>
-      <a
-          {% if request|is_editing %}
-          href="{% url 'edit_full_dataset' dataset.name %}"
+    {% if not file_to_delete_id %}
+      <p>
+        <a href="{% url 'edit_dataset_adddoc' dataset.name %}" class="secondary-button">
+          {% if files|length == 0 %}
+            {% trans "Add a link" %}
           {% else %}
-          href="{% url 'publish_dataset' dataset.name %}"
+            {% trans "Add another link" %}
           {% endif %}
-          class="button">
-        {% trans "Save and continue" %}
-      </a>
-    </p>
-
+        </a>
+      </p>
+      <p>
+        <a
+            {% if request|is_editing %}
+            href="{% url 'edit_full_dataset' dataset.name %}"
+            {% else %}
+            href="{% url 'publish_dataset' dataset.name %}"
+            {% endif %}
+            class="button">
+          {% trans "Save and continue" %}
+        </a>
+      </p>
+    {% endif %}
   </main>
 {% endblock %}

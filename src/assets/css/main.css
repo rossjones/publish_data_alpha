@@ -1672,6 +1672,10 @@ div#global-header-bar {
     .form-hint {
       width: 66.66%; } }
 
+span.error.error-message {
+  display: inline-block;
+  padding-left: .5em; }
+
 .column-three-quarters {
   padding: 0 15px;
   -webkit-box-sizing: border-box;
@@ -1698,6 +1702,12 @@ table tbody th {
 
 table tfoot td {
   border: 0; }
+
+td.actions a:visited {
+  color: #005ea5; }
+
+a.secondary-button:visited {
+  color: #005ea5; }
 
 h2.user-bar {
   font-weight: bold;
@@ -1842,6 +1852,9 @@ div.tabs > div {
   padding: 15px;
   padding-bottom: 14px; }
 
+div.tabs a:visited {
+  color: #005ea5; }
+
 div.tabs div.ie-fix {
   position: absolute;
   top: 2em;
@@ -1899,9 +1912,6 @@ nav ul {
 
 table {
   margin-bottom: 1em; }
-
-.tasks a:visited {
-  color: #005ea5; }
 
 .tasks .bignum {
   font-size: 200%;

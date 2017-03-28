@@ -257,10 +257,8 @@ def edit_addfile(request, dataset_name, datafile_id=None):
             else:
                 if not _file_already_added(dataset, data['name'], data['url']):
                     data['dataset'] = dataset
-                    data['title'] = data['name']
                     if 'size' in data:
                         data['size'] = data['size']
-                    del data['name']
                     obj = Datafile.objects.create(**data)
                     obj.save()
 
@@ -308,9 +306,12 @@ def edit_confirmdeletefile(request, dataset_name, datafile_id):
 
     _set_flow_state(request)
 
+    files = [f for f in dataset.files.all() if not f.is_documentation]
+
     return render(request, template, {
         'addfile_viewname': url,
         'dataset': dataset,
+        'files': files,
         'file_to_delete_id': datafile_id,
         'file_to_delete_title': datafile.name,
     })
@@ -463,9 +464,8 @@ def _edit_publish_dataset(request, dataset, state, deleting=False):
         from django.forms.models import model_to_dict
         data = model_to_dict(dataset)
 
-
-        file_count = dataset.files.count()
-        form = f.PublishForm(file_count=file_count, data=data)
+        datafile_count = dataset.files.filter(is_documentation=False).count()
+        form = f.PublishForm(datafile_count=datafile_count, data=data)
         if form.is_valid():
             if state == 'checking':
                 dataset.published = True
