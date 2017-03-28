@@ -1699,6 +1699,12 @@ table tbody th {
 table tfoot td {
   border: 0; }
 
+td.actions a:visited {
+  color: #005ea5; }
+
+a.secondary-button:visited {
+  color: #005ea5; }
+
 h2.user-bar {
   font-weight: bold;
   margin-top: 1em;
@@ -1842,6 +1848,9 @@ div.tabs > div {
   padding: 15px;
   padding-bottom: 14px; }
 
+div.tabs a:visited {
+  color: #005ea5; }
+
 div.tabs div.ie-fix {
   position: absolute;
   top: 2em;
@@ -1899,9 +1908,6 @@ nav ul {
 
 table {
   margin-bottom: 1em; }
-
-.tasks a:visited {
-  color: #005ea5; }
 
 .tasks .bignum {
   font-size: 200%;

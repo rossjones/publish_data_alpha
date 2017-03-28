@@ -112,7 +112,6 @@ ul.classic {
   list-style-type: disc;
 }
 
-
 table {
   &.with-margin {
     margin: 2em 0 3em 0;
@@ -125,7 +124,13 @@ table {
   }
 }
 
+td.actions a:visited {
+  color: $link-colour;
+}
 
+a.secondary-button:visited {
+  color: $link-colour;
+}
 
 // Components
 
@@ -318,6 +323,9 @@ div.tabs {
     padding: 15px;
     padding-bottom: 14px;
   }
+  a:visited {
+    color: $link-colour;
+  }
   div.ie-fix {
     // We need to add this in order to make up for IE's box model accuracy errors
     position:absolute;
@@ -396,9 +404,6 @@ table {
 // tasks pages
 
 .tasks {
-  a:visited {
-    color: $link-colour;
-  }
   .bignum {
     font-size: 200%;
     padding-right: .5em;
