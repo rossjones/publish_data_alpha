@@ -160,6 +160,8 @@
             {% trans "Annually (January to December)" %}
           {% elif dataset.frequency == 'financial-year' %}
             {% trans "Annually (April to March)" %}
+          {% elif dataset.frequency == 'never' %}
+            {% trans "One-off" %}
           {% else %}
             {{ dataset.frequency|title }}
           {% endif %}
