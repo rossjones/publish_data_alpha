@@ -9,6 +9,7 @@ from django.template import RequestContext
 from django.views.generic.edit import FormView
 from django.http import HttpResponseRedirect, Http404
 from django.utils.translation import ugettext as _
+from django.conf import settings
 
 import papertrail
 
@@ -112,9 +113,17 @@ def delete_dataset(request, dataset_name):
     unindex_dataset(dataset)
     dataset.delete()
 
-    msg = _('The dataset ‘%(title)s’ has been deleted') % \
-          {'title': dataset.title}
-    messages.add_message(request, messages.INFO, msg)
+    msg = '<h1 class="heading-medium">' + \
+          ( _('The dataset ‘%(title)s’ has been deleted') % \
+          {'title': dataset.title}) + \
+          '</h1>'
+
+    messages.add_message(
+        request,
+        messages.INFO,
+        msg,
+        extra_tags='confirm-delete-box'
+    )
 
     return HttpResponseRedirect(
         reverse('manage_my_data')
@@ -285,7 +294,12 @@ def edit_deletefile(request, dataset_name, datafile_id):
     datafile.delete();
 
     msg = _('Your link ‘{}’ has been deleted'.format(datafile.name))
-    messages.add_message(request, messages.INFO, msg)
+    messages.add_message(
+        request,
+        messages.INFO,
+        msg,
+        extra_tags='confirm-delete-box'
+    )
 
     return HttpResponseRedirect(
         reverse(next_view, args=[dataset_name])
@@ -495,18 +509,22 @@ def _edit_publish_dataset(request, dataset, state, deleting=False):
             result = 'edited' if new_state == 'editing' else 'created'
 
             if result == 'edited':
-                msg = _('Your dataset has been edited')
+                msg = '<h1 class="bold-large">' + \
+                      _('Your dataset has been edited') + \
+                      '</h1>'
             else:
-                msg = _('Your dataset has been created')
+                msg = '<h1 class="bold-large">' + \
+                      _('Your dataset has been created') + \
+                      '</h1>'
+
+            msg += '<h2><a href="' + settings.FIND_URL + '/dataset/' + \
+                   dataset.name+'">' + _('View it') + '</a></h2>'
 
             messages.add_message(
                 request,
                 messages.INFO,
                 msg,
-                extra_tags='{},{}'.format(
-                    'edit' if result=='edited' else 'publ',
-                    dataset.name,
-                )
+                extra_tags='govuk-box-highlight',
             )
 
             request.session['flow-state'] = None

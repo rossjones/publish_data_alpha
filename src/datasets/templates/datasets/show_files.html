@@ -11,7 +11,7 @@
   <main id="content" role="main" tabindex="-1">
     {% if file_to_delete_id %}
       <div
-          class="confirm-box"
+          class="confirm-delete-box"
           role="group"
           aria-labelledby="confirm-heading"
           tabindex="-1">
@@ -35,7 +35,7 @@
     {% endif %}
 
     {% if messages %}
-      <div class="confirm-box">
+      <div class="confirm-delete-box">
         {% for message in messages %}
           <h1 class="heading-medium"> {{ message|safe }}</h1>
         {% endfor %}
