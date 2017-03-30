@@ -354,15 +354,14 @@ div.tabs-content {
 
 // start page
 
-.product-header {
-  background-color: $alpine-fresh;
+.masthead {
+  margin: 0;
+  background: $alpine-fresh;
   color: $page-colour;
-  padding: 0 30px 90px 30px;
   .button-get-started {
     color: $alpine-fresh;
     background-color: $page-colour;
   }
-
   .login-white {
     line-height: 42px;
   }
@@ -389,6 +388,12 @@ div.tabs-content {
       background-image: file-url("icon-pointer-green-2x.png");
     }
   }
+}
+
+.masthead .inner, .contact {
+  margin: 0 auto;
+  padding-bottom: 3em;
+  max-width: 960px;
 }
 
 // navigation bar
