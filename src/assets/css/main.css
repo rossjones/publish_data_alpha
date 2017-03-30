@@ -1869,19 +1869,19 @@ div.tabs-content {
   border-top: 1px solid #bfc1c3;
   padding-top: 1em; }
 
-.product-header {
-  background-color: #128400;
-  color: #fff;
-  padding: 0 30px 90px 30px; }
-  .product-header .button-get-started {
+.masthead {
+  margin: 0;
+  background: #128400;
+  color: #fff; }
+  .masthead .button-get-started {
     color: #128400;
     background-color: #fff; }
-  .product-header .login-white {
+  .masthead .login-white {
     line-height: 42px; }
-  .product-header a {
+  .masthead a {
     color: #fff; }
-  .product-header .button-start,
-  .product-header .button-get-started {
+  .masthead .button-start,
+  .masthead .button-get-started {
     font-family: "HelveticaNeue", "Helvetica Neue", "Arial", "Helvetica", sans-serif;
     font-weight: 700;
     text-transform: none;
@@ -1892,15 +1892,20 @@ div.tabs-content {
     background-position: 95% 50%;
     padding: 0.26316em 2.15789em 0.31579em 0.84211em; }
     @media (min-width: 641px) {
-      .product-header .button-start,
-      .product-header .button-get-started {
+      .masthead .button-start,
+      .masthead .button-get-started {
         font-size: 24px;
         line-height: 1.25; } }
     @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 20 / 10), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-      .product-header .button-start,
-      .product-header .button-get-started {
+      .masthead .button-start,
+      .masthead .button-get-started {
         background-image: url("/static/images/icon-pointer-green-2x.png");
         background-size: 30px 19px; } }
+
+.masthead .inner, .contact {
+  margin: 0 auto;
+  padding-bottom: 3em;
+  max-width: 960px; }
 
 nav ul {
   list-style-type: none;
