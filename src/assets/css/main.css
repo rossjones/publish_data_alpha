@@ -1947,7 +1947,7 @@ table {
   display: inline-block;
   color: #b10e1e;
   border-left: 4px solid #b10e1e;
-  padding-left: 6px;
+  padding-left: 10px;
   margin-left: 2px; }
 
 .tasks .passed {
@@ -1967,7 +1967,8 @@ table {
   .tasks table thead th.update-by {
     width: 25%; }
   .tasks table thead th.broken-links {
-    width: 25%; }
+    width: 25%;
+    padding-right: 7px; }
   .tasks table thead th.actions {
     width: 10%; }
   .tasks table thead td, .tasks table tbody td {
@@ -1978,6 +1979,10 @@ table {
       min-width: 3em; }
   .tasks table td .text-supporting {
     color: #6f777b; }
+  .tasks table td.broken-links {
+    text-align: right; }
+    .tasks table td.broken-links .link-count {
+      padding-right: 6.3em; }
 
 ul.user-details li {
   margin-bottom: 1em;

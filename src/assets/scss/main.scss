@@ -449,7 +449,7 @@ table {
     display: inline-block;
     color: $error-colour;
     border-left: 4px solid $error-colour;
-    padding-left: 6px;
+    padding-left: 10px;
     margin-left: 2px;
   }
   .passed {
@@ -475,6 +475,7 @@ table {
       }
       th.broken-links {
         width: 25%;
+        padding-right: 7px;
       }
       th.actions {
         width: 10%;
@@ -491,6 +492,12 @@ table {
     td {
       .text-supporting {
         color: $grey-1;
+      }
+      &.broken-links {
+        text-align: right;
+        .link-count {
+          padding-right: 6.3em;
+        }
       }
     }
   }
