@@ -18,7 +18,6 @@ def my_tasks(request):
         'tasks': tasks,
         'datasetsUpdate': datasets[13443:13500],
         'datasetsBroken': datasets[22342:22400],
-        'randomVisible': ['visuallyhidden', '', ''],
     })
 
 @login_required()
@@ -32,5 +31,4 @@ def organisation_tasks(request):
         'tasks': tasks,
         'datasetsUpdate': datasets[11020:11055],
         'datasetsBroken': datasets[22342:22400],
-        'randomVisible': ['visuallyhidden', '', ''],
     })
