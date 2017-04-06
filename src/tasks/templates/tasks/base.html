@@ -12,21 +12,44 @@
       <section class="show-hide">
         <div class="table-title">
           <h2 class="heading-medium">
-            <span class="bignum">{{tasks.update|length}}</span> {% trans "datasets need to be updated" %}
+            {{tasks.update|length}} {% trans "datasets need to be updated" %}
           </h2>
         </div>
         <table>
+          <thead>
+            <tr>
+              <th class="sortable-heading name">
+                <a
+                    href="{{ qs_name_next }}"
+                    class="{% if sort == 'name' %}sort-ascending{% elif sort == '-name' %}sort-descending{% endif %}">
+                  {% trans 'Name' %}
+                </a>
+              </th>
+              <th class="sortable-heading update-by">
+                <a
+                    href="{{ qs_published_next }}"
+                    class="{% if sort == 'published' %}sort-ascending{% elif sort == '-published' %}sort-descending{% endif %}">
+                  {% trans 'Update by' %}
+                </a>
+              </th>
+              <th class="actions">
+                <span class="visuallyhidden">{% trans 'Actions' %}</span>
+              </th>
+            </tr>
+          </thead>
           <tbody>
-            {% for task in tasks.update %}
+            {% for dataset in datasetsUpdate %}
               <tr class="show-hide-item">
                 <th>
-                  {{ task.description }}
+                  <a href="{{ find_url }}/dataset/{{ dataset.name }}">{{ dataset.title }}</a>
                 </th>
-                <td><div class="overdue">{{ task.label_text }}</div></td>
+                <td>
+                  <span class="update-date">{% cycle "03 Feb 2017" "24 Feb 2017" "03 April 2017" %}</span>
+                  <div class="overdue {{ randomVisible|random }}">{% trans "Overdue" %}</div>
+                </td>
                 <td class="actions">
-                  <a class="update" href="{% url 'edit_dataset_files' task.related_object_id %}">
+                  <a class="update" href="{% url 'edit_dataset_files' dataset.name %}">
                     {% trans "Update" %}
-                    <span class=""
                   </a>
                 </td>
               </tr>
@@ -43,19 +66,40 @@
       <section class="show-hide">
         <div class="table-title">
           <h2 class="heading-medium">
-            <span class="bignum">{{tasks.fix|length}}</span> {% trans "datasets have broken data links" %}
+            {{tasks.fix|length}} {% trans "datasets have broken data links" %}
           </h2>
         </div>
         <table>
+          <thead>
+            <tr>
+              <th class="sortable-heading name">
+                <a
+                    href="{{ qs_name_next }}"
+                    class="{% if sort == 'name' %}sort-ascending{% elif sort == '-name' %}sort-descending{% endif %}">
+                  {% trans 'Name' %}
+                </a>
+              </th>
+              <th class="sortable-heading broken-links">
+                <a
+                    href="{{ qs_published_next }}"
+                    class="{% if sort == 'published' %}sort-ascending{% elif sort == '-published' %}sort-descending{% endif %}">
+                  {% trans 'Broken links' %}
+                </a>
+              </th>
+              <th class="actions">
+                <span class="visuallyhidden">{% trans 'Actions' %}</span>
+              </th>
+            </tr>
+          </thead>
           <tbody>
-            {% for task in tasks.fix %}
+            {% for dataset in datasetsBroken %}
               <tr class="show-hide-item">
                 <th>
-                  {{ task.description }}
+                  <a href="{{ find_url }}/dataset/{{ dataset.name }}">{{ dataset.title }}</a>
                 </th>
-                <td><div class="overdue">{{ task.label_text }}</div></td>
+                <td>{% cycle "1" "3" "12" "9" %}</td>
                 <td class="actions">
-                  <a class="update" href="{% url 'edit_dataset_files' task.related_object_id %}">{% trans "Update" %}</a>
+                  <a class="update" href="{% url 'edit_dataset_files' dataset.name %}">{% trans "Fix" %}</a>
                 </td>
               </tr>
             {% endfor %}

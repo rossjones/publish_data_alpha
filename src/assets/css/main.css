@@ -1803,9 +1803,13 @@ input.linky-button {
     padding-left: 2px; }
 
 th.sortable-heading {
-  position: relative; }
+  position: relative;
+  font-weight: normal; }
   th.sortable-heading a:visited {
     color: #005ea5; }
+
+.sort-ascending, .sort-descending {
+  font-weight: bold; }
 
 .sort-ascending::after {
   content: "\00a0\00a0\25BC";
@@ -1935,10 +1939,16 @@ table {
   vertical-align: baseline;
   text-align: right; }
 
+.tasks .update-date {
+  float: left;
+  width: 6em; }
+
 .tasks .overdue {
+  display: inline-block;
   color: #b10e1e;
   border-left: 4px solid #b10e1e;
-  padding-left: 4px; }
+  padding-left: 6px;
+  margin-left: 2px; }
 
 .tasks .passed {
   color: #6f777b; }
@@ -1950,8 +1960,16 @@ table {
   margin-bottom: 2em; }
   .tasks table.todos {
     border-top: 1px solid #bfc1c3; }
-  .tasks table thead tr:hover, .tasks table tbody tr:hover {
+  .tasks table tbody tr:hover {
     background-color: #dee0e2; }
+  .tasks table thead th.name {
+    width: 60%; }
+  .tasks table thead th.update-by {
+    width: 25%; }
+  .tasks table thead th.broken-links {
+    width: 25%; }
+  .tasks table thead th.actions {
+    width: 10%; }
   .tasks table thead td, .tasks table tbody td {
     padding-left: .3em;
     padding-right: .3em; }

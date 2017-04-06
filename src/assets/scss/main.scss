@@ -265,9 +265,14 @@ input.linky-button {
 
 th.sortable-heading {
   position: relative;
+  font-weight: normal;
   a:visited {
     color: $link-colour;
   }
+}
+
+.sort-ascending, .sort-descending {
+  font-weight: bold;
 }
 
 .sort-ascending::after {
@@ -436,10 +441,16 @@ table {
       text-align: right;
     }
   }
+  .update-date {
+    float: left;
+    width: 6em;
+  }
   .overdue {
+    display: inline-block;
     color: $error-colour;
     border-left: 4px solid $error-colour;
-    padding-left: 4px;
+    padding-left: 6px;
+    margin-left: 2px;
   }
   .passed {
     color: $grey-1;
@@ -452,9 +463,21 @@ table {
     &.todos {
       border-top: 1px solid $grey-2;
     }
-    thead, tbody {
-      tr:hover {
+    tbody tr:hover {
         background-color: $panel-colour;
+    }
+    thead {
+      th.name {
+        width: 60%;
+      }
+      th.update-by {
+        width: 25%;
+      }
+      th.broken-links {
+        width: 25%;
+      }
+      th.actions {
+        width: 10%;
       }
     }
     thead td, tbody td {
