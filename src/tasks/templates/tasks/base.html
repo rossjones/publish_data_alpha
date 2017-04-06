@@ -45,7 +45,7 @@
                 </th>
                 <td>
                   <span class="update-date">{% cycle "03 Feb 2017" "24 Feb 2017" "03 April 2017" %}</span>
-                  <div class="overdue {{ randomVisible|random }}">{% trans "Overdue" %}</div>
+                  <div class="overdue {% if forloop.counter != 2 %}visuallyhidden{% endif %}">{% trans "Overdue" %}</div>
                 </td>
                 <td class="actions">
                   <a class="update" href="{% url 'edit_dataset_files' dataset.name %}">
@@ -82,7 +82,7 @@
               <th class="sortable-heading broken-links">
                 <a
                     href="{{ qs_published_next }}"
-                    class="{% if sort == 'published' %}sort-ascending{% elif sort == '-published' %}sort-descending{% endif %}">
+                    class="{% if sort == 'published' %}sort-ascending{% elif sort == '-published' %}sort-descending{% endif %} link-count">
                   {% trans 'Broken links' %}
                 </a>
               </th>
