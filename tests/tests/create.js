@@ -4,6 +4,7 @@ var common = require('../common.js')
 
 var goToCreateTitle = function(browser) {
   return common.login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
+    .clickAndCheckNextTitle('Manage data', 'Manage your data')
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset');
 };
 
@@ -65,6 +66,7 @@ var createDataset = function(browser) {
 
 var test_create_happy_path = function (browser) {
   common.login(browser, process.env.USER_EMAIL, process.env.USER_PASSWORD)
+    .clickAndCheckNextTitle('Manage data', 'Manage your data')
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
     .clearSetValue('input[name=title]', common.datasetTitle)
     .clearSetValue('textarea[name=summary]', 'Summary of my dataset')
@@ -401,8 +403,14 @@ var test_create_remove_link = function (browser) {
     .click('a[href*="files"]')
     .waitForElementVisible('h1', common.waitTimeout)
     .assert.containsText('h1', 'Links to your data')
-    .clickAndCheckNextTitle('Delete', 'Are you sure you want to delete this link?')
-    .clickAndCheckNextTitle('Yes', 'Links to your data')
+    .clickAndCheckNextTitle(
+      'Delete',
+      'Are you sure you want to delete ‘' + common.datafileTitle  + '’?'
+    )
+    .clickAndCheckNextTitle(
+      'Yes',
+      'Your link ‘' + common.datafileTitle + '’ has been deleted'
+    )
     .clickAndCheckNextTitle('Save and continue', 'Publish ‘' + common.datasetTitle  + '’')
     .end();
 };
@@ -412,8 +420,14 @@ var test_create_remove_doc = function (browser) {
     .click('a[href*="documents"]')
     .waitForElementVisible('h1', common.waitTimeout)
     .assert.containsText('h1', 'Links to supporting documents')
-    .clickAndCheckNextTitle('Delete', 'Are you sure you want to delete this link?')
-    .clickAndCheckNextTitle('Yes', 'Links to supporting documents')
+    .clickAndCheckNextTitle(
+      'Delete',
+      'Are you sure you want to delete ‘' + common.docTitle  + '’?'
+    )
+    .clickAndCheckNextTitle(
+      'Yes',
+      'Your link ‘' + common.docTitle + '’ has been deleted'
+    )
     .clickAndCheckNextTitle('Save and continue', 'Publish ‘' + common.datasetTitle  + '’')
     .end();
 };
