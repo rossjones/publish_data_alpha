@@ -16,18 +16,20 @@
     {% trans "Choose a licence for this dataset" %}
   </h1>
 
-  {% blocktrans %}
-    <p>
-      Most datasets are published under the Open Government Licence (OGL),
-      which means the data within them can be copied and used by anyone.
-    </p>
-  {% endblocktrans %}
-
   <form
       action="{% url 'edit_dataset_licence' dataset.name %}"
       method="POST">
 
     {% csrf_token %}
+
+    {% blocktrans %}
+      <p class="form-hint">
+        Most datasets are published under the Open Government Licence (OGL),
+        which means the data within them can be copied and used by anyone.
+      </p>
+    {% endblocktrans %}
+
+
 
     <div
         class="form-group {% if form.licence.errors %}error{% endif %}"
