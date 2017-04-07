@@ -514,7 +514,7 @@ def _edit_publish_dataset(request, dataset, state, deleting=False):
                       '</h1>'
             else:
                 msg = '<h1 class="bold-large">' + \
-                      _('Your dataset has been created') + \
+                      _('Your dataset has been published') + \
                       '</h1>'
 
             msg += '<h2><a href="' + settings.FIND_URL + '/dataset/' + \
