@@ -233,7 +233,6 @@ class WeeklyFileForm(CheckedFileForm):
         return {
             'is_broken': False,
             'last_check': datetime.datetime.now(),
-            'format': fmt,
             'size': cleaned['size'],
             'name': cleaned['name'],
             'url': cleaned['url'],
