@@ -45,7 +45,8 @@ var extended = function(browser) {
       .clearValue(selector).setValue(selector, value);
   };
 
-  return browser;
+  return browser
+    .resizeWindow(1000,800);
 }
 
 var login = function(browser, email, password) {
