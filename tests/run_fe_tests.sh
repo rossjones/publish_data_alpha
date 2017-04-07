@@ -35,7 +35,7 @@ cd ../src
 echo Starting test server at $APP_SERVER_URL
 ./manage.py runserver 0.0.0.0:8010 > /dev/null 2>&1 &
 PID=$!
-
+sleep 5
 # run all tests
 cd ../tests
 nightwatch || true
