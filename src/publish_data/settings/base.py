@@ -182,7 +182,7 @@ ANALYTICS_ID = os.environ.get('GA_CODE') or ''
 ES_HOSTS = os.environ.get('ES_HOSTS')
 ES_INDEX = os.environ.get('ES_INDEX')
 
-FIND_URL = os.environ.get('FIND_URL')
+FIND_URL = os.environ.get('FIND_URL', '')
 
 NOTIFY_APIKEY = os.environ.get('NOTIFY_APIKEY')
 
