@@ -49,7 +49,7 @@ var test_userpage = function(browser) {
     .click('a[href^="/accounts/user/"]')
     .waitForElementVisible('h1', common.waitTimeout)
     .assert.containsText('h1', 'Your account')
-    .assert.containsText('ul', process.env.USER_EMAIL)
+    .assert.containsText('ul.user-details', process.env.USER_EMAIL)
     .end()
 };
 

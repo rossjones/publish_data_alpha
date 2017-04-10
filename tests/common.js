@@ -12,7 +12,10 @@ var extended = function(browser) {
     return this.clickOn('a', text);
   };
   browser.clickOnButton = function(text) {
-    return this.clickOn('button', text);
+    return this
+      .useXpath()
+      .click('//input[@type="button" and contains(@value, "'+text+'")]')
+      .useCss();
   };
   browser.selectRadioButton = function(text) {
     return this
@@ -45,7 +48,8 @@ var extended = function(browser) {
       .clearValue(selector).setValue(selector, value);
   };
 
-  return browser;
+  return browser
+    .resizeWindow(1000,800);
 }
 
 var login = function(browser, email, password) {

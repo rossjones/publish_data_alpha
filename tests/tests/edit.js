@@ -5,6 +5,7 @@ var common = require('../common.js')
 var createDataset = function (browser, is_admin) {
   var username = is_admin ? process.env.ADMIN_USER_EMAIL : process.env.USER_EMAIL;
   return common.login(browser, username, process.env.USER_PASSWORD)
+    .clickAndCheckNextTitle('Manage data', 'Manage your data')
     .clickAndCheckNextTitle('Create a dataset', 'Create a dataset')
     .clearSetValue('input[name=title]', common.datasetTitle)
     .clearSetValue('textarea[name=summary]', 'Summary of my dataset')
@@ -51,7 +52,7 @@ var test_edit_title = function (browser) {
     .clearSetValue('input[name=title]', common.datasetTitle2)
     .submitFormAndCheckNextTitle('Edit ‘' + common.datasetTitle2 + '’')
     .submitFormAndCheckNextTitle('Your dataset has been edited')
-    .assert.containsText('td', common.datasetTitle2)
+    .assert.containsText('table', common.datasetTitle2)
     .end();
 };
 
@@ -61,13 +62,13 @@ var test_edit_location = function (browser) {
     .click('a[href*="location"]')
     .assert.visible('#add1')
     .assert.hidden('#add2')
-    .clearSetValue('input[id=id_location1]', 'London')
-    .clickOnLink('Enter another area')
+    .clearSetValue('input[id=id_location1]', 'Warsaw')
+    .clickOnButton('Enter another area')
     .assert.hidden('#add1')
     .assert.visible('#add2')
     .clearSetValue('input[id=id_location2]', 'Paris')
-    .clickOnLink('Remove')
-    .clickOnLink('Enter another area')
+    .clickOnButton('Remove')
+    .clickOnButton('Enter another area')
     .clearSetValue('input[id=id_location2]', 'Berlin')
     .submitFormAndCheckNextTitle('Edit ‘' + common.datasetTitle + '’')
     .submitFormAndCheckNextTitle('Your dataset has been edited')
