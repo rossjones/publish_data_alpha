@@ -33,8 +33,15 @@ function kill_server() {
 # start test server
 cd ../src
 echo Starting test server at $APP_SERVER_URL
+rm db.sqlite3
+./manage.py migrate
+./manage.py loaddata datasets/fixtures/organisations.json.gz
+./manage.py import_test_users < ../tests/test-users.json
+./manage.py loaddata locations
+
 ./manage.py runserver 0.0.0.0:8010 > /dev/null 2>&1 &
 PID=$!
+
 sleep 5
 # run all tests
 cd ../tests
