@@ -13,11 +13,17 @@ from .factories import (GoodUserFactory,
 class ManageTestCase(TestCase):
 
     def setUp(self):
-        self.test_user = GoodUserFactory.create()
+        self.test_user = GoodUserFactory.create(username='bob', email='bob@localhost')
         self.test_user.set_password("password")
         self.test_user.save()
+        self.test_user2 = GoodUserFactory.create(username='bleh',email='bleh@localhost')
+        self.test_user2.set_password("password")
+        self.test_user2.save()
+
         self.organisation = OrganisationFactory.create()
         self.organisation.users.add(self.test_user)
+        self.organisation.users.add(self.test_user2)
+
         self.client.login(username=self.test_user.email, password='password')
         self.dataset_a = DatasetFactory.create(
             organisation_id=self.organisation.id,
@@ -47,14 +53,16 @@ class ManageTestCase(TestCase):
 
 
     def test_manage_tabs(self):
-        test_user2 = GoodUserFactory.create(name='bleh')
-        test_user2.save()
+
         dataset_c = DatasetFactory.create(
-            organisation_id = self.organisation.id,
+            organisation_id = str(self.organisation.id),
             name='c-dataset',
             title='C dataset',
-            creator=test_user2
+            creator=self.test_user2,
+            owner=self.test_user2
         )
+
+        self.client.login(username=self.test_user2.email, password='password')
 
         # self.test_user's own datasets are self.dataset_c
         response = self.client.get(reverse('manage_my_data'))
