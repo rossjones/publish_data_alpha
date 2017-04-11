@@ -7,13 +7,15 @@ from elasticsearch.helpers import bulk
 
 logger = logging.getLogger(__name__)
 
-es = Elasticsearch(settings.ES_HOSTS,
-          sniff_on_start=False,
-          sniff_on_connection_fail=False,
-          sniffer_timeout=None)
-es.indices.create(
-    index=settings.ES_INDEX,
-    body={"mappings" : {
+
+if settings.ES_HOSTS:
+    es = Elasticsearch(settings.ES_HOSTS,
+                       sniff_on_start=False,
+                       sniff_on_connection_fail=False,
+                       sniffer_timeout=None)
+    es.indices.create(
+        index=settings.ES_INDEX,
+        body={"mappings" : {
             "datasets" : {
                 "properties" : {
                     "name" : { "type": "string", "index" : "not_analyzed" },
@@ -32,6 +34,7 @@ es.indices.create(
 
 
 def index_dataset(dataset):
+    if not es: return
     try:
         res = es.index(
             index=settings.ES_INDEX,
@@ -47,6 +50,7 @@ def index_dataset(dataset):
 
 
 def delete_dataset(dataset):
+    if not es: return
     try:
         es.delete(
             index=settings.ES_INDEX,
@@ -61,12 +65,15 @@ def delete_dataset(dataset):
         logger.exception("Failed to remove dataset '' from index".format(dataset.id))
 
 def bulk_import(data):
+    if not es: return
     return bulk(es, data, stats_only=True, raise_on_error=True)
 
 def flush_index():
+    if not es: return
     es.indices.flush(index=settings.ES_INDEX)
 
 def reset_index():
+    if not es: return
     es.indices.delete(index=settings.ES_INDEX, ignore=400)
     es.indices.create(
         index=settings.ES_INDEX,
@@ -85,4 +92,3 @@ def reset_index():
         },
         ignore=400
     )
-

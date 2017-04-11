@@ -194,10 +194,8 @@ try:
 except:
     pass
 
-# Make sure ES settings are available and that the hosts settings is a list
-# of strings.
 if not (ES_HOSTS and ES_INDEX):
-    print("You must export ES_HOSTS and ES_INDEX")
+    print("You should set ES_HOSTS and ES_INDEX to publish datasets")
     sys.exit(0)
 
 if isinstance(ES_HOSTS, str):
