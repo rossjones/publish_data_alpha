@@ -1,13 +1,10 @@
 from datetime import datetime
 
 from django.contrib import messages
-from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404
+from django.http import (HttpResponseForbidden,
+                         HttpResponseRedirect)
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
-from django.template import RequestContext
-from django.views.generic.edit import FormView
-from django.http import HttpResponseRedirect, Http404
 from django.utils.translation import ugettext as _
 from django.conf import settings
 
@@ -18,6 +15,7 @@ from datasets.auth import user_can_edit_dataset, user_can_edit_datafile
 from datasets.logic import organisations_for_user, publish
 from datasets.models import Dataset, Datafile
 from datasets.search import delete_dataset as unindex_dataset
+
 
 def _set_flow_state(request):
     ''' If the query string contains a 'state' string then
@@ -46,14 +44,14 @@ def new_dataset(request):
                 description=form.cleaned_data['description'],
                 summary=form.cleaned_data['summary'],
                 creator=request.user,
-                owner=request.user, # Initial owner = creator
+                owner=request.user,  # Initial owner = creator
                 organisation=user_org
             )
 
             papertrail.log(
                 'new-dataset',
                 '{} created a new dataset "{}"'.format(request.user.username,
-                    obj.title),
+                                                       obj.title),
                 data={
                     'dataset_name': obj.name,
                     'dataset_title': obj.title,
@@ -65,7 +63,6 @@ def new_dataset(request):
             return HttpResponseRedirect(
                 reverse('edit_dataset_licence', args=[obj.name])
             )
-
 
     return render(request, "datasets/edit_title.html", {
         "form": form,
@@ -79,7 +76,7 @@ def confirm_delete_dataset(request, dataset_name):
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
 
-    if (dataset.published == True) and not request.user.is_staff:
+    if dataset.published and not request.user.is_staff:
         return HttpResponseForbidden()
 
     return _edit_publish_dataset(
@@ -96,7 +93,7 @@ def delete_dataset(request, dataset_name):
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
 
-    if (dataset.published == True) and not request.user.is_staff:
+    if dataset.published and not request.user.is_staff:
         return HttpResponseForbidden()
 
     papertrail.log(
@@ -114,9 +111,8 @@ def delete_dataset(request, dataset_name):
     dataset.delete()
 
     msg = '<h1 class="heading-medium">' + \
-          ( _('The dataset ‘%(title)s’ has been deleted') % \
-          {'title': dataset.title}) + \
-          '</h1>'
+          (_('The dataset ‘%(title)s’ has been deleted') %
+           {'title': dataset.title}) + '</h1>'
 
     messages.add_message(
         request,
@@ -291,7 +287,7 @@ def edit_deletefile(request, dataset_name, datafile_id):
     if not user_can_edit_datafile(request.user, datafile):
         return HttpResponseForbidden()
 
-    datafile.delete();
+    datafile.delete()
 
     msg = _('Your link ‘{}’ has been deleted'.format(datafile.name))
     messages.add_message(
@@ -311,7 +307,6 @@ def edit_confirmdeletefile(request, dataset_name, datafile_id):
     datafile = get_object_or_404(Datafile, id=datafile_id) \
         if datafile_id else None
     url = _frequency_addfile_viewname(dataset)
-    flow = request.session.get('flow-state', '')
     template = 'datasets/show_docs.html' if datafile.is_documentation \
         else 'datasets/show_files.html'
 
@@ -352,7 +347,7 @@ def _addfile(request, dataset_name, form_class, template, datafile_id=None):
             if datafile:
                 data['dataset'] = dataset
                 for k, v in data.items():
-                    setattr(datafile,k, v)
+                    setattr(datafile, k, v)
                 datafile.save()
             else:
                 if not _file_already_added(dataset, data['name'], data['url']):
@@ -373,25 +368,32 @@ def _addfile(request, dataset_name, form_class, template, datafile_id=None):
 
 
 def edit_addfile_weekly(request, dataset_name, datafile_id=None):
-    return _addfile(request, dataset_name, f.WeeklyFileForm, 'week', datafile_id)
+    return _addfile(
+        request, dataset_name, f.WeeklyFileForm, 'week', datafile_id
+    )
 
 
 def edit_addfile_monthly(request, dataset_name, datafile_id=None):
-    return _addfile(request, dataset_name, f.MonthlyFileForm, 'month', datafile_id)
+    return _addfile(
+        request, dataset_name, f.MonthlyFileForm, 'month', datafile_id
+    )
 
 
 def edit_addfile_quarterly(request, dataset_name, datafile_id=None):
-    return _addfile(request, dataset_name, f.QuarterlyFileForm, 'quarter', datafile_id)
+    return _addfile(
+        request, dataset_name, f.QuarterlyFileForm, 'quarter', datafile_id
+    )
 
 
-def edit_addfile_annually(request, dataset_name, datafile_id = None):
-    return _addfile(request, dataset_name, f.AnnuallyFileForm, 'year', datafile_id)
+def edit_addfile_annually(request, dataset_name, datafile_id=None):
+    return _addfile(
+        request, dataset_name, f.AnnuallyFileForm, 'year', datafile_id
+    )
 
 
 def edit_files(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
     url = _frequency_addfile_viewname(dataset)
-    flow = request.session.get('flow-state', '')
 
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
@@ -473,7 +475,6 @@ def _edit_publish_dataset(request, dataset, state, deleting=False):
     organisation = dataset.organisation
     single_organisation = len(organisations) == 1
 
-
     if request.method == 'POST':
         from django.forms.models import model_to_dict
         data = model_to_dict(dataset)
@@ -490,7 +491,9 @@ def _edit_publish_dataset(request, dataset, state, deleting=False):
             # Determine event message based on state
             msg = '{} edited "{}"'.format(request.user.username, dataset.title)
             if new_state == 'checking':
-                msg = '{} published "{}"'.format(request.user.username, dataset.title)
+                msg = '{} published "{}"'.format(
+                    request.user.username, dataset.title
+                )
 
             papertrail.log(
                 'edit-dataset' if new_state == 'editing' else 'publish-dataset',
@@ -598,7 +601,7 @@ def _frequency_addfile_viewname(dataset):
 def _redirect_to(request, default_url_name, args):
     flow = request.session.get('flow-state', '')
     if flow == 'checking':
-        next='publish_dataset'
+        next = 'publish_dataset'
     elif flow == 'editing':
         next = 'edit_full_dataset'
     else:
