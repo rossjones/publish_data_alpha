@@ -18,3 +18,6 @@ AUDIT = False
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.MD5PasswordHasher',
 ]
+
+ES_HOSTS=None
+ES_INDEX=None
