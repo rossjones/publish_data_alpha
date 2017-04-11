@@ -177,6 +177,9 @@ STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, "assets"),
 ]
 
+# Should papertrail log all audit messages?
+AUDIT = True
+
 ANALYTICS_ID = os.environ.get('GA_CODE') or ''
 
 ES_HOSTS = os.environ.get('ES_HOSTS')

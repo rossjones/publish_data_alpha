@@ -5,7 +5,7 @@ from django.conf import settings
 
 from .forms import SigninForm
 
-import papertrail
+from runtime_config.audit import audit_log
 
 
 def login_view(request):
@@ -20,7 +20,7 @@ def login_view(request):
             if user is not None:
                 login(request, user)
 
-                papertrail.log(
+                audit_log(
                     'login',
                     '{} logged in'.format(user.username),
                     data={

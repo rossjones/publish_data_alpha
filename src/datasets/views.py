@@ -8,13 +8,13 @@ from django.urls import reverse
 from django.utils.translation import ugettext as _
 from django.conf import settings
 
-import papertrail
 
 import datasets.forms as f
 from datasets.auth import user_can_edit_dataset, user_can_edit_datafile
 from datasets.logic import organisations_for_user, publish
 from datasets.models import Dataset, Datafile
 from datasets.search import delete_dataset as unindex_dataset
+from runtime_config.audit import audit_log
 
 
 def _set_flow_state(request):
@@ -48,7 +48,7 @@ def new_dataset(request):
                 organisation=user_org
             )
 
-            papertrail.log(
+            audit_log(
                 'new-dataset',
                 '{} created a new dataset "{}"'.format(request.user.username,
                                                        obj.title),
@@ -96,7 +96,7 @@ def delete_dataset(request, dataset_name):
     if dataset.published and not request.user.is_staff:
         return HttpResponseForbidden()
 
-    papertrail.log(
+    audit_log(
         'delete-dataset',
         '{} deleted "{}"'.format(request.user.username, dataset.title),
         data={
@@ -495,7 +495,7 @@ def _edit_publish_dataset(request, dataset, state, deleting=False):
                     request.user.username, dataset.title
                 )
 
-            papertrail.log(
+            audit_log(
                 'edit-dataset' if new_state == 'editing' else 'publish-dataset',
                 msg,
                 data={
