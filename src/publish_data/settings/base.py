@@ -196,7 +196,6 @@ except:
 
 if not (ES_HOSTS and ES_INDEX):
     print("You should set ES_HOSTS and ES_INDEX to publish datasets")
-    sys.exit(0)
 
 if isinstance(ES_HOSTS, str):
     ES_HOSTS = [h.strip() for h in ES_HOSTS.split(',')]

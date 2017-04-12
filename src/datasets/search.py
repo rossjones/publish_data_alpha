@@ -15,22 +15,25 @@ if settings.ES_HOSTS:
                        sniffer_timeout=None)
     es.indices.create(
         index=settings.ES_INDEX,
-        body={"mappings" : {
+        body={
+            "mappings" : {
             "datasets" : {
                 "properties" : {
                     "name" : { "type": "string", "index" : "not_analyzed" },
                     "organisation_name" : { "type": "string", "index" : "not_analyzed" }
                 }
             }
-          },
-          "settings" : {
-              "index" : {
+        },
+        "settings" : {
+            "index" : {
                 "max_result_window" : 75000,
-              }
-          }
-    },
-    ignore=400
-)
+            }
+        }
+        },
+        ignore=400
+    )
+else:
+    es = None
 
 
 def index_dataset(dataset):
