@@ -233,6 +233,8 @@ class Organisation(models.Model):
     foi_phone = models.CharField(max_length=200, default="", blank=True)
     foi_web = models.CharField(max_length=200, default="", blank=True)
 
+    category = models.CharField(max_length=100, default="", blank=True)
+
     users = models.ManyToManyField(settings.AUTH_USER_MODEL,
         related_name='organisations')
 
@@ -252,6 +254,7 @@ class Organisation(models.Model):
             'foi_web': self.foi_web or '',
             'closed': self.closed,
             'replaced_by': self.replaced_by,
+            'category': self.category or ''
         }
 
         return data

@@ -32,14 +32,14 @@ for line in open(SOURCE, 'r').readlines():
             'foi_name': get_extra(org['extras'], 'foi-name'),
             'foi_phone': get_extra(org['extras'], 'foi-phone'),
             'foi_web': get_extra(org['extras'], 'foi-web'),
+            'category': org.get('category', '')
         }
     }
     results.append(data)
-    print(data)
+
 
 with open('../src/datasets/fixtures/organisations.json', 'w') as f:
     json.dump(results, f)
-
 
     # category =
 
