@@ -32,6 +32,7 @@ class Command(BaseCommand):
 
         for user_details in data:
             try:
+                orgname = user_details.pop('organisation')
                 user = get_user_model().objects.get(
                     email=user_details['email']
                 )
@@ -44,10 +45,10 @@ class Command(BaseCommand):
                 user.set_password(password)
                 user.save()
 
-                if 'beis' in user_details['email']:
-                    self.beis.users.add(user)
-
-                self.co.users.add(user)
-                self.gps.users.add(user)
+                try:
+                    org = Organisation.objects.get(name=orgname)
+                    org.users.add(user)
+                except:
+                    print("unknown or missing organisation")
 
                 print("User {} created".format(user.email))
