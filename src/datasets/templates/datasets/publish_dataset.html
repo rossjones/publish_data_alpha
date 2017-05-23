@@ -29,7 +29,7 @@
           {% trans 'Yes, delete this dataset' %}</a>
         <a
             class="secondary-button"
-            href="{% url 'edit_dataset' dataset.name %}">
+            href="{% url 'dataset' dataset.name %}">
           {% trans 'Cancel' %}
         </a>
       </div>
@@ -63,7 +63,7 @@
           {{ dataset.title }}
         </td>
         <td class="actions">
-          <a href="{% url 'edit_dataset' dataset.name %}">
+          <a href="{% url 'dataset' dataset.name %}">
             {% trans "Change <span class='visuallyhidden'>dataset name</span>" %}
           </a>
         </td>
@@ -76,7 +76,7 @@
           {{ dataset.summary|truncatechars:65 }}
         </td>
         <td class="actions">
-          <a href="{% url 'edit_dataset' dataset.name %}">
+          <a href="{% url 'dataset' dataset.name %}">
             {% trans "Change <span class='visuallyhidden'>summary</span>" %}
           </a>
         </td>
@@ -89,7 +89,7 @@
           {{ dataset.description|truncatechars:250 }}
         </td>
         <td class="actions">
-          <a href="{% url 'edit_dataset' dataset.name %}">
+          <a href="{% url 'dataset' dataset.name %}">
             {% if dataset.description %}
               {% trans "Change <span class='visuallyhidden'>description</span>" %}
             {% else %}
@@ -113,7 +113,7 @@
           {% endif %}
         </td>
         <td class="actions">
-          <a href="{% url 'edit_dataset_licence' dataset.name %}">
+          <a href="{% url 'dataset_licence' dataset.name %}">
             {% if dataset.licence %}
               {% trans "Change <span class='visuallyhidden'>licence</span>" %}
             {% else %}
@@ -134,7 +134,7 @@
           </ul>
         </td>
         <td class="actions">
-          <a href="{% url 'edit_dataset_location' dataset.name %}">
+          <a href="{% url 'dataset_location' dataset.name %}">
             {% if dataset.location1 or dataset.location2 or dataset.location3 %}
               {% trans "Change <span class='visuallyhidden'>location</span>" %}
             {% else %}
@@ -167,7 +167,7 @@
           {% endif %}
         </td>
         <td class="actions">
-          <a href="{% url 'edit_dataset_frequency' dataset.name %}">
+          <a href="{% url 'dataset_frequency' dataset.name %}">
             {% trans "Change <span class='visuallyhidden'>frequency update</span>" %}
           </a>
         </td>
@@ -199,7 +199,7 @@
               {% trans "Add <span class='visuallyhidden'>datafiles</span>" %}
             </a>
           {% else %}
-            <a href="{% url 'edit_dataset_files' dataset.name %}">
+            <a href="{% url 'dataset_files' dataset.name %}">
               {% trans "Change <span class='visuallyhidden'>datafiles</span>" %}
             </a>
           {% endif %}
@@ -225,11 +225,11 @@
         </td>
         <td class="actions">
           {% if docfiles|length == 0 %}
-            <a href="{% url 'edit_dataset_adddoc' dataset.name %}">
+            <a href="{% url 'dataset_adddoc' dataset.name %}">
               {% trans "Add <span class='visuallyhidden'>documents</span>" %}
             </a>
           {% else %}
-            <a href="{% url 'edit_dataset_documents' dataset.name %}">
+            <a href="{% url 'dataset_documents' dataset.name %}">
               {% trans "Change <span class='visuallyhidden'>documents</span>" %}
             </a>
           {% endif %}

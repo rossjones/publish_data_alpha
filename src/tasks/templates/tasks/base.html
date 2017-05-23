@@ -48,7 +48,7 @@
                   <div class="overdue {% if forloop.counter != 2 %}visuallyhidden{% endif %}">{% trans "Overdue" %}</div>
                 </td>
                 <td class="actions">
-                  <a class="update" href="{% url 'edit_dataset_files' dataset.name %}">
+                  <a class="update" href="{% url 'dataset_files' dataset.name %}">
                     {% trans "Update" %}
                   </a>
                 </td>
@@ -99,7 +99,7 @@
                 </th>
                 <td class="broken-links"><div class="link-count">{% cycle "1" "3" "12" "9" %}</div></td>
                 <td class="actions">
-                  <a class="update" href="{% url 'edit_dataset_files' dataset.name %}">{% trans "Fix" %}</a>
+                  <a class="update" href="{% url 'dataset_files' dataset.name %}">{% trans "Fix" %}</a>
                 </td>
               </tr>
             {% endfor %}

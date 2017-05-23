@@ -18,7 +18,7 @@
   </h1>
 
   <form
-      action="{% url 'edit_dataset_frequency' dataset.name %}"
+      action="{% url 'dataset_frequency' dataset.name %}"
       method="POST">
 
     {% csrf_token %}

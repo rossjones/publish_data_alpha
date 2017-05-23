@@ -61,7 +61,7 @@ def new_dataset(request):
             )
 
             return HttpResponseRedirect(
-                reverse('edit_dataset_licence', args=[obj.name])
+                reverse('dataset_licence', args=[obj.name])
             )
 
     return render(request, "datasets/edit_title.html", {
@@ -79,7 +79,7 @@ def confirm_delete_dataset(request, dataset_name):
     if dataset.published and not request.user.is_staff:
         return HttpResponseForbidden()
 
-    return _edit_publish_dataset(
+    return _publish_dataset(
         request,
         dataset,
         'editing',
@@ -126,7 +126,7 @@ def delete_dataset(request, dataset_name):
     )
 
 
-def edit_dataset_details(request, dataset_name):
+def dataset_details(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
     if not user_can_edit_dataset(request.user, dataset):
@@ -138,7 +138,7 @@ def edit_dataset_details(request, dataset_name):
     if request.method == 'POST':
         if form.is_valid():
             obj = form.save()
-            return _redirect_to(request, 'edit_dataset_licence', [obj.name])
+            return _redirect_to(request, 'dataset_licence', [obj.name])
 
     return render(request, 'datasets/edit_title.html', {
         'form': form,
@@ -146,7 +146,7 @@ def edit_dataset_details(request, dataset_name):
     })
 
 
-# def edit_organisation(request, dataset_name):
+# def organisation(request, dataset_name):
 #     dataset = get_object_or_404(Dataset, name=dataset_name)
 
 #     if not user_can_edit_dataset(request.user, dataset):
@@ -158,7 +158,7 @@ def edit_dataset_details(request, dataset_name):
 #     if len(organisations) == 1:
 #         dataset.organisation = organisations[0]
 #         dataset.save()
-#         return _redirect_to(request, 'edit_dataset_licence', [dataset.name])
+#         return _redirect_to(request, 'dataset_licence', [dataset.name])
 
 #     form = f.OrganisationForm(request.POST or None, instance=dataset)
 #     form.fields["organisation"].queryset = organisations_for_user(request.user)
@@ -166,7 +166,7 @@ def edit_dataset_details(request, dataset_name):
 #     if request.method == 'POST':
 #         if form.is_valid():
 #             obj = form.save()
-#             return _redirect_to(request, 'edit_dataset_licence', [obj.name])
+#             return _redirect_to(request, 'dataset_licence', [obj.name])
 
 #     return render(request, "datasets/edit_organisation.html", {
 #         'form': form,
@@ -175,7 +175,7 @@ def edit_dataset_details(request, dataset_name):
 #     })
 
 
-def edit_licence(request, dataset_name):
+def licence(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
     if not user_can_edit_dataset(request.user, dataset):
@@ -187,7 +187,7 @@ def edit_licence(request, dataset_name):
     if request.method == 'POST':
         if form.is_valid():
             obj = form.save()
-            return _redirect_to(request, 'edit_dataset_location', [obj.name])
+            return _redirect_to(request, 'dataset_location', [obj.name])
 
     return render(request, "datasets/edit_licence.html", {
         'form': form,
@@ -195,7 +195,7 @@ def edit_licence(request, dataset_name):
     })
 
 
-def edit_location(request, dataset_name):
+def location(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
     if not user_can_edit_dataset(request.user, dataset):
@@ -207,7 +207,7 @@ def edit_location(request, dataset_name):
     if request.method == 'POST':
         if form.is_valid():
             obj = form.save()
-            return _redirect_to(request, 'edit_dataset_frequency', [obj.name])
+            return _redirect_to(request, 'dataset_frequency', [obj.name])
 
     return render(request, "datasets/edit_location.html", {
         'form': form,
@@ -215,7 +215,7 @@ def edit_location(request, dataset_name):
     })
 
 
-def edit_frequency(request, dataset_name):
+def frequency(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
     if not user_can_edit_dataset(request.user, dataset):
@@ -242,7 +242,7 @@ def _file_already_added(dataset, name, url):
             return True
 
 
-def edit_addfile(request, dataset_name, datafile_id=None):
+def addfile(request, dataset_name, datafile_id=None):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
     if not user_can_edit_dataset(request.user, dataset):
@@ -268,7 +268,7 @@ def edit_addfile(request, dataset_name, datafile_id=None):
                     obj.save()
 
             return HttpResponseRedirect(
-                reverse('edit_dataset_files', args=[dataset_name])
+                reverse('dataset_files', args=[dataset_name])
             )
 
     return render(request, 'datasets/edit_addfile.html', {
@@ -279,10 +279,10 @@ def edit_addfile(request, dataset_name, datafile_id=None):
     })
 
 
-def edit_deletefile(request, dataset_name, datafile_id):
+def deletefile(request, dataset_name, datafile_id):
     datafile = get_object_or_404(Datafile, id=datafile_id)
-    next_view = 'edit_dataset_documents' if datafile.is_documentation \
-        else 'edit_dataset_files'
+    next_view = 'dataset_documents' if datafile.is_documentation \
+        else 'dataset_files'
 
     if not user_can_edit_datafile(request.user, datafile):
         return HttpResponseForbidden()
@@ -302,7 +302,7 @@ def edit_deletefile(request, dataset_name, datafile_id):
     )
 
 
-def edit_confirmdeletefile(request, dataset_name, datafile_id):
+def confirmdeletefile(request, dataset_name, datafile_id):
     dataset = get_object_or_404(Dataset, name=dataset_name)
     datafile = get_object_or_404(Datafile, id=datafile_id) \
         if datafile_id else None
@@ -356,7 +356,7 @@ def _addfile(request, dataset_name, form_class, template, datafile_id=None):
                     obj.save()
 
             return HttpResponseRedirect(
-                reverse('edit_dataset_files', args=[dataset.name])
+                reverse('dataset_files', args=[dataset.name])
             )
 
     return render(request, "datasets/edit_addfile_{}.html".format(template), {
@@ -367,31 +367,31 @@ def _addfile(request, dataset_name, form_class, template, datafile_id=None):
     })
 
 
-def edit_addfile_weekly(request, dataset_name, datafile_id=None):
+def addfile_weekly(request, dataset_name, datafile_id=None):
     return _addfile(
         request, dataset_name, f.WeeklyFileForm, 'week', datafile_id
     )
 
 
-def edit_addfile_monthly(request, dataset_name, datafile_id=None):
+def addfile_monthly(request, dataset_name, datafile_id=None):
     return _addfile(
         request, dataset_name, f.MonthlyFileForm, 'month', datafile_id
     )
 
 
-def edit_addfile_quarterly(request, dataset_name, datafile_id=None):
+def addfile_quarterly(request, dataset_name, datafile_id=None):
     return _addfile(
         request, dataset_name, f.QuarterlyFileForm, 'quarter', datafile_id
     )
 
 
-def edit_addfile_annually(request, dataset_name, datafile_id=None):
+def addfile_annually(request, dataset_name, datafile_id=None):
     return _addfile(
         request, dataset_name, f.AnnuallyFileForm, 'year', datafile_id
     )
 
 
-def edit_files(request, dataset_name):
+def files(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
     url = _frequency_addfile_viewname(dataset)
 
@@ -409,7 +409,7 @@ def edit_files(request, dataset_name):
     })
 
 
-def edit_add_doc(request, dataset_name, datafile_id=None):
+def add_doc(request, dataset_name, datafile_id=None):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
     if not user_can_edit_dataset(request.user, dataset):
@@ -434,7 +434,7 @@ def edit_add_doc(request, dataset_name, datafile_id=None):
                     obj.save()
 
             return HttpResponseRedirect(
-                reverse('edit_dataset_documents', args=[dataset_name])
+                reverse('dataset_documents', args=[dataset_name])
             )
 
     return render(request, "datasets/edit_adddoc.html", {
@@ -445,7 +445,7 @@ def edit_add_doc(request, dataset_name, datafile_id=None):
     })
 
 
-def edit_documents(request, dataset_name):
+def documents(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
     if not user_can_edit_dataset(request.user, dataset):
@@ -461,7 +461,7 @@ def edit_documents(request, dataset_name):
     })
 
 
-def _edit_publish_dataset(request, dataset, state, deleting=False):
+def _publish_dataset(request, dataset, state, deleting=False):
     ''' Handles the editing or publishing of a dataset, where
     the primary difference is just the state that we handle '''
 
@@ -553,13 +553,13 @@ def _edit_publish_dataset(request, dataset, state, deleting=False):
     })
 
 
-def edit_full_dataset(request, dataset_name):
+def full_dataset(request, dataset_name):
     dataset = get_object_or_404(Dataset, name=dataset_name)
 
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
 
-    return _edit_publish_dataset(
+    return _publish_dataset(
         request,
         dataset,
         'editing',
@@ -572,7 +572,7 @@ def publish_dataset(request, dataset_name):
     if not user_can_edit_dataset(request.user, dataset):
         return HttpResponseForbidden()
 
-    return _edit_publish_dataset(
+    return _publish_dataset(
         request,
         dataset,
         'checking',
@@ -583,17 +583,17 @@ def _frequency_addfile_viewname(dataset):
     frequency = dataset.frequency
 
     if frequency in ['never', 'daily']:
-        url = 'edit_dataset_addfile'
+        url = 'dataset_addfile'
     elif frequency in ['weekly']:
-        url = 'edit_dataset_addfile_weekly'
+        url = 'dataset_addfile_weekly'
     elif frequency in ['quarterly']:
-        url = 'edit_dataset_addfile_quarterly'
+        url = 'dataset_addfile_quarterly'
     elif frequency in ['monthly']:
-        url = 'edit_dataset_addfile_monthly'
+        url = 'dataset_addfile_monthly'
     elif frequency in ['annually', 'financial-year']:
-        url = 'edit_dataset_addfile_annually'
+        url = 'dataset_addfile_annually'
     else:
-        url = 'edit_dataset_addfile'
+        url = 'dataset_addfile'
 
     return url
 
@@ -603,7 +603,7 @@ def _redirect_to(request, default_url_name, args):
     if flow == 'checking':
         next = 'publish_dataset'
     elif flow == 'editing':
-        next = 'edit_full_dataset'
+        next = 'full_dataset'
     else:
         next = default_url_name
 

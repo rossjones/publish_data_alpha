@@ -42,7 +42,7 @@ class DatasetsTestCase(TestCase):
         assert response.status_code == 200
 
     def test_location(self):
-        u = reverse('edit_dataset_location', args=[self.dataset.name])
+        u = reverse('dataset_location', args=[self.dataset.name])
         response = self.client.get(u)
         assert response.status_code == 200
 
@@ -64,7 +64,7 @@ class DatasetsTestCase(TestCase):
             self._get_dataset().location1
 
     def test_licence(self):
-        u = reverse('edit_dataset_licence', args=[self.dataset.name])
+        u = reverse('dataset_licence', args=[self.dataset.name])
         response = self.client.get(u)
         assert response.status_code == 200
 
@@ -108,7 +108,7 @@ class DatasetsTestCase(TestCase):
         assert obj.licence_other == "pretend licence"
 
     def test_frequency(self):
-        u = reverse('edit_dataset_frequency', args=[self.dataset.name])
+        u = reverse('dataset_frequency', args=[self.dataset.name])
         response = self.client.get(u)
         assert response.status_code == 200
 
@@ -125,7 +125,7 @@ class DatasetsTestCase(TestCase):
 
     # def test_organisation(self):
     #     u = reverse(
-    #         'edit_dataset_organisation',
+    #         'dataset_organisation',
     #         args=[self.dataset.name]
     #     )
     #     # With only a single organisation, we expect a redirect
@@ -146,20 +146,20 @@ class DatasetsTestCase(TestCase):
     #     assert self._get_dataset().organisation.id == self.organisation.id
 
     def test_redirect_adding_extra_file(self):
-        u = reverse('edit_dataset_files', args=[self.dataset.name])
+        u = reverse('dataset_files', args=[self.dataset.name])
         response = self.client.get(u)
         assert response.status_code == 200
         assert '/dataset/{}/addfile_weekly'.format(self.dataset.name) in response.content.decode('utf-8')
 
 
     def test_frequency_details(self):
-        u = reverse('edit_dataset_frequency', args=[self.dataset.name])
+        u = reverse('dataset_frequency', args=[self.dataset.name])
         response = self.client.post(
             u,
             {'frequency': 'weekly'}
         )
         assert response.status_code == 302
-        assert response.url == reverse('edit_dataset_addfile_weekly',
+        assert response.url == reverse('dataset_addfile_weekly',
             args=[self.dataset.name])
 
         response = self.client.post(
@@ -167,7 +167,7 @@ class DatasetsTestCase(TestCase):
             {'frequency': 'monthly'}
         )
         assert response.status_code == 302
-        assert response.url == reverse('edit_dataset_addfile_monthly',
+        assert response.url == reverse('dataset_addfile_monthly',
             args=[self.dataset.name])
 
         response = self.client.post(
@@ -175,7 +175,7 @@ class DatasetsTestCase(TestCase):
             {'frequency': 'quarterly'}
         )
         assert response.status_code == 302
-        assert response.url == reverse('edit_dataset_addfile_quarterly',
+        assert response.url == reverse('dataset_addfile_quarterly',
             args=[self.dataset.name])
 
         response = self.client.post(
@@ -183,7 +183,7 @@ class DatasetsTestCase(TestCase):
             {'frequency': 'annually'}
         )
         assert response.status_code == 302
-        assert response.url == reverse('edit_dataset_addfile_annually',
+        assert response.url == reverse('dataset_addfile_annually',
             args=[self.dataset.name])
 
         #response = self.client.post(
@@ -193,12 +193,12 @@ class DatasetsTestCase(TestCase):
         #    }, 'frequency')
         #)
         #assert response.status_code == 302
-        #assert response.url == reverse('edit_dataset_step-year',
+        #assert response.url == reverse('dataset_step-year',
         #    args=[self.dataset.name, 'frequency_financial_year'])
 
     def test_adddoc(self):
         u = reverse(
-            'edit_dataset_adddoc',
+            'dataset_adddoc',
             args=[self.dataset.name]
         )
         response = self.client.get(u)
@@ -217,7 +217,7 @@ class DatasetsTestCase(TestCase):
         )
         assert response.status_code == 302
         assert response.url == reverse(
-            'edit_dataset_documents',
+            'dataset_documents',
             args=[self.dataset.name]
         )
 
@@ -231,7 +231,7 @@ class DatasetsTestCase(TestCase):
 
     def test_addfile(self):
         u = reverse(
-            'edit_dataset_addfile_weekly',
+            'dataset_addfile_weekly',
             args=[self.dataset.name]
         )
         response = self.client.get(u)
@@ -262,7 +262,7 @@ class DatasetsTestCase(TestCase):
         assert response.status_code == 200
 
     def test_showfiles(self):
-        u = reverse('edit_dataset_files', args=[self.dataset.name])
+        u = reverse('dataset_files', args=[self.dataset.name])
         response = self.client.get(u)
         assert response.status_code == 200
 
@@ -278,7 +278,7 @@ class DatasetsTestCase(TestCase):
             1, 200
         )
         u = reverse(
-            'edit_dataset_location',
+            'dataset_location',
             args=[self.dataset.name]
         )
         self.client.post(u, {'location1': 'Paris'}),
