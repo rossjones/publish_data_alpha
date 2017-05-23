@@ -146,7 +146,7 @@ for line in open(SOURCE, 'r').readlines():
             'model': 'datasets.datafile',
             'pk': r['id'],
             'fields': {
-                'title': r.get('description', '')[0:64],
+                'name': r.get('description', '')[0:64],
                 'url': r.get('url'),
                 'format': r.get('format'),
                 'dataset_id': dataset['id'],
