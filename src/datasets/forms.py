@@ -11,7 +11,7 @@ class DatasetForm(forms.Form):
     summary = forms.CharField(label=_('Summary'), max_length=200, required=True)
     description = forms.CharField(
         label=_('Additional Information'),
-        max_length=1024,
+        max_length=8096,
         widget=forms.Textarea,
         required=False
     )
@@ -30,7 +30,7 @@ class EditDatasetForm(forms.ModelForm):
     summary = forms.CharField(label=_('Summary'), max_length=200, required=True)
     description = forms.CharField(
         label=_('Additional Information'),
-        max_length=1024,
+        max_length=8096,
         widget=forms.Textarea,
         required=False
     )
