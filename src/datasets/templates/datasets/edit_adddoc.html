@@ -21,7 +21,7 @@
   </h1>
 
   <form
-      action="{% url 'edit_dataset_adddoc' dataset.name datafile_id %}"
+      action="{% url 'dataset_adddoc' dataset.name datafile_id %}"
       method="POST">
     {% csrf_token %}
 

@@ -98,8 +98,8 @@
               </td>
               <td class="actions">
                 {% if dataset.name %}
-                  <a href="{% url 'edit_dataset_addfile' dataset.name %}">{% trans "Add&nbsp;Data" %}<span class="visuallyhidden"> {% trans 'to' %} {{ dataset.title }}</span></a>
-                  <a href="{% url 'edit_full_dataset' dataset.name %}">{% trans "Edit" %}<span class="visuallyhidden"> {{ dataset.title }}</span></a><br/>
+                  <a href="{% url 'dataset_addfile' dataset.name %}">{% trans "Add&nbsp;Data" %}<span class="visuallyhidden"> {% trans 'to' %} {{ dataset.title }}</span></a>
+                  <a href="{% url 'full_dataset' dataset.name %}">{% trans "Edit" %}<span class="visuallyhidden"> {{ dataset.title }}</span></a><br/>
                 {% endif %}
               </td>
             </tr>

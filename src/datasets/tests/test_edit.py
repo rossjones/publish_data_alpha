@@ -27,7 +27,7 @@ class DatasetEditTestCase(TestCase):
 
     def _edit_dataset(self, name=None):
         response = self.client.get(
-            reverse('edit_full_dataset',
+            reverse('full_dataset',
             args=[name or self.dataset.name]))
         return response
 
@@ -43,7 +43,7 @@ class DatasetEditTestCase(TestCase):
 
     def test_edit_update(self):
         response = self.client.post(
-            reverse('edit_full_dataset',
+            reverse('full_dataset',
             args=[self.dataset.name]),
             {
                 'name': self.dataset.name,
@@ -60,7 +60,7 @@ class DatasetEditTestCase(TestCase):
 
         # Confirm
         url = reverse(
-            'edit_dataset_confirmdeletefile',
+            'dataset_confirmdeletefile',
             args=[self.dataset.name, self.datafile.id]
         )
         response = self.client.post(url)
@@ -74,7 +74,7 @@ class DatasetEditTestCase(TestCase):
 
         # Delete
         url = reverse(
-            'edit_dataset_deletefile',
+            'dataset_deletefile',
             args=[self.dataset.name, self.datafile.id]
         )
         response = self.client.post(url, follow=True)

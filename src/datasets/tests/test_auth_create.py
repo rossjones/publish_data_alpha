@@ -33,7 +33,7 @@ class DatasetsCreateAuthTestCase(TestCase):
 
 
     def test_location(self):
-        u = reverse('edit_dataset_location', args=[self.dataset.name])
+        u = reverse('dataset_location', args=[self.dataset.name])
         response = self.client.get(u)
         assert response.status_code == 403
 
@@ -48,7 +48,7 @@ class DatasetsCreateAuthTestCase(TestCase):
         assert response.status_code == 403
 
     def test_licence(self):
-        u = reverse('edit_dataset_licence', args=[self.dataset.name])
+        u = reverse('dataset_licence', args=[self.dataset.name])
         response = self.client.get(u)
         assert response.status_code == 403
 
@@ -74,7 +74,7 @@ class DatasetsCreateAuthTestCase(TestCase):
         assert self.dataset.licence_other == ""
 
     def test_frequency(self):
-        u = reverse('edit_dataset_frequency', args=[self.dataset.name])
+        u = reverse('dataset_frequency', args=[self.dataset.name])
         response = self.client.get(u)
         assert response.status_code == 403
 
@@ -89,7 +89,7 @@ class DatasetsCreateAuthTestCase(TestCase):
 
     # def test_organisation(self):
     #     u = reverse(
-    #         'edit_dataset_organisation',
+    #         'dataset_organisation',
     #         args=[self.dataset.name]
     #     )
     #     # With only a single organisation, we expect a redirect
@@ -109,12 +109,12 @@ class DatasetsCreateAuthTestCase(TestCase):
     #     assert response.status_code == 403
 
     def test_redirect_adding_extra_file(self):
-        u = reverse('edit_dataset_files', args=[self.dataset.name])
+        u = reverse('dataset_files', args=[self.dataset.name])
         response = self.client.get(u)
         assert response.status_code == 403
 
     def test_frequency_details(self):
-        u = reverse('edit_dataset_frequency', args=[self.dataset.name])
+        u = reverse('dataset_frequency', args=[self.dataset.name])
         response = self.client.post(
             u,
             {'frequency': 'weekly'}
@@ -141,7 +141,7 @@ class DatasetsCreateAuthTestCase(TestCase):
 
     def test_adddoc(self):
         u = reverse(
-            'edit_dataset_adddoc',
+            'dataset_adddoc',
             args=[self.dataset.name]
         )
         response = self.client.get(u)
@@ -171,7 +171,7 @@ class DatasetsCreateAuthTestCase(TestCase):
 
     def test_addfile(self):
         u = reverse(
-            'edit_dataset_addfile_weekly',
+            'dataset_addfile_weekly',
             args=[self.dataset.name]
         )
         response = self.client.get(u)
@@ -203,6 +203,6 @@ class DatasetsCreateAuthTestCase(TestCase):
 
 
     def test_showfiles(self):
-        u = reverse('edit_dataset_files', args=[self.dataset.name])
+        u = reverse('dataset_files', args=[self.dataset.name])
         response = self.client.get(u)
         assert response.status_code == 403, response.status_code

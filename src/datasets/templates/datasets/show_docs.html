@@ -23,11 +23,11 @@
         <div class="confirm-box-actions">
           <a
               class="button"
-              href="{% url 'edit_dataset_deletefile' dataset.name file_to_delete_id %}">
+              href="{% url 'dataset_deletefile' dataset.name file_to_delete_id %}">
             {% trans 'Yes, delete this link' %}</a>
           <a
               class="secondary-button"
-              href="{% url 'edit_dataset_documents' dataset.name %}">
+              href="{% url 'dataset_documents' dataset.name %}">
             {% trans 'Cancel' %}
           </a>
         </div>
@@ -62,8 +62,8 @@
             <th><a href="{{ file.url }}">{{ file.name }}</a></th>
             <td>{% if not file.is_broken %}✔{% else %}&#x2716;{% endif%}</td>
             <td class="actions">
-              <a href="{% url 'edit_dataset_adddoc' dataset.name file.id %}">{% trans "Edit" %}</a>
-              <a href="{% url 'edit_dataset_confirmdeletefile' dataset.name file.id %}">{% trans "Delete" %}</a>
+              <a href="{% url 'dataset_adddoc' dataset.name file.id %}">{% trans "Edit" %}</a>
+              <a href="{% url 'dataset_confirmdeletefile' dataset.name file.id %}">{% trans "Delete" %}</a>
             </td>
           </tr>
         {% endfor %}
@@ -72,7 +72,7 @@
 
     {% if not file_to_delete_id %}
       <p>
-        <a href="{% url 'edit_dataset_adddoc' dataset.name %}" class="secondary-button">
+        <a href="{% url 'dataset_adddoc' dataset.name %}" class="secondary-button">
           {% if files|length == 0 %}
             {% trans "Add a link" %}
           {% else %}
@@ -83,7 +83,7 @@
       <p>
         <a
             {% if request|is_editing %}
-            href="{% url 'edit_full_dataset' dataset.name %}"
+            href="{% url 'full_dataset' dataset.name %}"
             {% else %}
             href="{% url 'publish_dataset' dataset.name %}"
             {% endif %}

@@ -22,7 +22,7 @@
 
   <form
       method="post"
-      action="{% url 'edit_dataset_addfile_annually' dataset.name datafile_id %}"
+      action="{% url 'dataset_addfile_annually' dataset.name datafile_id %}"
       class="form">
     {% csrf_token %}
 
