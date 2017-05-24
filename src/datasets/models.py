@@ -176,6 +176,7 @@ class Datafile(models.Model):
 
     is_broken = models.BooleanField(default=False)
     last_check = models.DateTimeField(null=True, blank=True)
+    last_modified = models.DateTimeField(null=True, blank=True)
 
     is_documentation = models.BooleanField(default=False)
 
