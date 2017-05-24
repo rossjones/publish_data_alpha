@@ -3,10 +3,13 @@ from calendar import monthrange
 from datetime import datetime
 from mimetypes import guess_extension
 from urllib.parse import urlparse
-
-from django.utils.text import slugify
+from collections import namedtuple
 
 import requests
+
+
+URLValidResponse = namedtuple('URLValidResponse',
+                              ['success', 'format', 'size', 'error'])
 
 
 def url_exists(url):
@@ -20,16 +23,16 @@ def url_exists(url):
     # Make sure we have a valid proto,
     obj = urlparse(url)
     if not obj.scheme.lower() in ['http', 'https', 'ftp', 'ftps']:
-        return False, '', 0,  _('The URL should begin with http or https')
+        return False, '', 0, _('The URL should begin with http or https')
 
     fmt = ''
     size = 0
 
     try:
         r = requests.head(url, allow_redirects=True)
-    except requests.ConnectionError as ce:
+    except requests.ConnectionError:
         return False, '', 0, _('Failed to connect to the URL')
-    except Exception as e:
+    except Exception:
         return False, '', 0, _('A problem occurred checking the URL')
 
     if r.status_code != 200:
@@ -53,7 +56,7 @@ def url_exists(url):
         if fmt in ['HTM', 'SHTML']:
             fmt = 'HTML'
 
-    return True, fmt, size, None
+    return URLValidResponse(True, fmt, size, None)
 
 
 def calculate_dates_for_month(month, year):
@@ -77,5 +80,3 @@ def calculate_dates_for_year(year):
         datetime(year=year, month=1, day=1),
         datetime(year=year, month=12, day=31)
     )
-
-
