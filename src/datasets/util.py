@@ -54,14 +54,17 @@ def guess_file_format(url, headers):
     content-disposition, then url, then mime type
     """
 
+    # We have a number of functions -> (url, header) that can
+    # try to get a filetype out of the args in some way
     filetype_finders = [
         filetype_from_content_disposition,
         filetype_from_url,
         filetype_from_mime_type
     ]
 
-    filetype = ''
-
+    # Try each in turn. The first one that returns a non-blank string, we
+    # return which breaks out of the whole function and skips the rest of
+    # the loop... a little nicer that a cascade of many ifs
     for finder in filetype_finders:
         filetype = finder(url, headers)
         if filetype:
