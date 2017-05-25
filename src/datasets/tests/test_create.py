@@ -12,6 +12,7 @@ from .factories import (GoodUserFactory,
                         DatasetFactory,
                         DatafileFactory)
 
+
 class DatasetsTestCase(TestCase):
 
     def setUp(self):
@@ -21,23 +22,24 @@ class DatasetsTestCase(TestCase):
         self.organisation = OrganisationFactory.create()
         self.organisation.users.add(self.test_user)
         self.client.login(username=self.test_user.email, password='password')
-        self.dataset = DatasetFactory.create(organisation_id=self.organisation.id)
+        self.dataset = DatasetFactory.create(
+            organisation_id=self.organisation.id)
 
     def _get_dataset(self):
         return Dataset.objects.get(name=self.dataset.name)
 
     def test_bad_slug(self):
         response = self.client.post(reverse('new_dataset', args=[]), {
-                'title': '[]',
-                'description': 'A test description',
-                'summary': 'A test summary'
+            'title': '[]',
+            'description': 'A test description',
+            'summary': 'A test summary'
         })
         assert response.status_code == 200
 
     def test_missing_summary(self):
         response = self.client.post(reverse('new_dataset', args=[]), {
-                'title': '[]',
-                'description': 'A test description'
+            'title': '[]',
+            'description': 'A test description'
         })
         assert response.status_code == 200
 
@@ -149,8 +151,8 @@ class DatasetsTestCase(TestCase):
         u = reverse('dataset_files', args=[self.dataset.name])
         response = self.client.get(u)
         assert response.status_code == 200
-        assert '/dataset/{}/addfile_weekly'.format(self.dataset.name) in response.content.decode('utf-8')
-
+        assert '/dataset/{}/addfile_weekly'.format(
+            self.dataset.name) in response.content.decode('utf-8')
 
     def test_frequency_details(self):
         u = reverse('dataset_frequency', args=[self.dataset.name])
@@ -160,7 +162,7 @@ class DatasetsTestCase(TestCase):
         )
         assert response.status_code == 302
         assert response.url == reverse('dataset_addfile_weekly',
-            args=[self.dataset.name])
+                                       args=[self.dataset.name])
 
         response = self.client.post(
             u,
@@ -168,7 +170,7 @@ class DatasetsTestCase(TestCase):
         )
         assert response.status_code == 302
         assert response.url == reverse('dataset_addfile_monthly',
-            args=[self.dataset.name])
+                                       args=[self.dataset.name])
 
         response = self.client.post(
             u,
@@ -176,7 +178,7 @@ class DatasetsTestCase(TestCase):
         )
         assert response.status_code == 302
         assert response.url == reverse('dataset_addfile_quarterly',
-            args=[self.dataset.name])
+                                       args=[self.dataset.name])
 
         response = self.client.post(
             u,
@@ -184,16 +186,16 @@ class DatasetsTestCase(TestCase):
         )
         assert response.status_code == 302
         assert response.url == reverse('dataset_addfile_annually',
-            args=[self.dataset.name])
+                                       args=[self.dataset.name])
 
-        #response = self.client.post(
+        # response = self.client.post(
         #    u,
         #    get_wizard_data({
         #        'frequency-frequency': 'financial-year'
         #    }, 'frequency')
         #)
         #assert response.status_code == 302
-        #assert response.url == reverse('dataset_step-year',
+        # assert response.url == reverse('dataset_step-year',
         #    args=[self.dataset.name, 'frequency_financial_year'])
 
     def test_adddoc(self):

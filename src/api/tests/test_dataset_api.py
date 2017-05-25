@@ -16,6 +16,7 @@ from datasets.tests.factories import (GoodUserFactory,
 
 TOKEN = 'tokenstring'
 
+
 class DatasetTestCase(TestCase):
 
     def setUp(self):
@@ -40,11 +41,10 @@ class DatasetTestCase(TestCase):
 
     def test_successful_list(self):
         res = self.client.get('/api/1/datasets',
-            HTTP_AUTHORIZATION='Bearer {}'.format(TOKEN))
+                              HTTP_AUTHORIZATION='Bearer {}'.format(TOKEN))
         assert res.status_code == 200
         data = json.loads(res.content.decode('utf-8'))
         assert data['count'] >= 1
-
 
     def test_successful_create(self):
         dataset_dict = {
@@ -57,17 +57,16 @@ class DatasetTestCase(TestCase):
             }]
         }
         res = self.client.post('/api/1/datasets',
-            json.dumps(dataset_dict),
-            content_type="application/json",
-            HTTP_AUTHORIZATION='Bearer {}'.format(TOKEN))
+                               json.dumps(dataset_dict),
+                               content_type="application/json",
+                               HTTP_AUTHORIZATION='Bearer {}'.format(TOKEN))
         assert res.status_code == 201, res.status_code
         dataset = json.loads(res.content.decode('utf-8'))
         assert len(dataset['files']) == 1
 
-
     def test_successful_get(self):
         res = self.client.get('/api/1/datasets/{}'.format(self.dataset.name),
-            HTTP_AUTHORIZATION='Bearer {}'.format(TOKEN))
+                              HTTP_AUTHORIZATION='Bearer {}'.format(TOKEN))
         assert res.status_code == 200
         data = json.loads(res.content.decode('utf-8'))
         assert data['url'] == 'http://testserver/api/1/datasets/my-test-dataset'

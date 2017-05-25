@@ -10,6 +10,7 @@ from .util import new_app_and_token
 
 TOKEN = 'tokenstring'
 
+
 class AuthorisationTestCase(TestCase):
 
     def setUp(self):
@@ -21,13 +22,12 @@ class AuthorisationTestCase(TestCase):
 
         self.app, self.access_token = new_app_and_token(self.test_user, TOKEN)
 
-
     def test_forbidden_no_token(self):
         res = self.client.get('/api/status')
         assert res.status_code == 403
 
     def test_success_with_token(self):
         res = self.client.get('/api/status',
-            HTTP_AUTHORIZATION='Bearer {}'.format(TOKEN))
+                              HTTP_AUTHORIZATION='Bearer {}'.format(TOKEN))
         assert res.status_code == 200
         assert res.content.decode()[0] == '{'

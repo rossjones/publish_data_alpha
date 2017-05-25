@@ -32,7 +32,7 @@ class TasksTestCase(TestCase):
         self.org_names = [self.organisation.name]
 
         self.dataset = Dataset.objects.create(name='test', title='Test',
-            creator=self.test_user)
+                                              creator=self.test_user)
 
         self.simple_task_update = Task.objects.create(
             owning_organisation=self.org_names[0],
@@ -53,7 +53,6 @@ class TasksTestCase(TestCase):
         tasks = get_tasks_for_user(self.test_user)
         assert len(tasks['update']) == 1
 
-
     def test_my_tasks(self):
         response = self.client.post(reverse('signin'), {
             "email": "test-signin@localhost",
@@ -66,4 +65,3 @@ class TasksTestCase(TestCase):
 
         tasks = get_tasks_for_user(self.test_user)
         assert len(tasks['update']) == 1
-

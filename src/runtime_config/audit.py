@@ -4,5 +4,5 @@ import papertrail
 
 
 def audit_log(*args, **kwargs):
-    if settings.AUDIT == True:
+    if settings.AUDIT:
         papertrail.log(*args, **kwargs)

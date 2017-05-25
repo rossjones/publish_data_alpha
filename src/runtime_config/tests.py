@@ -6,6 +6,7 @@ from django.urls import reverse
 from runtime_config.models import ConfigProperty
 from runtime_config.logic import get_config
 
+
 class ConfigTestCase(TestCase):
 
     def setUp(self):
@@ -24,7 +25,7 @@ class ConfigTestCase(TestCase):
         assert get_config('logserver') == 'https://logging'
 
     def test_find_inactive(self):
-        assert get_config('ckan') == None
+        assert get_config('ckan') is None
 
     def test_missing(self):
-        assert get_config('missing') == None
+        assert get_config('missing') is None

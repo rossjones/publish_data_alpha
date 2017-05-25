@@ -20,7 +20,6 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--organisation', '-o', dest='organisation')
 
-
     def link_ok(self, url):
         ok = False
 
@@ -36,7 +35,6 @@ class Command(BaseCommand):
 
         return ok
 
-
     def process_organisation(self, organisation):
         print('+ Checking links for {}'.format(organisation))
         print('    {} datasets'.format(organisation.datasets.count()))
@@ -44,10 +42,12 @@ class Command(BaseCommand):
             if dataset.files.count() == 0:
                 print('- Skipping {}, no resources'.format(dataset.name))
                 continue
-            print('+ Dataset {} has {} links'.format(dataset.name, dataset.files.count()))
+            print('+ Dataset {} has {} links'.format(dataset.name,
+                                                     dataset.files.count()))
 
             # If this dataset has an existing task, then skip it.
-            task_count = Task.objects.filter(related_object_id=dataset.name, category='fix').count()
+            task_count = Task.objects.filter(
+                related_object_id=dataset.name, category='fix').count()
             if task_count > 0:
                 print('- Skipping {}, task exists'.format(dataset.name))
                 continue
@@ -61,7 +61,8 @@ class Command(BaseCommand):
             if failed:
                 print('+ Dataset {} has errors'.format(dataset.name))
                 plural = 's' if len(failed) > 1 else ''
-                msg = "Replace broken link{} in '{}'".format(plural, dataset.title)
+                msg = "Replace broken link{} in '{}'".format(
+                    plural, dataset.title)
                 print(len(str(dataset.id)))
                 Task.objects.create(
                     owning_organisation=organisation.name,
@@ -74,12 +75,12 @@ class Command(BaseCommand):
                     file.last_check = datetime.datetime.now()
                     file.save()
 
-
     def handle(self, *args, **options):
         org_name = options.get('organisation')
 
         if not org_name:
-            log.error('Link checker currently only processes single organisations')
+            log.error(
+                'Link checker currently only processes single organisations')
             sys.exit(1)
 
         try:

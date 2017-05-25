@@ -10,7 +10,7 @@ from .factories import (GoodUserFactory,
                         DatafileFactory)
 
 from datasets.logic import (most_recent_datafile,
-    number_days_for_frequency, is_dataset_overdue)
+                            number_days_for_frequency, is_dataset_overdue)
 
 SOURCE_DATA = [
     {
@@ -39,7 +39,7 @@ SOURCE_DATA = [
             }
         ]
     },
- {
+    {
         'name': 'three',
         'frequency': 'annually',
         'expected_overdue': False,
@@ -77,6 +77,7 @@ SOURCE_DATA = [
     },
 ]
 
+
 class OverdueCase(TestCase):
 
     def setUp(self):
@@ -96,7 +97,7 @@ class OverdueCase(TestCase):
                 args = {
                     'id': str(uuid.uuid4()),
                     'url': f['url'],
-                    'dataset':dataset}
+                    'dataset': dataset}
                 if 'start_date' in f:
                     args['start_date'] = f['start_date']
                     args['end_date'] = f['end_date']
@@ -108,7 +109,7 @@ class OverdueCase(TestCase):
 
     def test_most_recent(self):
         d = most_recent_datafile(self.datasets[1])
-        assert d == datetime(year=2015,month=1,day=1).date()
+        assert d == datetime(year=2015, month=1, day=1).date()
 
     def test_overdue(self):
         # Get the most recent end-date from the dataset

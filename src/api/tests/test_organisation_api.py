@@ -16,6 +16,7 @@ from datasets.tests.factories import (GoodUserFactory,
 
 TOKEN = 'tokenstring'
 
+
 class OrganisationTestCase(TestCase):
 
     def setUp(self):
@@ -44,7 +45,7 @@ class OrganisationTestCase(TestCase):
 
     def test_successful_list(self):
         res = self.client.get('/api/1/organisations',
-            HTTP_AUTHORIZATION='Bearer {}'.format(TOKEN))
+                              HTTP_AUTHORIZATION='Bearer {}'.format(TOKEN))
         assert res.status_code == 200
         data = json.loads(res.content.decode('utf-8'))
         assert data['count'] >= 2
@@ -56,15 +57,17 @@ class OrganisationTestCase(TestCase):
             'description': 'Created'
         }
         res = self.client.post('/api/1/organisations',
-            json.dumps(org_dict),
-            content_type="application/json",
-            HTTP_AUTHORIZATION='Bearer {}'.format(TOKEN))
+                               json.dumps(org_dict),
+                               content_type="application/json",
+                               HTTP_AUTHORIZATION='Bearer {}'.format(TOKEN))
         assert res.status_code == 201, res.status_code
 
-
     def test_successful_get(self):
-        res = self.client.get('/api/1/organisations/{}'.format(self.organisation.name),
+        res = self.client.get(
+            '/api/1/organisations/{}'.format(
+                self.organisation.name),
             HTTP_AUTHORIZATION='Bearer {}'.format(TOKEN))
         assert res.status_code == 200
         data = json.loads(res.content.decode('utf-8'))
-        assert data['url'] == 'http://testserver/api/1/organisations/{}'.format(self.organisation.name)
+        assert data['url'] == 'http://testserver/api/1/organisations/{}'.format(
+            self.organisation.name)

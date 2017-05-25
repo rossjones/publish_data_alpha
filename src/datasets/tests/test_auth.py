@@ -12,6 +12,7 @@ from .factories import (GoodUserFactory,
                         DatasetFactory,
                         DatafileFactory)
 
+
 class AuthTestCase(TestCase):
 
     def setUp(self):
@@ -42,14 +43,13 @@ class AuthTestCase(TestCase):
 
         self.datafile = DatafileFactory.create(dataset=self.dataset)
 
-
     def test_user_has_access(self):
         can = user_can_edit_dataset(self.test_user, self.dataset)
-        assert can == True, can
+        assert can, can
 
     def test_user_has_file_access(self):
         can = user_can_edit_datafile(self.test_user, self.datafile)
-        assert can == True, can
+        assert can, can
 
     def test_user_has_no_access(self):
         can = user_can_edit_dataset(self.naughty_user, self.dataset)
@@ -58,6 +58,3 @@ class AuthTestCase(TestCase):
     def test_user_has_no_file_access(self):
         can = user_can_edit_datafile(self.naughty_user, self.datafile)
         assert can == False, can
-
-
-

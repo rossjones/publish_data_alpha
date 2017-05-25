@@ -12,6 +12,7 @@ def organisations_for_user(user):
         return Organisation.objects.all()
     return user.organisations.all()
 
+
 def publish(dataset, user):
     if dataset.published:
         publish_to_ckan(dataset, user)
@@ -20,7 +21,13 @@ def publish(dataset, user):
         unindex_dataset(dataset)
 
 
-def dataset_list(user, page=1, filter_query=None, sort=None, only_user=False, fields=None):
+def dataset_list(
+        user,
+        page=1,
+        filter_query=None,
+        sort=None,
+        only_user=False,
+        fields=None):
     """
     For the given user returns a tuple containing total number of datasets
     both draft and published, and the 20 most recent.
@@ -47,13 +54,14 @@ def dataset_list(user, page=1, filter_query=None, sort=None, only_user=False, fi
     if fields:
         q = q.values(*fields)
 
-    datasets = q.all()[start:start+per_page]
+    datasets = q.all()[start:start + per_page]
 
     total = q.count()
     page_count = math.ceil(float(total) / per_page)
 
     offset = (page * per_page) - per_page
     return (total, page_count, datasets,)
+
 
 def is_dataset_overdue(dataset):
     recent_date = most_recent_datafile(dataset)
@@ -64,12 +72,14 @@ def is_dataset_overdue(dataset):
     diff = recent_date + timedelta(days=num_days)
     return datetime.now().date() > diff
 
+
 def most_recent_datafile(dataset):
     ''' Iterates through the files in the dataset, and find the
     one with the most recent start-date, returning the start date '''
     dates = [f.start_date for f in dataset.files.all() if f.start_date]
     dates.sort(reverse=True)
     return dates[0] if dates else None
+
 
 def number_days_for_frequency(frequency):
     if frequency == 'annually':
@@ -94,9 +104,11 @@ def number_days_for_frequency(frequency):
 # instance WILL NOT be reflected in the Alpha publish_data.
 ###########################################################################
 
+
 import hashlib
 import json
 import requests
+
 
 def get_ckan(user):
     """ Returns a CKAN instance if configuration contains both a host
@@ -132,7 +144,7 @@ def convert_to_ckan(dataset, alpha_id):
         'extras': [
             {'key': 'alpha_id', 'value': alpha_id},
             {'key': 'update_frequency', 'value': dataset.frequency or ''},
-            {'key': 'location', 'value': dataset.location or ''} ,
+            {'key': 'location', 'value': dataset.location or ''},
         ],
         'resources': []
     }

@@ -24,12 +24,12 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--organisation', '-o', dest='organisation')
 
-
     def process_organisation(self, organisation):
         print('+ Checking overdue datasets for {}'.format(organisation))
         print('    {} datasets'.format(organisation.datasets.count()))
         for dataset in organisation.datasets.all():
-            if not dataset.frequency or dataset.frequency in ['never', 'daily']:
+            if not dataset.frequency or dataset.frequency in [
+                    'never', 'daily']:
                 continue
 
             print(dataset.name + " " + dataset.frequency)
@@ -38,7 +38,9 @@ class Command(BaseCommand):
                 continue
 
             # If this dataset has an existing task, then skip it.
-            task_count = Task.objects.filter(related_object_id=dataset.name,category='update').count()
+            task_count = Task.objects.filter(
+                related_object_id=dataset.name,
+                category='update').count()
             if task_count > 0:
                 print('- Skipping {}, task exists'.format(dataset.name))
                 continue
@@ -57,7 +59,8 @@ class Command(BaseCommand):
         org_name = options.get('organisation')
 
         if not org_name:
-            log.error('Overdue checker currently only processes single organisations')
+            log.error(
+                'Overdue checker currently only processes single organisations')
             sys.exit(1)
 
         try:

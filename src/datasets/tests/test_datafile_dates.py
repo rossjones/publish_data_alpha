@@ -11,6 +11,7 @@ from .factories import (GoodUserFactory,
                         DatasetFactory,
                         DatafileFactory)
 
+
 class DatafileDatesTestCase(TestCase):
     """ Test that when we save the start/end dates are set
     correctly in the datafile instance
@@ -31,8 +32,8 @@ class DatafileDatesTestCase(TestCase):
         df = self.skeleton()
         df.save()
 
-        assert df.start_date == None
-        assert df.end_date == None
+        assert df.start_date is None
+        assert df.end_date is None
 
     def test_all_dates(self):
         df = self.skeleton()

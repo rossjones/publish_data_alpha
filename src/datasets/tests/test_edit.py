@@ -12,6 +12,7 @@ from .factories import (GoodUserFactory,
                         DatasetFactory,
                         DatafileFactory)
 
+
 class DatasetEditTestCase(TestCase):
 
     def setUp(self):
@@ -19,16 +20,17 @@ class DatasetEditTestCase(TestCase):
         self.test_user.set_password("password")
         self.test_user.save()
 
-        success = self.client.login(username=self.test_user.email, password='password')
+        success = self.client.login(
+            username=self.test_user.email,
+            password='password')
 
         self.dataset = DatasetFactory.create(creator=self.test_user)
         self.datafile = DatafileFactory.create(dataset=self.dataset)
 
-
     def _edit_dataset(self, name=None):
         response = self.client.get(
             reverse('full_dataset',
-            args=[name or self.dataset.name]))
+                    args=[name or self.dataset.name]))
         return response
 
     def test_bad_doesnotexist(self):
@@ -40,11 +42,10 @@ class DatasetEditTestCase(TestCase):
         assert r.status_code == 200
         assert bytes(self.dataset.title, encoding='utf-8') in r.content
 
-
     def test_edit_update(self):
         response = self.client.post(
             reverse('full_dataset',
-            args=[self.dataset.name]),
+                    args=[self.dataset.name]),
             {
                 'name': self.dataset.name,
                 'title': 'A test dataset for edit',
@@ -68,7 +69,7 @@ class DatasetEditTestCase(TestCase):
             response,
             _('Are you sure you want to delete ‘{}’?'.format(
                 self.datafile.name)
-            ),
+              ),
             1, 200
         )
 
@@ -83,7 +84,6 @@ class DatasetEditTestCase(TestCase):
             _('Your link ‘{}’ has been deleted'.format(self.datafile.name)),
             1, 200
         )
-
 
     def test_delete_dataset(self):
         ''' Check dataset delete confirmation and final message '''

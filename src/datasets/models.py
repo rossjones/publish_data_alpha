@@ -12,7 +12,6 @@ from datasets.util import (calculate_dates_for_month,
                            calculate_dates_for_year)
 
 
-
 class Location(models.Model):
 
     name = models.CharField(max_length=256)
@@ -21,7 +20,11 @@ class Location(models.Model):
 
 class Dataset(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = AutoSlugField(populate_from='title', default='', unique=True, max_length=200)
+    name = AutoSlugField(
+        populate_from='title',
+        default='',
+        unique=True,
+        max_length=200)
     title = models.CharField(max_length=200)
     summary = models.CharField(max_length=200, default="")
     description = models.TextField()
@@ -52,8 +55,8 @@ class Dataset(models.Model):
                                 on_delete=models.SET_NULL,
                                 null=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                on_delete=models.SET_NULL,
-                                null=True, related_name='owned_datasets')
+                              on_delete=models.SET_NULL,
+                              null=True, related_name='owned_datasets')
 
     published = models.BooleanField(default=False)
     published_date = models.DateTimeField(null=True, blank=True)
@@ -72,12 +75,10 @@ class Dataset(models.Model):
             return _('Dataset')
         return _('Draft')
 
-
     def status_text(self):
         if self.published:
             return _('Published')
         return _('Draft')
-
 
     def as_dict(self):
         def _strip_location(loc):
@@ -115,13 +116,14 @@ class Dataset(models.Model):
             try:
                 inspire = getattr(self, 'inspire')
                 data['inspire'] = inspire.as_dict()
-            except:
+            except BaseException:
                 pass
 
         return data
 
     def __str__(self):
         return u"{}:{}".format(self.name, self.title)
+
 
 class InspireDataset(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -133,7 +135,8 @@ class InspireDataset(models.Model):
 
     coupled_resource = models.TextField(null=True, blank=True)
     dataset_reference_date = models.TextField(null=True, blank=True)
-    frequency_of_update = models.CharField(max_length=64, null=True, blank=True)
+    frequency_of_update = models.CharField(
+        max_length=64, null=True, blank=True)
     guid = models.CharField(max_length=128, blank=True, null=True)
     harvest_object_id = models.TextField(null=True, blank=True)
     harvest_source_reference = models.TextField(null=True, blank=True)
@@ -145,8 +148,10 @@ class InspireDataset(models.Model):
     responsible_party = models.TextField(null=True, blank=True)
 
     spatial = models.TextField(null=True, blank=True)
-    spatial_data_service_type = models.CharField(max_length=64, null=True, blank=True)
-    spatial_reference_system = models.CharField(max_length=128, null=True, blank=True)
+    spatial_data_service_type = models.CharField(
+        max_length=64, null=True, blank=True)
+    spatial_reference_system = models.CharField(
+        max_length=128, null=True, blank=True)
 
     dataset = models.OneToOneField(Dataset, related_name='inspire')
 
@@ -218,7 +223,8 @@ class Organisation(models.Model):
     name = models.CharField(max_length=200, default="", blank=True)
     title = models.CharField(max_length=200, default="", blank=True)
     description = models.TextField()
-    abbreviation = models.CharField(max_length=200, default="", null=True, blank=True)
+    abbreviation = models.CharField(
+        max_length=200, default="", null=True, blank=True)
 
     created = models.DateTimeField(auto_now=True)
 
@@ -236,7 +242,7 @@ class Organisation(models.Model):
     category = models.CharField(max_length=100, default="", blank=True)
 
     users = models.ManyToManyField(settings.AUTH_USER_MODEL,
-        related_name='organisations')
+                                   related_name='organisations')
 
     def as_dict(self):
         data = {

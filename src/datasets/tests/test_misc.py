@@ -5,7 +5,6 @@ from datasets.util import url_exists
 
 class MiscTestCase(TestCase):
 
-
     def test_url_exists_ok(self):
         exists, fmt, size, error = url_exists('https://google.com')
         assert exists
