@@ -37,7 +37,7 @@ def new_dataset(request):
         if form.is_valid():
             try:
                 user_org = organisations_for_user(request.user)[0]
-            except:
+            except BaseException:
                 user_org = None
             obj = Dataset.objects.create(
                 title=form.cleaned_data['title'],
@@ -501,10 +501,8 @@ def _publish_dataset(request, dataset, state, deleting=False):
                 data={
                     'dataset_name': dataset.name,
                     'dataset_title': dataset.title,
-                    'user': request.user.username
-                },
-                external_key=dataset.name
-            )
+                    'user': request.user.username},
+                external_key=dataset.name)
 
             # Re-publish if we are editing a published dataset
             publish(dataset, request.user)
@@ -521,7 +519,7 @@ def _publish_dataset(request, dataset, state, deleting=False):
                       '</h1>'
 
             msg += '<h2><a href="' + settings.FIND_URL + '/dataset/' + \
-                   dataset.name+'">' + _('View it') + '</a></h2>'
+                   dataset.name + '">' + _('View it') + '</a></h2>'
 
             messages.add_message(
                 request,

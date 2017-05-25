@@ -22,7 +22,9 @@ class DatasetsCreateAuthTestCase(TestCase):
         self.organisation = OrganisationFactory.create()
         self.organisation.users.add(self.test_user)
 
-        self.client.login(username='test-signin@localhost', password='password')
+        self.client.login(
+            username='test-signin@localhost',
+            password='password')
         self.dataset = DatasetFactory.create()
         self.client.logout()
 
@@ -30,7 +32,6 @@ class DatasetsCreateAuthTestCase(TestCase):
         self.random_user.set_password("password")
         self.random_user.save()
         self.client.login(username=self.random_user.email, password='password')
-
 
     def test_location(self):
         u = reverse('dataset_location', args=[self.dataset.name])
@@ -168,7 +169,6 @@ class DatasetsCreateAuthTestCase(TestCase):
         response = self.client.get(u)
         assert response.status_code == 403
 
-
     def test_addfile(self):
         u = reverse(
             'dataset_addfile_weekly',
@@ -200,7 +200,6 @@ class DatasetsCreateAuthTestCase(TestCase):
             'title': 'Not really a file'
         })
         assert response.status_code == 403
-
 
     def test_showfiles(self):
         u = reverse('dataset_files', args=[self.dataset.name])

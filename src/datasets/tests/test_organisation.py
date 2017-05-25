@@ -13,6 +13,7 @@ from .factories import (GoodUserFactory,
                         DatasetFactory,
                         DatafileFactory)
 
+
 class OrganisationTestCase(TestCase):
 
     def setUp(self):

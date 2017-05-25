@@ -8,11 +8,13 @@ from django_filters.rest_framework import DjangoFilterBackend
 from datasets.models import Dataset, Organisation, Datafile
 from .permissions import IsAdminOrReadOnly, IsAuthenticatedOrReadOnly
 
+
 class DatafileSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Datafile
         exclude = ('month', 'year', 'quarter', 'dataset')
+
 
 class OrganisationSerializer(serializers.HyperlinkedModelSerializer):
 
@@ -52,6 +54,7 @@ class DatasetList(generics.ListCreateAPIView):
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('name', 'title',)
     permission_classes = (IsAuthenticatedOrReadOnly, )
+
 
 class OrganisationList(generics.ListCreateAPIView):
     queryset = Organisation.objects.all()

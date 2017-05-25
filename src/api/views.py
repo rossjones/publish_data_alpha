@@ -31,9 +31,9 @@ def dataset_lookup(request):
         only_user=only_user, fields=['title', 'name', 'published']
     )
     return JsonResponse(
-        { 'total': total,
-          'datasets': list(datasets)
-        }, safe=False
+        {'total': total,
+         'datasets': list(datasets)
+         }, safe=False
     )
 
 

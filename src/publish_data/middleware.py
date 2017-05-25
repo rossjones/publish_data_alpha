@@ -6,22 +6,24 @@ from django.http import HttpResponse
 
 
 def basic_challenge(realm='Restricted Access'):
-    response =  HttpResponse('Authorization Required')
+    response = HttpResponse('Authorization Required')
     response['WWW-Authenticate'] = 'Basic realm="%s"' % (realm)
     response.status_code = 401
     return response
 
+
 def basic_authenticate(authentication):
-    (authmeth, auth) = authentication.split(' ',1)
+    (authmeth, auth) = authentication.split(' ', 1)
     if 'basic' != authmeth.lower():
         return None
 
     auth = base64.b64decode(bytes(auth, 'utf-8')).decode()
 
-    username, password = auth.split(':',1)
+    username, password = auth.split(':', 1)
     auth_username = os.environ.get('HTTP_USERNAME')
     auth_password = os.environ.get('HTTP_PASSWORD')
     return username == auth_username and password == auth_password
+
 
 class BasicAuthenticationMiddleware(object):
 
@@ -43,10 +45,12 @@ class BasicAuthenticationMiddleware(object):
 
         return basic_challenge()
 
+
 class ResetFlowMiddleware(object):
     ''' To avoid having to reset the session for the flow state in various
     places, this will reset it when the request is not to /static or /dataset
     '''
+
     def __init__(self, get_response):
         self.get_response = get_response
 

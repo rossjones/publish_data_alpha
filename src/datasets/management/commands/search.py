@@ -9,6 +9,7 @@ from django.contrib.auth import get_user_model
 from datasets.models import Dataset
 from datasets.search import bulk_import, reset_index, flush_index
 
+
 class Command(BaseCommand):
     help = 'Interacts with the configured search index'
 
@@ -17,7 +18,7 @@ class Command(BaseCommand):
         parser.add_argument('--force', dest='force', action='store_true')
 
     def sure(self, options):
-        if options['force'] == True:
+        if options['force']:
             return True
 
         result = input('Are you sure? ')
@@ -40,27 +41,28 @@ class Command(BaseCommand):
         else:
             print("Unknown command, use rebuild or reset.")
 
-
     def do_rebuild(self):
         ok, failed = 0, 0
         q = Dataset.objects.filter(published=True)
         count = q.count()
 
         print("Rebuilding index {} - ({} datasets)".format(
-            settings.ES_INDEX,count)
+            settings.ES_INDEX, count)
         )
 
         previous = 0
         for end in range(50, count + 50, 50):
             datasets = q.all()[previous:end]
-            print("Indexing from {} to {} ({} datasets)".format(previous, end, len(datasets)))
+            print(
+                "Indexing from {} to {} ({} datasets)".format(
+                    previous, end, len(datasets)))
 
             k = [
                 {
-                "_index": settings.ES_INDEX,
-                "_type" : "datasets",
-                "_id"   : str(d.id),
-                "_source": d.as_dict(),
+                    "_index": settings.ES_INDEX,
+                    "_type": "datasets",
+                    "_id": str(d.id),
+                    "_source": d.as_dict(),
                 } for d in datasets]
 
             s, f = bulk_import(k)
@@ -70,7 +72,6 @@ class Command(BaseCommand):
 
         flush_index()
         print("{} successfully added, {} not".format(ok, failed))
-
 
     def do_reset(self):
         print("Resetting index")

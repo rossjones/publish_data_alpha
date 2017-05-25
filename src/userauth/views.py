@@ -42,7 +42,6 @@ def login_view(request):
                     except Resolver404:
                         pass
 
-
                 return redirect(redirect_to)
             else:
                 login_failed = True

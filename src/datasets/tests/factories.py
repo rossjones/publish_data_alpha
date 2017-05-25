@@ -4,14 +4,15 @@ from factory.django import DjangoModelFactory
 
 from django.contrib.auth import get_user_model
 
+
 class OrganisationFactory(DjangoModelFactory):
     class Meta:
         model = 'datasets.organisation'
         django_get_or_create = ('name',)
 
-    name='test-org'
-    title='Test Organisation',
-    description='Test Organisation Description'
+    name = 'test-org'
+    title = 'Test Organisation',
+    description = 'Test Organisation Description'
 
 
 class DatasetFactory(DjangoModelFactory):
@@ -24,6 +25,7 @@ class DatasetFactory(DjangoModelFactory):
     summary = 'A test summary'
     frequency = 'weekly'
     organisation_id = ''
+
 
 class DatafileFactory(DjangoModelFactory):
     class Meta:
@@ -51,5 +53,5 @@ class NaughtyUserFactory(DjangoModelFactory):
         model = get_user_model()
         django_get_or_create = ('username',)
 
-    username="Naughty Test User Signin",
-    email="naughty-user@localhost",
+    username = "Naughty Test User Signin",
+    email = "naughty-user@localhost",

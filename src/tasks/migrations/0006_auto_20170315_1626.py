@@ -15,11 +15,20 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='task',
             name='quantity',
-            field=models.IntegerField(default=0),
+            field=models.IntegerField(
+                default=0),
         ),
         migrations.AlterField(
             model_name='task',
             name='category',
-            field=models.CharField(choices=[('update', 'Update datasets'), ('fix', 'Fix datasets'), ('missing', 'Missing data')], max_length=20),
+            field=models.CharField(
+                choices=[
+                    ('update',
+                     'Update datasets'),
+                    ('fix',
+                     'Fix datasets'),
+                    ('missing',
+                     'Missing data')],
+                max_length=20),
         ),
     ]

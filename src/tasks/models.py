@@ -6,8 +6,8 @@ from django.conf import settings
 from django.db import models
 
 TASK_CATEGORIES = (
-    ("update",   _("Update datasets"), ),
-    ("fix",      _("Fix datasets"), )
+    ("update", _("Update datasets"), ),
+    ("fix", _("Fix datasets"), )
 )
 
 
@@ -41,4 +41,3 @@ class Task(models.Model):
         if self.category == "update":
             return _("Overdue")
         return _("")
-

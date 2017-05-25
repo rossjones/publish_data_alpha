@@ -25,7 +25,7 @@ class DatasetAuthEditTestCase(TestCase):
     def _edit_dataset(self, name=None):
         response = self.client.get(
             reverse('full_dataset',
-            args=[name or self.dataset.name]))
+                    args=[name or self.dataset.name]))
         return response
 
     def test_bad_doesnotexist(self):
@@ -39,7 +39,7 @@ class DatasetAuthEditTestCase(TestCase):
     def test_edit_update(self):
         r = self.client.post(
             reverse('full_dataset',
-            args=[self.dataset.name]),
+                    args=[self.dataset.name]),
             {
                 'name': self.dataset.name,
                 'title': 'A test dataset for edit',

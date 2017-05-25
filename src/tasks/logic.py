@@ -14,7 +14,9 @@ def get_tasks_for_user(user):
     orgs = [o.name for o in organisations_for_user(user)]
     user_permissions = [""]
 
-    user_datasets = Dataset.objects.filter(owner=user).values_list('name', flat=True)
+    user_datasets = Dataset.objects.filter(
+        owner=user).values_list(
+        'name', flat=True)
 
     task_objs = Task.objects\
         .filter(owning_organisation__in=orgs)\
@@ -27,6 +29,7 @@ def get_tasks_for_user(user):
         tasks[entry[0]] = [t for t in task_objs if t.category == entry[0]]
 
     return tasks
+
 
 def get_tasks_for_organisation(organisation):
     """ For the given organisation name, find the tasks that
@@ -44,4 +47,3 @@ def get_tasks_for_organisation(organisation):
         tasks[entry[0]] = [t for t in task_objs if t.category == entry[0]]
 
     return tasks
-

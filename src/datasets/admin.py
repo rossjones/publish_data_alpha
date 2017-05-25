@@ -11,7 +11,12 @@ class DatafileInline(admin.TabularInline):
 
 
 class DatasetAdmin(admin.ModelAdmin):
-    list_display = ('name', 'title', 'short_summary', 'organisation', 'published')
+    list_display = (
+        'name',
+        'title',
+        'short_summary',
+        'organisation',
+        'published')
     list_filter = ('published',)
     search_fields = ('title', 'summary', 'description')
     inlines = [DatafileInline]
@@ -23,6 +28,7 @@ class DatasetAdmin(admin.ModelAdmin):
 
 class MoveDatasetsForm(ActionForm):
     new_organisation = forms.CharField(max_length=200)
+
 
 def move_datasets(modeladmin, request, queryset):
     from datasets.search import index_dataset
@@ -38,13 +44,14 @@ def move_datasets(modeladmin, request, queryset):
     count = oldorg.datasets.count()
     ids = [str(d.id) for d in oldorg.datasets.all()]
     oldorg.datasets.update(organisation=neworg)
-    modeladmin.message_user(request,
-        "Successfully moved {} datasets from {} to {}".format(
+    modeladmin.message_user(
+        request, "Successfully moved {} datasets from {} to {}".format(
             count, oldorg.title, neworg.title))
 
     for did in ids:
         ds = Dataset.objects.get(pk=did)
         index_dataset(ds)
+
 
 move_datasets.short_description = 'Move datasets to new organisation'
 
@@ -54,8 +61,6 @@ class OrganisationAdmin(admin.ModelAdmin):
     search_fields = ['title', 'abbreviation']
     action_form = MoveDatasetsForm
     actions = [move_datasets]
-
-
 
 
 class LocationAdmin(admin.ModelAdmin):

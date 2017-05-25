@@ -34,7 +34,7 @@ def _manage_context(request, only_user, view_name):
     page = 1
     try:
         page = int(request.GET.get('page'))
-    except:
+    except BaseException:
         page = 1
 
     if sort == 'name':
@@ -53,7 +53,7 @@ def _manage_context(request, only_user, view_name):
         sort_name_next = 'name'
         sort_published_next = 'published'
 
-    if sort and not sort in ['name', 'published', '-name', '-published']:
+    if sort and sort not in ['name', 'published', '-name', '-published']:
         sort = None
 
     total, page_count, datasets = dataset_list(
@@ -74,11 +74,12 @@ def _manage_context(request, only_user, view_name):
         "q": q or "",
         "find_url": settings.FIND_URL or ckan_host,
         "sort": sort,
-        "qs_name_next": reverse(view_name) + \
-            _query_string(q, sort_name_next),
-        "qs_published_next": reverse(view_name) + \
-            _query_string(q, sort_published_next)
+        "qs_name_next": reverse(view_name) +
+        _query_string(q, sort_name_next),
+        "qs_published_next": reverse(view_name) +
+        _query_string(q, sort_published_next)
     }
+
 
 def home(request):
     if request.user.is_authenticated():

@@ -78,8 +78,9 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(PROJECT_DIR, 'assets/govuk_template/templates/govuk_template')
-        ],
+            os.path.join(
+                PROJECT_DIR,
+                'assets/govuk_template/templates/govuk_template')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -164,8 +165,7 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 50,
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'oauth2_provider.ext.rest_framework.OAuth2Authentication',
-    )
-}
+    )}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
@@ -191,7 +191,7 @@ NOTIFY_APIKEY = os.environ.get('NOTIFY_APIKEY')
 
 try:
     from .local_settings import *
-except:
+except BaseException:
     pass
 
 if not (ES_HOSTS and ES_INDEX):

@@ -12,10 +12,9 @@ from datasets.models import Dataset
 class Command(BaseCommand):
     help = 'Creates and uploads the data.json file'
 
-    #def add_arguments(self, parser):
+    # def add_arguments(self, parser):
     #    parser.add_argument('action', nargs='?', default='')
     #    parser.add_argument('--force', dest='force', action='store_true')
-
 
     def print_head(self, f):
         f.write('''
@@ -41,7 +40,7 @@ class Command(BaseCommand):
             '@type': 'dcat:Dataset',
             'identifier': '',
             'title': '',
-            'description':  '',
+            'description': '',
             'keyword': [],
             'issued': "2016-05-04T10:56:04.000Z",
             'modified': "2016-08-12T19:25:20.565Z",

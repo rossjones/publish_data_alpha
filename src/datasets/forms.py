@@ -8,7 +8,10 @@ from datasets.util import url_exists
 
 class DatasetForm(forms.Form):
     title = forms.CharField(label=_('Title'), max_length=100, required=True)
-    summary = forms.CharField(label=_('Summary'), max_length=200, required=True)
+    summary = forms.CharField(
+        label=_('Summary'),
+        max_length=200,
+        required=True)
     description = forms.CharField(
         label=_('Additional Information'),
         max_length=8096,
@@ -27,7 +30,10 @@ class DatasetForm(forms.Form):
 
 class EditDatasetForm(forms.ModelForm):
     title = forms.CharField(label=_('Title'), max_length=100, required=True)
-    summary = forms.CharField(label=_('Summary'), max_length=200, required=True)
+    summary = forms.CharField(
+        label=_('Summary'),
+        max_length=200,
+        required=True)
     description = forms.CharField(
         label=_('Additional Information'),
         max_length=8096,
@@ -56,7 +62,7 @@ class PublishForm(forms.Form):
     files = forms.CharField(required=False)
 
     def __init__(self, datafile_count=None, data=None):
-        super(PublishForm, self ).__init__(data)
+        super(PublishForm, self).__init__(data)
         self.datafile_count = datafile_count
 
     def clean(self):
@@ -97,7 +103,7 @@ class LocationForm(forms.ModelForm):
 
     class Meta:
         model = Dataset
-        fields = ['location1', 'location2', 'location3' ]
+        fields = ['location1', 'location2', 'location3']
 
 
 class OrganisationForm(forms.ModelForm):
@@ -140,7 +146,7 @@ class CheckedFileForm(forms.ModelForm):
                 [error_msg]
 
             # TODO: Consider uncommenting this
-            #if fmt == 'HTML':
+            # if fmt == 'HTML':
             #    self._errors['url'] = \
             #        [_("This appears to be a web page and not a data file")]
 
@@ -156,7 +162,7 @@ class FileForm(CheckedFileForm):
 
     class Meta:
         model = Datafile
-        fields = [ 'name', 'url' ]
+        fields = ['name', 'url']
 
 
 class WeeklyFileForm(CheckedFileForm):
@@ -180,16 +186,16 @@ class WeeklyFileForm(CheckedFileForm):
     def clean(self):
         cleaned = CheckedFileForm.clean(self)
 
-        if not 'start_year' in cleaned or \
-            cleaned['start_year'] < 1000 or cleaned['start_year'] > 3000:
+        if 'start_year' not in cleaned or \
+                cleaned['start_year'] < 1000 or cleaned['start_year'] > 3000:
             self._errors['start_year'] = \
                 [_('Please enter a correct year')]
-        elif not 'start_month' in cleaned or \
-            cleaned['start_month'] < 1 or cleaned['start_month'] > 12:
+        elif 'start_month' not in cleaned or \
+                cleaned['start_month'] < 1 or cleaned['start_month'] > 12:
             self._errors['start_month'] = \
                 [_('Please enter a correct month')]
-        elif not 'start_day' in cleaned or \
-            cleaned['start_day'] < 1 or cleaned['start_day'] > 31:
+        elif 'start_day' not in cleaned or \
+                cleaned['start_day'] < 1 or cleaned['start_day'] > 31:
             self._errors['start_day'] = \
                 [_('Please enter a correct day')]
         else:
@@ -203,16 +209,16 @@ class WeeklyFileForm(CheckedFileForm):
                 self._errors['start_date'] = \
                     [_('Please enter a correct start date')]
 
-        if not 'end_year' in cleaned or \
-            cleaned['end_year'] < 1000 or cleaned['end_year'] > 3000:
+        if 'end_year' not in cleaned or \
+                cleaned['end_year'] < 1000 or cleaned['end_year'] > 3000:
             self._errors['end_year'] = \
                 [_('Please enter a correct year')]
-        elif not 'end_month' in cleaned or \
-            cleaned['end_month'] < 1 or cleaned['end_month'] > 12:
+        elif 'end_month' not in cleaned or \
+                cleaned['end_month'] < 1 or cleaned['end_month'] > 12:
             self._errors['end_month'] = \
                 [_('Please enter a correct month')]
-        elif not 'end_day' in cleaned or \
-            cleaned['end_day'] < 1 or cleaned['end_day'] > 31:
+        elif 'end_day' not in cleaned or \
+                cleaned['end_day'] < 1 or cleaned['end_day'] > 31:
             self._errors['end_day'] = \
                 [_('Please enter a correct day')]
         else:
@@ -228,7 +234,6 @@ class WeeklyFileForm(CheckedFileForm):
 
         if self.errors:
             return cleaned
-
 
         return {
             'is_broken': False,
@@ -253,12 +258,10 @@ class MonthlyFileForm(CheckedFileForm):
         error_messages={'required': 'Please enter a valid year'}
     )
 
-
     class Meta:
         frequency = 'monthly'
         model = Datafile
-        fields = [ 'name', 'url', 'month', 'year' ]
-
+        fields = ['name', 'url', 'month', 'year']
 
     def clean(self):
         cleaned = CheckedFileForm.clean(self)
@@ -287,7 +290,7 @@ class QuarterlyFileForm(CheckedFileForm):
     class Meta:
         frequency = 'quarterly'
         model = Datafile
-        fields = [ 'name', 'url', 'quarter', 'year' ]
+        fields = ['name', 'url', 'quarter', 'year']
 
     def clean(self):
         cleaned = CheckedFileForm.clean(self)
@@ -310,7 +313,7 @@ class AnnuallyFileForm(CheckedFileForm):
     class Meta:
         frequency = 'annually'
         model = Datafile
-        fields = [ 'name', 'url', 'year' ]
+        fields = ['name', 'url', 'year']
 
     def clean(self):
         cleaned = CheckedFileForm.clean(self)
@@ -323,7 +326,6 @@ class AnnuallyFileForm(CheckedFileForm):
         return cleaned
 
 
-
 class StubForm(forms.ModelForm):
     """ This is a do-nothing form for handling a page
         that has no form """
@@ -331,7 +333,6 @@ class StubForm(forms.ModelForm):
     class Meta:
         model = Datafile
         fields = []
-
 
 
 class DateForm(forms.Form):
