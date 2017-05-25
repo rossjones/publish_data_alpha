@@ -3,14 +3,34 @@ from calendar import monthrange
 from datetime import datetime
 from mimetypes import guess_extension
 from urllib.parse import urlparse
-from collections import namedtuple
 
 import os.path
 import requests
 
 
-URLValidResponse = namedtuple('URLValidResponse',
-                              ['success', 'format', 'size', 'error'])
+class URLValidationResponse:
+    def __init__(self, success=True, format='', size=0, error=None,
+                 last_modified=None):
+        self.success = success
+        self.format = format
+        self.size = size
+        self.error = error
+        self.last_modified = last_modified
+
+    @classmethod
+    def success(cls, format, size, last_modified):
+        return cls(success=True, format=format, size=size,
+                   last_modified=last_modified)
+
+    @classmethod
+    def error(cls, message):
+        return cls(success=False, error=_(message))
+
+    def __repr__(self):
+        return (
+            "<URLValidResponse: success={success}, format={format}, " +
+            "size={size}, error={error}, last_modified={last_modified}>"
+        ).format(self.__dict__)
 
 
 def url_exists(url):
@@ -20,6 +40,7 @@ def url_exists(url):
         a string - the determined format (may be None)
         an integer - the size of the resource
         a string - an error message
+        a datetime - the last modified time of the file
     '''
 
     # Make sure we have a valid proto,
@@ -33,19 +54,19 @@ def url_exists(url):
     try:
         r = requests.head(url, allow_redirects=True)
     except requests.ConnectionError:
-        return False, '', 0, _('Failed to connect to the URL')
+        return URLValidationResponse.error('Failed to connect to the URL')
     except Exception:
-        return False, '', 0, _('A problem occurred checking the URL')
+        return URLValidationResponse.error('A problem occurred checking the URL')
 
     if r.status_code != 200:
-        return False, '', 0, _('The URL caused an error')
+        return URLValidationResponse.error('The URL caused an error')
 
     fmt = guess_file_format(url, r.headers)
 
     if 'Content-Length' in r.headers:
         size = int(r.headers['Content-Length'])
 
-    return URLValidResponse(True, fmt, size, None)
+    return URLValidationResponse.success(fmt, size, None)
 
 
 def guess_file_format(url, headers):

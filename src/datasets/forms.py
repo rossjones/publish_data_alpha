@@ -140,10 +140,10 @@ class CheckedFileForm(forms.ModelForm):
             return cleaned
 
         # Check the URL is a valid URL and exists
-        exists, fmt, size, error_msg = url_exists(cleaned['url'])
-        if not exists:
+        file_metadata = url_exists(cleaned['url'])
+        if not file_metadata.exists:
             self._errors['url'] = \
-                [error_msg]
+                [file_metadata.error_msg]
 
             # TODO: Consider uncommenting this
             # if fmt == 'HTML':
@@ -152,8 +152,8 @@ class CheckedFileForm(forms.ModelForm):
 
         cleaned['is_broken'] = False
         cleaned['last_check'] = datetime.datetime.now()
-        cleaned['format'] = fmt
-        cleaned['size'] = size
+        cleaned['format'] = file_metadata.format
+        cleaned['size'] = file_metadata.size
 
         return cleaned
 

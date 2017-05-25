@@ -20,11 +20,8 @@ class Location(models.Model):
 
 class Dataset(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = AutoSlugField(
-        populate_from='title',
-        default='',
-        unique=True,
-        max_length=200)
+    name = AutoSlugField(populate_from='title', default='',
+                         unique=True, max_length=200)
     title = models.CharField(max_length=200)
     summary = models.CharField(max_length=200, default="")
     description = models.TextField()
